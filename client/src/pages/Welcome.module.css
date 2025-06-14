@@ -12,10 +12,10 @@
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #eff6ff, #faf5ff) !important;
+  background-attachment: fixed !important;
   padding: 2rem 0;
   overflow-y: auto;
   z-index: 1000;
-  border: 5px solid red; /* DEBUG: Test if CSS Module is working */
 }
 
 .welcomeContainer {
