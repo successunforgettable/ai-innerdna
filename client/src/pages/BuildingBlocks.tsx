@@ -64,54 +64,74 @@ export default function BuildingBlocks() {
           <p className="phase-description">Choose your wing influence to complete your personality foundation</p>
         </header>
         
-        <section className="block-selection-area">
-          <h3 className="title-primary">Wing Selection</h3>
-          <p className="section-description">Choose the building block that best describes your approach</p>
-          
-          <div className="blocks-grid">
-            {availableBlocks.map((block, index) => (
-              <BuildingBlock
-                key={index}
-                id={index}
-                title={block.name}
-                description={block.description}
-                isSelected={selectedBlock === index}
-                onSelect={handleBlockSelect}
-                gradient={block.gradient}
-              />
-            ))}
-          </div>
-          
-          <button 
-            className="btn-primary"
-            disabled={selectedBlock === null}
-            onClick={handleContinue}
-          >
-            Continue to Colors
-          </button>
-        </section>
-        
-        <aside className="tower-visualization-area">
-          <h3 className="tower-title">Your Tower</h3>
-          <div className="tower-building-view">
-            <div className="foundation-base">
-              <span className="foundation-text">Foundation Complete</span>
+        <div className="building-main">
+          <section className="block-selection-area">
+            <h3 className="title-primary">Wing Selection</h3>
+            <p className="section-description">Choose the building block that best describes your approach</p>
+            
+            <div className="blocks-grid">
+              {availableBlocks.map((block, index) => (
+                <BuildingBlock
+                  key={index}
+                  id={index}
+                  title={block.name}
+                  description={block.description}
+                  isSelected={selectedBlock === index}
+                  onSelect={handleBlockSelect}
+                  gradient={block.gradient}
+                />
+              ))}
             </div>
-            <div className="building-block-area">
-              {selectedBlock !== null && (
-                <div className="placed-block" style={{ background: availableBlocks[selectedBlock].gradient }}>
-                  {availableBlocks[selectedBlock]?.name}
-                </div>
-              )}
+            
+            <motion.button 
+              className="btn-primary"
+              disabled={selectedBlock === null}
+              onClick={handleContinue}
+              whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
+              whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
+            >
+              Continue to Colors
+            </motion.button>
+          </section>
+          
+          <aside className="tower-visualization-area">
+            <h3 className="tower-title">Your Tower</h3>
+            <div className="tower-building-view">
+              <motion.div 
+                className="foundation-base"
+                initial={{ scale: 0.8, opacity: 0.7 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="foundation-text">Foundation Complete</span>
+              </motion.div>
+              
+              <div className="building-block-area">
+                {selectedBlock !== null && (
+                  <motion.div 
+                    className="placed-block"
+                    style={{ background: availableBlocks[selectedBlock].gradient }}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 300, 
+                      damping: 25 
+                    }}
+                  >
+                    {availableBlocks[selectedBlock]?.name}
+                  </motion.div>
+                )}
+              </div>
             </div>
-          </div>
-          <p className="foundation-description">
-            {selectedBlock === null 
-              ? "Select a building block to add to your foundation..." 
-              : "Building block selected! Ready for next phase."
-            }
-          </p>
-        </aside>
+            <p className="foundation-description">
+              {selectedBlock === null 
+                ? "Select a building block to add to your foundation..." 
+                : `${availableBlocks[selectedBlock]?.name} selected! Ready for next phase.`
+              }
+            </p>
+          </aside>
+        </div>
       </div>
     </div>
   );
