@@ -1,0 +1,196 @@
+/* Building Phase Layout - Following Section 5 Specifications */
+
+.building-content {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: start;
+  padding: 2rem;
+}
+
+.building-header {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.phase-description {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.block-selection-area {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+}
+
+.tower-visualization-area {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+  position: sticky;
+  top: 2rem;
+}
+
+.blocks-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.tower-building-view {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.foundation-base {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.building-block-area {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placed-block {
+  width: 140px;
+  height: 50px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Building Block Styles - Section 5.3 Specifications */
+.building-block {
+  width: 100%;
+  height: 100px; /* Spec: --block-height: 100px */
+  border-radius: 12px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.building-block:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.building-block.selected {
+  border-color: #3b82f6;
+  transform: scale(1.03);
+  box-shadow: 0 0 12px 4px rgba(59, 130, 246, 0.3);
+}
+
+.block-content {
+  text-align: center;
+  color: white;
+  z-index: 2;
+  width: 100%;
+}
+
+.block-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.block-description {
+  font-size: 0.875rem;
+  line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.block-selected-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .building-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .tower-visualization-area {
+    position: static;
+  }
+  
+  .tower-building-view {
+    height: 300px;
+  }
+  
+  .building-block {
+    height: 80px;
+  }
+  
+  .block-title {
+    font-size: 0.9rem;
+  }
+  
+  .block-description {
+    font-size: 0.8rem;
+  }
+}

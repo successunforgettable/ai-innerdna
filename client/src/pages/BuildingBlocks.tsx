@@ -3,8 +3,9 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { buildingBlocks } from '@/lib/stoneData';
 import { determinePersonalityType, determineWing } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
+import BuildingBlock from '@/components/BuildingBlock';
 
-interface BuildingBlock {
+interface BuildingBlockData {
   type: number;
   wing: string;
   name: string;
@@ -16,7 +17,7 @@ export default function BuildingBlocks() {
   const { setCurrentScreen, assessmentData, setAssessmentData, stoneSelections } = useAssessment();
   const [selectedBlock, setSelectedBlock] = useState<number | null>(null);
   const [primaryType, setPrimaryType] = useState<string>('1');
-  const [availableBlocks, setAvailableBlocks] = useState<BuildingBlock[]>([]);
+  const [availableBlocks, setAvailableBlocks] = useState<BuildingBlockData[]>([]);
 
   useEffect(() => {
     // Determine primary type from foundation stones assessment
@@ -68,19 +69,15 @@ export default function BuildingBlocks() {
           
           <div className="blocks-grid">
             {availableBlocks.map((block, index) => (
-              <motion.div
+              <BuildingBlock
                 key={index}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`glass-container cursor-pointer transition-all duration-300 p-6 ${
-                  selectedBlock === index ? 'ring-2 ring-white/50' : ''
-                }`}
-                onClick={() => handleBlockSelect(index)}
-                style={{ background: block.gradient }}
-              >
-                <h3 className="title-primary text-lg mb-2">{block.name}</h3>
-                <p className="section-description text-sm">{block.description}</p>
-              </motion.div>
+                id={index}
+                title={block.name}
+                description={block.description}
+                isSelected={selectedBlock === index}
+                onSelect={handleBlockSelect}
+                gradient={block.gradient}
+              />
             ))}
           </div>
           
