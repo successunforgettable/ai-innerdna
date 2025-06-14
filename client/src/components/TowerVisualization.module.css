@@ -1,0 +1,62 @@
+/* Tower Visualization CSS Module - Exact from spec */
+.towerViz {
+  width: 300px; /* var(--tower-width) */
+  height: auto;
+  min-height: 200px;
+  background: #ffffff; /* var(--bg-primary) */
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.towerTitle {
+  text-align: center;
+  font-size: 1.125rem; /* var(--font-size-lg) */
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1e293b; /* var(--text-primary) */
+  font-family: 'Inter', sans-serif;
+}
+
+.towerBlocks {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 120px;
+  justify-content: flex-end;
+}
+
+.towerBlock {
+  transition: all 0.5s ease-in-out; /* var(--duration-slow) */
+  margin: 2px auto;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Block Width Classes */
+.blockWidth32 { width: 8rem; }
+.blockWidth28 { width: 7rem; }
+.blockWidth24 { width: 6rem; }
+.blockWidth20 { width: 5rem; }
+.blockWidth16 { width: 4rem; }
+
+/* Block Height Classes */
+.blockHeight6 { height: 1.5rem; }
+.blockHeight8 { height: 2rem; }
+
+/* Gradient Classes for Tower Blocks */
+.gradient1 { background: linear-gradient(135deg, #3b82f6, #1e40af); }
+.gradient2 { background: linear-gradient(135deg, #10b981, #059669); }
+.gradient3 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.gradient4 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.gradient5 { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.gradient6 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.gradient7 { background: linear-gradient(135deg, #84cc16, #65a30d); }
+.gradient8 { background: linear-gradient(135deg, #f97316, #ea580c); }
+.gradient9 { background: linear-gradient(135deg, #ec4899, #db2777); }

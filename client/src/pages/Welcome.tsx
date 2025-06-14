@@ -4,6 +4,7 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { TowerVisualization } from '@/components/TowerVisualization';
+import styles from './Welcome.module.css';
 
 export default function Welcome() {
   const [email, setEmail] = useState('');
@@ -49,16 +50,16 @@ export default function Welcome() {
   ];
 
   return (
-    <div className="welcomeScreen">
-      <div className="welcomeContainer">
+    <div className={styles.welcomeScreen}>
+      <div className={styles.welcomeContainer}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="welcomeHeader fadeIn"
+          className={`${styles.header} ${styles.fadeIn}`}
         >
-          <h1 className="welcomeLogo">Inner DNA</h1>
-          <p className="welcomeTagline">Discover Your Unique Inner DNA</p>
+          <h1 className={styles.logo}>Inner DNA</h1>
+          <p className={styles.tagline}>Discover Your Unique Inner DNA</p>
         </motion.div>
 
         {/* HeroSection */}
@@ -66,13 +67,13 @@ export default function Welcome() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="heroSection"
+          className={styles.heroSection}
         >
-          <div className="towerPreview">
+          <div className={styles.towerPreview}>
             <TowerVisualization title="" blocks={towerBlocks} />
           </div>
           
-          <p className="heroDescription">
+          <p className={styles.description}>
             Build your personality tower through intuitive choices and discover your unique Inner DNA profile
           </p>
         </motion.div>
@@ -83,10 +84,10 @@ export default function Welcome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="emailCollection">
-            <h3 className="emailCollectionTitle">Begin Your Journey</h3>
-            <div className="formGroup">
-              <label htmlFor="email" className="formLabel">Email Address *</label>
+          <div className={styles.emailCollection}>
+            <h3 className={styles.emailCollectionTitle}>Begin Your Journey</h3>
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.formLabel}>Email Address *</label>
               <input
                 id="email"
                 type="email"
@@ -94,30 +95,30 @@ export default function Welcome() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="formInput"
+                className={styles.formInput}
               />
             </div>
-            <div className="formGrid">
-              <div className="formGroup">
-                <label htmlFor="firstName" className="formLabel">First Name</label>
+            <div className={styles.formGrid}>
+              <div className={styles.formGroup}>
+                <label htmlFor="firstName" className={styles.formLabel}>First Name</label>
                 <input
                   id="firstName"
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="John"
-                  className="formInput"
+                  className={styles.formInput}
                 />
               </div>
-              <div className="formGroup">
-                <label htmlFor="lastName" className="formLabel">Last Name</label>
+              <div className={styles.formGroup}>
+                <label htmlFor="lastName" className={styles.formLabel}>Last Name</label>
                 <input
                   id="lastName"
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Doe"
-                  className="formInput"
+                  className={styles.formInput}
                 />
               </div>
             </div>
@@ -127,7 +128,7 @@ export default function Welcome() {
           <button
             onClick={handleStart}
             disabled={createUserMutation.isPending}
-            className="startButton"
+            className={styles.startButton}
           >
             {createUserMutation.isPending ? 'Starting...' : 'Begin Your Journey'}
           </button>
