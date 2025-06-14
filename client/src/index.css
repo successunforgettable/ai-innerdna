@@ -44,6 +44,17 @@
   --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Gradient Definitions - Exact from spec */
+.gradient-1 { background: linear-gradient(135deg, #3b82f6, #1e40af); }
+.gradient-2 { background: linear-gradient(135deg, #10b981, #059669); }
+.gradient-3 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.gradient-4 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.gradient-5 { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.gradient-6 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.gradient-7 { background: linear-gradient(135deg, #84cc16, #65a30d); }
+.gradient-8 { background: linear-gradient(135deg, #f97316, #ea580c); }
+.gradient-9 { background: linear-gradient(135deg, #ec4899, #db2777); }
+
 
 
 /* Base Styles */

@@ -27,17 +27,21 @@ export default function Welcome() {
   });
 
   const handleStart = () => {
+    // Required fields validation - exact from spec
     if (!email.trim()) {
       alert('Email is required to continue');
       return;
     }
 
-    createUserMutation.mutate({
-      email: email.trim(),
-      firstName: firstName.trim() || null,
-      lastName: lastName.trim() || null,
-      startedAt: new Date()
-    });
+    // emailForm structure - exact from spec
+    const emailForm = {
+      email: email.trim(), // Required
+      firstName: firstName.trim() || '', // Optional
+      lastName: lastName.trim() || '', // Optional
+      timestamp: Date.now()
+    };
+
+    createUserMutation.mutate(emailForm);
   };
 
   const towerBlocks = [
@@ -51,6 +55,7 @@ export default function Welcome() {
   return (
     <div className="welcomeScreen">
       <div className="welcomeContainer">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,6 +65,7 @@ export default function Welcome() {
           <p className="welcomeTagline">Discover Your Unique Inner DNA</p>
         </motion.div>
 
+        {/* HeroSection */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,6 +81,7 @@ export default function Welcome() {
           </p>
         </motion.div>
 
+        {/* EmailCollection */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -120,6 +127,7 @@ export default function Welcome() {
             </div>
           </div>
 
+          {/* StartButton */}
           <button
             onClick={handleStart}
             disabled={createUserMutation.isPending}
