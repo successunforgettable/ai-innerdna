@@ -103,3 +103,5 @@ Changelog:
 - June 14, 2025. Complete Welcome screen implementation with specification-accurate design
 - June 14, 2025. Enhanced email collection section with glass-morphism design and premium styling
 - June 14, 2025. Corrected tower visualization orientation and implemented sophisticated animations
+- June 14, 2025. Completed Building Blocks page with Section 5 exact specifications and enhanced animations
+- June 14, 2025. Verified stone content data accuracy and assessment algorithm with correct weights [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0]

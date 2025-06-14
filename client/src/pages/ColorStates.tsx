@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useAssessment } from '@/context/AssessmentContext';
 import { colorStates } from '@/lib/stoneData';
 import { motion } from 'framer-motion';
@@ -44,55 +42,97 @@ export default function ColorStates() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl font-bold mb-4">Color States</h2>
-          <p className="text-gray-600">Select the colors that best represent your current mood and energy (up to 3)</p>
-        </div>
+    <div className="page-container">
+      <div className="color-states-content">
+        <header className="color-states-header">
+          <h2 className="foundation-title">Color States</h2>
+          <p className="phase-description">Select up to 3 colors that represent your current emotional and energetic states</p>
+        </header>
 
-        <div className="grid grid-cols-3 gap-8 justify-items-center mb-12">
-          {colorStates.map((state, index) => (
-            <motion.div
-              key={state.state}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className={`color-state ${state.color} ${
-                selectedStates.includes(state.state) ? 'selected' : ''
-              }`}
-              onClick={() => handleStateSelect(index)}
-              title={state.title}
-            />
-          ))}
-        </div>
-
-        <Card className="mb-8">
-          <CardContent className="p-8">
-            <h3 className="text-lg font-semibold mb-4 text-center">Selected States</h3>
-            <div className="flex justify-center space-x-4">
-              {selectedStates.map(stateKey => {
-                const state = colorStates.find(s => s.state === stateKey);
-                return state ? (
-                  <motion.div
-                    key={state.state}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className={`w-12 h-12 rounded-full ${state.color}`}
-                    title={state.title}
-                  />
-                ) : null;
-              })}
+        <div className="color-states-main">
+          <section className="glass-container color-selection-area">
+            <h3 className="title-primary">State Selection</h3>
+            <p className="section-description">Choose the colors that best reflect your current inner state</p>
+            
+            <div className="color-grid">
+              {colorStates.map((state, index) => (
+                <motion.div
+                  key={state.state}
+                  className={`color-state ${state.color} ${
+                    selectedStates.includes(state.state) ? 'selected' : ''
+                  }`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleStateSelect(index)}
+                  title={state.title}
+                >
+                  {selectedStates.includes(state.state) && (
+                    <motion.div 
+                      className="color-check-icon"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    >
+                      ✓
+                    </motion.div>
+                  )}
+                </motion.div>
+              ))}
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="flex justify-center">
-          <Button
-            onClick={handleContinue}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300"
-          >
-            Continue to Detail Tokens
-          </Button>
+            
+            <div className="selection-info">
+              <p className="selection-count">
+                {selectedStates.length} of {maxSelections} selected
+              </p>
+            </div>
+            
+            <motion.button 
+              className="btn-primary"
+              disabled={selectedStates.length === 0}
+              onClick={handleContinue}
+              whileHover={selectedStates.length > 0 ? { scale: 1.02 } : {}}
+              whileTap={selectedStates.length > 0 ? { scale: 0.98 } : {}}
+            >
+              Continue
+            </motion.button>
+          </section>
+          
+          <aside className="glass-container color-visualization-area">
+            <h3 className="tower-title">Selected Colors</h3>
+            <div className="color-display">
+              {selectedStates.length === 0 ? (
+                <p className="empty-state">No colors selected yet</p>
+              ) : (
+                <div className="selected-colors">
+                  {selectedStates.map(stateKey => {
+                    const state = colorStates.find(s => s.state === stateKey);
+                    return state ? (
+                      <motion.div
+                        key={state.state}
+                        className={`selected-color ${state.color}`}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 300, 
+                          damping: 25 
+                        }}
+                        title={state.title}
+                      >
+                        <span className="color-label">{state.title}</span>
+                      </motion.div>
+                    ) : null;
+                  })}
+                </div>
+              )}
+            </div>
+            <p className="foundation-description">
+              {selectedStates.length === 0 
+                ? "Select colors to see your emotional palette..." 
+                : `${selectedStates.length} color${selectedStates.length !== 1 ? 's' : ''} representing your current state`
+              }
+            </p>
+          </aside>
         </div>
       </div>
     </div>
