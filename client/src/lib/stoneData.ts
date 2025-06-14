@@ -34,49 +34,49 @@ export const stoneSets: StoneSet[] = [
   {
     title: "Social Approach",
     stones: [
-      { content: ["OBJECTIVITY", "PERSPECTIVE • SPACE"], gradient: "gradient-1" },
-      { content: ["CLOSENESS", "INTIMACY • BONDING"], gradient: "gradient-2" },
-      { content: ["INDEPENDENCE", "SELF-RELIANCE • FREEDOM"], gradient: "gradient-3" }
+      { content: ["OBJECTIVITY • PERSPECTIVE • SPACE"], gradient: "linear-gradient(135deg, #64748b, #475569)" },
+      { content: ["CLOSENESS • INTIMACY • BONDING"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
+      { content: ["INDEPENDENCE • SELF-RELIANCE • FREEDOM"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
     ]
   },
   {
     title: "Processing Style",
     stones: [
-      { content: ["SYSTEMS", "CONCEPTS • IDEAS"], gradient: "gradient-4" },
-      { content: ["EXPRESSION", "MOOD • FEELING"], gradient: "gradient-5" },
-      { content: ["RESULTS", "EFFICIENCY • UTILITY"], gradient: "gradient-6" }
+      { content: ["SYSTEMS • CONCEPTS • IDEAS"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
+      { content: ["EXPRESSION • MOOD • FEELING"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" },
+      { content: ["RESULTS • EFFICIENCY • UTILITY"], gradient: "linear-gradient(135deg, #059669, #047857)" }
     ]
   },
   {
     title: "Stress Reaction",
     stones: [
-      { content: ["VIGILANCE", "ANALYSIS • FORESIGHT"], gradient: "gradient-7" },
-      { content: ["RECOGNITION", "IDENTITY • UNIQUENESS"], gradient: "gradient-8" },
-      { content: ["AUTHORITY", "POWER • DIRECTION"], gradient: "gradient-9" }
+      { content: ["VIGILANCE • ANALYSIS • FORESIGHT"], gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)" },
+      { content: ["RECOGNITION • IDENTITY • UNIQUENESS"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
+      { content: ["AUTHORITY • POWER • DIRECTION"], gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)" }
     ]
   },
   {
     title: "Conflict Style",
     stones: [
-      { content: ["PEACE", "MEDIATION • COMPROMISE"], gradient: "gradient-1" },
-      { content: ["SUPPORT", "FLEXIBILITY • ADAPTATION"], gradient: "gradient-2" },
-      { content: ["DIRECTNESS", "CHALLENGE • HONESTY"], gradient: "gradient-3" }
+      { content: ["PEACE • MEDIATION • COMPROMISE"], gradient: "linear-gradient(135deg, #22c55e, #16a34a)" },
+      { content: ["SUPPORT • FLEXIBILITY • ADAPTATION"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" },
+      { content: ["DIRECTNESS • CHALLENGE • HONESTY"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" }
     ]
   },
   {
     title: "Success Definition",
     stones: [
-      { content: ["ACCURACY", "PRINCIPLES • IMPROVEMENT"], gradient: "gradient-4" },
-      { content: ["CONNECTION", "ACKNOWLEDGMENT • APPRECIATION"], gradient: "gradient-5" },
-      { content: ["MASTERY", "ACHIEVEMENT • CAPABILITY"], gradient: "gradient-6" }
+      { content: ["ACCURACY • PRINCIPLES • IMPROVEMENT"], gradient: "linear-gradient(135deg, #3b82f6, #2563eb)" },
+      { content: ["CONNECTION • ACKNOWLEDGMENT • APPRECIATION"], gradient: "linear-gradient(135deg, #10b981, #059669)" },
+      { content: ["MASTERY • ACHIEVEMENT • CAPABILITY"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
     ]
   },
   {
     title: "Relationship Priority",
     stones: [
-      { content: ["AUTONOMY", "SELF-SUFFICIENCY • SPACE"], gradient: "gradient-7" },
-      { content: ["MUTUALITY", "SHARING • RECIPROCITY"], gradient: "gradient-8" },
-      { content: ["LEADERSHIP", "MENTORSHIP • DIRECTION"], gradient: "gradient-9" }
+      { content: ["AUTONOMY • SELF-SUFFICIENCY • SPACE"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+      { content: ["MUTUALITY • SHARING • RECIPROCITY"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
+      { content: ["LEADERSHIP • MENTORSHIP • DIRECTION"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" }
     ]
   }
 ];

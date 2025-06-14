@@ -146,16 +146,16 @@ export default function FoundationStones() {
             }}
             onMouseEnter={(e) => {
               if (!isNextDisabled) {
-                e.target.style.backgroundColor = '#2563eb';
-                e.target.style.transform = 'scale(1.05)';
-                e.target.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#2563eb';
+                (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)';
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
               }
             }}
             onMouseLeave={(e) => {
               if (!isNextDisabled) {
-                e.target.style.backgroundColor = 'var(--blue-primary)';
-                e.target.style.transform = 'scale(1)';
-                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--blue-primary)';
+                (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
               }
             }}
           >
