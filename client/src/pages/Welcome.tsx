@@ -4,7 +4,6 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { TowerVisualization } from '@/components/TowerVisualization';
-import styles from './Welcome.module.css';
 
 export default function Welcome() {
   const [email, setEmail] = useState('');
@@ -50,90 +49,65 @@ export default function Welcome() {
   ];
 
   return (
-    <div className={styles.welcomeScreen}>
-      <div className={styles.welcomeContainer}>
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`${styles.header} ${styles.fadeIn}`}
-        >
-          <h1 className={styles.logo}>Inner DNA</h1>
-          <p className={styles.tagline}>Discover Your Unique Inner DNA</p>
-        </motion.div>
-
-        {/* HeroSection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className={styles.heroSection}
-        >
-          <div className={styles.towerPreview}>
-            <TowerVisualization title="" blocks={towerBlocks} />
-          </div>
-          
-          <p className={styles.description}>
-            Build your personality tower through intuitive choices and discover your unique Inner DNA profile
-          </p>
-        </motion.div>
-
-        {/* EmailCollection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className={styles.emailCollection}>
-            <h3 className={styles.emailCollectionTitle}>Begin Your Journey</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.formLabel}>Email Address *</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                required
-                className={styles.formInput}
-              />
-            </div>
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label htmlFor="firstName" className={styles.formLabel}>First Name</label>
-                <input
-                  id="firstName"
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="John"
-                  className={styles.formInput}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="lastName" className={styles.formLabel}>Last Name</label>
-                <input
-                  id="lastName"
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Doe"
-                  className={styles.formInput}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* StartButton */}
-          <button
-            onClick={handleStart}
-            disabled={createUserMutation.isPending}
-            className={styles.startButton}
-          >
-            {createUserMutation.isPending ? 'Starting...' : 'Begin Your Journey'}
-          </button>
-        </motion.div>
+    <div className="welcome-screen">
+      <div className="header">
+        <div className="logo">Inner DNA</div>
+        <div className="tagline">Discover Your Unique Inner DNA</div>
       </div>
+      
+      <div className="hero-section">
+        <div className="tower-preview">
+          <TowerVisualization title="" blocks={towerBlocks} />
+        </div>
+        <div className="description">
+          Build your personality tower through intuitive choices and discover your unique Inner DNA profile
+        </div>
+      </div>
+      
+      <div className="email-collection">
+        <h3>Begin Your Journey</h3>
+        <div className="form-group">
+          <label htmlFor="email">Email Address *</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            required
+          />
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              id="firstName"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="John"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              id="lastName"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Doe"
+            />
+          </div>
+        </div>
+      </div>
+      
+      <button
+        onClick={handleStart}
+        disabled={createUserMutation.isPending}
+        className="start-button"
+      >
+        {createUserMutation.isPending ? 'Starting...' : 'Begin Your Journey'}
+      </button>
     </div>
   );
 }
