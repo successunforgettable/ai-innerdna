@@ -11,7 +11,7 @@ interface StoneProps {
 export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
   return (
     <motion.div
-      className={`stone ${gradient} flex items-center justify-center text-white font-medium text-center p-4 ${
+      className={`stone ${gradient} flex items-center justify-center text-white font-medium text-center p-4 relative ${
         isSelected ? 'selected' : ''
       }`}
       whileHover={{ scale: 1.05 }}

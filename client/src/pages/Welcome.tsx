@@ -66,7 +66,7 @@ export default function Welcome() {
           transition={{ delay: 0.2 }}
           className="mb-12"
         >
-          <div className="mx-auto mb-8 pulse-animation">
+          <div className="mx-auto mb-8 tower-preview">
             <TowerVisualization title="" blocks={towerBlocks} />
           </div>
           
