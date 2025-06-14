@@ -64,74 +64,71 @@ export default function BuildingBlocks() {
           <p className="phase-description">Based on your determined type, select 1 block representing your influence</p>
         </header>
         
-        <div className="building-main">
-          <section className="glass-container block-selection-area">
-            <h3 className="title-primary">Building Block Selection</h3>
-            <p className="section-description">Select exactly 1 building block from the 2 options below</p>
-            
-            <div className="blocks-grid">
-              {availableBlocks.map((block, index) => (
-                <BuildingBlock
-                  key={index}
-                  id={index}
-                  title={block.name}
-                  description={block.description}
-                  isSelected={selectedBlock === index}
-                  onSelect={handleBlockSelect}
-                  gradient={block.gradient}
-                />
-              ))}
-            </div>
-            
-            <motion.button 
-              className="btn-primary"
-              disabled={selectedBlock === null}
-              onClick={handleContinue}
-              whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
-              whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
-            >
-              Continue
-            </motion.button>
-          </section>
+        <section className="block-selection-area">
+          <h3 className="title-primary">Building Block Selection</h3>
+          <p className="section-description">Select exactly 1 building block from the 2 options below</p>
           
-          <aside className="glass-container tower-visualization-area">
-            <h3 className="tower-title">Your Tower</h3>
-            <div className="tower-building-view">
-              <motion.div 
-                className="foundation-base"
-                initial={{ scale: 0.8, opacity: 0.7 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <span className="foundation-text">Foundation Stones Complete</span>
-              </motion.div>
-              
-              <div className="building-block-area">
-                {selectedBlock !== null && (
-                  <motion.div 
-                    className="placed-block"
-                    style={{ background: availableBlocks[selectedBlock].gradient }}
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 300, 
-                      damping: 25 
-                    }}
-                  >
-                    Block Selected
-                  </motion.div>
-                )}
-              </div>
+          <div className="blocks-grid">
+            {availableBlocks.map((block, index) => (
+              <BuildingBlock
+                key={index}
+                id={index}
+                title={block.name}
+                description={block.description}
+                isSelected={selectedBlock === index}
+                onSelect={handleBlockSelect}
+                gradient={block.gradient}
+              />
+            ))}
+          </div>
+          
+          <motion.button 
+            className="btn-primary"
+            disabled={selectedBlock === null}
+            onClick={handleContinue}
+            whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
+            whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
+          >
+            Continue
+          </motion.button>
+        </section>
+        
+        <aside className="tower-visualization-area">
+          <h3 className="tower-title">Your Tower</h3>
+          <div className="tower-building-view">
+            <motion.div 
+              className="foundation-base"
+              initial={{ scale: 0.8, opacity: 0.7 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <span className="foundation-text">Foundation Stones Complete</span>
+            </motion.div>
+            
+            <div className="building-block-area">
+              {selectedBlock !== null && (
+                <motion.div 
+                  className="placed-block"
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 25 
+                  }}
+                >
+                  Block Selected
+                </motion.div>
+              )}
             </div>
-            <p className="foundation-description">
-              {selectedBlock === null 
-                ? "Select a building block to add to your tower..." 
-                : "Building block added to tower position"
-              }
-            </p>
-          </aside>
-        </div>
+          </div>
+          <p className="foundation-description">
+            {selectedBlock === null 
+              ? "Select a building block to add to your tower..." 
+              : "Building block added to tower position"
+            }
+          </p>
+        </aside>
       </div>
     </div>
   );
