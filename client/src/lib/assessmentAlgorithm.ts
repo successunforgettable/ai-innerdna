@@ -1,7 +1,7 @@
 import { PersonalityResult } from '@shared/schema';
 
 export function determinePersonalityType(selections: number[]): PersonalityResult {
-  const typeScores = {
+  const typeScores: Record<number, number> = {
     1: 0, 2: 0, 3: 0, 4: 0, 5: 0,
     6: 0, 7: 0, 8: 0, 9: 0
   };
@@ -144,13 +144,16 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
   const totalScore = Object.values(typeScores).reduce((sum, score) => sum + score, 0);
   const normalizedScores: Record<string, number> = {};
   Object.keys(typeScores).forEach(type => {
-    normalizedScores[type] = typeScores[parseInt(type) as keyof typeof typeScores] / totalScore;
+    const typeNum = parseInt(type);
+    normalizedScores[type] = typeScores[typeNum] / totalScore;
   });
 
   // Find highest scoring type
-  const primaryType = Object.keys(typeScores).reduce((a, b) => 
-    typeScores[parseInt(a) as keyof typeof typeScores] > typeScores[parseInt(b) as keyof typeof typeScores] ? a : b
-  );
+  const primaryType = Object.keys(typeScores).reduce((a, b) => {
+    const aScore = typeScores[parseInt(a)];
+    const bScore = typeScores[parseInt(b)];
+    return aScore > bScore ? a : b;
+  });
 
   // Calculate confidence
   const otherScores = Object.values(normalizedScores).filter(score => 

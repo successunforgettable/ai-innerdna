@@ -24,7 +24,8 @@ export default function BuildingBlocks() {
     if (validSelections.length === 9) {
       const result = determinePersonalityType(validSelections);
       setPrimaryType(result.primaryType);
-      const blocks = buildingBlocks[result.primaryType as keyof typeof buildingBlocks] || [];
+      const typeKey = result.primaryType as keyof typeof buildingBlocks;
+      const blocks = buildingBlocks[typeKey] || buildingBlocks['1'];
       setAvailableBlocks(blocks);
     } else {
       // Default to type 1 for testing if assessment not complete
