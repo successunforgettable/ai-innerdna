@@ -1,0 +1,114 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import BuildingBlock from './BuildingBlock';
+import { wingOptions, determineWing } from '../../utils/wingOptions';
+import './BuildingPhase.css';
+
+const BuildingPhase = ({ primaryType, onComplete }) => {
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  const [currentOptions, setCurrentOptions] = useState([]);
+
+  useEffect(() => {
+    // Get wing options for the determined primary type
+    if (primaryType && wingOptions[primaryType]) {
+      setCurrentOptions(wingOptions[primaryType]);
+    }
+  }, [primaryType]);
+
+  const handleBlockSelect = (blockId) => {
+    setSelectedBlock(blockId);
+  };
+
+  const handleContinue = () => {
+    if (selectedBlock !== null) {
+      const wingData = determineWing(primaryType, selectedBlock);
+      onComplete({
+        wingSelection: selectedBlock,
+        wingData: wingData
+      });
+    }
+  };
+
+  return (
+    <div className="page-container">
+      <div className="building-content">
+        <header className="building-header">
+          <h2 className="foundation-title">Building Blocks</h2>
+          <p className="phase-description">Choose your wing influence to complete your personality foundation</p>
+        </header>
+        
+        <div className="building-main">
+          <section className="glass-container block-selection-area">
+            <h3 className="title-primary">Wing Selection</h3>
+            <p className="section-description">
+              Choose the building block that best describes your approach
+            </p>
+            
+            <div className="blocks-grid">
+              {currentOptions.map((option) => (
+                <BuildingBlock
+                  key={option.id}
+                  id={option.id}
+                  title={option.title}
+                  description={option.description}
+                  isSelected={selectedBlock === option.id}
+                  onSelect={handleBlockSelect}
+                  gradient={option.gradient}
+                />
+              ))}
+            </div>
+            
+            <motion.button 
+              className="btn-primary"
+              disabled={selectedBlock === null}
+              onClick={handleContinue}
+              whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
+              whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
+            >
+              Continue to Colors
+            </motion.button>
+          </section>
+          
+          <aside className="glass-container tower-visualization-area">
+            <h3 className="tower-title">Your Tower</h3>
+            <div className="tower-building-view">
+              <motion.div 
+                className="foundation-base"
+                initial={{ scale: 0.8, opacity: 0.7 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="foundation-text">Foundation Complete</span>
+              </motion.div>
+              
+              <div className="building-block-area">
+                {selectedBlock !== null && (
+                  <motion.div 
+                    className="placed-block"
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 300, 
+                      damping: 25 
+                    }}
+                  >
+                    {currentOptions[selectedBlock]?.title}
+                  </motion.div>
+                )}
+              </div>
+            </div>
+            <p className="foundation-description">
+              {selectedBlock === null 
+                ? "Select a building block to add to your foundation..." 
+                : `${currentOptions[selectedBlock]?.title} selected! Ready for next phase.`
+              }
+            </p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BuildingPhase;

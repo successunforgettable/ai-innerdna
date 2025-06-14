@@ -81,150 +81,168 @@ export const stoneSets: StoneSet[] = [
   }
 ];
 
-// Building Blocks - Wing Options for Each Type (from specification section 5.2)
+// Wing Options Data - Exact from Section 5.2 of replit_innerdna_spec.md
 export const buildingBlocks = {
-  '1': [
+  1: [
     {
+      id: 0,
       type: 1,
       wing: '9',
       name: "Reformer 9",
       description: "I seek peace while upholding standards",
-      gradient: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)"
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     },
     {
+      id: 1,
       type: 1,
       wing: '2',
       name: "Reformer 2", 
       description: "I help others improve responsibly",
-      gradient: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
     }
   ],
-  '2': [
+  2: [
     {
+      id: 0,
       type: 2,
       wing: '1',
       name: "Helper 1",
-      description: "I help through principled service",
-      gradient: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)"
+      description: "I help through principled service", 
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     },
     {
+      id: 1,
       type: 2,
       wing: '3',
       name: "Helper 3",
-      description: "I help while staying successful", 
-      gradient: "linear-gradient(135deg, #eab308 0%, #ca8a04 100%)"
+      description: "I help while staying successful",
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     }
   ],
-  '3': [
+  3: [
     {
+      id: 0,
       type: 3,
       wing: '2',
       name: "Achiever 2",
       description: "I achieve through helping others",
-      gradient: "linear-gradient(135deg, #eab308 0%, #ca8a04 100%)"
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
     },
     {
+      id: 1,
       type: 3,
       wing: '4',
-      name: "Achiever 4",
+      name: "Achiever 4", 
       description: "I achieve with authentic expression",
-      gradient: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)"
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     }
   ],
-  '4': [
+  4: [
     {
+      id: 0,
       type: 4,
       wing: '3',
       name: "Individualist 3",
       description: "I express uniqueness successfully",
-      gradient: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)"
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     },
     {
+      id: 1,
       type: 4,
       wing: '5',
       name: "Individualist 5",
-      description: "I explore identity through knowledge",
-      gradient: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)"
+      description: "I explore identity through knowledge", 
+      gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
     }
   ],
-  '5': [
+  5: [
     {
+      id: 0,
       type: 5,
       wing: '4',
       name: "Investigator 4",
       description: "I analyze with emotional depth",
-      gradient: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)"
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     },
     {
+      id: 1,
       type: 5,
       wing: '6',
       name: "Investigator 6",
       description: "I analyze for security",
-      gradient: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)"
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
     }
   ],
-  '6': [
+  6: [
     {
+      id: 0,
       type: 6,
       wing: '5',
-      name: "Sentinel 5",
+      name: "Sentinel 5", // CRITICAL: Never "Loyalist"
       description: "I seek security through knowledge",
-      gradient: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)"
+      gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
     },
     {
+      id: 1,
       type: 6,
       wing: '7',
       name: "Sentinel 7",
       description: "I stay positive while preparing",
-      gradient: "linear-gradient(135deg, #ec4899 0%, #db2777 100%)"
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     }
   ],
-  '7': [
+  7: [
     {
+      id: 0,
       type: 7,
       wing: '6',
       name: "Enthusiast 6",
       description: "I enjoy while staying secure",
-      gradient: "linear-gradient(135deg, #ec4899 0%, #db2777 100%)"
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
     },
     {
+      id: 1,
       type: 7,
       wing: '8',
       name: "Enthusiast 8",
       description: "I pursue experiences boldly",
-      gradient: "linear-gradient(135deg, #6b7280 0%, #4b5563 100%)"
+      gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
     }
   ],
-  '8': [
+  8: [
     {
+      id: 0,
       type: 8,
       wing: '7',
       name: "Challenger 7",
-      description: "I lead with enthusiasm",
-      gradient: "linear-gradient(135deg, #6b7280 0%, #4b5563 100%)"
+      description: "I lead with enthusiasm", 
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     },
     {
+      id: 1,
       type: 8,
       wing: '9',
       name: "Challenger 9",
       description: "I use strength peacefully",
-      gradient: "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)"
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     }
   ],
-  '9': [
+  9: [
     {
+      id: 0,
       type: 9,
       wing: '1',
       name: "Peacemaker 1",
       description: "I maintain peace with standards",
-      gradient: "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)"
+      gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
     },
     {
+      id: 1,
       type: 9,
       wing: '8',
-      name: "Peacemaker 8",
+      name: "Peacemaker 8", 
       description: "I harmonize while asserting",
-      gradient: "linear-gradient(135deg, #6b7280 0%, #4b5563 100%)"
+      gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
     }
   ]
 };

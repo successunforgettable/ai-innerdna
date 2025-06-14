@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import BuildingBlock from '@/components/BuildingBlock';
 
 interface BuildingBlockData {
+  id: number;
   type: number;
   wing: string;
   name: string;
@@ -25,12 +26,12 @@ export default function BuildingBlocks() {
     if (validSelections.length === 9) {
       const result = determinePersonalityType(validSelections);
       setPrimaryType(result.primaryType);
-      const typeKey = result.primaryType as keyof typeof buildingBlocks;
-      const blocks = buildingBlocks[typeKey] || buildingBlocks['1'];
+      const typeNum = parseInt(result.primaryType);
+      const blocks = buildingBlocks[typeNum as keyof typeof buildingBlocks] || buildingBlocks[1];
       setAvailableBlocks(blocks);
     } else {
       // Default to type 1 for testing if assessment not complete
-      const blocks = buildingBlocks['1'];
+      const blocks = buildingBlocks[1];
       setAvailableBlocks(blocks);
     }
   }, [stoneSelections]);
