@@ -193,16 +193,16 @@ body {
     transform: scale(1.2);
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.8), 0 0 0 8px hsl(var(--blue-primary) / 0.3);
   }
-  
-  .gradient-1 { background: linear-gradient(135deg, hsl(var(--blue-primary)), hsl(221.2, 83.2%, 43.3%)); }
-  .gradient-2 { background: linear-gradient(135deg, hsl(var(--green-primary)), hsl(158.1, 64.4%, 41.6%)); }
-  .gradient-3 { background: linear-gradient(135deg, hsl(var(--orange-primary)), hsl(43.3, 89.4%, 38.4%)); }
-  .gradient-4 { background: linear-gradient(135deg, hsl(var(--purple-primary)), hsl(250.5, 58.6%, 46.1%)); }
-  .gradient-5 { background: linear-gradient(135deg, hsl(var(--unhealthy)), hsl(0, 84.2%, 50.2%)); }
-  .gradient-6 { background: linear-gradient(135deg, hsl(187, 85.7%, 53.3%), hsl(187, 85.7%, 43.3%)); }
-  .gradient-7 { background: linear-gradient(135deg, hsl(84, 81.2%, 53.3%), hsl(84, 81.2%, 43.3%)); }
-  .gradient-8 { background: linear-gradient(135deg, hsl(25, 95%, 53%), hsl(25, 95%, 43%)); }
-  .gradient-9 { background: linear-gradient(135deg, hsl(271, 81%, 56%), hsl(271, 81%, 46%)); }
+
+.gradient-1 { background: linear-gradient(135deg, hsl(var(--blue-primary)), hsl(221.2, 83.2%, 43.3%)); }
+.gradient-2 { background: linear-gradient(135deg, hsl(var(--green-primary)), hsl(158.1, 64.4%, 41.6%)); }
+.gradient-3 { background: linear-gradient(135deg, hsl(var(--orange-primary)), hsl(43.3, 89.4%, 38.4%)); }
+.gradient-4 { background: linear-gradient(135deg, hsl(var(--purple-primary)), hsl(250.5, 58.6%, 46.1%)); }
+.gradient-5 { background: linear-gradient(135deg, hsl(var(--unhealthy)), hsl(0, 84.2%, 50.2%)); }
+.gradient-6 { background: linear-gradient(135deg, hsl(187, 85.7%, 53.3%), hsl(187, 85.7%, 43.3%)); }
+.gradient-7 { background: linear-gradient(135deg, hsl(84, 81.2%, 53.3%), hsl(84, 81.2%, 43.3%)); }
+.gradient-8 { background: linear-gradient(135deg, hsl(25, 95%, 53%), hsl(25, 95%, 43%)); }
+.gradient-9 { background: linear-gradient(135deg, hsl(271, 81%, 56%), hsl(271, 81%, 46%)); }
 
 @keyframes fadeIn {
   from { 
