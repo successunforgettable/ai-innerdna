@@ -5,8 +5,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #eff6ff, #faf5ff);
+  background: linear-gradient(135deg, #eff6ff, #faf5ff) !important;
   padding: 2rem 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .welcomeContainer {
@@ -43,6 +45,7 @@
   width: 300px; /* var(--tower-width) */
   margin: 0 auto 2rem auto;
   animation: pulseGentle 3s ease-in-out infinite;
+  transform-origin: center;
 }
 
 .description {
@@ -57,11 +60,13 @@
 .emailCollection {
   background: #ffffff; /* var(--bg-primary) */
   border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   padding: 2rem;
   max-width: 28rem;
   width: 100%;
   margin: 0 auto 2rem auto;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .emailCollectionTitle {
@@ -142,8 +147,8 @@
     opacity: 1;
   }
   50% {
-    transform: scale(1.02);
-    opacity: 0.95;
+    transform: scale(1.05);
+    opacity: 0.9;
   }
 }
 

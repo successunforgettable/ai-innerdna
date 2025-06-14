@@ -71,6 +71,12 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 /* Welcome Screen Styles - Exact from spec */
