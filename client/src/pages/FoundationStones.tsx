@@ -28,16 +28,35 @@ export default function FoundationStones() {
     setSelectedStone(stoneSelections[currentStoneSet] ?? null);
   }, [currentStoneSet, stoneSelections]);
 
+  useEffect(() => {
+    // Initialize foundation blocks from existing assessment data
+    const foundationWidths = ['w-48', 'w-44', 'w-40', 'w-36', 'w-32', 'w-28', 'w-24', 'w-20', 'w-16'];
+    const initialBlocks = (assessmentData.foundationStones || []).map((stone, index) => {
+      if (!stone) return null;
+      return {
+        gradient: stone.gradient,
+        width: foundationWidths[index] || 'w-24',
+        height: 'h-8'
+      };
+    });
+    setFoundationBlocks(initialBlocks);
+  }, [assessmentData.foundationStones]);
+
   const handleStoneSelect = (stoneIndex: number) => {
     setSelectedStone(stoneIndex);
     updateStoneSelection(currentStoneSet, stoneIndex);
     
-    // Add to foundation visualization
+    // Add to foundation visualization with proper stacking logic
     const selectedStoneData = currentSet.stones[stoneIndex];
+    
+    // Foundation blocks get progressively smaller as they stack upward
+    const foundationWidths = ['w-48', 'w-44', 'w-40', 'w-36', 'w-32', 'w-28', 'w-24', 'w-20', 'w-16'];
+    const foundationWidth = foundationWidths[currentStoneSet] || 'w-24';
+    
     const newBlock = {
       gradient: selectedStoneData.gradient,
-      width: 'w-24',
-      height: 'h-6'
+      width: foundationWidth,
+      height: 'h-8' // Foundation blocks are taller for visual impact
     };
     
     const newFoundationBlocks = [...foundationBlocks];

@@ -54,38 +54,49 @@ export function TowerVisualization({ title, blocks }: TowerVisualizationProps) {
   });
 
   return (
-    <div style={towerContainerStyle}>
+    <div style={{
+      ...towerContainerStyle,
+      background: 'rgba(255, 255, 255, 0.95)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+    }}>
       {title && (
         <h3 style={{
-          fontSize: '1.125rem',
+          fontSize: 'var(--font-size-lg)',
           fontWeight: 600,
-          color: 'white',
-          marginBottom: '1rem',
-          textAlign: 'center'
+          color: 'var(--text-primary)',
+          marginBottom: '1.5rem',
+          textAlign: 'center',
+          fontFamily: 'var(--font-family)'
         }}>
           {title}
         </h3>
       )}
       <div style={{
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column-reverse', // Foundation builds from bottom up
         alignItems: 'center',
         gap: '0.25rem',
-        width: '100%'
+        width: '100%',
+        minHeight: '120px',
+        justifyContent: 'flex-end'
       }}>
         <AnimatePresence>
           {blocks.map((block, index) => (
             <motion.div
-              key={index}
+              key={`foundation-${index}`}
               initial={{ 
                 opacity: 0, 
-                y: 20,
-                scale: 0.8
+                y: 30,
+                scale: 0.8,
+                rotateX: -15
               }}
               animate={{ 
                 opacity: 1, 
                 y: 0,
-                scale: 1
+                scale: 1,
+                rotateX: 0
               }}
               exit={{ 
                 opacity: 0, 
@@ -93,15 +104,21 @@ export function TowerVisualization({ title, blocks }: TowerVisualizationProps) {
                 scale: 0.8
               }}
               transition={{ 
-                delay: index * 0.1,
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1]
+                delay: index * 0.15,
+                duration: 0.5,
+                ease: [0.4, 0, 0.2, 1],
+                type: "spring",
+                stiffness: 100,
+                damping: 15
               }}
               whileHover={{
-                scale: 1.05,
-                boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)'
+                scale: 1.02,
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)'
               }}
-              style={blockStyle(block, index)}
+              style={{
+                ...blockStyle(block, index),
+                transformStyle: 'preserve-3d'
+              }}
             />
           ))}
         </AnimatePresence>
