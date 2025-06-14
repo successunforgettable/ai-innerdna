@@ -15,6 +15,7 @@
   padding: 2rem 0;
   overflow-y: auto;
   z-index: 1000;
+  border: 5px solid red; /* DEBUG: Test if CSS Module is working */
 }
 
 .welcomeContainer {
