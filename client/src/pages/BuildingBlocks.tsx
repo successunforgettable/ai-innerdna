@@ -36,26 +36,29 @@ export default function BuildingBlocks() {
     }
   }, [stoneSelections]);
 
-  const handleBlockSelect = (blockIndex: number) => {
-    setSelectedBlock(blockIndex);
+  const handleBlockSelect = (blockId: number) => {
+    setSelectedBlock(blockId);
     
-    const selectedBlockData = availableBlocks[blockIndex];
-    const wingResult = determineWing(primaryType, blockIndex);
-    
-    setAssessmentData({
-      ...assessmentData,
-      buildingBlocks: [{
-        type: selectedBlockData.type,
-        name: selectedBlockData.name,
-        description: selectedBlockData.description
-      }]
-    });
+    if (availableBlocks[blockId]) {
+      const selectedBlockData = availableBlocks[blockId];
+      const wingResult = determineWing(primaryType, blockId);
+      
+      setAssessmentData({
+        ...assessmentData,
+        buildingBlocks: [{
+          type: selectedBlockData.type,
+          name: selectedBlockData.name,
+          description: selectedBlockData.description
+        }]
+      });
+    }
   };
 
-  const createBlockSelectHandler = (index: number) => () => handleBlockSelect(index);
-
   const handleContinue = () => {
-    setCurrentScreen('color-states');
+    if (selectedBlock !== null) {
+      const wingData = determineWing(primaryType, selectedBlock);
+      setCurrentScreen('color-states');
+    }
   };
 
   return (
@@ -71,13 +74,13 @@ export default function BuildingBlocks() {
           <p className="section-description">Select exactly 1 building block from the 2 options below</p>
           
           <div className="blocks-grid">
-            {availableBlocks.map((block, index) => (
+            {availableBlocks.map((option) => (
               <BuildingBlock
-                key={index}
-                content={block.description}
-                isSelected={selectedBlock === index}
-                onSelect={createBlockSelectHandler(index)}
-                gradient={block.gradient}
+                key={option.id}
+                content={option.description}
+                isSelected={selectedBlock === option.id}
+                onSelect={() => handleBlockSelect(option.id)}
+                gradient={option.gradient}
               />
             ))}
           </div>
@@ -117,7 +120,7 @@ export default function BuildingBlocks() {
                     damping: 25 
                   }}
                 >
-                  Block Selected
+                  {availableBlocks[selectedBlock]?.name}
                 </motion.div>
               )}
             </div>
@@ -125,7 +128,7 @@ export default function BuildingBlocks() {
           <p className="foundation-description">
             {selectedBlock === null 
               ? "Select a building block to add to your tower..." 
-              : "Building block added to tower position"
+              : `${availableBlocks[selectedBlock]?.name} block added to tower position`
             }
           </p>
         </aside>
