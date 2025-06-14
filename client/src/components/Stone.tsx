@@ -11,8 +11,7 @@ interface StoneProps {
 export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
   return (
     <motion.div
-      className={`stone ${isSelected ? 'selected' : ''}`}
-      style={{ background: gradient }}
+      className={`stone ${gradient} ${isSelected ? 'selected' : ''}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onSelect}
@@ -22,7 +21,7 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
           <span key={index} className="stone-word">{word}</span>
         ))}
       </div>
-      {isSelected && <Check />}
+      {isSelected && <Check className="stone-check" />}
     </motion.div>
   );
 }
