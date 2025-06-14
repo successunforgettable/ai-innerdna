@@ -12,35 +12,38 @@ interface TowerVisualizationProps {
 export function TowerVisualization({ title, blocks }: TowerVisualizationProps) {
   const getWidthValue = (width: string) => {
     switch(width) {
-      case 'w-48': return '12rem';
-      case 'w-44': return '11rem';
-      case 'w-40': return '10rem';
-      case 'w-36': return '9rem';
-      case 'w-32': return '8rem';
-      case 'w-28': return '7rem';
-      case 'w-24': return '6rem';
-      case 'w-20': return '5rem';
-      case 'w-16': return '4rem';
-      default: return '6rem';
+      case 'w-48': return '16rem'; // Much larger foundation blocks
+      case 'w-44': return '15rem';
+      case 'w-40': return '14rem';
+      case 'w-36': return '13rem';
+      case 'w-32': return '12rem';
+      case 'w-28': return '11rem';
+      case 'w-24': return '10rem';
+      case 'w-20': return '9rem';
+      case 'w-16': return '8rem';
+      default: return '10rem';
     }
   };
 
   const getHeightValue = (height: string) => {
     switch(height) {
-      case 'h-12': return '3rem';
-      case 'h-8': return '2rem';
-      case 'h-6': return '1.5rem';
-      default: return '2rem';
+      case 'h-12': return '4rem';
+      case 'h-8': return '3rem'; // Taller foundation blocks
+      case 'h-6': return '2.5rem';
+      default: return '3rem';
     }
   };
 
   const towerContainerStyle = {
+    width: '500px', // Much larger tower container
+    minHeight: '400px',
+    padding: '3rem',
+    borderRadius: '1rem',
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
-    gap: '0.25rem',
-    width: '100%',
-    height: 'auto'
+    justifyContent: 'center',
+    margin: '0 auto'
   };
 
   const blockStyle = (block: any, index: number) => ({
@@ -48,9 +51,10 @@ export function TowerVisualization({ title, blocks }: TowerVisualizationProps) {
     width: getWidthValue(block.width),
     height: getHeightValue(block.height),
     borderRadius: '0.5rem',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    backdropFilter: 'blur(10px)'
+    boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)',
+    border: '2px solid rgba(255, 255, 255, 0.3)',
+    backdropFilter: 'blur(10px)',
+    margin: '2px 0'
   });
 
   return (
@@ -77,10 +81,11 @@ export function TowerVisualization({ title, blocks }: TowerVisualizationProps) {
         display: 'flex',
         flexDirection: 'column-reverse', // Foundation builds from bottom up
         alignItems: 'center',
-        gap: '0.25rem',
+        gap: '0.5rem',
         width: '100%',
-        minHeight: '120px',
-        justifyContent: 'flex-end'
+        minHeight: '200px',
+        justifyContent: 'flex-end',
+        padding: '1rem'
       }}>
         <AnimatePresence>
           {blocks.map((block, index) => (
