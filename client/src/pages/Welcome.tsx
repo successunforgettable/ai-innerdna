@@ -41,61 +41,110 @@ export default function Welcome() {
     createUserMutation.mutate(emailForm);
   };
 
+  // Tower Preview Animation - exact from spec
   const towerBlocks = [
-    { gradient: 'gradient-1', width: 'w-32', height: 'h-8' },
-    { gradient: 'gradient-2', width: 'w-28', height: 'h-8' },
-    { gradient: 'gradient-3', width: 'w-24', height: 'h-8' },
-    { gradient: 'gradient-4', width: 'w-20', height: 'h-8' },
-    { gradient: 'gradient-5', width: 'w-16', height: 'h-8' }
+    { gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', width: 'w-48', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #10b981, #047857)', width: 'w-44', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', width: 'w-40', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', width: 'w-36', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #ef4444, #dc2626)', width: 'w-32', height: 'h-12' }
   ];
 
+  // Animation variants from spec
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.4, 0, 0.2, 1],
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.4, 0, 0.2, 1]
+      }
+    }
+  };
+
   return (
-    <motion.div 
-      className={styles.welcomeScreen}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div className={styles.welcomeScreen}>
       <motion.div 
         className={styles.welcomeContainer}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        <motion.div 
+        {/* Header - exact from spec */}
+        <motion.header 
           className={styles.header}
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
+          variants={itemVariants}
         >
-          <div className={styles.logo}>Inner DNA</div>
-          <div className={styles.tagline}>Discover Your Unique Inner DNA</div>
-        </motion.div>
+          <motion.div 
+            className={styles.logo}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
+            Inner DNA
+          </motion.div>
+          <motion.div 
+            className={styles.tagline}
+            variants={itemVariants}
+          >
+            Discover Your Unique Inner DNA
+          </motion.div>
+        </motion.header>
         
-        <motion.div 
+        {/* HeroSection - exact from spec */}
+        <motion.section 
           className={styles.heroSection}
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          variants={itemVariants}
         >
-          <div className={styles.towerPreview}>
+          {/* TowerPreview - Animated preview */}
+          <motion.div 
+            className={styles.towerPreview}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: 0.3,
+              ease: [0.4, 0, 0.2, 1]
+            }}
+            whileHover={{ 
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
+          >
             <TowerVisualization title="" blocks={towerBlocks} />
-          </div>
-          <div className={styles.description}>
-            Build your personality tower through intuitive choices and discover your unique Inner DNA profile
-          </div>
-        </motion.div>
+          </motion.div>
+          
+          {/* Description - exact from spec */}
+          <motion.div 
+            className={styles.description}
+            variants={itemVariants}
+          >
+            Build your personality tower through intuitive choices
+            and discover your unique Inner DNA profile
+          </motion.div>
+        </motion.section>
         
+        {/* EmailCollection - exact from spec */}
         <motion.div 
           className={styles.emailCollection}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          variants={itemVariants}
         >
-          <h3 className={styles.emailCollectionTitle}>Begin Your Journey</h3>
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.formLabel}>Email Address *</label>
-            <input
+            <motion.input
               id="email"
               type="email"
               value={email}
@@ -103,47 +152,59 @@ export default function Welcome() {
               placeholder="your@email.com"
               className={styles.formInput}
               required
+              whileFocus={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
             />
           </div>
           <div className={styles.formGrid}>
             <div className={styles.formGroup}>
               <label htmlFor="firstName" className={styles.formLabel}>First Name</label>
-              <input
+              <motion.input
                 id="firstName"
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="John"
                 className={styles.formInput}
+                whileFocus={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
               />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="lastName" className={styles.formLabel}>Last Name</label>
-              <input
+              <motion.input
                 id="lastName"
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Doe"
                 className={styles.formInput}
+                whileFocus={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
               />
             </div>
           </div>
         </motion.div>
         
+        {/* StartButton - exact from spec */}
         <motion.button
           onClick={handleStart}
           disabled={createUserMutation.isPending}
           className={styles.startButton}
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          whileHover={{ scale: 1.05 }}
+          variants={itemVariants}
+          whileHover={{ 
+            scale: 1.05,
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+          }}
           whileTap={{ scale: 0.95 }}
+          transition={{ 
+            duration: 0.3,
+            ease: [0.4, 0, 0.2, 1]
+          }}
         >
           {createUserMutation.isPending ? 'Starting...' : 'Begin Your Journey'}
         </motion.button>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
