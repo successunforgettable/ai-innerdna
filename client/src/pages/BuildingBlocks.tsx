@@ -52,6 +52,8 @@ export default function BuildingBlocks() {
     });
   };
 
+  const createBlockSelectHandler = (index: number) => () => handleBlockSelect(index);
+
   const handleContinue = () => {
     setCurrentScreen('color-states');
   };
@@ -72,11 +74,9 @@ export default function BuildingBlocks() {
             {availableBlocks.map((block, index) => (
               <BuildingBlock
                 key={index}
-                id={index}
-                title={block.name}
-                description={block.description}
+                content={block.name}
                 isSelected={selectedBlock === index}
-                onSelect={handleBlockSelect}
+                onSelect={createBlockSelectHandler(index)}
                 gradient={block.gradient}
               />
             ))}
