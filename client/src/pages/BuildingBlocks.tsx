@@ -52,11 +52,11 @@ export default function BuildingBlocks() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-12">
+    <div className="page-container">
+      <div className="glass-container max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-2xl font-bold mb-4">Building Blocks</h2>
-          <p className="text-gray-600">Select the building blocks that will form your personality tower</p>
+          <h2 className="title-primary">Building Blocks</h2>
+          <p className="text-secondary">Select the building blocks that will form your personality tower</p>
         </div>
 
         <div className="grid grid-cols-3 gap-6 mb-12">
@@ -86,12 +86,12 @@ export default function BuildingBlocks() {
         </div>
 
         <div className="flex justify-center">
-          <Button
+          <button
             onClick={handleContinue}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300"
+            className="btn-primary px-8 py-3"
           >
             Continue to Color States
-          </Button>
+          </button>
         </div>
       </div>
     </div>
