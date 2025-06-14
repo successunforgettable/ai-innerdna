@@ -41,13 +41,13 @@ export default function Welcome() {
     createUserMutation.mutate(emailForm);
   };
 
-  // Tower Preview Animation - exact from spec
+  // Tower Preview Animation - correct orientation with largest at bottom
   const towerBlocks = [
-    { gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', width: 'w-48', height: 'h-12' },
-    { gradient: 'linear-gradient(135deg, #10b981, #047857)', width: 'w-44', height: 'h-12' },
-    { gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', width: 'w-40', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #ef4444, #dc2626)', width: 'w-32', height: 'h-12' },
     { gradient: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', width: 'w-36', height: 'h-12' },
-    { gradient: 'linear-gradient(135deg, #ef4444, #dc2626)', width: 'w-32', height: 'h-12' }
+    { gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', width: 'w-40', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #10b981, #047857)', width: 'w-44', height: 'h-12' },
+    { gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', width: 'w-48', height: 'h-12' }
   ];
 
   // Animation variants from spec
@@ -137,12 +137,31 @@ export default function Welcome() {
           </motion.div>
         </motion.section>
         
-        {/* EmailCollection - exact from spec */}
+        {/* EmailCollection - enhanced design and animations */}
         <motion.div 
           className={styles.emailCollection}
           variants={itemVariants}
+          whileHover={{ 
+            boxShadow: "0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)",
+            y: -2
+          }}
+          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
         >
-          <div className={styles.formGroup}>
+          <motion.h3 
+            className={styles.emailCollectionTitle}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.3 }}
+          >
+            Begin Your Journey
+          </motion.h3>
+          
+          <motion.div 
+            className={styles.formGroup}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6, duration: 0.3 }}
+          >
             <label htmlFor="email" className={styles.formLabel}>Email Address *</label>
             <motion.input
               id="email"
@@ -152,12 +171,30 @@ export default function Welcome() {
               placeholder="your@email.com"
               className={styles.formInput}
               required
-              whileFocus={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
+              whileFocus={{ 
+                scale: 1.02,
+                boxShadow: "0 0 0 4px rgba(59, 130, 246, 0.15)",
+                borderColor: "var(--blue-primary)"
+              }}
+              whileHover={{ 
+                borderColor: "var(--blue-primary)",
+                boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.1)"
+              }}
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             />
-          </div>
-          <div className={styles.formGrid}>
-            <div className={styles.formGroup}>
+          </motion.div>
+          
+          <motion.div 
+            className={styles.formGrid}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.3 }}
+          >
+            <motion.div 
+              className={styles.formGroup}
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+            >
               <label htmlFor="firstName" className={styles.formLabel}>First Name</label>
               <motion.input
                 id="firstName"
@@ -166,11 +203,23 @@ export default function Welcome() {
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="John"
                 className={styles.formInput}
-                whileFocus={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
+                whileFocus={{ 
+                  scale: 1.02,
+                  boxShadow: "0 0 0 4px rgba(59, 130, 246, 0.15)",
+                  borderColor: "var(--blue-primary)"
+                }}
+                whileHover={{ 
+                  borderColor: "var(--blue-primary)",
+                  boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.1)"
+                }}
+                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
               />
-            </div>
-            <div className={styles.formGroup}>
+            </motion.div>
+            <motion.div 
+              className={styles.formGroup}
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+            >
               <label htmlFor="lastName" className={styles.formLabel}>Last Name</label>
               <motion.input
                 id="lastName"
@@ -179,11 +228,19 @@ export default function Welcome() {
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Doe"
                 className={styles.formInput}
-                whileFocus={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
+                whileFocus={{ 
+                  scale: 1.02,
+                  boxShadow: "0 0 0 4px rgba(59, 130, 246, 0.15)",
+                  borderColor: "var(--blue-primary)"
+                }}
+                whileHover={{ 
+                  borderColor: "var(--blue-primary)",
+                  boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.1)"
+                }}
+                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </motion.div>
         
         {/* StartButton - exact from spec */}
