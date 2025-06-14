@@ -1,0 +1,130 @@
+// Building Block Options for All Types - EXACT from Section 5.2
+
+export const buildingBlockOptions = {
+  1: [
+    {
+      id: 0,
+      content: "I seek peace while upholding standards",
+      name: "Reformer 9",
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
+    },
+    {
+      id: 1,
+      content: "I help others improve responsibly", 
+      name: "Reformer 2",
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
+    }
+  ],
+  2: [
+    {
+      id: 0,
+      content: "I help through principled service",
+      name: "Helper 1", 
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
+    },
+    {
+      id: 1,
+      content: "I help while staying successful",
+      name: "Helper 3",
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
+    }
+  ],
+  3: [
+    {
+      id: 0,
+      content: "I achieve through helping others",
+      name: "Achiever 2",
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
+    },
+    {
+      id: 1,
+      content: "I achieve with authentic expression",
+      name: "Achiever 4",
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
+    }
+  ],
+  4: [
+    {
+      id: 0,
+      content: "I express uniqueness successfully",
+      name: "Individualist 3",
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
+    },
+    {
+      id: 1,
+      content: "I explore identity through knowledge",
+      name: "Individualist 5",
+      gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
+    }
+  ],
+  5: [
+    {
+      id: 0,
+      content: "I analyze with emotional depth",
+      name: "Investigator 4",
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
+    },
+    {
+      id: 1,
+      content: "I analyze for security",
+      name: "Investigator 6", 
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
+    }
+  ],
+  6: [
+    {
+      id: 0,
+      content: "I seek security through knowledge",
+      name: "Sentinel 5", // CRITICAL: Never "Loyalist"
+      gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
+    },
+    {
+      id: 1,
+      content: "I stay positive while preparing",
+      name: "Sentinel 7",
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
+    }
+  ],
+  7: [
+    {
+      id: 0,
+      content: "I enjoy while staying secure",
+      name: "Enthusiast 6",
+      gradient: "linear-gradient(135deg, #10b981, #059669)"
+    },
+    {
+      id: 1,
+      content: "I pursue experiences boldly",
+      name: "Enthusiast 8",
+      gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
+    }
+  ],
+  8: [
+    {
+      id: 0,
+      content: "I lead with enthusiasm",
+      name: "Challenger 7",
+      gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
+    },
+    {
+      id: 1,
+      content: "I use strength peacefully",
+      name: "Challenger 9",
+      gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
+    }
+  ],
+  9: [
+    {
+      id: 0,
+      content: "I maintain peace with standards",
+      name: "Peacemaker 1",
+      gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
+    },
+    {
+      id: 1,
+      content: "I harmonize while asserting",
+      name: "Peacemaker 8",
+      gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
+    }
+  ]
+};

@@ -1,0 +1,141 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import BuildingBlock from './BuildingBlock';
+import { buildingBlockOptions } from '../../utils/buildingBlockOptions';
+import './BuildingPhase.css';
+
+// EXACT Wing Calculation from Section 5.3
+function determineWing(primaryType, wingSelection) {
+  const wingMap = {
+    '1': wingSelection === 0 ? '9' : '2',
+    '2': wingSelection === 0 ? '1' : '3',
+    '3': wingSelection === 0 ? '2' : '4',
+    '4': wingSelection === 0 ? '3' : '5',
+    '5': wingSelection === 0 ? '4' : '6',
+    '6': wingSelection === 0 ? '5' : '7',
+    '7': wingSelection === 0 ? '6' : '8',
+    '8': wingSelection === 0 ? '7' : '9',
+    '9': wingSelection === 0 ? '8' : '1'
+  };
+
+  const typeNames = {
+    '1': 'Reformer', '2': 'Helper', '3': 'Achiever',
+    '4': 'Individualist', '5': 'Investigator', '6': 'Sentinel',
+    '7': 'Enthusiast', '8': 'Challenger', '9': 'Peacemaker'
+  };
+
+  return {
+    wing: wingMap[primaryType],
+    wingName: `${typeNames[primaryType]} ${wingMap[primaryType]}`, // Uses approved format
+    wingStrength: 'strong'
+  };
+}
+
+const BuildingPhase = ({ primaryType, onComplete }) => {
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  const [currentOptions, setCurrentOptions] = useState([]);
+
+  useEffect(() => {
+    // Based on determined type, show 2 building block options
+    if (primaryType && buildingBlockOptions[primaryType]) {
+      setCurrentOptions(buildingBlockOptions[primaryType]);
+    }
+  }, [primaryType]);
+
+  const handleBlockSelect = (blockId) => {
+    // Must select exactly 1 block from each set
+    setSelectedBlock(blockId);
+  };
+
+  const handleContinue = () => {
+    if (selectedBlock !== null) {
+      // User selects 1 block representing their wing influence
+      const wingData = determineWing(primaryType, selectedBlock);
+      onComplete({
+        wingSelection: selectedBlock,
+        wingData: wingData
+      });
+    }
+  };
+
+  return (
+    <div className="page-container">
+      <div className="building-content">
+        <header className="building-header">
+          <h2 className="foundation-title">Building Block Experience</h2>
+          <p className="phase-description">Based on your determined type, select 1 block representing your influence</p>
+        </header>
+        
+        <div className="building-main">
+          <section className="glass-container block-selection-area">
+            <h3 className="title-primary">Building Block Selection</h3>
+            <p className="section-description">Select exactly 1 building block from the 2 options below</p>
+            
+            <div className="blocks-grid">
+              {currentOptions.map((option) => (
+                <BuildingBlock
+                  key={option.id}
+                  content={option.content}
+                  isSelected={selectedBlock === option.id}
+                  onSelect={() => handleBlockSelect(option.id)}
+                  gradient={option.gradient}
+                />
+              ))}
+            </div>
+            
+            <motion.button 
+              className="btn-primary"
+              disabled={selectedBlock === null}
+              onClick={handleContinue}
+              whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
+              whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
+            >
+              Continue
+            </motion.button>
+          </section>
+          
+          <aside className="glass-container tower-visualization-area">
+            <h3 className="tower-title">Your Tower</h3>
+            <div className="tower-building-view">
+              {/* Real-time tower foundation building animation */}
+              <motion.div 
+                className="foundation-base"
+                initial={{ scale: 0.8, opacity: 0.7 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="foundation-text">Foundation Stones Complete</span>
+              </motion.div>
+              
+              <div className="building-block-area">
+                {/* Block animates to tower position */}
+                {selectedBlock !== null && (
+                  <motion.div 
+                    className="placed-block"
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 300, 
+                      damping: 25 
+                    }}
+                  >
+                    {currentOptions[selectedBlock]?.name}
+                  </motion.div>
+                )}
+              </div>
+            </div>
+            <p className="foundation-description">
+              {selectedBlock === null 
+                ? "Select a building block to add to your tower..." 
+                : `${currentOptions[selectedBlock]?.name} block added to tower position`
+              }
+            </p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BuildingPhase;

@@ -74,7 +74,7 @@ export default function BuildingBlocks() {
             {availableBlocks.map((block, index) => (
               <BuildingBlock
                 key={index}
-                content={block.name}
+                content={block.description}
                 isSelected={selectedBlock === index}
                 onSelect={createBlockSelectHandler(index)}
                 gradient={block.gradient}
