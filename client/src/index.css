@@ -262,59 +262,59 @@ body {
   transition: all 0.5s ease;
 }
 
-/* Perfect 8-point circle distribution + 1 center-right */
+/* Perfect 9-point circle distribution (40 degrees apart) */
 .foundation-stone-placed:nth-child(1) { 
-  top: 8%; 
+  top: 10%; 
   left: 50%; 
   transform: translate(-50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(2) { 
-  top: 22%; 
-  right: 22%; 
+  top: 20%; 
+  right: 20%; 
   transform: translate(50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(3) { 
-  top: 50%; 
-  right: 8%; 
+  top: 40%; 
+  right: 10%; 
   transform: translate(50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(4) { 
-  bottom: 22%; 
-  right: 22%; 
-  transform: translate(50%, 50%); 
+  top: 65%; 
+  right: 20%; 
+  transform: translate(50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(5) { 
-  bottom: 8%; 
+  bottom: 10%; 
   left: 50%; 
   transform: translate(-50%, 50%); 
 }
 
 .foundation-stone-placed:nth-child(6) { 
-  bottom: 22%; 
-  left: 22%; 
-  transform: translate(-50%, 50%); 
+  top: 65%; 
+  left: 20%; 
+  transform: translate(-50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(7) { 
-  top: 50%; 
-  left: 8%; 
+  top: 40%; 
+  left: 10%; 
   transform: translate(-50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(8) { 
-  top: 22%; 
-  left: 22%; 
+  top: 20%; 
+  left: 20%; 
   transform: translate(-50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(9) { 
-  top: 38%; 
+  bottom: 20%; 
   right: 35%; 
-  transform: translate(50%, -50%); 
+  transform: translate(50%, 50%); 
 }
 
 /* Welcome Screen CSS - Exact from spec section 3.1 */
