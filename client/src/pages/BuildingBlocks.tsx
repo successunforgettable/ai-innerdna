@@ -60,14 +60,14 @@ export default function BuildingBlocks() {
     <div className="page-container">
       <div className="building-content">
         <header className="building-header">
-          <h2 className="title-primary">Building Blocks</h2>
-          <p className="phase-description">Choose your wing influence to complete your personality foundation</p>
+          <h2 className="foundation-title">Building Block Experience</h2>
+          <p className="phase-description">Based on your determined type, select 1 block representing your influence</p>
         </header>
         
         <div className="building-main">
-          <section className="block-selection-area">
-            <h3 className="title-primary">Wing Selection</h3>
-            <p className="section-description">Choose the building block that best describes your approach</p>
+          <section className="glass-container block-selection-area">
+            <h3 className="title-primary">Building Block Selection</h3>
+            <p className="section-description">Select exactly 1 building block from the 2 options below</p>
             
             <div className="blocks-grid">
               {availableBlocks.map((block, index) => (
@@ -90,11 +90,11 @@ export default function BuildingBlocks() {
               whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
               whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
             >
-              Continue to Colors
+              Continue
             </motion.button>
           </section>
           
-          <aside className="tower-visualization-area">
+          <aside className="glass-container tower-visualization-area">
             <h3 className="tower-title">Your Tower</h3>
             <div className="tower-building-view">
               <motion.div 
@@ -103,7 +103,7 @@ export default function BuildingBlocks() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                <span className="foundation-text">Foundation Complete</span>
+                <span className="foundation-text">Foundation Stones Complete</span>
               </motion.div>
               
               <div className="building-block-area">
@@ -119,15 +119,15 @@ export default function BuildingBlocks() {
                       damping: 25 
                     }}
                   >
-                    {availableBlocks[selectedBlock]?.name}
+                    Block Selected
                   </motion.div>
                 )}
               </div>
             </div>
             <p className="foundation-description">
               {selectedBlock === null 
-                ? "Select a building block to add to your foundation..." 
-                : `${availableBlocks[selectedBlock]?.name} selected! Ready for next phase.`
+                ? "Select a building block to add to your tower..." 
+                : "Building block added to tower position"
               }
             </p>
           </aside>

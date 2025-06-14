@@ -47,6 +47,14 @@
   margin-bottom: 1rem;
 }
 
+.foundation-title {
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
 .text-primary {
   color: var(--text-primary);
   font-size: 1rem;

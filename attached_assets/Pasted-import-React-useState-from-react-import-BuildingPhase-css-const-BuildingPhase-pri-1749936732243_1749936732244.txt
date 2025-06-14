@@ -1,0 +1,62 @@
+import React, { useState } from 'react';
+import './BuildingPhase.css';
+
+const BuildingPhase = ({ primaryType, onComplete }) => {
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  
+  return (
+    <div className="page-container">
+      <div className="building-content">
+        <header className="building-header">
+          <h2 className="foundation-title">Building Block Experience</h2>
+          <p className="phase-description">Based on your determined type, select 1 block representing your influence</p>
+        </header>
+        
+        <div className="building-main">
+          <section className="glass-container block-selection-area">
+            <h3 className="title-primary">Building Block Selection</h3>
+            <p className="section-description">Select exactly 1 building block from the 2 options below</p>
+            
+            <div className="blocks-grid">
+              {/* Building blocks will be populated here - exactly 2 options based on determined type */}
+            </div>
+            
+            <button 
+              className="btn-primary"
+              disabled={selectedBlock === null}
+              onClick={() => onComplete(selectedBlock)}
+            >
+              Continue
+            </button>
+          </section>
+          
+          <aside className="glass-container tower-visualization-area">
+            <h3 className="tower-title">Your Tower</h3>
+            <div className="tower-building-view">
+              {/* Real-time tower foundation building animation */}
+              <div className="foundation-base">
+                <span className="foundation-text">Foundation Stones Complete</span>
+              </div>
+              <div className="building-block-area">
+                {/* Block animates to tower position when selected */}
+                {selectedBlock !== null && (
+                  <div className="placed-block">
+                    Block Selected
+                  </div>
+                )}
+              </div>
+            </div>
+            <p className="foundation-description">
+              {selectedBlock === null 
+                ? "Select a building block to add to your tower..." 
+                : "Building block added to tower position"
+              }
+            </p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BuildingPhase;
