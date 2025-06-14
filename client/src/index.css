@@ -260,61 +260,48 @@ body {
   border: 2px solid white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.5s ease;
+  
+  /* Center all stones first */
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
 }
 
-/* TRUE mathematical circle - calculated positions for 9 stones */
+/* Use rotation to position stones around circle */
 .foundation-stone-placed:nth-child(1) { 
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(0deg) translateY(-120px) rotate(-0deg);
 }
 
 .foundation-stone-placed:nth-child(2) { 
-  top: 27%;
-  left: 73%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(40deg) translateY(-120px) rotate(-40deg);
 }
 
 .foundation-stone-placed:nth-child(3) { 
-  top: 50%;
-  left: 85%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(80deg) translateY(-120px) rotate(-80deg);
 }
 
 .foundation-stone-placed:nth-child(4) { 
-  top: 73%;
-  left: 73%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(120deg) translateY(-120px) rotate(-120deg);
 }
 
 .foundation-stone-placed:nth-child(5) { 
-  top: 85%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(160deg) translateY(-120px) rotate(-160deg);
 }
 
 .foundation-stone-placed:nth-child(6) { 
-  top: 73%;
-  left: 27%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(200deg) translateY(-120px) rotate(-200deg);
 }
 
 .foundation-stone-placed:nth-child(7) { 
-  top: 50%;
-  left: 15%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(240deg) translateY(-120px) rotate(-240deg);
 }
 
 .foundation-stone-placed:nth-child(8) { 
-  top: 27%;
-  left: 27%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(280deg) translateY(-120px) rotate(-280deg);
 }
 
 .foundation-stone-placed:nth-child(9) { 
-  top: 38%;
-  left: 80%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(320deg) translateY(-120px) rotate(-320deg);
 }
 
 /* Welcome Screen CSS - Exact from spec section 3.1 */
