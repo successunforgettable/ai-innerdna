@@ -266,7 +266,7 @@ body {
 /* Foundation Phase Layout - EXACT from user specification */
 .foundation-phase {
   min-height: 100vh;
-  background-color: #f8fafc;
+  background: linear-gradient(135deg, #eff6ff 0%, #faf5ff 100%);
   padding: 2rem 1rem;
 }
 
@@ -279,18 +279,17 @@ body {
   align-items: start;
 }
 
-.stone-selection-area {
-  background: white;
+.stone-selection-area,
+.tower-visualization-area {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .tower-visualization-area {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 2rem;
   height: fit-content;
