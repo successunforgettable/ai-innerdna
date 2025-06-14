@@ -12,8 +12,8 @@
   /* Typography - consistent fonts */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.8);
-  --text-tertiary: rgba(255, 255, 255, 0.7);
+  --text-secondary: #1e293b;
+  --text-tertiary: #1e293b;
   
   /* Button styles */
   --button-bg: rgba(59, 130, 246, 0.8);
