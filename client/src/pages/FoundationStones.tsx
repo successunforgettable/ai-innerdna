@@ -89,97 +89,95 @@ export default function FoundationStones() {
   const isNextDisabled = selectedStone === null;
 
   return (
-    <div className="min-h-screen" style={{ 
-      background: 'linear-gradient(135deg, #eff6ff, #faf5ff)',
-      fontFamily: 'var(--font-family)',
-      color: 'var(--text-primary)'
-    }}>
+    <div className="foundation-phase">
       <ProgressBar 
         current={currentStoneSet + 1} 
         total={9} 
         label="Foundation Stones" 
       />
       
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <motion.div
-          key={currentStoneSet}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h2 style={{
-            fontSize: 'var(--font-size-2xl)',
-            fontWeight: 700,
-            marginBottom: '1rem',
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-family)'
-          }}>{currentSet.title}</h2>
-          <p style={{
-            fontSize: 'var(--font-size-base)',
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-family)'
-          }}>Choose the foundation stone that resonates most with you</p>
-        </motion.div>
+      <div className="foundation-content">
+        <div className="stone-selection-area">
+          <motion.div
+            key={currentStoneSet}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <h2 style={{
+              fontSize: 'var(--font-size-2xl)',
+              fontWeight: 700,
+              marginBottom: '1rem',
+              color: 'var(--text-primary)',
+              fontFamily: 'var(--font-family)'
+            }}>{currentSet.title}</h2>
+            <p style={{
+              fontSize: 'var(--font-size-base)',
+              color: 'var(--text-secondary)',
+              fontFamily: 'var(--font-family)'
+            }}>Choose the foundation stone that resonates most with you</p>
+          </motion.div>
 
-        <motion.div
-          key={`stones-${currentStoneSet}`}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="flex justify-center items-center space-x-8 mb-12"
-        >
-          {currentSet.stones.map((stone, index) => (
-            <Stone
-              key={index}
-              content={stone.content}
-              gradient={stone.gradient}
-              isSelected={selectedStone === index}
-              onSelect={() => handleStoneSelect(index)}
-            />
-          ))}
-        </motion.div>
+          <motion.div
+            key={`stones-${currentStoneSet}`}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex justify-center items-center space-x-6 mb-8"
+          >
+            {currentSet.stones.map((stone, index) => (
+              <Stone
+                key={index}
+                content={stone.content}
+                gradient={stone.gradient}
+                isSelected={selectedStone === index}
+                onSelect={() => handleStoneSelect(index)}
+              />
+            ))}
+          </motion.div>
 
-        <div className="flex justify-center mb-12">
+          <div className="flex justify-center">
+            <button
+              onClick={handleNextSet}
+              disabled={isNextDisabled}
+              style={{
+                backgroundColor: isNextDisabled ? '#d1d5db' : 'var(--blue-primary)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '0.75rem',
+                padding: '0.75rem 2rem',
+                fontSize: 'var(--font-size-lg)',
+                fontWeight: 600,
+                cursor: isNextDisabled ? 'not-allowed' : 'pointer',
+                transition: 'all var(--duration-normal) var(--ease-spring)',
+                fontFamily: 'var(--font-family)',
+                boxShadow: isNextDisabled ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                transform: isNextDisabled ? 'none' : 'scale(1)'
+              }}
+              onMouseEnter={(e) => {
+                if (!isNextDisabled) {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#2563eb';
+                  (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)';
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isNextDisabled) {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--blue-primary)';
+                  (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+                }
+              }}
+            >
+              {currentStoneSet < stoneSets.length - 1 ? 'Next Set' : 'Continue to Building Blocks'}
+            </button>
+          </div>
+        </div>
+
+        <div className="tower-visualization-area">
           <FoundationTower 
             title="Your Foundation"
             blocks={foundationBlocks.filter(Boolean)}
           />
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            onClick={handleNextSet}
-            disabled={isNextDisabled}
-            style={{
-              backgroundColor: isNextDisabled ? '#d1d5db' : 'var(--blue-primary)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '0.75rem',
-              padding: '0.75rem 2rem',
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: 600,
-              cursor: isNextDisabled ? 'not-allowed' : 'pointer',
-              transition: 'all var(--duration-normal) var(--ease-spring)',
-              fontFamily: 'var(--font-family)',
-              boxShadow: isNextDisabled ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-              transform: isNextDisabled ? 'none' : 'scale(1)'
-            }}
-            onMouseEnter={(e) => {
-              if (!isNextDisabled) {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#2563eb';
-                (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)';
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isNextDisabled) {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--blue-primary)';
-                (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-              }
-            }}
-          >
-            {currentStoneSet < stoneSets.length - 1 ? 'Next Set' : 'Continue to Building Blocks'}
-          </button>
         </div>
       </div>
     </div>
