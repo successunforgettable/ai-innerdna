@@ -10,24 +10,24 @@ export const stoneSets: StoneSet[] = [
   {
     title: "Decision-Making Center",
     stones: [
-      { content: ["ANALYSIS", "LOGIC • THINKING"], gradient: "gradient-1" },
-      { content: ["CONNECTION", "EMPATHY • FEELING"], gradient: "gradient-2" },
-      { content: ["ACTION", "INSTINCT • MOVEMENT"], gradient: "gradient-3" }
+      { content: ["ANALYSIS", "LOGIC • THINKING"], gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)" },
+      { content: ["CONNECTION", "EMPATHY • FEELING"], gradient: "linear-gradient(135deg, #10b981, #047857)" },
+      { content: ["ACTION", "INSTINCT • MOVEMENT"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
     ]
   },
   {
-    title: "Relationship to Security",
+    title: "Core Motivation",
     stones: [
-      { content: ["SECURITY", "PREPARATION • CAUTION"], gradient: "gradient-4" },
-      { content: ["AUTHENTICITY", "IMAGE • MEANING"], gradient: "gradient-5" },
-      { content: ["JUSTICE", "CONTROL • STRENGTH"], gradient: "gradient-6" }
+      { content: ["SECURITY", "PREPARATION • CAUTION"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+      { content: ["AUTHENTICITY", "IMAGE • MEANING"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
+      { content: ["JUSTICE", "CONTROL • STRENGTH"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
     ]
   },
   {
-    title: "Attention and Energy",
+    title: "Energy Direction",
     stones: [
-      { content: ["REFLECTION", "DEPTH • PRIVACY"], gradient: "gradient-7" },
-      { content: ["ACHIEVEMENT", "INFLUENCE • IMPACT"], gradient: "gradient-8" },
+      { content: ["REFLECTION", "DEPTH • PRIVACY"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
+      { content: ["ACHIEVEMENT", "INFLUENCE • IMPACT"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" },
       { content: ["STRUCTURE", "SUPPORT • HARMONY"], gradient: "gradient-9" }
     ]
   },
