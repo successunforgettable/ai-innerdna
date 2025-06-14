@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent } from '@/components/ui/card';
 import { useAssessment } from '@/context/AssessmentContext';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -45,11 +41,11 @@ export default function Welcome() {
   };
 
   const towerBlocks = [
-    { gradient: 'gradient-1', width: 'w-32', height: 'h-6' },
-    { gradient: 'gradient-2', width: 'w-28', height: 'h-6' },
-    { gradient: 'gradient-3', width: 'w-24', height: 'h-6' },
-    { gradient: 'gradient-4', width: 'w-20', height: 'h-6' },
-    { gradient: 'gradient-5', width: 'w-16', height: 'h-6' }
+    { gradient: 'gradient-1', width: 'w-32', height: 'h-8' },
+    { gradient: 'gradient-2', width: 'w-28', height: 'h-8' },
+    { gradient: 'gradient-3', width: 'w-24', height: 'h-8' },
+    { gradient: 'gradient-4', width: 'w-20', height: 'h-8' },
+    { gradient: 'gradient-5', width: 'w-16', height: 'h-8' }
   ];
 
   return (
