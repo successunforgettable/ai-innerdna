@@ -104,18 +104,8 @@ export default function FoundationStones() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h2 style={{
-              fontSize: 'var(--font-size-2xl)',
-              fontWeight: 700,
-              marginBottom: '1rem',
-              color: 'var(--text-primary)',
-              fontFamily: 'var(--font-family)'
-            }}>{currentSet.title}</h2>
-            <p style={{
-              fontSize: 'var(--font-size-base)',
-              color: 'var(--text-secondary)',
-              fontFamily: 'var(--font-family)'
-            }}>Choose the foundation stone that resonates most with you</p>
+            <h2 className="section-title">{currentSet.title}</h2>
+            <p className="section-description">Choose the foundation stone that resonates most with you</p>
           </motion.div>
 
           <motion.div
