@@ -140,22 +140,19 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
     }
   });
 
-  // Calculate total and normalize scores
+  // Calculate total and normalize scores - EXACT from specification
   const totalScore = Object.values(typeScores).reduce((sum, score) => sum + score, 0);
   const normalizedScores: Record<string, number> = {};
   Object.keys(typeScores).forEach(type => {
-    const typeNum = parseInt(type);
-    normalizedScores[type] = typeScores[typeNum] / totalScore;
+    normalizedScores[type] = typeScores[parseInt(type)] / totalScore;
   });
 
-  // Find highest scoring type
-  const primaryType = Object.keys(typeScores).reduce((a, b) => {
-    const aScore = typeScores[parseInt(a)];
-    const bScore = typeScores[parseInt(b)];
-    return aScore > bScore ? a : b;
-  });
+  // Find highest scoring type - EXACT from specification
+  const primaryType = Object.keys(typeScores).reduce((a, b) => 
+    typeScores[parseInt(a)] > typeScores[parseInt(b)] ? a : b
+  );
 
-  // Calculate confidence
+  // Calculate confidence - EXACT from specification
   const otherScores = Object.values(normalizedScores).filter(score => 
     score !== normalizedScores[primaryType]
   );
@@ -185,18 +182,18 @@ export function getTypeName(typeNumber: string): string {
   return typeNames[typeNumber] || 'Unknown';
 }
 
-// Wing determination function from specification section 5.3
+// Wing determination function - EXACT from specification section 5.3
 export function determineWing(primaryType: string, wingSelection: number) {
-  const wingMap: Record<string, string[]> = {
-    '1': ['9', '2'],
-    '2': ['1', '3'],
-    '3': ['2', '4'],
-    '4': ['3', '5'],
-    '5': ['4', '6'],
-    '6': ['5', '7'],
-    '7': ['6', '8'],
-    '8': ['7', '9'],
-    '9': ['8', '1']
+  const wingMap: Record<string, string> = {
+    '1': wingSelection === 0 ? '9' : '2',
+    '2': wingSelection === 0 ? '1' : '3',
+    '3': wingSelection === 0 ? '2' : '4',
+    '4': wingSelection === 0 ? '3' : '5',
+    '5': wingSelection === 0 ? '4' : '6',
+    '6': wingSelection === 0 ? '5' : '7',
+    '7': wingSelection === 0 ? '6' : '8',
+    '8': wingSelection === 0 ? '7' : '9',
+    '9': wingSelection === 0 ? '8' : '1'
   };
 
   const typeNames: Record<string, string> = {
@@ -205,11 +202,9 @@ export function determineWing(primaryType: string, wingSelection: number) {
     '7': 'Enthusiast', '8': 'Challenger', '9': 'Peacemaker'
   };
 
-  const selectedWing = wingMap[primaryType]?.[wingSelection] || '1';
-
   return {
-    wing: selectedWing,
-    wingName: `${typeNames[primaryType]} ${selectedWing}`,
+    wing: wingMap[primaryType],
+    wingName: `${typeNames[primaryType]} ${wingMap[primaryType]}`, // Uses approved format
     wingStrength: 'strong'
   };
 }
