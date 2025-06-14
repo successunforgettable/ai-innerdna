@@ -127,7 +127,7 @@ export default function FoundationStones() {
 
           <div className="flex justify-center">
             <button
-              className={isNextDisabled ? "btn-primary" : "btn-primary"}
+              className="btn-primary"
               onClick={handleNextSet}
               disabled={isNextDisabled}
             >
@@ -162,7 +162,7 @@ export default function FoundationStones() {
                 </div>
               </div>
             </div>
-            <p className="foundation-description">
+            <p className="text-tertiary">
               Building your personality foundation...
             </p>
           </div>
