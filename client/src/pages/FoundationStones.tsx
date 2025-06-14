@@ -122,7 +122,7 @@ export default function FoundationStones() {
             key={`stones-${currentStoneSet}`}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex justify-center items-center space-x-6 mb-8"
+            className="stones-grid"
           >
             {currentSet.stones.map((stone, index) => (
               <Stone

@@ -11,26 +11,15 @@ interface StoneProps {
 export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
   const stoneStyle = {
     background: gradient,
-    width: '140px', // --stone-size from spec
-    height: '140px',
-    borderRadius: '8px', // --stone-border-radius from spec
-    display: 'flex',
-    flexDirection: 'column' as const,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '1rem',
-    cursor: 'pointer',
+    border: isSelected ? '3px solid #3b82f6' : '3px solid transparent',
     boxShadow: isSelected 
       ? '0 8px 25px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(59, 130, 246, 0.5)'
-      : '0 4px 6px rgba(0, 0, 0, 0.1)',
-    border: isSelected ? '2px solid #3b82f6' : '2px solid transparent',
-    position: 'relative' as const,
-    transition: 'all 0.3s ease'
+      : '0 4px 12px rgba(0, 0, 0, 0.2)'
   };
 
   return (
     <motion.div
-      className={`stone ${isSelected ? 'selected' : ''}`}
+      className="foundation-stone"
       style={stoneStyle}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
