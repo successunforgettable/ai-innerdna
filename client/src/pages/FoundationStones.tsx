@@ -89,7 +89,7 @@ export default function FoundationStones() {
   const isNextDisabled = selectedStone === null;
 
   return (
-    <div className="foundation-phase">
+    <div className="page-container">
       <ProgressBar 
         current={currentStoneSet + 1} 
         total={9} 
@@ -97,15 +97,15 @@ export default function FoundationStones() {
       />
       
       <div className="foundation-content">
-        <div className="stone-selection-area">
+        <div className="glass-container">
           <motion.div
             key={currentStoneSet}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h2 className="section-title">{currentSet.title}</h2>
-            <p className="section-description">Choose the foundation stone that resonates most with you</p>
+            <h2 className="title-primary">{currentSet.title}</h2>
+            <p className="text-secondary">Choose the foundation stone that resonates most with you</p>
           </motion.div>
 
           <motion.div
@@ -127,7 +127,7 @@ export default function FoundationStones() {
 
           <div className="flex justify-center">
             <button
-              className={isNextDisabled ? "start-button-disabled" : "start-button"}
+              className={isNextDisabled ? "btn-primary" : "btn-primary"}
               onClick={handleNextSet}
               disabled={isNextDisabled}
             >
@@ -136,9 +136,9 @@ export default function FoundationStones() {
           </div>
         </div>
 
-        <div className="tower-visualization-area">
+        <div className="glass-container">
           <div className="tower-visualization">
-            <h3 className="tower-title">Your Foundation</h3>
+            <h3 className="title-primary">Your Foundation</h3>
             <div className="tower-container">
               <div className="foundation-base">
                 <div className="foundation-stones-display">
