@@ -117,7 +117,7 @@ export default function Results() {
     5: ['Engage with others more', 'Take action on insights', 'Share knowledge openly'],
     6: ['Build self-confidence', 'Trust your own judgment', 'Take calculated risks'],
     7: ['Develop depth and focus', 'Practice commitment', 'Process difficult emotions'],
-    8: ['Practice vulnerability', 'Consider others' perspectives', 'Develop patience'],
+    8: ['Practice vulnerability', 'Consider others\' perspectives', 'Develop patience'],
     9: ['Assert your own agenda', 'Address conflicts directly', 'Take decisive action']
   };
 
@@ -231,7 +231,7 @@ export default function Results() {
               <h3 className="text-xl font-semibold mb-6 text-purple-600">Type Distribution</h3>
               <div className="space-y-3">
                 {Object.entries(result.allScores)
-                  .sort(([,a], [,b]) => b - a)
+                  .sort(([,a], [,b]) => (b as number) - (a as number))
                   .slice(0, 3)
                   .map(([type, score]) => (
                     <div key={type} className="flex justify-between items-center">
@@ -240,12 +240,12 @@ export default function Results() {
                         <div className="w-24 bg-gray-200 rounded-full h-2">
                           <motion.div
                             initial={{ width: 0 }}
-                            animate={{ width: `${score * 100}%` }}
+                            animate={{ width: `${Number(score) * 100}%` }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="bg-purple-600 h-2 rounded-full"
                           />
                         </div>
-                        <span className="text-xs font-medium">{Math.round(score * 100)}%</span>
+                        <span className="text-xs font-medium">{Math.round(Number(score) * 100)}%</span>
                       </div>
                     </div>
                   ))}
