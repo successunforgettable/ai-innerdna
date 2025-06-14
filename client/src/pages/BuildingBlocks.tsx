@@ -56,18 +56,17 @@ export default function BuildingBlocks() {
 
   return (
     <div className="page-container">
-      <div className="foundation-content">
-        <div className="glass-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-8"
-          >
-            <h2 className="title-primary">Building Blocks</h2>
-            <p className="section-description">Choose your wing influence to complete your personality foundation</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="building-content">
+        <header className="building-header">
+          <h2 className="title-primary">Building Blocks</h2>
+          <p className="phase-description">Choose your wing influence to complete your personality foundation</p>
+        </header>
+        
+        <section className="block-selection-area">
+          <h3 className="title-primary">Wing Selection</h3>
+          <p className="section-description">Choose the building block that best describes your approach</p>
+          
+          <div className="blocks-grid">
             {availableBlocks.map((block, index) => (
               <motion.div
                 key={index}
@@ -84,33 +83,29 @@ export default function BuildingBlocks() {
               </motion.div>
             ))}
           </div>
-
-          <div className="flex justify-center">
-            <button
-              className="btn-primary"
-              onClick={handleContinue}
-              disabled={selectedBlock === null}
-            >
-              Continue to Color States
-            </button>
-          </div>
-        </div>
-
-        <div className="glass-container">
-          <h3 className="title-primary">Your Tower</h3>
-          <div className="tower-container">
+          
+          <button 
+            className="btn-primary"
+            disabled={selectedBlock === null}
+            onClick={handleContinue}
+          >
+            Continue to Colors
+          </button>
+        </section>
+        
+        <aside className="tower-visualization-area">
+          <h3 className="tower-title">Your Tower</h3>
+          <div className="tower-building-view">
             <div className="foundation-base">
-              <div className="foundation-center">
-                <span className="foundation-count">9/9</span>
-              </div>
+              <span className="foundation-text">Foundation Complete</span>
             </div>
-            {selectedBlock !== null && (
-              <div className="mt-4 p-4 rounded-lg" style={{ background: availableBlocks[selectedBlock].gradient }}>
-                <div className="text-white font-semibold">
-                  Selected Wing: {availableBlocks[selectedBlock]?.name}
+            <div className="building-block-area">
+              {selectedBlock !== null && (
+                <div className="placed-block" style={{ background: availableBlocks[selectedBlock].gradient }}>
+                  {availableBlocks[selectedBlock]?.name}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <p className="foundation-description">
             {selectedBlock === null 
@@ -118,7 +113,7 @@ export default function BuildingBlocks() {
               : "Building block selected! Ready for next phase."
             }
           </p>
-        </div>
+        </aside>
       </div>
     </div>
   );
