@@ -144,12 +144,12 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
   const totalScore = Object.values(typeScores).reduce((sum, score) => sum + score, 0);
   const normalizedScores: Record<string, number> = {};
   Object.keys(typeScores).forEach(type => {
-    normalizedScores[type] = typeScores[type] / totalScore;
+    normalizedScores[type] = typeScores[parseInt(type) as keyof typeof typeScores] / totalScore;
   });
 
   // Find highest scoring type
   const primaryType = Object.keys(typeScores).reduce((a, b) => 
-    typeScores[parseInt(a)] > typeScores[parseInt(b)] ? a : b
+    typeScores[parseInt(a) as keyof typeof typeScores] > typeScores[parseInt(b) as keyof typeof typeScores] ? a : b
   );
 
   // Calculate confidence
@@ -180,4 +180,33 @@ export function getTypeName(typeNumber: string): string {
     '9': 'Peacemaker'
   };
   return typeNames[typeNumber] || 'Unknown';
+}
+
+// Wing determination function from specification section 5.3
+export function determineWing(primaryType: string, wingSelection: number) {
+  const wingMap: Record<string, string[]> = {
+    '1': ['9', '2'],
+    '2': ['1', '3'],
+    '3': ['2', '4'],
+    '4': ['3', '5'],
+    '5': ['4', '6'],
+    '6': ['5', '7'],
+    '7': ['6', '8'],
+    '8': ['7', '9'],
+    '9': ['8', '1']
+  };
+
+  const typeNames: Record<string, string> = {
+    '1': 'Reformer', '2': 'Helper', '3': 'Achiever',
+    '4': 'Individualist', '5': 'Investigator', '6': 'Sentinel',
+    '7': 'Enthusiast', '8': 'Challenger', '9': 'Peacemaker'
+  };
+
+  const selectedWing = wingMap[primaryType]?.[wingSelection] || '1';
+
+  return {
+    wing: selectedWing,
+    wingName: `${typeNames[primaryType]} ${selectedWing}`,
+    wingStrength: 'strong'
+  };
 }

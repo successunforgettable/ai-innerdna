@@ -1,0 +1,61 @@
+import React, { useState } from 'react';
+import './BuildingPhase.css';
+
+const BuildingPhase = ({ primaryType, onComplete }) => {
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  
+  return (
+    <div className="page-container">
+      <div className="building-content">
+        <header className="building-header">
+          <h2 className="foundation-title">Building Blocks</h2>
+          <p className="phase-description">Choose your wing influence to complete your personality foundation</p>
+        </header>
+        
+        <div className="building-main">
+          <section className="glass-container block-selection-area">
+            <h3 className="title-primary">Wing Selection</h3>
+            <p className="section-description">Choose the building block that best describes your approach</p>
+            
+            <div className="blocks-grid">
+              {/* Building blocks will be populated here */}
+            </div>
+            
+            <button 
+              className="btn-primary"
+              disabled={selectedBlock === null}
+              onClick={() => onComplete(selectedBlock)}
+            >
+              Continue to Colors
+            </button>
+          </section>
+          
+          <aside className="glass-container tower-visualization-area">
+            <h3 className="tower-title">Your Tower</h3>
+            <div className="tower-building-view">
+              {/* Tower with foundation + building blocks */}
+              <div className="foundation-base">
+                <span className="foundation-text">Foundation Complete</span>
+              </div>
+              <div className="building-block-area">
+                {selectedBlock !== null && (
+                  <div className="placed-block">
+                    Selected Block
+                  </div>
+                )}
+              </div>
+            </div>
+            <p className="foundation-description">
+              {selectedBlock === null 
+                ? "Select a building block to add to your foundation..." 
+                : "Building block selected! Ready for next phase."
+              }
+            </p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BuildingPhase;

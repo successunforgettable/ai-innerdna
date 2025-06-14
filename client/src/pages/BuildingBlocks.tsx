@@ -1,50 +1,52 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { TowerVisualization } from '@/components/TowerVisualization';
+import { useState, useEffect } from 'react';
 import { useAssessment } from '@/context/AssessmentContext';
 import { buildingBlocks } from '@/lib/stoneData';
+import { determinePersonalityType, determineWing } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
 
+interface BuildingBlock {
+  type: number;
+  wing: string;
+  name: string;
+  description: string;
+  gradient: string;
+}
+
 export default function BuildingBlocks() {
-  const { setCurrentScreen, assessmentData, setAssessmentData } = useAssessment();
-  const [selectedBlocks, setSelectedBlocks] = useState<number[]>([]);
-  const [towerBlocks, setTowerBlocks] = useState<any[]>([]);
+  const { setCurrentScreen, assessmentData, setAssessmentData, stoneSelections } = useAssessment();
+  const [selectedBlock, setSelectedBlock] = useState<number | null>(null);
+  const [primaryType, setPrimaryType] = useState<string>('1');
+  const [availableBlocks, setAvailableBlocks] = useState<BuildingBlock[]>([]);
+
+  useEffect(() => {
+    // Determine primary type from foundation stones assessment
+    const validSelections = stoneSelections.filter(s => s !== null) as number[];
+    if (validSelections.length === 9) {
+      const result = determinePersonalityType(validSelections);
+      setPrimaryType(result.primaryType);
+      const blocks = buildingBlocks[result.primaryType as keyof typeof buildingBlocks] || [];
+      setAvailableBlocks(blocks);
+    } else {
+      // Default to type 1 for testing if assessment not complete
+      const blocks = buildingBlocks['1'];
+      setAvailableBlocks(blocks);
+    }
+  }, [stoneSelections]);
 
   const handleBlockSelect = (blockIndex: number) => {
-    const block = buildingBlocks[blockIndex];
+    setSelectedBlock(blockIndex);
     
-    if (selectedBlocks.includes(blockIndex)) {
-      // Remove block
-      setSelectedBlocks(selectedBlocks.filter(id => id !== blockIndex));
-      setTowerBlocks(towerBlocks.filter(b => b.type !== block.type));
-      
-      // Update assessment data
-      setAssessmentData({
-        ...assessmentData,
-        buildingBlocks: assessmentData.buildingBlocks.filter(b => b.type !== block.type)
-      });
-    } else {
-      // Add block
-      setSelectedBlocks([...selectedBlocks, blockIndex]);
-      
-      const newTowerBlock = {
-        gradient: block.gradient,
-        width: 'w-32',
-        height: 'h-8',
-        type: block.type
-      };
-      setTowerBlocks([...towerBlocks, newTowerBlock]);
-      
-      // Update assessment data
-      setAssessmentData({
-        ...assessmentData,
-        buildingBlocks: [...assessmentData.buildingBlocks, {
-          type: block.type,
-          name: block.name,
-          description: block.description
-        }]
-      });
-    }
+    const selectedBlockData = availableBlocks[blockIndex];
+    const wingResult = determineWing(primaryType, blockIndex);
+    
+    setAssessmentData({
+      ...assessmentData,
+      buildingBlocks: [{
+        type: selectedBlockData.type,
+        name: selectedBlockData.name,
+        description: selectedBlockData.description
+      }]
+    });
   };
 
   const handleContinue = () => {
@@ -53,45 +55,68 @@ export default function BuildingBlocks() {
 
   return (
     <div className="page-container">
-      <div className="glass-container max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="title-primary">Building Blocks</h2>
-          <p className="text-secondary">Select the building blocks that will form your personality tower</p>
-        </div>
-
-        <div className="grid grid-cols-3 gap-6 mb-12">
-          {buildingBlocks.map((block, index) => (
-            <motion.div
-              key={block.type}
-              whileHover={{ y: -4 }}
-              whileTap={{ y: -8 }}
-              className={`building-block ${block.gradient} flex items-center justify-center text-white font-semibold text-center cursor-pointer ${
-                selectedBlocks.includes(index) ? 'selected' : ''
-              }`}
-              onClick={() => handleBlockSelect(index)}
-            >
-              <div>
-                <div className="text-lg mb-2">{block.name}</div>
-                <div className="text-sm">{block.description}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="flex justify-center mb-12">
-          <TowerVisualization 
-            title="Your Tower"
-            blocks={towerBlocks}
-          />
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            onClick={handleContinue}
-            className="btn-primary px-8 py-3"
+      <div className="foundation-content">
+        <div className="glass-container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
           >
-            Continue to Color States
-          </button>
+            <h2 className="title-primary">Building Blocks</h2>
+            <p className="section-description">Choose your wing influence to complete your personality foundation</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {availableBlocks.map((block, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`glass-container cursor-pointer transition-all duration-300 p-6 ${
+                  selectedBlock === index ? 'ring-2 ring-white/50' : ''
+                }`}
+                onClick={() => handleBlockSelect(index)}
+                style={{ background: block.gradient }}
+              >
+                <h3 className="title-primary text-lg mb-2">{block.name}</h3>
+                <p className="section-description text-sm">{block.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="flex justify-center">
+            <button
+              className="btn-primary"
+              onClick={handleContinue}
+              disabled={selectedBlock === null}
+            >
+              Continue to Color States
+            </button>
+          </div>
+        </div>
+
+        <div className="glass-container">
+          <h3 className="title-primary">Your Tower</h3>
+          <div className="tower-container">
+            <div className="foundation-base">
+              <div className="foundation-center">
+                <span className="foundation-count">9/9</span>
+              </div>
+            </div>
+            {selectedBlock !== null && (
+              <div className="mt-4 p-4 rounded-lg" style={{ background: availableBlocks[selectedBlock].gradient }}>
+                <div className="text-white font-semibold">
+                  Selected Wing: {availableBlocks[selectedBlock]?.name}
+                </div>
+              </div>
+            )}
+          </div>
+          <p className="foundation-description">
+            {selectedBlock === null 
+              ? "Select a building block to add to your foundation..." 
+              : "Building block selected! Ready for next phase."
+            }
+          </p>
         </div>
       </div>
     </div>
