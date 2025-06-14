@@ -35,9 +35,9 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen">
+    <>
       {renderCurrentScreen()}
-    </div>
+    </>
   );
 }
 
