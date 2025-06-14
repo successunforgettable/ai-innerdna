@@ -16,7 +16,7 @@ export const stoneSets: StoneSet[] = [
     ]
   },
   {
-    title: "Core Motivation",
+    title: "Relationship to Security",
     stones: [
       { content: ["SECURITY", "PREPARATION • CAUTION"], gradient: "gradient-4" },
       { content: ["AUTHENTICITY", "IMAGE • MEANING"], gradient: "gradient-5" },
@@ -24,7 +24,7 @@ export const stoneSets: StoneSet[] = [
     ]
   },
   {
-    title: "Energy Direction",
+    title: "Attention and Energy",
     stones: [
       { content: ["REFLECTION", "DEPTH • PRIVACY"], gradient: "gradient-7" },
       { content: ["ACHIEVEMENT", "INFLUENCE • IMPACT"], gradient: "gradient-8" },
