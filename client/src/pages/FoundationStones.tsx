@@ -174,10 +174,35 @@ export default function FoundationStones() {
         </div>
 
         <div className="tower-visualization-area">
-          <FoundationTower 
-            title="Your Foundation"
-            blocks={foundationBlocks.filter(Boolean)}
-          />
+          <div className="tower-visualization">
+            <h3 className="tower-title">Your Foundation</h3>
+            <div className="tower-container">
+              <div className="foundation-base">
+                <div className="foundation-stones-display">
+                  {stoneSelections.map((stoneIndex, index) => {
+                    if (stoneIndex === null) return null;
+                    const stone = stoneSets[index].stones[stoneIndex];
+                    return (
+                      <div 
+                        key={index}
+                        className={`foundation-stone-placed stone-${stoneIndex}`}
+                        style={{
+                          '--position': index,
+                          background: stone.gradient
+                        } as React.CSSProperties & { '--position': number }}
+                      />
+                    );
+                  })}
+                </div>
+                <div className="foundation-center">
+                  <span className="foundation-count">{stoneSelections.filter(s => s !== null).length}/9</span>
+                </div>
+              </div>
+            </div>
+            <p className="foundation-description">
+              Building your personality foundation...
+            </p>
+          </div>
         </div>
       </div>
     </div>
