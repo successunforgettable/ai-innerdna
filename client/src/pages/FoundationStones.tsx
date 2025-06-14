@@ -105,7 +105,7 @@ export default function FoundationStones() {
             className="text-center mb-8"
           >
             <h2 className="title-primary">{currentSet.title}</h2>
-            <p className="text-secondary">Choose the foundation stone that resonates most with you</p>
+            <p className="section-description">Choose the foundation stone that resonates most with you</p>
           </motion.div>
 
           <motion.div
@@ -162,7 +162,7 @@ export default function FoundationStones() {
                 </div>
               </div>
             </div>
-            <p className="text-tertiary">
+            <p className="foundation-description">
               Building your personality foundation...
             </p>
           </div>
