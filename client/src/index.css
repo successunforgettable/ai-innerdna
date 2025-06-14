@@ -262,58 +262,58 @@ body {
   transition: all 0.5s ease;
 }
 
-/* Perfect 9-point circle distribution (40 degrees apart) */
+/* Mathematical circle positioning - 9 stones at 40-degree intervals */
 .foundation-stone-placed:nth-child(1) { 
-  top: 10%; 
+  top: 20%; 
   left: 50%; 
   transform: translate(-50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(2) { 
-  top: 20%; 
-  right: 20%; 
+  top: 30%; 
+  right: 30%; 
   transform: translate(50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(3) { 
-  top: 40%; 
-  right: 10%; 
-  transform: translate(50%, -50%); 
-}
-
-.foundation-stone-placed:nth-child(4) { 
-  top: 65%; 
+  top: 50%; 
   right: 20%; 
   transform: translate(50%, -50%); 
 }
 
+.foundation-stone-placed:nth-child(4) { 
+  top: 70%; 
+  right: 30%; 
+  transform: translate(50%, -50%); 
+}
+
 .foundation-stone-placed:nth-child(5) { 
-  bottom: 10%; 
+  bottom: 20%; 
   left: 50%; 
   transform: translate(-50%, 50%); 
 }
 
 .foundation-stone-placed:nth-child(6) { 
-  top: 65%; 
-  left: 20%; 
+  top: 70%; 
+  left: 30%; 
   transform: translate(-50%, -50%); 
 }
 
 .foundation-stone-placed:nth-child(7) { 
-  top: 40%; 
-  left: 10%; 
-  transform: translate(-50%, -50%); 
-}
-
-.foundation-stone-placed:nth-child(8) { 
-  top: 20%; 
+  top: 50%; 
   left: 20%; 
   transform: translate(-50%, -50%); 
 }
 
+.foundation-stone-placed:nth-child(8) { 
+  top: 30%; 
+  left: 30%; 
+  transform: translate(-50%, -50%); 
+}
+
 .foundation-stone-placed:nth-child(9) { 
-  bottom: 20%; 
-  right: 35%; 
+  bottom: 35%; 
+  right: 50%; 
   transform: translate(50%, 50%); 
 }
 
