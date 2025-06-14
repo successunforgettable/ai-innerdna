@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Stone } from '@/components/Stone';
 import { ProgressBar } from '@/components/ProgressBar';
-import { TowerVisualization } from '@/components/TowerVisualization';
+import { FoundationTower } from '@/components/FoundationTower';
 import { useAssessment } from '@/context/AssessmentContext';
 import { stoneSets } from '@/lib/stoneData';
 import { motion } from 'framer-motion';
@@ -139,7 +139,7 @@ export default function FoundationStones() {
         </motion.div>
 
         <div className="flex justify-center mb-12">
-          <TowerVisualization 
+          <FoundationTower 
             title="Your Foundation"
             blocks={foundationBlocks.filter(Boolean)}
           />
