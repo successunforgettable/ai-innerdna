@@ -77,27 +77,27 @@ export default function Welcome() {
   };
 
   return (
-    <div className={styles.welcomeScreen}>
+    <div className="page-container">
       <motion.div 
-        className={styles.welcomeContainer}
+        className="glass-container"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Header - exact from spec */}
         <motion.header 
-          className={styles.header}
+          className="text-center mb-8"
           variants={itemVariants}
         >
           <motion.div 
-            className={styles.logo}
+            className="title-primary text-3xl mb-4"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
             Inner DNA
           </motion.div>
           <motion.div 
-            className={styles.tagline}
+            className="text-primary text-xl"
             variants={itemVariants}
           >
             Discover Your Unique Inner DNA
@@ -106,12 +106,12 @@ export default function Welcome() {
         
         {/* HeroSection - exact from spec */}
         <motion.section 
-          className={styles.heroSection}
+          className="mb-8 text-center"
           variants={itemVariants}
         >
           {/* TowerPreview - Animated preview */}
           <motion.div 
-            className={styles.towerPreview}
+            className="mb-6"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ 
@@ -129,7 +129,7 @@ export default function Welcome() {
           
           {/* Description - exact from spec */}
           <motion.div 
-            className={styles.description}
+            className="text-secondary max-w-2xl mx-auto"
             variants={itemVariants}
           >
             Build your personality tower through intuitive choices
@@ -139,16 +139,15 @@ export default function Welcome() {
         
         {/* EmailCollection - enhanced design and animations */}
         <motion.div 
-          className={styles.emailCollection}
+          className="glass-container max-w-md mx-auto"
           variants={itemVariants}
           whileHover={{ 
-            boxShadow: "0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)",
             y: -2
           }}
           transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
         >
           <motion.h3 
-            className={styles.emailCollectionTitle}
+            className="title-primary text-center mb-6"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.3 }}
@@ -247,11 +246,10 @@ export default function Welcome() {
         <motion.button
           onClick={handleStart}
           disabled={createUserMutation.isPending}
-          className={styles.startButton}
+          className="btn-primary mx-auto px-8 py-3 text-lg"
           variants={itemVariants}
           whileHover={{ 
-            scale: 1.05,
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+            scale: 1.05
           }}
           whileTap={{ scale: 0.95 }}
           transition={{ 
