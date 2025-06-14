@@ -127,36 +127,9 @@ export default function FoundationStones() {
 
           <div className="flex justify-center">
             <button
+              className={isNextDisabled ? "start-button-disabled" : "start-button"}
               onClick={handleNextSet}
               disabled={isNextDisabled}
-              style={{
-                backgroundColor: isNextDisabled ? '#d1d5db' : 'var(--blue-primary)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '0.75rem',
-                padding: '0.75rem 2rem',
-                fontSize: 'var(--font-size-lg)',
-                fontWeight: 600,
-                cursor: isNextDisabled ? 'not-allowed' : 'pointer',
-                transition: 'all var(--duration-normal) var(--ease-spring)',
-                fontFamily: 'var(--font-family)',
-                boxShadow: isNextDisabled ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                transform: isNextDisabled ? 'none' : 'scale(1)'
-              }}
-              onMouseEnter={(e) => {
-                if (!isNextDisabled) {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#2563eb';
-                  (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)';
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isNextDisabled) {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--blue-primary)';
-                  (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                }
-              }}
             >
               {currentStoneSet < stoneSets.length - 1 ? 'Next Set' : 'Continue to Building Blocks'}
             </button>

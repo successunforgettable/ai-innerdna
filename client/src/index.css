@@ -439,10 +439,12 @@ body {
   transform: scale(1.05);
 }
 
-.start-button:disabled {
+.start-button:disabled,
+.start-button-disabled {
   background-color: #d1d5db;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
   
   .building-block {
