@@ -208,6 +208,25 @@
   padding: 12px 16px; /* Optimized padding */
 }
 
+/* Fix 2: Optimize Typography - Compact but readable for all 5 states */
+
+.state-card__name {
+  font-size: 1rem !important; /* Slightly smaller */
+  font-weight: 600 !important;
+  margin-bottom: 6px !important; /* Reduced spacing */
+  line-height: 1.2 !important;
+}
+
+.state-card__description {
+  font-size: 0.85rem !important; /* Smaller for compact display */
+  line-height: 1.4 !important; /* Tighter line height */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  -webkit-box-orient: vertical;
+}
+
 /* Color States Grid */
 .color-states-grid {
   display: flex;
