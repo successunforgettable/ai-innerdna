@@ -1,18 +1,5 @@
+/* Copy the exact font styling that makes Foundation look professional */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-/* Color Phase Container - Copied from Foundation Phase */
-.color-phase {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-  padding: 2rem 1rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/* Header Section */
-.color-phase-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
 
 .color-phase h1 {
   font-family: 'Inter', sans-serif;
@@ -31,40 +18,42 @@
   margin-bottom: 32px;
 }
 
-/* Content Layout - Copied from Foundation Phase */
+/* Copy this exact structure from Foundation Phase */
+.color-phase {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
 .color-phase-content {
-  max-width: 1200px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 3rem;
-  align-items: start;
+  gap: 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
 }
 
-/* Glass-Morphism Containers - Copied from Foundation Phase */
-.color-selection-column,
-.tower-column {
+/* Copy the exact glass container styling that makes Foundation look good */
+.color-selection-container {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 32px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
-.tower-column {
-  position: sticky;
-  top: 2rem;
-  height: fit-content;
-}
-
-.glass-container {
+.tower-container {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 32px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
 .glass-container h3 {
