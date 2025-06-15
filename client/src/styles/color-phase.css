@@ -137,7 +137,7 @@
 .color-phase .color-phase__section-description,
 .color-phase .section-description {
   font-family: 'Inter', sans-serif !important;
-  color: #94a3b8 !important; /* Balanced blue-gray - medium emphasis */
+  color: #000000 !important; /* black */
   font-weight: 400 !important;
   font-size: 1rem !important;
   margin-bottom: 32px !important;
