@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Stone } from '@/components/Stone';
 import { ProgressBar } from '@/components/ProgressBar';
@@ -8,6 +9,7 @@ import { stoneSets } from '@/lib/stoneData';
 import { motion } from 'framer-motion';
 
 export default function FoundationStones() {
+  const [, setLocation] = useLocation();
   const {
     currentStoneSet,
     setCurrentStoneSet,
@@ -83,6 +85,7 @@ export default function FoundationStones() {
       setCurrentStoneSet(currentStoneSet + 1);
     } else {
       setCurrentScreen('building-blocks');
+      setLocation('/building-blocks');
     }
   };
 

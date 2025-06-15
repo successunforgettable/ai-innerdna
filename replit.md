@@ -105,3 +105,4 @@ Changelog:
 - June 14, 2025. Corrected tower visualization orientation and implemented sophisticated animations
 - June 14, 2025. Completed Building Blocks page with Section 5 exact specifications and enhanced animations
 - June 14, 2025. Verified stone content data accuracy and assessment algorithm with correct weights [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0]
+- June 15, 2025. Fixed Foundation Stones to Building Blocks navigation using wouter setLocation for proper URL routing
