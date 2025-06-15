@@ -1,14 +1,49 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import ContinueButton from '@/components/ContinueButton';
 import { TowerVisualization } from '@/components/TowerVisualization';
 import Token from '@/components/Token';
-import '@/styles/detail-phase.css';
+import '@/styles/color-phase.css';
 
-interface DetailPhaseProps {
-  personalityData?: any;
-  onComplete?: (subtypeData: any) => void;
-}
+// Enhanced Page Animations - exact from ColorPhase
+const pageVariants = {
+  initial: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.98
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1],
+      staggerChildren: 0.1
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    scale: 0.98,
+    transition: {
+      duration: 0.3
+    }
+  }
+};
+
+const containerVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
 
 interface TokenDistribution {
   self: number;
@@ -16,8 +51,9 @@ interface TokenDistribution {
   social: number;
 }
 
-const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }) => {
-  const { setCurrentScreen } = useAssessment();
+const DetailPhase: React.FC = () => {
+  const { assessmentData, setAssessmentData } = useAssessment();
+  const [, setLocation] = useLocation();
   const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution>({
     self: 0,
     oneToOne: 0,
@@ -40,72 +76,25 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
     }
   };
 
-  const determineSubtypeStack = (distribution: TokenDistribution) => {
-    const { self, oneToOne, social } = distribution;
-    
-    // Validate total equals 10
-    if (self + oneToOne + social !== 10) {
-      throw new Error('Token distribution must total 10');
-    }
-    
-    const sortedSubtypes = [
-      { name: 'self', count: self, label: 'Self-Preservation' },
-      { name: 'oneToOne', count: oneToOne, label: 'One-to-One' },
-      { name: 'social', count: social, label: 'Social' }
-    ].sort((a, b) => b.count - a.count);
-
-    // Calculate dominance percentages
-    const dominanceScores = {
-      self: (self / 10) * 100,
-      oneToOne: (oneToOne / 10) * 100,
-      social: (social / 10) * 100
-    };
-
-    // Determine stack type
-    const primaryCount = sortedSubtypes[0].count;
-    let stackType;
-    if (primaryCount >= 6) {
-      stackType = 'dominant';
-    } else if (primaryCount - sortedSubtypes[1].count <= 1) {
-      stackType = 'balanced';
-    } else {
-      stackType = 'moderate';
-    }
-
-    return {
-      primary: sortedSubtypes[0].name,
-      secondary: sortedSubtypes[1].name,
-      tertiary: sortedSubtypes[2].name,
-      stackType: stackType,
-      dominance: dominanceScores,
-      description: generateSubtypeDescription(sortedSubtypes, stackType)
-    };
-  };
-
-  const generateSubtypeDescription = (subtypes: any[], stackType: string) => {
-    const primary = subtypes[0];
-    const descriptions: Record<string, string> = {
-      dominant: `You have a strongly ${primary.label.toLowerCase()}-focused approach to life, with ${primary.count} out of 10 energy units devoted to this area.`,
-      balanced: `You maintain a relatively balanced approach across instincts, with your ${primary.label.toLowerCase()} focus slightly leading.`,
-      moderate: `You focus moderately on ${primary.label.toLowerCase()} while maintaining some attention to other areas.`
-    };
-    return descriptions[stackType] || descriptions.moderate;
-  };
-
   const handleContinue = () => {
     if (isComplete) {
-      const subtypeData = determineSubtypeStack(tokenDistribution);
-      if (onComplete) {
-        onComplete({
-          ...personalityData,
-          subtypes: subtypeData,
-          tokenDistribution
-        });
-      }
-      setCurrentScreen('results');
+      // Update assessment data with token distribution
+      const newDetailTokens = [
+        { category: 'self', token: tokenDistribution.self.toString() },
+        { category: 'oneToOne', token: tokenDistribution.oneToOne.toString() },
+        { category: 'social', token: tokenDistribution.social.toString() }
+      ];
+
+      setAssessmentData({
+        ...assessmentData,
+        detailTokens: newDetailTokens
+      });
+
+      setLocation('/results');
     }
   };
 
+  // Section 7.2 Three Containers - exact from spec
   const containers = [
     {
       id: 'self',
@@ -129,21 +118,33 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
 
   return (
     <motion.div 
-      className="detail-phase"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.6 }}
+      className="color-phase"
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
     >
-      {/* Header following exact spec pattern */}
-      <div className="detail-phase-header">
-        <h1 className="detail-phase__title">Distribute Your Energy</h1>
-        <p className="detail-phase__subtitle">
+      {/* Header - exact structure from ColorPhase */}
+      <div className="color-phase-header">
+        <motion.h1 
+          className="color-phase__title"
+          variants={containerVariants}
+        >
+          Distribute Your Energy
+        </motion.h1>
+        
+        <motion.p 
+          className="color-phase__subtitle"
+          variants={containerVariants}
+        >
           Place 10 tokens across the three areas based on where you naturally focus your energy
-        </p>
+        </motion.p>
         
         {/* Progress Counter */}
-        <div className="progress-counter">
+        <motion.div 
+          className="progress-counter"
+          variants={containerVariants}
+        >
           <span className="progress-text">
             Total: {totalTokens}/10 • Remaining: {remainingTokens}
           </span>
@@ -157,36 +158,35 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
              totalTokens === 10 ? "Perfect! All tokens distributed" :
              "Too many tokens distributed"}
           </div>
-        </div>
+        </motion.div>
       </div>
       
-      {/* 2-column layout following Section 10.1 spec */}
-      <div className="detail-phase-content">
+      {/* 2-column layout - exact from ColorPhase */}
+      <div className="color-phase-content">
         {/* Left Column - Token Distribution */}
-        <div className="space-y-6">
-          {/* Available Tokens */}
-          <div className="glass-container token-container">
-            <h3>Available Tokens</h3>
-            <p className="section-description">Drag tokens to the containers below</p>
-            
-            <div className="token-pool">
-              {remainingTokens > 0 ? (
-                Array.from({ length: remainingTokens }).map((_, index) => (
-                  <Token
-                    key={`token-${index}`}
-                    onDrop={handleTokenDrop}
-                  />
-                ))
-              ) : (
-                <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontStyle: 'italic' }}>
-                  All tokens distributed
-                </p>
-              )}
-            </div>
+        <motion.div 
+          className="states-section"
+          variants={containerVariants}
+        >
+          <h2 className="section-title">Available Tokens</h2>
+          <p className="section-description">Drag tokens to the containers below</p>
+          
+          {/* Token Pool */}
+          <div className="token-pool-container">
+            {remainingTokens > 0 ? (
+              Array.from({ length: remainingTokens }).map((_, index) => (
+                <Token
+                  key={`token-${index}`}
+                  onDrop={handleTokenDrop}
+                />
+              ))
+            ) : (
+              <p className="empty-state">All tokens distributed</p>
+            )}
           </div>
 
           {/* Three Containers following Section 7.2 spec */}
-          <div className="space-y-4">
+          <div className="containers-grid">
             {containers.map((container) => (
               <div 
                 key={container.id}
@@ -194,25 +194,23 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                 data-container-id={container.id}
               >
                 <div className="container-header">
-                  <div>
-                    <h4 className="container-title">
-                      {container.emoji} {container.title}
-                    </h4>
-                    <p className="container-description">
-                      {container.description}
-                    </p>
-                  </div>
-                  <div className="token-count">
+                  <h4 className="container-title">
+                    {container.emoji} {container.title}
+                  </h4>
+                  <span className="token-count">
                     Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
-                  </div>
+                  </span>
                 </div>
+                <p className="container-description">
+                  {container.description}
+                </p>
 
                 {/* Display tokens in container */}
                 <div className="tokens-display">
                   {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
                     <div
                       key={index}
-                      className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
+                      className="token token-placed"
                     />
                   ))}
                 </div>
@@ -221,26 +219,36 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
           </div>
 
           {/* Continue Button */}
-          {isComplete && (
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={handleContinue}
-              className="continue-button"
-            >
-              Continue to Results
-            </motion.button>
-          )}
-        </div>
+          <AnimatePresence>
+            {isComplete && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="color-phase-navigation"
+              >
+                <ContinueButton
+                  canProceed={isComplete}
+                  onContinue={handleContinue}
+                >
+                  Continue to Results
+                </ContinueButton>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
-        {/* Right Column - Tower Visualization following spec */}
-        <div className="glass-container tower-container">
-          <h3 className="tower-title">Your Tower</h3>
+        {/* Right Column - Tower Visualization */}
+        <motion.div 
+          className="tower-container"
+          variants={containerVariants}
+        >
+          <h2 className="section-title">Your Tower</h2>
           <TowerVisualization 
             title=""
             data={{ tokenDistribution }}
           />
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );

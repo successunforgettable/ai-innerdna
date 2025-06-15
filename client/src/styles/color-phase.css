@@ -830,6 +830,141 @@
   will-change: background;
 }
 
+/* Detail Phase Token Styling - Section 7.3 */
+.token-pool-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 24px 0;
+  min-height: 120px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-state {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  font-family: 'Inter', sans-serif;
+}
+
+.containers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.energy-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  min-height: 120px;
+  position: relative;
+}
+
+.energy-container:hover {
+  border-color: rgba(251, 146, 60, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(251, 146, 60, 0.2);
+}
+
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.container-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.container-description {
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.token-count {
+  font-family: 'Inter', sans-serif;
+  color: #fbbf24;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.tokens-display {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.token-placed {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #fb923c, #ea580c);
+  border-radius: 50%;
+  border: 2px solid rgba(251, 191, 36, 0.3);
+  box-shadow: 0 2px 8px rgba(251, 146, 60, 0.3);
+}
+
+.progress-counter {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.progress-text {
+  font-family: 'Inter', sans-serif;
+  color: #fbbf24;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.validation-message {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.validation-message.success {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.validation-message.warning {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.validation-message.info {
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 /* Copy responsive patterns from previous pages */
 @media (max-width: 768px) {
   .color-phase-content {

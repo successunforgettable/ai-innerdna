@@ -45,7 +45,7 @@ function AppContent() {
       case 'color-phase':
         return <ColorPhase />;
       case 'detail-tokens':
-        return <DetailPhase personalityData={{}} onComplete={() => {}} />;
+        return <DetailPhase />;
       case 'results':
         return <Results />;
       default:
