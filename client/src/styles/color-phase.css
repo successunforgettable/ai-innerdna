@@ -189,15 +189,34 @@
   text-align: center !important;
 }
 
+/* Fix 1: Container Height & Layout - Show all 5 states without scrolling */
+
+.color-phase__states {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Reduced from 16px for tighter spacing */
+  height: 100%; /* Use full available height */
+  max-height: none; /* Remove height restriction */
+  overflow: visible; /* No scrolling needed */
+}
+
+.state-card {
+  min-height: 100px; /* Reduced from 180px */
+  max-height: 120px; /* Prevent excessive height */
+  height: auto;
+  flex: 1; /* Equal distribution of space */
+  padding: 12px 16px; /* Optimized padding */
+}
+
 /* Color States Grid */
 .color-states-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Consistent spacing */
+  gap: 12px; /* Reduced from 20px for tighter spacing */
   margin-bottom: 24px;
-  max-height: 70vh; /* Prevent excessive height */
-  overflow-y: auto; /* Smooth scrolling if needed */
-  padding-right: 8px; /* Space for scrollbar */
+  max-height: none; /* Remove height restriction */
+  overflow: visible; /* No scrolling needed */
+  padding-right: 0; /* Remove scrollbar space */
 }
 
 .color-phase .state-card {
