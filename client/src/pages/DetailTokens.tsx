@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ContinueButton from '@/components/ContinueButton';
 import { TowerVisualization } from '@/components/TowerVisualization';
 import Token from '@/components/Token';
-import '@/styles/color-phase.css';
+import '@/styles/detail-phase.css';
 
 // Enhanced Page Animations - exact from ColorPhase
 const pageVariants = {
@@ -118,23 +118,23 @@ const DetailPhase: React.FC = () => {
 
   return (
     <motion.div 
-      className="color-phase"
+      className="detail-phase"
       variants={pageVariants}
       initial="initial"
       animate="animate"
       exit="exit"
     >
-      {/* Header - exact structure from ColorPhase */}
-      <div className="color-phase-header">
+      {/* Header following exact DetailPhase spec */}
+      <div className="detail-phase-header">
         <motion.h1 
-          className="color-phase__title"
+          className="detail-phase__title"
           variants={containerVariants}
         >
           Distribute Your Energy
         </motion.h1>
         
         <motion.p 
-          className="color-phase__subtitle"
+          className="detail-phase__subtitle"
           variants={containerVariants}
         >
           Place 10 tokens across the three areas based on where you naturally focus your energy
@@ -161,36 +161,38 @@ const DetailPhase: React.FC = () => {
         </motion.div>
       </div>
       
-      {/* 2-column layout - exact from ColorPhase */}
-      <div className="color-phase-content">
+      {/* 2-column layout following DetailPhase spec */}
+      <div className="detail-phase-content">
         {/* Left Column - Token Distribution */}
         <motion.div 
-          className="states-section"
+          className="token-section"
           variants={containerVariants}
         >
-          <h2 className="section-title">Available Tokens</h2>
-          <p className="section-description">Drag tokens to the containers below</p>
-          
-          {/* Token Pool */}
-          <div className="token-pool-container">
-            {remainingTokens > 0 ? (
-              Array.from({ length: remainingTokens }).map((_, index) => (
-                <Token
-                  key={`token-${index}`}
-                  onDrop={handleTokenDrop}
-                />
-              ))
-            ) : (
-              <p className="empty-state">All tokens distributed</p>
-            )}
+          <div className="glass-container">
+            <h2 className="section-title">Available Tokens</h2>
+            <p className="section-description">Drag tokens to the containers below</p>
+            
+            {/* Token Pool */}
+            <div className="token-pool">
+              {remainingTokens > 0 ? (
+                Array.from({ length: remainingTokens }).map((_, index) => (
+                  <Token
+                    key={`token-${index}`}
+                    onDrop={handleTokenDrop}
+                  />
+                ))
+              ) : (
+                <p className="empty-state">All tokens distributed</p>
+              )}
+            </div>
           </div>
 
           {/* Three Containers following Section 7.2 spec */}
-          <div className="containers-grid">
+          <div className="containers-section">
             {containers.map((container) => (
               <div 
                 key={container.id}
-                className="energy-container"
+                className="glass-container energy-container"
                 data-container-id={container.id}
               >
                 <div className="container-header">
@@ -225,7 +227,7 @@ const DetailPhase: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="color-phase-navigation"
+                className="detail-phase-navigation"
               >
                 <ContinueButton
                   canProceed={isComplete}
@@ -240,13 +242,12 @@ const DetailPhase: React.FC = () => {
 
         {/* Right Column - Tower Visualization */}
         <motion.div 
-          className="tower-container"
+          className="glass-container tower-container"
           variants={containerVariants}
         >
-          <h2 className="section-title">Your Tower</h2>
+          <h2 className="tower-title">Your Tower</h2>
           <TowerVisualization 
             title=""
-            selectedStates={['detail']}
             data={{ tokenDistribution }}
           />
         </motion.div>

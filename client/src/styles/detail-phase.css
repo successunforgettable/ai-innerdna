@@ -92,21 +92,72 @@
   align-items: center;
 }
 
-/* Container styling - Drop zones for tokens */
-.energy-container {
-  background: rgba(255, 255, 255, 0.05);
+/* Glass container styling */
+.glass-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Token section styling */
+.token-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title {
+  font-family: 'Inter', sans-serif;
+  color: #1e40af;
+  font-weight: 600;
+  font-size: 1.5rem;
   margin-bottom: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.section-description {
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Token pool styling */
+.token-pool {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Containers section */
+.containers-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Container styling - Drop zones for tokens */
+.energy-container {
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
   transition: all 0.3s ease;
   min-height: 120px;
   position: relative;
 }
 
 .energy-container:hover {
-  border-color: rgba(251, 146, 60, 0.5);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(251, 146, 60, 0.5) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(251, 146, 60, 0.2);
 }
