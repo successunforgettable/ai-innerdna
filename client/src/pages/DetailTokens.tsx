@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TowerVisualization } from '../components/TowerVisualization';
 
-export default function DetailPhase({ personalityData, onComplete }) {
+export default function DetailTokens() {
   const [tokenDistribution, setTokenDistribution] = useState({
     self: 0, oneToOne: 0, social: 0
   });
@@ -37,7 +37,12 @@ export default function DetailPhase({ personalityData, onComplete }) {
               </div>
             </div>
           </div>
-          <TowerVisualization data={personalityData} />
+          <TowerVisualization 
+            title="Your Tower" 
+            data={{
+              tokenDistribution: tokenDistribution
+            }}
+          />
         </div>
       </div>
     </div>
