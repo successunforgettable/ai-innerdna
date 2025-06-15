@@ -1,0 +1,100 @@
+# **CORRECTED PROMPT 5: Fix Continue Button Styling**
+
+**TASK:** Style the Continue button to match the design system used in other pages
+
+**CRITICAL ISSUE:** Continue button has no styling and doesn't match other pages
+
+**CONTINUE BUTTON STYLING:**
+```css
+.continue-button {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+  position: relative;
+  overflow: hidden;
+  min-width: 200px;
+}
+
+.continue-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.continue-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 255, 136, 0.4);
+}
+
+.continue-button:hover::before {
+  left: 100%;
+}
+
+.continue-button:active {
+  transform: translateY(0);
+}
+
+.continue-button:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.continue-button:disabled::before {
+  display: none;
+}
+```
+
+**BUTTON CONTAINER:**
+```css
+.color-phase-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding: 24px;
+}
+```
+
+**FRAMER MOTION FOR BUTTON:**
+```tsx
+<motion.button
+  className={`continue-button ${canProceed ? 'enabled' : 'disabled'}`}
+  disabled={!canProceed}
+  onClick={handleContinue}
+  whileHover={canProceed ? { 
+    scale: 1.05,
+    y: -2,
+    transition: { duration: 0.2 }
+  } : {}}
+  whileTap={canProceed ? { 
+    scale: 0.95,
+    y: 0,
+    transition: { duration: 0.1 }
+  } : {}}
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ 
+    opacity: 1, 
+    y: 0,
+    transition: { delay: 0.8, duration: 0.4 }
+  }}
+>
+  {canProceed ? 'Continue to Detail Tokens' : 'Select 2 States to Continue'}
+</motion.button>
+```
+
+**VERIFICATION:** Continue button should match the green gradient style used in other pages with proper hover effects.
