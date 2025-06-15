@@ -121,52 +121,27 @@ export function TowerVisualization({
     <div className="tower-visualization-container">
       <h3 className="tower-title">{title}</h3>
       
-      <motion.div
-        className="tower-visualization"
-        style={{ background: towerGradient }}
-        animate={{
-          background: towerGradient,
-          transition: { duration: 0.5, ease: "easeInOut" }
-        }}
-      >
-        <div className="tower-content">
-          {selectedStates.length === 0 && (
-            <div className="tower-placeholder">
-              <span>Select states to see colors</span>
-            </div>
-          )}
-          
-          {selectedStates.length === 1 && (
-            <div className="tower-partial">
-              <span>Select one more state</span>
-            </div>
-          )}
-          
-          {selectedStates.length === 2 && (
-            <div className="tower-complete">
-              <div className="foundation-indicator">
-                Foundation Complete
-              </div>
-              <div className="color-preview">
-                <div 
-                  className="color-section primary"
-                  style={{ 
-                    background: stateOptions.find(s => s.id === selectedStates[0])?.color,
-                    height: `${distribution.primary}%`
-                  }}
-                />
-                <div 
-                  className="color-section secondary"
-                  style={{ 
-                    background: stateOptions.find(s => s.id === selectedStates[1])?.color,
-                    height: `${distribution.secondary}%`
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      </motion.div>
+      <div className="tower-visualization">
+        <div className="tower-color-display" style={{ background: towerGradient }} />
+        
+        {selectedStates.length === 0 && (
+          <div className="tower-status">
+            Select states to see colors
+          </div>
+        )}
+        
+        {selectedStates.length === 1 && (
+          <div className="tower-status">
+            Select one more state
+          </div>
+        )}
+        
+        {selectedStates.length === 2 && (
+          <div className="foundation-indicator">
+            Foundation Complete
+          </div>
+        )}
+      </div>
       
       <div className="tower-description">
         {selectedStates.length === 2 ? 
