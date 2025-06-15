@@ -175,6 +175,35 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Fix 7: Left Column Layout - Ensure all 5 states fit perfectly */
+
+.color-phase__content {
+  height: 100vh;
+  max-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.color-phase__header {
+  flex-shrink: 0;
+  margin-bottom: 1.5rem;
+}
+
+.color-phase__states {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0; /* Allow flexbox shrinking */
+}
+
+.color-phase__navigation {
+  flex-shrink: 0;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+}
+
 /* Fix 3: Expand on Hover - Show full content when user hovers */
 
 .state-card:hover {
