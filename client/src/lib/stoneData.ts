@@ -232,16 +232,16 @@ export const buildingBlocks = {
       id: 0,
       type: 9,
       wing: '1',
-      name: "Peacemaker 1",
-      description: "I maintain peace with standards",
+      name: "Block A",
+      description: "I stay calm and grounded, but I don't hesitate to stand firm for what's right. Peace doesn't mean surrender.",
       gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
     },
     {
       id: 1,
       type: 9,
       wing: '8',
-      name: "Peacemaker 8", 
-      description: "I harmonize while asserting",
+      name: "Block B", 
+      description: "I ease tension by being warm but firm. I aim to unify people, even when I need to assert myself clearly.",
       gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
     }
   ]
