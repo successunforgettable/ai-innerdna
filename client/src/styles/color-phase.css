@@ -153,17 +153,24 @@
   margin-left: auto;
 }
 
-/* Fix 5: Smooth Hover Animations - Premium interactions */
+/* Fix 3: Expand on Hover - Show full content when user hovers */
+
+.state-card:hover {
+  z-index: 10;
+  transform: scale(1.02);
+  max-height: none; /* Remove height restriction on hover */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.state-card:hover .state-card__description {
+  -webkit-line-clamp: none; /* Show full text on hover */
+  overflow: visible;
+  text-overflow: unset;
+}
 
 .state-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.state-card:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
 /* Copy the exact section header styling from previous pages */
