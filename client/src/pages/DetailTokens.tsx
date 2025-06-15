@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TowerVisualization } from '../components/TowerVisualization';
-import Token from './Token';
+import Token from '../components/Token';
 
 export default function DetailPhase({ personalityData, onComplete }) {
   const [tokenDistribution, setTokenDistribution] = useState({
