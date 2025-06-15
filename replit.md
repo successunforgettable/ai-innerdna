@@ -130,3 +130,4 @@ Changelog:
 - June 15, 2025. Removed all "---" dashes from state descriptions across all three state description files (stateDescriptionsPart1-3.ts) to clean up text formatting
 - June 15, 2025. Recreated all three state description files with proper content and removed old state content files from attached assets directory
 - June 15, 2025. Changed Color Phase section titles "State Selection" and "Your Tower" to dark blue (#1e40af) color and ensured state color indicators display distinct colors per specification
+- June 15, 2025. Fixed color indicator size to 16px as per specification and improved tower color display functionality with proper gradient rendering for selected states
