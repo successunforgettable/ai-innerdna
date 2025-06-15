@@ -145,28 +145,35 @@ export default function ColorPhase() {
   }, [selectedStates, colorDistribution]);
 
   const handleContinue = () => {
-    // Save color state data
-    const colorStateData = {
-      selectedStates,
-      distribution: colorDistribution,
-      timestamp: Date.now()
-    };
-
+    // Save color state data with proper structure
     const colorStateSelections = selectedStates.map(stateId => {
       const state = stateOptions.find(s => s.id === stateId);
       return {
         state: stateId,
-        title: state?.name || '',
-        distribution: distributions[stateId] || 0
+        title: state?.name || ''
       };
     });
 
-    setAssessmentData({
+    const updatedAssessmentData = {
       ...assessmentData,
       colorStates: colorStateSelections
-    });
+    };
 
-    // Navigate to Detail Phase (Section 7)
+    setAssessmentData(updatedAssessmentData);
+
+    // Save to localStorage for persistence
+    localStorage.setItem('innerDnaAssessment', JSON.stringify({
+      ...updatedAssessmentData,
+      colorState: {
+        selectedStates,
+        distribution: colorDistribution,
+        primaryState: selectedStates[0],
+        secondaryState: selectedStates[1],
+        completedAt: new Date().toISOString()
+      }
+    }));
+
+    // Navigate to Detail Tokens phase
     setCurrentScreen('detail-tokens');
     setLocation('/detail-tokens');
   };
