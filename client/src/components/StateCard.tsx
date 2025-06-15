@@ -23,16 +23,22 @@ const StateCard = ({ state, isSelected, onSelect }: StateCardProps) => (
   >
     <div className="state-card__header">
       <div 
-        className="state-color-indicator"
+        className="state-card__color-indicator"
         style={{ backgroundColor: state.color }}
       />
-      <h3 className="state-name">{state.name}</h3>
+      <h3 className="state-card__name">
+        {state.name}
+      </h3>
       {isSelected && (
         <motion.div 
           className="state-card__check"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 400, 
+            damping: 15 
+          }}
         >
           ✓
         </motion.div>
