@@ -25,12 +25,9 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   const remainingTokens = 10 - totalTokens;
   const isComplete = totalTokens === 10;
 
-  // Debug logs
-  console.log("remainingTokens:", remainingTokens);
-  console.log("Array length:", Array.from({ length: remainingTokens }).length);
-  console.log("tokenDistribution:", tokenDistribution);
 
-  const handleAddToken = (containerId: string) => {
+
+  const handleAddToken = (containerId: keyof TokenDistribution) => {
     if (remainingTokens > 0) {
       setTokenDistribution(prev => ({
         ...prev,
@@ -39,7 +36,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
     }
   };
 
-  const handleRemoveToken = (containerId: string) => {
+  const handleRemoveToken = (containerId: keyof TokenDistribution) => {
     setTokenDistribution(prev => ({
       ...prev,
       [containerId]: Math.max(0, prev[containerId] - 1)
@@ -118,16 +115,12 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   };
 
   // Simple token component rendered inline
-  const SimpleToken = ({ onClick }: { onClick: () => void }) => {
-    console.log("SimpleToken rendering");
-    return (
-      <div
-        onClick={onClick}
-        className="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300 cursor-pointer hover:scale-105 transition-transform shadow-sm"
-        style={{ minWidth: '32px', minHeight: '32px' }}
-      />
-    );
-  };
+  const SimpleToken = ({ onClick }: { onClick: () => void }) => (
+    <div
+      onClick={onClick}
+      className="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300 cursor-pointer hover:scale-105 transition-transform shadow-sm"
+    />
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
@@ -175,22 +168,14 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
               
               <div className="flex flex-wrap gap-2">
                 {remainingTokens > 0 ? (
-                  (() => {
-                    console.log("Creating token array for", remainingTokens, "tokens");
-                    const tokens = [];
-                    for (let i = 0; i < remainingTokens; i++) {
-                      console.log("Adding token", i);
-                      tokens.push(
-                        <SimpleToken
-                          key={i}
-                          onClick={() => {
-                            alert('Use the "Add Token" buttons below to distribute tokens to containers');
-                          }}
-                        />
-                      );
-                    }
-                    return tokens;
-                  })()
+                  Array.from({ length: remainingTokens }).map((_, index) => (
+                    <SimpleToken
+                      key={index}
+                      onClick={() => {
+                        alert('Use the "Add Token" buttons below to distribute tokens to containers');
+                      }}
+                    />
+                  ))
                 ) : (
                   <p className="text-gray-500 italic">All tokens distributed</p>
                 )}
