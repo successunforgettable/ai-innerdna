@@ -232,23 +232,25 @@
   margin-top: 1rem;
 }
 
-/* Building Block Container - Fix overflow and layout */
+/* Building Block Container - Increase height significantly */
 .building-block {
   width: 180px;
-  height: 140px; /* Increase height for longer content */
-  padding: 12px;
+  height: 200px; /* Increase height substantially for full text visibility */
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align to top */
-  overflow: hidden; /* Prevent text overflow */
+  justify-content: flex-start;
+  overflow: visible; /* Allow text to be fully visible */
   position: relative;
-  box-sizing: border-box; /* Include padding in dimensions */
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Add space between blocks */
   border-radius: 12px;
   border: 3px solid transparent;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .building-block:hover {
@@ -297,11 +299,12 @@
 
 /* Block Label (Block A/Block B) */
 .building-block-label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   text-align: center;
+  flex-shrink: 0; /* Don't shrink this element */
 }
 
 .block-text {
@@ -311,32 +314,45 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Description Text */
+/* Main Description Text - Allow full visibility */
 .building-block-description {
-  font-size: 11px;
-  line-height: 1.3;
+  font-size: 12px;
+  line-height: 1.4;
   color: var(--text-primary);
   text-align: left;
   flex: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 8; /* Limit to 8 lines */
-  -webkit-box-orient: vertical;
+  overflow: visible; /* Remove overflow hidden */
   word-wrap: break-word;
+  hyphens: auto;
+  /* Remove line clamping to show all text */
 }
 
-/* Building Block Selection Container */
+/* Building Block Selection Container - Adjust for taller blocks */
 .building-block-selection {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   justify-content: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap; /* Allow wrapping if needed */
+  margin-bottom: 30px;
+  align-items: flex-start; /* Align to top */
+}
+
+/* Ensure glass container accommodates taller content */
+.building-phase-container {
+  min-height: 300px; /* Increase container height */
+  padding: 24px;
+}
+
+/* Left column container for building blocks */
+.building-blocks-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; /* Ensure enough height */
 }
 
 /* Ensure proper container sizing */
 .building-block-container {
-  min-height: 140px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
 }
