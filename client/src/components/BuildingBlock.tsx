@@ -17,12 +17,12 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient }: BuildingBloc
   <motion.div
     className={`building-block ${isSelected ? 'selected' : ''}`}
     style={{ background: gradient }}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
+    whileHover={{ scale: 1.03 }}
+    whileTap={{ scale: 0.97 }}
     onClick={onSelect}
   >
     <div className="block-content">
-      <span className="block-text">{content}</span>
+      <p className="building-block-text">{content}</p>
     </div>
     {isSelected && <CheckIcon />}
   </motion.div>

@@ -148,12 +148,15 @@
   margin-bottom: 1rem;
 }
 
-/* Blocks Grid - Must show exactly 2 options */
+/* Blocks Grid - Section 5.1: Must show exactly 2 options */
 .blocks-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
   margin: 2rem 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tower-title {
@@ -164,9 +167,9 @@
   text-align: center;
 }
 
-/* Tower Visualization - Real-time building animation */
+/* Tower Visualization - Real-time building animation - Section 2.3: 300px x 400px */
 .tower-building-view {
-  width: 100%;
+  width: 300px;
   height: 400px;
   display: flex;
   flex-direction: column;
@@ -177,6 +180,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 1rem;
   gap: 1rem;
+  margin: 0 auto;
 }
 
 .foundation-base {
@@ -205,11 +209,10 @@
   justify-content: center;
 }
 
-/* Block animates to tower position */
+/* Block animates to tower position - Section 5.1 mechanics */
 .placed-block {
-  width: 140px;
-  height: 50px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  width: 160px;
+  height: 60px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -217,7 +220,9 @@
   color: white;
   font-weight: 600;
   font-size: 0.875rem;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  padding: 0.5rem;
 }
 
 .foundation-description {
@@ -232,7 +237,8 @@
   /* Exact spec: --block-width: 180px; --block-height: 100px; */
   width: 180px;
   height: 100px;
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 3px solid transparent;
   cursor: pointer;
   position: relative;
   display: flex;
@@ -261,11 +267,14 @@
 }
 
 .building-block-text {
-  color: var(--text-primary); /* BLACK text for readability */
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.3;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin: 0;
+  overflow-wrap: break-word;
 }
 
 .block-text {

@@ -112,12 +112,14 @@ export default function BuildingBlocks() {
               {selectedBlock !== null && (
                 <motion.div 
                   className="placed-block"
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
+                  style={{ background: availableBlocks[selectedBlock]?.gradient }}
+                  initial={{ y: -20, opacity: 0, scale: 0.8 }}
+                  animate={{ y: 0, opacity: 1, scale: 1 }}
                   transition={{ 
                     type: "spring", 
                     stiffness: 300, 
-                    damping: 25 
+                    damping: 25,
+                    delay: 0.1
                   }}
                 >
                   {availableBlocks[selectedBlock]?.name}
