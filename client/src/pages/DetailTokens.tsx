@@ -25,7 +25,15 @@ export default function DetailPhase({ personalityData, onComplete }) {
               </div>
               <div className="bg-white/5 rounded-xl p-4 min-h-[60px] flex gap-2">
                 {Array.from({ length: remainingTokens }).map((_, i) => (
-                  <div key={i} className="w-8 h-8 bg-orange-400 rounded-full" />
+                  <div 
+                    key={i} 
+                    className="w-8 h-8 bg-orange-400 rounded-full flex-shrink-0"
+                    style={{
+                      backgroundColor: '#fb923c',
+                      minWidth: '32px',
+                      minHeight: '32px'
+                    }}
+                  />
                 ))}
               </div>
             </div>
