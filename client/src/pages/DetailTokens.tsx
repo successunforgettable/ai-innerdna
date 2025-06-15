@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Token from '../components/Detail/Token';
+import Token from './Token';
 
 export default function DetailPhase({ personalityData, onComplete }) {
   const [tokenDistribution, setTokenDistribution] = useState({
@@ -34,16 +34,14 @@ export default function DetailPhase({ personalityData, onComplete }) {
             <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
               <div className="flex flex-wrap gap-3 justify-center">
-                {Array.from({ length: 10 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full cursor-grab shadow-lg border-2 border-white/20"
+                {Array.from({ length: remainingTokens }).map((_, i) => (
+                  <Token 
+                    key={`available-${i}`} 
+                    id={`available-${i}`}
+                    onDrop={handleTokenDrop}
                   />
                 ))}
               </div>
-              <p className="text-center text-white/70 text-sm mt-4">
-                Drag tokens to containers below
-              </p>
             </div>
           </div>
 
