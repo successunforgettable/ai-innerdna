@@ -136,23 +136,22 @@
   margin-bottom: 24px;
 }
 
-/* Foundation Stone Styles - EXACT from Foundation Phase */
+/* Copy the exact stone styling and adapt for state cards */
 .state-card {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  border: 3px solid transparent;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  margin-bottom: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  margin-bottom: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .state-card:hover {
@@ -178,20 +177,7 @@
   font-size: 18px;
 }
 
-.state-color-indicator {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background: var(--state-color);
-}
-
-.state-content {
-  flex: 1;
-}
-
+/* Copy the exact text styling that makes Foundation stones readable */
 .state-name {
   font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
@@ -205,6 +191,15 @@
   font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.4;
+}
+
+.state-color-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Premium State Slider - Glass-Morphism Quality */
