@@ -117,142 +117,97 @@ const DetailPhase: React.FC = () => {
   ];
 
   return (
-    <motion.div 
-      className="detail-phase"
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
-      {/* Header following exact DetailPhase spec */}
-      <div className="detail-phase-header">
-        <motion.h1 
-          className="detail-phase__title"
-          variants={containerVariants}
-        >
-          Distribute Your Energy
-        </motion.h1>
-        
-        <motion.p 
-          className="detail-phase__subtitle"
-          variants={containerVariants}
-        >
-          Place 10 tokens across the three areas based on where you naturally focus your energy
-        </motion.p>
-        
-        {/* Progress Counter */}
-        <motion.div 
-          className="progress-counter"
-          variants={containerVariants}
-        >
-          <span className="progress-text">
-            Total: {totalTokens}/10 • Remaining: {remainingTokens}
-          </span>
-          <div className={`validation-message ${
-            totalTokens === 10 ? 'success' : 
-            totalTokens > 10 ? 'warning' : 
-            'info'
-          }`}>
-            {totalTokens === 0 ? "Drag tokens to containers to begin" :
-             totalTokens < 10 ? `${remainingTokens} tokens remaining` :
-             totalTokens === 10 ? "Perfect! All tokens distributed" :
-             "Too many tokens distributed"}
-          </div>
-        </motion.div>
-      </div>
-      
-      {/* 2-column layout following DetailPhase spec */}
-      <div className="detail-phase-content">
-        {/* Left Column - Token Distribution */}
-        <motion.div 
-          className="token-section"
-          variants={containerVariants}
-        >
-          <div className="glass-container">
-            <h2 className="section-title">Available Tokens</h2>
-            <p className="section-description">Drag tokens to the containers below</p>
-            
-            {/* Token Pool */}
-            <div className="token-pool">
-              {remainingTokens > 0 ? (
-                Array.from({ length: remainingTokens }).map((_, index) => (
-                  <Token
-                    key={`token-${index}`}
-                    onDrop={handleTokenDrop}
-                  />
-                ))
-              ) : (
-                <p className="empty-state">All tokens distributed</p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          {/* Left Column - Token Distribution */}
+          <div className="space-y-6">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+              <h1 className="text-3xl font-bold text-white mb-2">Distribute Your Energy</h1>
+              <p className="text-white/80 mb-8">Place 10 tokens across the three areas based on where you naturally focus your energy</p>
+              
+              <div className="text-white mb-6">Total: {totalTokens}/10 • Remaining: {remainingTokens}</div>
+
+              {/* Available Tokens */}
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
+                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {Array.from({ length: remainingTokens }).map((_, index) => (
+                      <Token
+                        key={`token-${index}`}
+                        onDrop={handleTokenDrop}
+                      />
+                    ))}
+                    {remainingTokens === 0 && (
+                      <p className="text-white/60 italic">All tokens distributed</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Three Containers following Section 7.2 spec */}
+              <div className="space-y-6">
+                {containers.map((container) => (
+                  <div 
+                    key={container.id}
+                    className="bg-white/10 backdrop-blur-md rounded-xl p-6 border-2 border-white/20 hover:border-orange-400/50 transition-all duration-300"
+                    data-container-id={container.id}
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+                        {container.emoji} {container.title}
+                      </h4>
+                      <span className="bg-orange-400/20 text-orange-300 px-3 py-1 rounded-full text-sm font-medium">
+                        Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
+                      </span>
+                    </div>
+                    <p className="text-white/70 text-sm mb-4">
+                      {container.description}
+                    </p>
+
+                    {/* Display tokens in container */}
+                    <div className="flex flex-wrap gap-2">
+                      {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
+                        <div
+                          key={index}
+                          className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-2 border-orange-300/30"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Continue Button */}
+              {isComplete && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-8"
+                >
+                  <ContinueButton
+                    canProceed={isComplete}
+                    onContinue={handleContinue}
+                  >
+                    Continue to Results
+                  </ContinueButton>
+                </motion.div>
               )}
             </div>
           </div>
 
-          {/* Three Containers following Section 7.2 spec */}
-          <div className="containers-section">
-            {containers.map((container) => (
-              <div 
-                key={container.id}
-                className="glass-container energy-container"
-                data-container-id={container.id}
-              >
-                <div className="container-header">
-                  <h4 className="container-title">
-                    {container.emoji} {container.title}
-                  </h4>
-                  <span className="token-count">
-                    Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
-                  </span>
-                </div>
-                <p className="container-description">
-                  {container.description}
-                </p>
-
-                {/* Display tokens in container */}
-                <div className="tokens-display">
-                  {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                    <div
-                      key={index}
-                      className="token token-placed"
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+          {/* Right Column - Tower Visualization */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+            <h2 className="text-xl font-semibold text-white mb-6">Your Tower</h2>
+            <TowerVisualization 
+              title=""
+              data={{ tokenDistribution }}
+            />
           </div>
-
-          {/* Continue Button */}
-          <AnimatePresence>
-            {isComplete && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="detail-phase-navigation"
-              >
-                <ContinueButton
-                  canProceed={isComplete}
-                  onContinue={handleContinue}
-                >
-                  Continue to Results
-                </ContinueButton>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Right Column - Tower Visualization */}
-        <motion.div 
-          className="glass-container tower-container"
-          variants={containerVariants}
-        >
-          <h2 className="tower-title">Your Tower</h2>
-          <TowerVisualization 
-            title=""
-            data={{ tokenDistribution }}
-          />
-        </motion.div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
