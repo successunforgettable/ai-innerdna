@@ -12,6 +12,16 @@
   margin-bottom: 8px !important;
 }
 
+.color-phase .color-phase__subtitle {
+  font-family: 'Inter', sans-serif !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-weight: 400 !important;
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+  text-align: center !important;
+  margin-bottom: 32px !important;
+}
+
 .color-phase .color-phase__paragraph,
 .color-phase p {
   font-family: 'Inter', sans-serif !important;
@@ -193,21 +203,23 @@
 }
 
 /* Copy the exact text styling that makes Foundation stones readable */
+.color-phase .state-card__name,
 .color-phase .color-phase__state-name,
 .color-phase .state-name {
   font-family: 'Inter', sans-serif !important;
-  color: #cbd5e1 !important; /* Medium blue-gray - medium-high emphasis */
+  color: rgba(255, 255, 255, 0.95) !important;
   font-weight: 600 !important;
-  font-size: 1.25rem !important;
+  font-size: 1.1rem !important;
   margin-bottom: 4px !important;
 }
 
+.color-phase .state-card__description,
 .color-phase .color-phase__state-description,
 .color-phase .state-description {
   font-family: 'Inter', sans-serif !important;
-  color: #64748b !important; /* Readable blue-gray - lower priority but still clear */
+  color: rgba(255, 255, 255, 0.8) !important;
   font-weight: 400 !important;
-  font-size: 0.95rem !important;
+  font-size: 0.9rem !important;
   line-height: 1.5 !important;
 }
 
