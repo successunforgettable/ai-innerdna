@@ -14,6 +14,8 @@ export default function DetailTokens() {
 
   const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
   const remainingTokens = 10 - totalTokens;
+  
+  console.log('Token state:', { tokenDistribution, totalTokens, remainingTokens });
 
   const handleTokenAdd = (containerId: string) => {
     if (remainingTokens <= 0) return;
@@ -78,13 +80,17 @@ export default function DetailTokens() {
                 
                 {/* Token pool */}
                 <div className="bg-white/5 rounded-lg p-4 min-h-[60px] flex flex-wrap gap-2">
-                  {Array.from({ length: remainingTokens }).map((_, i) => (
-                    <Token 
-                      key={`available-${i}`} 
-                      id={`available-${i}`}
-                      onDrop={handleTokenDrop}
-                    />
-                  ))}
+                  {remainingTokens > 0 ? (
+                    Array.from({ length: remainingTokens }).map((_, i) => (
+                      <Token 
+                        key={`available-${i}`} 
+                        id={`available-${i}`}
+                        onDrop={handleTokenDrop}
+                      />
+                    ))
+                  ) : (
+                    <div className="text-white/60 text-sm">All tokens distributed</div>
+                  )}
                 </div>
                 
                 {/* Validation message */}

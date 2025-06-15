@@ -10,7 +10,12 @@ interface TokenProps {
 export default function Token({ id, onDrop, isBeingDragged }: TokenProps) {
   return (
     <motion.div
-      className="token w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full cursor-grab active:cursor-grabbing shadow-lg border-2 border-white/20"
+      className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full cursor-grab active:cursor-grabbing shadow-lg border-2 border-white/20 flex-shrink-0"
+      style={{
+        minWidth: '32px',
+        minHeight: '32px',
+        background: 'linear-gradient(135deg, #fb923c, #ea580c)'
+      }}
       drag
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
       whileDrag={{ 
@@ -28,7 +33,12 @@ export default function Token({ id, onDrop, isBeingDragged }: TokenProps) {
           if (containerId) onDrop(containerId);
         }
       }}
-      animate={isBeingDragged ? { scale: 1.1 } : { scale: 1 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ 
+        opacity: 1, 
+        scale: isBeingDragged ? 1.1 : 1,
+        transition: { duration: 0.2 }
+      }}
     />
   );
 }

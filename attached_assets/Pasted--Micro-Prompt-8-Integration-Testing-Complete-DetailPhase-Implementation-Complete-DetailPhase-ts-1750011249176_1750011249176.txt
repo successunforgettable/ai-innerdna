@@ -1,0 +1,114 @@
+# Micro Prompt 8: Integration Testing - Complete DetailPhase Implementation
+
+Complete DetailPhase.tsx with all components and imports:
+
+```tsx
+// src/components/Detail/DetailPhase.tsx - Complete implementation
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import TowerVisualization from '../Common/TowerVisualization';
+import Container from './Container';
+import Token from './Token';
+import { determineSubtypeStack } from '../../utils/subtypeCalculation';
+
+interface DetailPhaseProps {
+  personalityData: any;
+  onComplete: (data: any) => void;
+}
+
+export default function DetailPhase({ personalityData, onComplete }: DetailPhaseProps) {
+  const [tokenDistribution, setTokenDistribution] = useState({
+    self: 0,
+    oneToOne: 0,
+    social: 0
+  });
+
+  const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
+  const remainingTokens = 10 - totalTokens;
+  const canContinue = totalTokens === 10;
+
+  const containers = [
+    {
+      id: 'self',
+      emoji: '🛡️',
+      title: 'Self-Preservation Focus',
+      description: 'Energy devoted to personal security, routines, and maintaining your environment'
+    },
+    {
+      id: 'oneToOne', 
+      emoji: '🔥',
+      title: 'One-to-One Focus',
+      description: 'Energy devoted to intense personal connections and important relationships'
+    },
+    {
+      id: 'social',
+      emoji: '🧱', 
+      title: 'Social Focus',
+      description: 'Energy devoted to group dynamics, community belonging, and social awareness'
+    }
+  ];
+
+  const handleTokenAdd = (containerId: string) => {
+    if (remainingTokens <= 0) return;
+    setTokenDistribution(prev => ({
+      ...prev,
+      [containerId]: prev[containerId] + 1
+    }));
+  };
+
+  const handleTokenDrop = (containerId: string) => {
+    if (remainingTokens <= 0) return;
+    setTokenDistribution(prev => ({
+      ...prev,
+      [containerId]: prev[containerId] + 1
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          {/* Left Column - Token Distribution */}
+          <div className="space-y-6">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+              <h1 className="text-3xl font-bold text-white mb-2">Distribute Your Energy</h1>
+              <p className="text-white/80 mb-8">Place 10 tokens across the three areas based on where you focus most of your energy</p>
+              
+              {/* Token Pool and Validation (from Micro Prompt 6) */}
+              {/* Container Grid */}
+              <div className="space-y-4">
+                {containers.map(container => (
+                  <Container
+                    key={container.id}
+                    id={container.id}
+                    emoji={container.emoji}
+                    title={container.title}
+                    description={container.description}
+                    tokenCount={tokenDistribution[container.id]}
+                    onTokenClick={() => handleTokenAdd(container.id)}
+                  />
+                ))}
+              </div>
+              
+              {/* Continue Button (from Micro Prompt 6) */}
+            </div>
+          </div>
+
+          {/* Right Column - Tower */}
+          <TowerVisualization data={{...personalityData, tokenDistribution}} />
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+Add to App.tsx routing:
+```tsx
+// Add DetailPhase to routing in App.tsx
+import DetailPhase from './components/Detail/DetailPhase';
+
+// Add case in switch statement
+case 'detail':
+  return <DetailPhase personalityData={assessmentData} onComplete={handleDetailComplete} />;
+```
