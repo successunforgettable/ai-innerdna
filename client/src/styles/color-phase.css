@@ -136,22 +136,23 @@
   margin-bottom: 24px;
 }
 
-/* State Card Component - Foundation Stone Premium Styling */
+/* Foundation Stone Styles - EXACT from Foundation Phase */
 .state-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  padding: 20px;
-  margin-bottom: 16px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 3px solid transparent;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 16px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
 }
 
 .state-card:hover {
