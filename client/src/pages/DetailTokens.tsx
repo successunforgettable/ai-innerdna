@@ -25,17 +25,15 @@ export default function DetailPhase({ personalityData, onComplete }) {
                 <h2 className="text-xl font-semibold text-white">Available Tokens</h2>
                 <div className="text-white/80">{remainingTokens} remaining</div>
               </div>
-              <div className="bg-white/5 rounded-xl p-4 min-h-[60px] flex gap-2">
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+              <div className="bg-white/5 rounded-xl p-4 min-h-[80px]">
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {Array.from({ length: remainingTokens }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full shadow-lg border-2 border-white/20"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
