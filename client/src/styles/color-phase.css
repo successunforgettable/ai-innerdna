@@ -217,7 +217,7 @@
   line-height: 1.4;
 }
 
-/* State Slider Component - Enhanced */
+/* Premium State Slider - Glass-Morphism Quality */
 .state-slider {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
@@ -250,8 +250,10 @@
   height: 12px;
   border-radius: 50%;
   background: var(--state-color);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Premium slider styling */
 .slider {
   width: 100%;
   height: 8px;
@@ -270,6 +272,7 @@
   height: 8px;
   border-radius: 8px;
   background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .slider::-webkit-slider-thumb {
@@ -294,7 +297,7 @@
   height: 8px;
   border-radius: 8px;
   background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .slider::-moz-range-thumb {
@@ -322,6 +325,7 @@
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
 }
 
 /* Tower Visualization - Copied from Foundation/Building Pages */
