@@ -7,12 +7,24 @@ interface StateSliderProps {
 }
 
 const StateSlider = ({ value, onChange, colors, stateNames }: StateSliderProps) => (
-  <div className="state-slider">
+  <div 
+    className="state-slider"
+    style={{
+      '--primary-color': colors[0],
+      '--secondary-color': colors[1]
+    } as React.CSSProperties}
+  >
     <div className="state-slider-header">
-      <span className="state-label" style={{ color: colors[0] }}>
+      <span 
+        className="state-label" 
+        style={{ '--state-color': colors[0], color: colors[0] } as React.CSSProperties}
+      >
         {stateNames[0]}
       </span>
-      <span className="state-label" style={{ color: colors[1] }}>
+      <span 
+        className="state-label" 
+        style={{ '--state-color': colors[1], color: colors[1] } as React.CSSProperties}
+      >
         {stateNames[1]}
       </span>
     </div>
@@ -24,14 +36,21 @@ const StateSlider = ({ value, onChange, colors, stateNames }: StateSliderProps) 
       value={value}
       onChange={(e) => onChange(Number(e.target.value))}
       className="slider"
-      style={{
-        background: `linear-gradient(to right, ${colors[0]}, ${colors[1]})`
-      }}
     />
     
     <div className="percentage-display">
-      <span style={{ color: colors[0] }}>{value}%</span>
-      <span style={{ color: colors[1] }}>{100 - value}%</span>
+      <span 
+        className="percentage-value" 
+        style={{ color: colors[0], borderColor: colors[0] }}
+      >
+        {value}%
+      </span>
+      <span 
+        className="percentage-value" 
+        style={{ color: colors[1], borderColor: colors[1] }}
+      >
+        {100 - value}%
+      </span>
     </div>
   </div>
 );

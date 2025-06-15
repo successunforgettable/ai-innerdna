@@ -1,0 +1,172 @@
+# **CORRECTED PROMPT 6: Implement Distribution Slider Properly**
+
+**TASK:** Create working distribution slider with proper styling when 2 states are selected
+
+**CRITICAL ISSUE:** Slider is not appearing or functioning correctly
+
+**SLIDER CONTAINER STYLING:**
+```css
+.state-slider {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.state-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.state-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.state-label::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--state-color);
+}
+```
+
+**CUSTOM SLIDER STYLING:**
+```css
+.slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  outline: none;
+  margin: 20px 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.slider::-webkit-slider-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--primary-color);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border: none;
+}
+
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--primary-color);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+```
+
+**PERCENTAGE DISPLAY:**
+```css
+.percentage-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.percentage-value {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+```
+
+**REACT IMPLEMENTATION:**
+```tsx
+const StateSlider = ({ value, onChange, colors, stateNames }) => (
+  <div 
+    className="state-slider"
+    style={{
+      '--primary-color': colors[0],
+      '--secondary-color': colors[1]
+    }}
+  >
+    <div className="state-slider-header">
+      <span 
+        className="state-label" 
+        style={{ '--state-color': colors[0], color: colors[0] }}
+      >
+        {stateNames[0]}
+      </span>
+      <span 
+        className="state-label" 
+        style={{ '--state-color': colors[1], color: colors[1] }}
+      >
+        {stateNames[1]}
+      </span>
+    </div>
+    
+    <input
+      type="range"
+      min="0"
+      max="100"
+      value={value}
+      onChange={(e) => onChange(Number(e.target.value))}
+      className="slider"
+    />
+    
+    <div className="percentage-display">
+      <span 
+        className="percentage-value" 
+        style={{ color: colors[0], borderColor: colors[0] }}
+      >
+        {value}%
+      </span>
+      <span 
+        className="percentage-value" 
+        style={{ color: colors[1], borderColor: colors[1] }}
+      >
+        {100 - value}%
+      </span>
+    </div>
+  </div>
+);
+```
+
+**VERIFICATION:** Slider should appear when 2 states are selected with proper styling and real-time percentage updates.
