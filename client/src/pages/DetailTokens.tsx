@@ -14,8 +14,6 @@ export default function DetailTokens() {
 
   const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
   const remainingTokens = 10 - totalTokens;
-  
-  console.log('Token state:', { tokenDistribution, totalTokens, remainingTokens });
 
   const handleTokenAdd = (containerId: string) => {
     if (remainingTokens <= 0) return;
