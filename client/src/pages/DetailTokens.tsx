@@ -244,28 +244,11 @@ const DetailPhase: React.FC = () => {
           variants={containerVariants}
         >
           <h2 className="section-title">Your Tower</h2>
-          <div className="tower-visualization">
-            <div className="tower-content">
-              <h3>Energy Distribution</h3>
-              <div className="energy-breakdown">
-                <div className="energy-item">
-                  <span className="energy-icon">🛡️</span>
-                  <span className="energy-label">Self-Preservation</span>
-                  <span className="energy-value">{tokenDistribution.self}</span>
-                </div>
-                <div className="energy-item">
-                  <span className="energy-icon">🔥</span>
-                  <span className="energy-label">One-to-One</span>
-                  <span className="energy-value">{tokenDistribution.oneToOne}</span>
-                </div>
-                <div className="energy-item">
-                  <span className="energy-icon">🧱</span>
-                  <span className="energy-label">Social</span>
-                  <span className="energy-value">{tokenDistribution.social}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TowerVisualization 
+            title=""
+            selectedStates={['detail']}
+            data={{ tokenDistribution }}
+          />
         </motion.div>
       </div>
     </motion.div>
