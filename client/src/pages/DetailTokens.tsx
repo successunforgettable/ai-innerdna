@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TowerVisualization } from '../components/TowerVisualization';
+import Token from './Token';
 
 export default function DetailPhase({ personalityData, onComplete }) {
   const [tokenDistribution, setTokenDistribution] = useState({
@@ -11,6 +12,15 @@ export default function DetailPhase({ personalityData, onComplete }) {
 
   const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
   const remainingTokens = 10 - totalTokens;
+
+  const handleTokenDrop = (containerId: string) => {
+    if (remainingTokens <= 0) return;
+    
+    setTokenDistribution(prev => ({
+      ...prev,
+      [containerId]: prev[containerId as keyof typeof prev] + 1
+    }));
+  };
 
   // Simple token display first
   return (
@@ -30,19 +40,12 @@ export default function DetailPhase({ personalityData, onComplete }) {
                 <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
                   <div className="flex flex-wrap gap-3 justify-center">
-                    {(() => {
-                      console.log('remainingTokens:', remainingTokens);
-                      return Array.from({ length: remainingTokens }).map((_, i) => {
-                        console.log('Creating token:', i);
-                        return (
-                          <div
-                            key={i}
-                            className="w-8 h-8 bg-orange-500 rounded-full shadow-lg border-2 border-white/20"
-                            style={{ backgroundColor: '#f97316', minWidth: '32px', minHeight: '32px' }}
-                          />
-                        );
-                      });
-                    })()}
+                    {Array.from({ length: remainingTokens }).map((_, i) => (
+                      <Token 
+                        key={`available-${i}`} 
+                        onDrop={handleTokenDrop}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>

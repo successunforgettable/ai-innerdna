@@ -1,25 +1,18 @@
 import { motion } from 'framer-motion';
 
 interface TokenProps {
-  id: string;
   onDrop?: (containerId: string) => void;
   isBeingDragged?: boolean;
 }
 
-export default function Token({ id, onDrop, isBeingDragged }: TokenProps) {
+export default function Token({ onDrop, isBeingDragged }: TokenProps) {
   return (
     <motion.div
       className="token w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full cursor-grab active:cursor-grabbing shadow-lg border-2 border-white/20"
       drag
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-      whileDrag={{ 
-        scale: 1.1, 
-        zIndex: 1000,
-        boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
-      }}
-      whileHover={{ scale: 1.05 }}
+      whileDrag={{ scale: 1.1, zIndex: 1000 }}
       onDragEnd={(event, info) => {
-        // Detect drop target and call onDrop
         const dropTarget = document.elementFromPoint(info.point.x, info.point.y);
         const container = dropTarget?.closest('[data-container-id]');
         if (container && onDrop) {
@@ -27,7 +20,6 @@ export default function Token({ id, onDrop, isBeingDragged }: TokenProps) {
           if (containerId) onDrop(containerId);
         }
       }}
-      animate={isBeingDragged ? { scale: 1.1 } : { scale: 1 }}
     />
   );
 }
