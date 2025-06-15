@@ -148,7 +148,10 @@ export default function DetailTokens() {
           </div>
 
           {/* Right Column - Tower */}
-          <TowerVisualization title="Your Tower" />
+          <TowerVisualization 
+            title="Your Tower" 
+            data={{ tokenDistribution }}
+          />
         </div>
       </div>
     </div>

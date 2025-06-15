@@ -16,6 +16,13 @@ interface TowerVisualizationProps {
     color: string;
     description: string;
   }>;
+  data?: {
+    tokenDistribution?: {
+      self: number;
+      oneToOne: number;
+      social: number;
+    };
+  };
 }
 
 export function TowerVisualization({ 
@@ -23,7 +30,8 @@ export function TowerVisualization({
   blocks, 
   selectedStates = [], 
   distribution = { primary: 50, secondary: 50 }, 
-  stateOptions = [] 
+  stateOptions = [],
+  data
 }: TowerVisualizationProps) {
   const [towerGradient, setTowerGradient] = useState('');
   
@@ -157,6 +165,57 @@ export function TowerVisualization({
           'Select 2 color states to preview'
         }
       </div>
+      
+      {/* Token distribution display */}
+      {data?.tokenDistribution && (
+        <div className="mt-6 bg-white/5 backdrop-blur-sm rounded-lg p-4">
+          <h3 className="text-white font-semibold mb-3">Energy Distribution</h3>
+          
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-white/80 text-sm">🛡️ Self-Preservation</span>
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  {Array.from({ length: data.tokenDistribution.self }).map((_, i) => (
+                    <div key={i} className="w-3 h-3 bg-orange-400 rounded-full" />
+                  ))}
+                </div>
+                <span className="text-white text-sm font-medium">
+                  {data.tokenDistribution.self}
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-white/80 text-sm">🔥 One-to-One</span>
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  {Array.from({ length: data.tokenDistribution.oneToOne }).map((_, i) => (
+                    <div key={i} className="w-3 h-3 bg-orange-400 rounded-full" />
+                  ))}
+                </div>
+                <span className="text-white text-sm font-medium">
+                  {data.tokenDistribution.oneToOne}
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-white/80 text-sm">🧱 Social</span>
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  {Array.from({ length: data.tokenDistribution.social }).map((_, i) => (
+                    <div key={i} className="w-3 h-3 bg-orange-400 rounded-full" />
+                  ))}
+                </div>
+                <span className="text-white text-sm font-medium">
+                  {data.tokenDistribution.social}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
