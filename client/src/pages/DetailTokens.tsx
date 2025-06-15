@@ -1,113 +1,36 @@
+// src/components/Detail/DetailPhase.tsx
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { useAssessment } from '@/context/AssessmentContext';
-import { detailTokens } from '@/lib/stoneData';
 import { motion } from 'framer-motion';
+import { TowerVisualization } from '../components/TowerVisualization';
 
-export default function DetailTokens() {
-  const { setCurrentScreen, assessmentData, setAssessmentData } = useAssessment();
-  const [selectedTokens, setSelectedTokens] = useState<string[]>([]);
+interface DetailPhaseProps {
+  personalityData: any;
+  onComplete: (data: any) => void;
+}
 
-  const handleTokenSelect = (category: string, token: string) => {
-    const tokenKey = `${category}-${token}`;
-    
-    if (selectedTokens.includes(tokenKey)) {
-      // Deselect
-      const newSelected = selectedTokens.filter(t => t !== tokenKey);
-      setSelectedTokens(newSelected);
-      
-      // Update assessment data
-      setAssessmentData({
-        ...assessmentData,
-        detailTokens: assessmentData.detailTokens.filter(t => t.token !== token || t.category !== category)
-      });
-    } else {
-      // Select
-      const newSelected = [...selectedTokens, tokenKey];
-      setSelectedTokens(newSelected);
-      
-      // Update assessment data
-      setAssessmentData({
-        ...assessmentData,
-        detailTokens: [...assessmentData.detailTokens, {
-          category,
-          token
-        }]
-      });
-    }
-  };
-
-  const handleContinue = () => {
-    setCurrentScreen('results');
-  };
+export default function DetailPhase({ personalityData, onComplete }: DetailPhaseProps) {
+  const [tokenDistribution, setTokenDistribution] = useState({
+    self: 0,
+    oneToOne: 0,
+    social: 0
+  });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl font-bold mb-4">Detail Tokens</h2>
-          <p className="text-gray-600">Choose the detail tokens that add nuance to your personality profile</p>
-        </div>
-
-        <div className="space-y-8 mb-12">
-          {Object.entries(detailTokens).map(([category, tokens]) => (
-            <div key={category}>
-              <h3 className="text-lg font-semibold mb-4">{category}</h3>
-              <div className="flex flex-wrap gap-4 justify-center">
-                {tokens.map(tokenData => {
-                  const tokenKey = `${category}-${tokenData.token}`;
-                  const isSelected = selectedTokens.includes(tokenKey);
-                  
-                  return (
-                    <motion.div
-                      key={tokenData.token}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`detail-token ${tokenData.color} flex items-center justify-center font-medium ${
-                        isSelected ? 'selected' : ''
-                      }`}
-                      onClick={() => handleTokenSelect(category, tokenData.token)}
-                    >
-                      {tokenData.label}
-                    </motion.div>
-                  );
-                })}
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          {/* Left Column - Token Distribution */}
+          <div className="space-y-6">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+              <h1 className="text-3xl font-bold text-white mb-2">Distribute Your Energy</h1>
+              <p className="text-white/80 mb-8">Place 10 tokens across the three areas based on where you focus most of your energy</p>
+              
+              {/* Token containers and distribution logic will go here */}
             </div>
-          ))}
-        </div>
+          </div>
 
-        <Card className="mb-8">
-          <CardContent className="p-8">
-            <h3 className="text-lg font-semibold mb-4 text-center">Selected Tokens</h3>
-            <div className="flex flex-wrap justify-center gap-2">
-              {selectedTokens.map(tokenKey => {
-                const [category, token] = tokenKey.split('-');
-                const tokenData = detailTokens[category]?.find(t => t.token === token);
-                
-                return tokenData ? (
-                  <motion.div
-                    key={tokenKey}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className={`text-xs px-3 py-1 m-1 rounded-full ${tokenData.color}`}
-                  >
-                    {tokenData.label}
-                  </motion.div>
-                ) : null;
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="flex justify-center">
-          <Button
-            onClick={handleContinue}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300"
-          >
-            See Your Results
-          </Button>
+          {/* Right Column - Tower */}
+          <TowerVisualization data={personalityData} />
         </div>
       </div>
     </div>
