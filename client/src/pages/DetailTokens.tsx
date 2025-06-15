@@ -159,14 +159,20 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Available Tokens</h3>
               <div className="flex flex-wrap gap-2">
                 {remainingTokens > 0 ? (
-                  Array.from({ length: remainingTokens }).map((_, index) => (
-                    <SimpleToken
-                      key={index}
-                      onClick={() => {
-                        alert('Use the "Add Token" buttons below to distribute tokens to containers');
-                      }}
-                    />
-                  ))
+                  (() => {
+                    const tokens = [];
+                    for (let i = 0; i < remainingTokens; i++) {
+                      tokens.push(
+                        <SimpleToken
+                          key={i}
+                          onClick={() => {
+                            alert('Use the "Add Token" buttons below to distribute tokens to containers');
+                          }}
+                        />
+                      );
+                    }
+                    return tokens;
+                  })()
                 ) : (
                   <p className="text-gray-500 italic">All tokens distributed</p>
                 )}
