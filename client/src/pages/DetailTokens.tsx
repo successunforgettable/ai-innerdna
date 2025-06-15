@@ -43,6 +43,7 @@ export default function DetailPhase({ personalityData, onComplete }) {
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
                   <div className="flex flex-wrap gap-3 justify-center">
                     <Token 
+                      id="test-token"
                       onDrop={handleTokenDrop}
                     />
                   </div>
