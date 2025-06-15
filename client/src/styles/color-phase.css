@@ -30,11 +30,12 @@
 .color-phase-content {
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 48px;
+  gap: 56px; /* Wider column gap */
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   flex: 1;
+  padding: 0 24px;
 }
 
 /* STRONGER glass effects matching Foundation/Building */
@@ -130,33 +131,42 @@
 .color-states-grid {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px; /* Consistent spacing */
   margin-bottom: 24px;
 }
 
-/* Copy the exact stone styling and adapt for state cards */
 .state-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.06); /* Even more subtle */
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: 24px; /* Generous padding */
+  margin-bottom: 16px; /* Proper card spacing */
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   gap: 16px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+}
+
+.state-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .state-card:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(31, 38, 135, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .state-card.selected {
@@ -193,12 +203,14 @@
 }
 
 .state-color-indicator {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Create premium slider container matching other glass elements */
@@ -317,14 +329,16 @@
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  box-shadow: 
+    0 12px 40px rgba(31, 38, 135, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
