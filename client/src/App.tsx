@@ -9,7 +9,7 @@ import Welcome from "@/pages/Welcome";
 import FoundationStones from "@/pages/FoundationStones";
 import BuildingBlocks from "@/pages/BuildingBlocks";
 import ColorPhase from "@/pages/ColorPhase";
-import DetailTokens from "@/pages/DetailTokens";
+import DetailPhase from "@/pages/DetailPhase";
 import Results from "@/pages/Results";
 import NotFound from "@/pages/not-found";
 
@@ -45,7 +45,7 @@ function AppContent() {
       case 'color-phase':
         return <ColorPhase />;
       case 'detail-tokens':
-        return <DetailTokens />;
+        return <DetailPhase />;
       case 'results':
         return <Results />;
       default:
