@@ -1,0 +1,57 @@
+PROMPT 2: Update Building Block Options Content
+TASK: Replace building block options with the provided content for all 9 types
+Type 1 Options
+When you're under stress or trying to stay grounded, which feels more like your default?
+Block A
+I stay calm in the face of tension and seek to maintain internal balance. I want clarity and order, but without pressure or chaos.
+Block B
+I help others grow and improve by gently guiding them. I care about people's progress and feel responsible for their success.
+Type 2 Options
+When you're giving to others, what drives you more — values or ambition?
+Block A
+I serve others with conviction and structure. My care is purposeful, and I believe doing what's right is part of helping.
+Block B
+I lift people up by being both supportive and successful. I feel fulfilled when I'm appreciated and seen as capable.
+Type 3 Options
+When you're achieving something, what really satisfies you?
+Block A
+I feel most accomplished when I make others shine. My success is about lifting people up and proving I can deliver results for others.
+Block B
+I feel most fulfilled when success reflects my deeper truth. It matters more that I express who I really am through what I achieve.
+Type 4 Options
+When you're expressing yourself, what's more important — standing out or going inward?
+Block A
+I want to be noticed for my originality and impact. I enjoy being visible when it comes from something meaningful I've created.
+Block B
+I'm drawn to emotional depth and inner reflection. I want to understand myself, even if I stay behind the scenes.
+Type 5 Options
+What's your core strength — analysis through empathy or logic through structure?
+Block A
+I take in the world through quiet observation and emotional insight. My thinking is personal, reflective, and often creative.
+Block B
+I gather facts to make sense of things and stay prepared. I prefer clear systems, structure, and practical reasoning.
+Type 6 Options
+In uncertain moments, what keeps you grounded — knowledge or optimism?
+Block A
+I seek answers and stay prepared for what could go wrong. Knowing more makes me feel safer and more capable.
+Block B
+I lean into positivity and possibility. I stay light and hopeful, even when things are unclear.
+Type 7 Options
+When you're looking for freedom, what helps you enjoy it more — structure or spontaneity?
+Block A
+I crave excitement, but I feel most alive when I also have some kind of security or plan to fall back on.
+Block B
+I don't wait — I dive into life with boldness and spontaneity. I want to experience everything without limits.
+Type 8 Options
+When you take charge, how do you lead — with fire or with calm presence?
+Block A
+I lead with energy, bold moves, and confidence. I like to keep things moving and push through resistance.
+Block B
+I lead with quiet conviction and strength. I protect what matters without needing to dominate.
+Type 9 Options
+When conflict arises, what guides you — harmony with strength, or strength with harmony?
+Block A
+I stay calm and grounded, but I don't hesitate to stand firm for what's right. Peace doesn't mean surrender.
+Block B
+I ease tension by being warm but firm. I aim to unify people, even when I need to assert myself clearly.
+VERIFICATION: Update buildingBlockOptions.js with EXACTLY this content with proper formatting.

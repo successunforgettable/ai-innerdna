@@ -88,16 +88,16 @@ export const buildingBlocks = {
       id: 0,
       type: 1,
       wing: '9',
-      name: "Reformer 9",
-      description: "I seek peace while upholding standards",
+      name: "Block A",
+      description: "I stay calm in the face of tension and seek to maintain internal balance. I want clarity and order, but without pressure or chaos.",
       gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     },
     {
       id: 1,
       type: 1,
       wing: '2',
-      name: "Reformer 2", 
-      description: "I help others improve responsibly",
+      name: "Block B", 
+      description: "I help others grow and improve by gently guiding them. I care about people's progress and feel responsible for their success.",
       gradient: "linear-gradient(135deg, #10b981, #059669)"
     }
   ],
@@ -106,16 +106,16 @@ export const buildingBlocks = {
       id: 0,
       type: 2,
       wing: '1',
-      name: "Helper 1",
-      description: "I help through principled service", 
+      name: "Block A",
+      description: "I serve others with conviction and structure. My care is purposeful, and I believe doing what's right is part of helping.", 
       gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     },
     {
       id: 1,
       type: 2,
       wing: '3',
-      name: "Helper 3",
-      description: "I help while staying successful",
+      name: "Block B",
+      description: "I lift people up by being both supportive and successful. I feel fulfilled when I'm appreciated and seen as capable.",
       gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     }
   ],
@@ -124,16 +124,16 @@ export const buildingBlocks = {
       id: 0,
       type: 3,
       wing: '2',
-      name: "Achiever 2",
-      description: "I achieve through helping others",
+      name: "Block A",
+      description: "I feel most accomplished when I make others shine. My success is about lifting people up and proving I can deliver results for others.",
       gradient: "linear-gradient(135deg, #10b981, #059669)"
     },
     {
       id: 1,
       type: 3,
       wing: '4',
-      name: "Achiever 4", 
-      description: "I achieve with authentic expression",
+      name: "Block B", 
+      description: "I feel most fulfilled when success reflects my deeper truth. It matters more that I express who I really am through what I achieve.",
       gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     }
   ],
@@ -142,16 +142,16 @@ export const buildingBlocks = {
       id: 0,
       type: 4,
       wing: '3',
-      name: "Individualist 3",
-      description: "I express uniqueness successfully",
+      name: "Block A",
+      description: "I want to be noticed for my originality and impact. I enjoy being visible when it comes from something meaningful I've created.",
       gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     },
     {
       id: 1,
       type: 4,
       wing: '5',
-      name: "Individualist 5",
-      description: "I explore identity through knowledge", 
+      name: "Block B",
+      description: "I'm drawn to emotional depth and inner reflection. I want to understand myself, even if I stay behind the scenes.", 
       gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
     }
   ],
@@ -160,16 +160,16 @@ export const buildingBlocks = {
       id: 0,
       type: 5,
       wing: '4',
-      name: "Investigator 4",
-      description: "I analyze with emotional depth",
+      name: "Block A",
+      description: "I take in the world through quiet observation and emotional insight. My thinking is personal, reflective, and often creative.",
       gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     },
     {
       id: 1,
       type: 5,
       wing: '6',
-      name: "Investigator 6",
-      description: "I analyze for security",
+      name: "Block B",
+      description: "I gather facts to make sense of things and stay prepared. I prefer clear systems, structure, and practical reasoning.",
       gradient: "linear-gradient(135deg, #10b981, #059669)"
     }
   ],
@@ -178,16 +178,16 @@ export const buildingBlocks = {
       id: 0,
       type: 6,
       wing: '5',
-      name: "Sentinel 5", // CRITICAL: Never "Loyalist"
-      description: "I seek security through knowledge",
+      name: "Block A",
+      description: "I seek answers and stay prepared for what could go wrong. Knowing more makes me feel safer and more capable.",
       gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
     },
     {
       id: 1,
       type: 6,
       wing: '7',
-      name: "Sentinel 7",
-      description: "I stay positive while preparing",
+      name: "Block B",
+      description: "I lean into positivity and possibility. I stay light and hopeful, even when things are unclear.",
       gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     }
   ],
@@ -196,16 +196,16 @@ export const buildingBlocks = {
       id: 0,
       type: 7,
       wing: '6',
-      name: "Enthusiast 6",
-      description: "I enjoy while staying secure",
+      name: "Block A",
+      description: "I crave excitement, but I feel most alive when I also have some kind of security or plan to fall back on.",
       gradient: "linear-gradient(135deg, #10b981, #059669)"
     },
     {
       id: 1,
       type: 7,
       wing: '8',
-      name: "Enthusiast 8",
-      description: "I pursue experiences boldly",
+      name: "Block B",
+      description: "I don't wait — I dive into life with boldness and spontaneity. I want to experience everything without limits.",
       gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
     }
   ],
@@ -214,16 +214,16 @@ export const buildingBlocks = {
       id: 0,
       type: 8,
       wing: '7',
-      name: "Challenger 7",
-      description: "I lead with enthusiasm", 
+      name: "Block A",
+      description: "I lead with energy, bold moves, and confidence. I like to keep things moving and push through resistance.", 
       gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
     },
     {
       id: 1,
       type: 8,
       wing: '9',
-      name: "Challenger 9",
-      description: "I use strength peacefully",
+      name: "Block B",
+      description: "I lead with quiet conviction and strength. I protect what matters without needing to dominate.",
       gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)"
     }
   ],
