@@ -760,6 +760,20 @@ body {
     transform: scale(1.1);
     box-shadow: 0 0 0 2px hsl(var(--blue-primary) / 0.5);
   }
+
+  .token {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .token:active {
+    cursor: grabbing;
+  }
   
   .color-state {
     width: 100px;
