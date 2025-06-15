@@ -153,6 +153,19 @@
   margin-left: auto;
 }
 
+/* Fix 5: Smooth Hover Animations - Premium interactions */
+
+.state-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.state-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 /* Copy the exact section header styling from previous pages */
 .color-phase .color-phase__section-title,
 .color-phase .section-title {
