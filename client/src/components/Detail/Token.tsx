@@ -19,7 +19,6 @@ export default function Token({ id, onDrop, isBeingDragged }: TokenProps) {
       }}
       whileHover={{ scale: 1.05 }}
       onDragEnd={(event, info) => {
-        // Detect drop target and call onDrop
         const dropTarget = document.elementFromPoint(info.point.x, info.point.y);
         const container = dropTarget?.closest('[data-container-id]');
         if (container && onDrop) {
