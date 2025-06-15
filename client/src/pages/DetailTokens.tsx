@@ -13,6 +13,8 @@ export default function DetailPhase({ personalityData, onComplete }) {
   const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
   const remainingTokens = 10 - totalTokens;
 
+
+
   const handleTokenDrop = (containerId: string) => {
     if (remainingTokens <= 0) return;
     
@@ -39,14 +41,18 @@ export default function DetailPhase({ personalityData, onComplete }) {
               <div className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
+                  <div className="text-white mb-2">Debug: Creating {remainingTokens} tokens</div>
                   <div className="flex flex-wrap gap-3 justify-center">
-                    {Array.from({ length: remainingTokens }).map((_, i) => (
-                      <Token 
-                        key={`available-${i}`} 
-                        id={`available-${i}`}
-                        onDrop={handleTokenDrop}
-                      />
-                    ))}
+                    {Array.from({ length: remainingTokens }).map((_, i) => {
+                      console.log('Creating token:', i);
+                      return (
+                        <Token 
+                          key={`available-${i}`} 
+                          id={`available-${i}`}
+                          onDrop={handleTokenDrop}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
               </div>
