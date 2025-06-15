@@ -84,6 +84,8 @@ export default function ColorPhase() {
       return null;
     }
     
+    const typeToUse = personalityType;
+    
     // Combine all state descriptions into one object
     const allStateDescriptions: Record<string, any> = {
       ...stateDescriptionsPart1,
@@ -91,7 +93,7 @@ export default function ColorPhase() {
       ...stateDescriptionsPart3
     };
     
-    return allStateDescriptions[personalityType as keyof typeof allStateDescriptions];
+    return allStateDescriptions[typeToUse as keyof typeof allStateDescriptions];
   };
   
   // Get enhanced state options with personality-specific descriptions
@@ -99,7 +101,12 @@ export default function ColorPhase() {
     const personalityDescriptions = getPersonalityStateDescriptions();
     
     if (!personalityDescriptions) {
-      return stateOptions; // Fall back to generic if no personality type
+      // Force Type 1 descriptions for testing when no personality type
+      const type1Descriptions = stateDescriptionsPart1["1"];
+      return stateOptions.map(state => ({
+        ...state,
+        description: type1Descriptions[state.id]?.description || state.description
+      }));
     }
     
     return stateOptions.map(state => ({
