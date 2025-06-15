@@ -1,0 +1,94 @@
+# **DESIGN FIX 4: Copy Tower Visualization Styling**
+
+**TASK:** Copy the exact tower styling from Foundation/Building pages
+
+**CRITICAL:** Use the same tower design that looks professional
+
+**EXACT STEPS:**
+
+1. **Find the tower CSS** from Foundation or Building phase
+
+2. **Copy the exact tower container styling:**
+```css
+/* Copy the exact tower styling from previous pages */
+.tower-visualization {
+  width: 300px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tower-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.tower-status {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 20px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+.tower-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-top: 16px;
+  font-style: italic;
+}
+```
+
+3. **Copy color gradient application:**
+```css
+/* Copy the smooth color transition styling */
+.tower-color-display {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 14px;
+}
+
+.foundation-indicator {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 10;
+}
+```
+
+**VERIFICATION:** Tower should look identical to the tower on Foundation/Building pages with smooth color transitions.

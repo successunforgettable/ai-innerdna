@@ -566,6 +566,14 @@
   display: none;
 }
 
+/* Navigation Container - Copied from Foundation/Building Pages */
+.color-phase-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding: 24px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .color-phase-content {
