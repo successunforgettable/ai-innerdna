@@ -36,8 +36,13 @@ export function TowerVisualization({
         const gradient = `linear-gradient(180deg, ${primaryState.color} 0%, ${primaryState.color} ${distribution.primary}%, ${secondaryState.color} ${distribution.primary}%, ${secondaryState.color} 100%)`;
         setTowerGradient(gradient);
       }
+    } else if (selectedStates.length === 1) {
+      const selectedState = stateOptions.find(s => s.id === selectedStates[0]);
+      if (selectedState) {
+        setTowerGradient(selectedState.color);
+      }
     } else {
-      setTowerGradient('rgba(255, 255, 255, 0.1)');
+      setTowerGradient('');
     }
   }, [selectedStates, distribution, stateOptions]);
 
