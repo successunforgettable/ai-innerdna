@@ -130,20 +130,27 @@
   margin-bottom: 12px;
 }
 
-/* State Card Checkmark */
+/* Fix 4: Enhanced Selection Styling - Borders and visual feedback */
+
+.state-card--selected {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 2px solid var(--state-color) !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-2px);
+}
+
 .state-card__check {
-  margin-left: auto;
-  width: 20px;
-  height: 20px;
-  background: #22c55e;
-  color: white;
+  font-size: 1.2rem !important;
+  color: var(--state-color) !important;
+  font-weight: 700 !important;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-left: auto;
 }
 
 /* Copy the exact section header styling from previous pages */

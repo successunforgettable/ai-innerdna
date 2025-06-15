@@ -13,7 +13,10 @@ interface StateCardProps {
 
 const StateCard = ({ state, isSelected, onSelect }: StateCardProps) => (
   <motion.div
-    className={`state-card ${isSelected ? 'selected' : ''}`}
+    className={`state-card ${isSelected ? 'state-card--selected' : ''}`}
+    style={{ 
+      '--state-color': state.color,
+    } as React.CSSProperties}
     whileHover={{ scale: 1.02 }}
     whileTap={{ scale: 0.98 }}
     onClick={onSelect}
