@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Token from '@/components/Detail/Token';
 import { useAssessment } from '@/context/AssessmentContext';
 
 interface DetailPhaseProps {
@@ -25,7 +26,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   const remainingTokens = 10 - totalTokens;
   const isComplete = totalTokens === 10;
 
-  const handleAddToken = (containerId: keyof TokenDistribution) => {
+  const handleTokenDrop = (containerId: string) => {
     if (remainingTokens > 0) {
       setTokenDistribution(prev => ({
         ...prev,
@@ -34,7 +35,16 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
     }
   };
 
-  const handleRemoveToken = (containerId: keyof TokenDistribution) => {
+  const handleAddToken = (containerId: string) => {
+    if (remainingTokens > 0) {
+      setTokenDistribution(prev => ({
+        ...prev,
+        [containerId]: prev[containerId] + 1
+      }));
+    }
+  };
+
+  const handleRemoveToken = (containerId: string) => {
     setTokenDistribution(prev => ({
       ...prev,
       [containerId]: Math.max(0, prev[containerId] - 1)
@@ -90,7 +100,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
       balanced: `You maintain a relatively balanced approach across instincts, with your ${primary.label.toLowerCase()} focus slightly leading.`,
       moderate: `You focus moderately on ${primary.label.toLowerCase()} while maintaining some attention to other areas.`
     };
-    return descriptions[stackType as keyof typeof descriptions] || descriptions.moderate;
+    return descriptions[stackType] || descriptions.moderate;
   };
 
   const handleContinue = () => {
@@ -111,14 +121,6 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
     if (totalTokens === 10) return "Perfect! All tokens distributed";
     return "Too many tokens distributed";
   };
-
-  // Simple token component rendered inline
-  const SimpleToken = ({ onClick }: { onClick: () => void }) => (
-    <div
-      onClick={onClick}
-      className="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300 cursor-pointer hover:scale-105 transition-transform shadow-sm"
-    />
-  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
@@ -158,29 +160,26 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
             <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Available Tokens</h3>
               <div className="flex flex-wrap gap-2">
-                {[...Array(remainingTokens)].map((_, index) => (
-                  <SimpleToken
-                    key={index}
-                    onClick={() => {
-                      alert('Use the "Add Token" buttons below to distribute tokens to containers');
-                    }}
+                {Array.from({ length: remainingTokens }).map((_, index) => (
+                  <Token
+                    key={`available-token-${index}`}
+                    onDrop={handleTokenDrop}
+                    isBeingDragged={false}
                   />
                 ))}
                 {remainingTokens === 0 && (
                   <p className="text-gray-500 italic">All tokens distributed</p>
                 )}
               </div>
-              {remainingTokens > 0 && (
-                <p className="text-sm text-gray-600 mt-2">
-                  Click the "Add Token" buttons below to distribute these tokens
-                </p>
-              )}
             </div>
 
             {/* Three Containers */}
             <div className="space-y-4">
               {/* Self-Preservation Container */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[140px]">
+              <div 
+                className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[120px]"
+                data-container-id="self"
+              >
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
@@ -202,14 +201,14 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                   <button
                     onClick={() => handleAddToken('self')}
                     disabled={remainingTokens === 0}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors font-medium"
+                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors"
                   >
                     Add Token
                   </button>
                   <button
                     onClick={() => handleRemoveToken('self')}
                     disabled={tokenDistribution.self === 0}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors font-medium"
+                    className="px-3 py-1 bg-red-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors"
                   >
                     Remove Token
                   </button>
@@ -219,7 +218,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                 <div className="flex flex-wrap gap-1 mt-3">
                   {Array.from({ length: tokenDistribution.self }).map((_, index) => (
                     <div
-                      key={index}
+                      key={`self-token-${index}`}
                       className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
                     />
                   ))}
@@ -227,7 +226,10 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
               </div>
 
               {/* One-to-One Container */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[140px]">
+              <div 
+                className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[120px]"
+                data-container-id="oneToOne"
+              >
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
@@ -249,14 +251,14 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                   <button
                     onClick={() => handleAddToken('oneToOne')}
                     disabled={remainingTokens === 0}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors font-medium"
+                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors"
                   >
                     Add Token
                   </button>
                   <button
                     onClick={() => handleRemoveToken('oneToOne')}
                     disabled={tokenDistribution.oneToOne === 0}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors font-medium"
+                    className="px-3 py-1 bg-red-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors"
                   >
                     Remove Token
                   </button>
@@ -266,7 +268,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                 <div className="flex flex-wrap gap-1 mt-3">
                   {Array.from({ length: tokenDistribution.oneToOne }).map((_, index) => (
                     <div
-                      key={index}
+                      key={`oneToOne-token-${index}`}
                       className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
                     />
                   ))}
@@ -274,7 +276,10 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
               </div>
 
               {/* Social Container */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[140px]">
+              <div 
+                className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[120px]"
+                data-container-id="social"
+              >
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
@@ -296,14 +301,14 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                   <button
                     onClick={() => handleAddToken('social')}
                     disabled={remainingTokens === 0}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors font-medium"
+                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors"
                   >
                     Add Token
                   </button>
                   <button
                     onClick={() => handleRemoveToken('social')}
                     disabled={tokenDistribution.social === 0}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors font-medium"
+                    className="px-3 py-1 bg-red-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors"
                   >
                     Remove Token
                   </button>
@@ -313,7 +318,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
                 <div className="flex flex-wrap gap-1 mt-3">
                   {Array.from({ length: tokenDistribution.social }).map((_, index) => (
                     <div
-                      key={index}
+                      key={`social-token-${index}`}
                       className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
                     />
                   ))}
