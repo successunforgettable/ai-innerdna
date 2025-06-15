@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TowerVisualization } from '../components/TowerVisualization';
-import Token from '../components/Token';
+import Token from '../components/Detail/Token';
 
 export default function DetailPhase({ personalityData, onComplete }) {
   const [tokenDistribution, setTokenDistribution] = useState({
@@ -41,20 +41,11 @@ export default function DetailPhase({ personalityData, onComplete }) {
               <div className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
-                  <div className="text-white mb-2">Testing single token:</div>
                   <div className="flex flex-wrap gap-3 justify-center">
-                    <div 
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        backgroundColor: '#f97316',
-                        borderRadius: '50%',
-                        border: '2px solid white',
-                        display: 'block'
-                      }}
-                    >
-                      T
-                    </div>
+                    <Token 
+                      id="test-token"
+                      onDrop={handleTokenDrop}
+                    />
                   </div>
                 </div>
               </div>
