@@ -248,6 +248,43 @@
   margin-top: 32px;
 }
 
+/* Continue Button Component */
+.continue-button {
+  background: var(--blue-primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.continue-button.enabled {
+  background: var(--blue-primary);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.continue-button.enabled:hover {
+  background: #2563eb;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.continue-button.disabled {
+  background: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.continue-button:disabled {
+  background: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .color-phase-content {

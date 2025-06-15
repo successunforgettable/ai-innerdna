@@ -4,6 +4,7 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
 import StateCard from '@/components/StateCard';
 import StateSlider from '@/components/StateSlider';
+import ContinueButton from '@/components/ContinueButton';
 import { stateOptions } from '@/lib/stateOptions';
 import '@/styles/color-phase.css';
 
@@ -73,6 +74,13 @@ export default function ColorPhase() {
   }, [selectedStates, colorDistribution]);
 
   const handleContinue = () => {
+    // Save color state data
+    const colorStateData = {
+      selectedStates,
+      distribution: colorDistribution,
+      timestamp: Date.now()
+    };
+
     const colorStateSelections = selectedStates.map(stateId => {
       const state = stateOptions.find(s => s.id === stateId);
       return {
@@ -87,6 +95,7 @@ export default function ColorPhase() {
       colorStates: colorStateSelections
     });
 
+    // Navigate to Detail Phase (Section 7)
     setCurrentScreen('detail-tokens');
     setLocation('/detail-tokens');
   };
@@ -193,15 +202,9 @@ export default function ColorPhase() {
       </div>
       
       <div className="color-phase-navigation">
-        <motion.button 
-          className="btn-primary"
-          disabled={!canProceed}
-          onClick={handleContinue}
-          whileHover={canProceed ? { scale: 1.02 } : {}}
-          whileTap={canProceed ? { scale: 0.98 } : {}}
-        >
+        <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
           Continue to Detail Tokens
-        </motion.button>
+        </ContinueButton>
       </div>
     </div>
   );
