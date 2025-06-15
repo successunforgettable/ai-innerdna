@@ -27,12 +27,16 @@ export default function DetailPhase() {
               </div>
               <div className="bg-white/5 rounded-xl p-6 min-h-[100px]">
                 <div className="flex flex-wrap gap-4 justify-center">
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full shadow-lg border-2 border-white/20"
-                    />
-                  ))}
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
+                  <div className="w-12 h-12 bg-orange-500 rounded-full"></div>
                 </div>
               </div>
             </div>
