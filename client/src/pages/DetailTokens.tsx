@@ -30,12 +30,18 @@ export default function DetailPhase({ personalityData, onComplete }) {
                 <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
                   <div className="flex flex-wrap gap-3 justify-center">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full shadow-lg border-2 border-white/20"
-                      />
-                    ))}
+                    {(() => {
+                      console.log('remainingTokens:', remainingTokens);
+                      return Array.from({ length: remainingTokens }).map((_, i) => {
+                        console.log('Creating token:', i);
+                        return (
+                          <div
+                            key={i}
+                            className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full shadow-lg border-2 border-white/20"
+                          />
+                        );
+                      });
+                    })()}
                   </div>
                 </div>
               </div>
