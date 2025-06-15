@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { buildingBlocks } from '@/lib/stoneData';
 import { determinePersonalityType, determineWing } from '@/lib/assessmentAlgorithm';
@@ -15,6 +16,7 @@ interface BuildingBlockData {
 }
 
 export default function BuildingBlocks() {
+  const [, setLocation] = useLocation();
   const { setCurrentScreen, assessmentData, setAssessmentData, stoneSelections } = useAssessment();
   const [selectedBlock, setSelectedBlock] = useState<number | null>(null);
   const [primaryType, setPrimaryType] = useState<string>('1');
