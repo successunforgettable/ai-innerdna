@@ -25,6 +25,11 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   const remainingTokens = 10 - totalTokens;
   const isComplete = totalTokens === 10;
 
+  // Debug logs
+  console.log("remainingTokens:", remainingTokens);
+  console.log("Array length:", Array.from({ length: remainingTokens }).length);
+  console.log("tokenDistribution:", tokenDistribution);
+
   const handleAddToken = (containerId: string) => {
     if (remainingTokens > 0) {
       setTokenDistribution(prev => ({
@@ -113,12 +118,16 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   };
 
   // Simple token component rendered inline
-  const SimpleToken = ({ onClick }: { onClick: () => void }) => (
-    <div
-      onClick={onClick}
-      className="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300 cursor-pointer hover:scale-105 transition-transform shadow-sm"
-    />
-  );
+  const SimpleToken = ({ onClick }: { onClick: () => void }) => {
+    console.log("SimpleToken rendering");
+    return (
+      <div
+        onClick={onClick}
+        className="w-8 h-8 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300 cursor-pointer hover:scale-105 transition-transform shadow-sm"
+        style={{ minWidth: '32px', minHeight: '32px' }}
+      />
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
@@ -157,17 +166,31 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
             {/* Available Tokens */}
             <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Available Tokens</h3>
+              
+              {/* Test token outside array */}
+              <div className="mb-4">
+                <p className="text-sm text-gray-600 mb-2">Test token (should be visible):</p>
+                <SimpleToken onClick={() => alert('Test token clicked')} />
+              </div>
+              
               <div className="flex flex-wrap gap-2">
                 {remainingTokens > 0 ? (
-                  Array.from({ length: remainingTokens }).map((_, index) => (
-                    <SimpleToken
-                      key={index}
-                      onClick={() => {
-                        // Click on token shows instruction
-                        alert('Use the "Add Token" buttons below to distribute tokens to containers');
-                      }}
-                    />
-                  ))
+                  (() => {
+                    console.log("Creating token array for", remainingTokens, "tokens");
+                    const tokens = [];
+                    for (let i = 0; i < remainingTokens; i++) {
+                      console.log("Adding token", i);
+                      tokens.push(
+                        <SimpleToken
+                          key={i}
+                          onClick={() => {
+                            alert('Use the "Add Token" buttons below to distribute tokens to containers');
+                          }}
+                        />
+                      );
+                    }
+                    return tokens;
+                  })()
                 ) : (
                   <p className="text-gray-500 italic">All tokens distributed</p>
                 )}
