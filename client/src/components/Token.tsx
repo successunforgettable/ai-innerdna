@@ -5,7 +5,7 @@ interface TokenProps {
   isBeingDragged?: boolean;
 }
 
-// Exact Token component from Section 7.3 specification
+// Token.jsx - Exact from Section 7.3 specification
 const Token = ({ onDrop, isBeingDragged }: TokenProps) => {
   const handleDragEnd = (event: any, info: any) => {
     if (onDrop) {
@@ -28,19 +28,7 @@ const Token = ({ onDrop, isBeingDragged }: TokenProps) => {
       drag
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
       whileDrag={{ scale: 1.1, zIndex: 1000 }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       onDragEnd={handleDragEnd}
-      style={{
-        width: '32px',
-        height: '32px',
-        background: 'linear-gradient(135deg, #fb923c, #ea580c)',
-        borderRadius: '50%',
-        border: '2px solid rgba(251, 191, 36, 0.3)',
-        cursor: 'grab',
-        boxShadow: '0 4px 12px rgba(251, 146, 60, 0.3)',
-        opacity: isBeingDragged ? 0.7 : 1,
-      }}
     />
   );
 };

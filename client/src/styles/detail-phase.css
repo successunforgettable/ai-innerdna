@@ -188,6 +188,21 @@
   text-align: center !important;
 }
 
+/* Token styling from Section 7.3 */
+.token {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #fb923c, #ea580c);
+  border-radius: 50%;
+  border: 2px solid rgba(251, 191, 36, 0.3);
+  cursor: grab;
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+}
+
+.token:active {
+  cursor: grabbing;
+}
+
 /* Continue button styling matching other phases */
 .continue-button {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
