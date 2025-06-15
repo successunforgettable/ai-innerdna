@@ -9,7 +9,7 @@ import Welcome from "@/pages/Welcome";
 import FoundationStones from "@/pages/FoundationStones";
 import BuildingBlocks from "@/pages/BuildingBlocks";
 import ColorPhase from "@/pages/ColorPhase";
-import DetailPhase from "@/pages/DetailTokens";
+import DetailPhase from "@/components/Detail/DetailPhase";
 import Results from "@/pages/Results";
 import NotFound from "@/pages/not-found";
 

@@ -4,7 +4,7 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContinueButton from '@/components/ContinueButton';
 import { TowerVisualization } from '@/components/TowerVisualization';
-import Token from '@/components/Token';
+import Token from '@/components/Detail/Token';
 import '@/styles/detail-phase.css';
 
 // Enhanced Page Animations - exact from ColorPhase
