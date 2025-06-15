@@ -1,0 +1,91 @@
+# **CORRECTED PROMPT 1: Fix Color Phase Design System Integration**
+
+**TASK:** Apply the existing design system to Color Phase to match Welcome and Foundation pages
+
+**CRITICAL ISSUE:** Color Phase has no styling and doesn't match the glass-morphism design used in other pages
+
+**EXACT FIXES NEEDED:**
+
+1. **Apply Gradient Background (Same as Welcome/Foundation):**
+```css
+.color-phase {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+```
+
+2. **Use Glass-Morphism Containers:**
+```css
+.color-selection-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 32px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.tower-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 32px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+```
+
+3. **Fix Typography (Use Inter Font):**
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.color-phase h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.color-phase p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-bottom: 32px;
+}
+```
+
+4. **Apply State Card Glass-Morphism:**
+```css
+.state-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.state-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5);
+}
+
+.state-card.selected {
+  border-color: #00ff88;
+  background: rgba(255, 255, 255, 0.25);
+}
+```
+
+**VERIFICATION:** Color Phase should now match the visual design of Welcome and Foundation pages with proper glass-morphism effects.
