@@ -43,6 +43,7 @@ export default function DetailPhase({ personalityData, onComplete }) {
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
                   <div className="text-white mb-2">Testing single token:</div>
                   <div className="flex flex-wrap gap-3 justify-center">
+                    <div className="w-8 h-8 bg-orange-500 rounded-full border-2 border-white">HTML TEST</div>
                     <Token 
                       id="test-token"
                       onDrop={handleTokenDrop}
