@@ -148,25 +148,31 @@
 
 /* Fix 4: Enhanced Selection Styling - Borders and visual feedback */
 
+/* Fix 6: Enhanced Selection Styling - World-class visual feedback */
+
 .state-card--selected {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
   border: 2px solid var(--state-color) !important;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1) !important;
-  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px var(--state-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-1px);
 }
 
 .state-card__check {
-  font-size: 1.2rem !important;
+  font-size: 1.1rem !important;
   color: var(--state-color) !important;
-  font-weight: 700 !important;
-  background: rgba(255, 255, 255, 0.1);
+  font-weight: 800 !important;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Fix 3: Expand on Hover - Show full content when user hovers */
