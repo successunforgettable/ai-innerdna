@@ -1,0 +1,45 @@
+# **SIMPLE FIX 2: Add Personality-Specific Descriptions**
+
+**TASK:** Replace generic descriptions with personality-specific ones from Replit States.docx
+
+**STEP 1: Create personality-specific state data file**
+
+Create `personalityStateDescriptions.js`:
+
+```javascript
+export const personalityStateDescriptions = {
+  "1": { // Reformer
+    veryGood: "In this state, I embody clarity, calm, and higher purpose. I trust life's design and see meaning even in its chaos. My standards uplift rather than restrict, and I walk with integrity that inspires without imposing.",
+    good: "I hold myself to high standards and genuinely want the best for everyone. I work hard, stay organized, and expect accountability --- especially from myself.",
+    average: "I see what's wrong before I see what's right, and I can't help but try to fix it. There's a constant tension between my ideals and what I see around me.",
+    belowAverage: "The world begins to feel flawed, careless, and disappointing --- and I take it personally. I become more vocal, more controlling, and less tolerant of others' mistakes.",
+    destructive: "I become consumed by a harsh internal critic that shames, punishes, and controls me. My emotions swing from rage to guilt, my thoughts obsess over who's wrong."
+  },
+  "2": { // Helper
+    veryGood: "I am a radiant force of compassion and clarity. Every act of support I offer is rooted in a deep understanding of what others truly need --- not just what they ask for.",
+    good: "I am dependable, warm, and intuitive about people's emotional needs. Others feel safe with me, knowing I will listen without judgment and act without hesitation.",
+    average: "I start to measure my worth by how needed I am. I say yes too quickly and later feel overwhelmed or underappreciated.",
+    belowAverage: "I feel unnoticed, unimportant, and emotionally drained. My giving becomes transactional --- I help to be seen, and I feel resentful when others don't acknowledge my efforts.",
+    destructive: "I fall into emotional burnout. I give compulsively, not from love but from fear of abandonment. When I feel unneeded, I spiral into worthlessness."
+  }
+  // Add all 9 types here with their complete descriptions
+};
+```
+
+**STEP 2: Modify ColorPhase component to use personality-specific descriptions**
+
+```javascript
+// In ColorPhase component
+import { personalityStateDescriptions } from './personalityStateDescriptions';
+
+// Get user's personality type from Foundation phase results
+const userPersonalityType = assessmentData?.foundationResults?.primaryType || "1";
+
+// Use personality-specific descriptions
+const getStateDescription = (stateId) => {
+  const typeDescriptions = personalityStateDescriptions[userPersonalityType];
+  return typeDescriptions?.[stateId] || "Description not available";
+};
+```
+
+**VERIFICATION:** State descriptions should show personality-specific content, not generic content.
