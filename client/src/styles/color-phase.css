@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Color Phase Container */
+/* Color Phase Container - Copied from Foundation Phase */
 .color-phase {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  padding: 2rem 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Header Section */
 .color-phase-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
 }
 
 .color-phase h1 {
@@ -32,25 +31,40 @@
   margin-bottom: 32px;
 }
 
-/* Content Layout - Fixed Grid Structure */
+/* Content Layout - Copied from Foundation Phase */
 .color-phase-content {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 48px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-  flex: 1;
+  gap: 3rem;
+  align-items: start;
 }
 
-/* Glass-Morphism Containers */
+/* Glass-Morphism Containers - Copied from Foundation Phase */
+.color-selection-column,
+.tower-column {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.tower-column {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
 .glass-container {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 32px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .glass-container h3 {
@@ -58,14 +72,14 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: white;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .glass-container .section-description {
   font-family: 'Inter', sans-serif;
   color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
-  margin-bottom: 24px;
+  margin-bottom: 2rem;
 }
 
 .tower-title {
