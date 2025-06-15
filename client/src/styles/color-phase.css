@@ -126,7 +126,7 @@
 .color-phase .color-phase__section-title,
 .color-phase .section-title {
   font-family: 'Inter', sans-serif !important;
-  color: #fbbf24 !important; /* gold */
+  color: #1e40af !important; /* dark blue */
   font-weight: 600 !important;
   font-size: 1.5rem !important;
   margin-bottom: 20px !important;
@@ -237,6 +237,7 @@
   height: 20px;
   border-radius: 50%;
   flex-shrink: 0;
+  background: var(--state-color, #22c55e);
   border: 2px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.15),

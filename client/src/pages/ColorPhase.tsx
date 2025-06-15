@@ -103,16 +103,22 @@ export default function ColorPhase() {
     if (!personalityDescriptions) {
       // Force Type 1 descriptions for testing when no personality type
       const type1Descriptions = stateDescriptionsPart1["1"];
-      return stateOptions.map(state => ({
-        ...state,
-        description: type1Descriptions[state.id]?.description || state.description
-      }));
+      return stateOptions.map(state => {
+        const stateKey = state.id as keyof typeof type1Descriptions;
+        return {
+          ...state,
+          description: type1Descriptions[stateKey]?.description || state.description
+        };
+      });
     }
     
-    return stateOptions.map(state => ({
-      ...state,
-      description: personalityDescriptions[state.id]?.description || state.description
-    }));
+    return stateOptions.map(state => {
+      const stateKey = state.id as keyof typeof personalityDescriptions;
+      return {
+        ...state,
+        description: personalityDescriptions[stateKey]?.description || state.description
+      };
+    });
   };
   
   const enhancedStateOptions = getEnhancedStateOptions();
