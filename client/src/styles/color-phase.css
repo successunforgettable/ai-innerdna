@@ -965,6 +965,61 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* DetailPhase Tower Visualization Styling */
+.tower-content {
+  padding: 24px;
+}
+
+.tower-content h3 {
+  font-family: 'Inter', sans-serif;
+  color: #fbbf24;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.energy-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.energy-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.energy-icon {
+  font-size: 1.5rem;
+  margin-right: 12px;
+}
+
+.energy-label {
+  font-family: 'Inter', sans-serif;
+  color: white;
+  font-weight: 500;
+  flex: 1;
+}
+
+.energy-value {
+  font-family: 'Inter', sans-serif;
+  color: #fbbf24;
+  font-weight: 600;
+  font-size: 1.25rem;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 8px;
+  padding: 4px 12px;
+  min-width: 40px;
+  text-align: center;
+}
+
 /* Copy responsive patterns from previous pages */
 @media (max-width: 768px) {
   .color-phase-content {
