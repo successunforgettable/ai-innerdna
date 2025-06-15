@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Token from '@/components/Detail/Token';
 import { useAssessment } from '@/context/AssessmentContext';
+import Token from '@/components/Token';
 
 interface DetailPhaseProps {
-  personalityData: any;
-  onComplete: (subtypeData: any) => void;
+  personalityData?: any;
+  onComplete?: (subtypeData: any) => void;
 }
 
 interface TokenDistribution {
@@ -27,38 +27,25 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   const isComplete = totalTokens === 10;
 
   const handleTokenDrop = (containerId: string) => {
-    if (remainingTokens > 0) {
+    if (remainingTokens <= 0) return;
+    
+    const validIds: (keyof TokenDistribution)[] = ['self', 'oneToOne', 'social'];
+    if (validIds.includes(containerId as keyof TokenDistribution)) {
       setTokenDistribution(prev => ({
         ...prev,
-        [containerId]: prev[containerId] + 1
+        [containerId]: prev[containerId as keyof TokenDistribution] + 1
       }));
     }
-  };
-
-  const handleAddToken = (containerId: string) => {
-    if (remainingTokens > 0) {
-      setTokenDistribution(prev => ({
-        ...prev,
-        [containerId]: prev[containerId] + 1
-      }));
-    }
-  };
-
-  const handleRemoveToken = (containerId: string) => {
-    setTokenDistribution(prev => ({
-      ...prev,
-      [containerId]: Math.max(0, prev[containerId] - 1)
-    }));
   };
 
   const determineSubtypeStack = (distribution: TokenDistribution) => {
     const { self, oneToOne, social } = distribution;
-
+    
     // Validate total equals 10
     if (self + oneToOne + social !== 10) {
       throw new Error('Token distribution must total 10');
     }
-
+    
     const sortedSubtypes = [
       { name: 'self', count: self, label: 'Self-Preservation' },
       { name: 'oneToOne', count: oneToOne, label: 'One-to-One' },
@@ -95,7 +82,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
 
   const generateSubtypeDescription = (subtypes: any[], stackType: string) => {
     const primary = subtypes[0];
-    const descriptions = {
+    const descriptions: Record<string, string> = {
       dominant: `You have a strongly ${primary.label.toLowerCase()}-focused approach to life, with ${primary.count} out of 10 energy units devoted to this area.`,
       balanced: `You maintain a relatively balanced approach across instincts, with your ${primary.label.toLowerCase()} focus slightly leading.`,
       moderate: `You focus moderately on ${primary.label.toLowerCase()} while maintaining some attention to other areas.`
@@ -106,21 +93,37 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
   const handleContinue = () => {
     if (isComplete) {
       const subtypeData = determineSubtypeStack(tokenDistribution);
-      onComplete({
-        ...personalityData,
-        subtypes: subtypeData,
-        tokenDistribution
-      });
+      if (onComplete) {
+        onComplete({
+          ...personalityData,
+          subtypes: subtypeData,
+          tokenDistribution
+        });
+      }
       setCurrentScreen('results');
     }
   };
 
-  const getValidationMessage = () => {
-    if (totalTokens === 0) return "Place your first token to begin";
-    if (totalTokens < 10) return `${remainingTokens} tokens remaining`;
-    if (totalTokens === 10) return "Perfect! All tokens distributed";
-    return "Too many tokens distributed";
-  };
+  const containers = [
+    {
+      id: 'self',
+      emoji: '🛡️',
+      title: 'Self-Preservation Focus',
+      description: 'Energy devoted to personal security, routines, and maintaining your environment'
+    },
+    {
+      id: 'oneToOne',
+      emoji: '🔥',
+      title: 'One-to-One Focus',
+      description: 'Energy devoted to intense personal connections and important relationships'
+    },
+    {
+      id: 'social',
+      emoji: '🧱',
+      title: 'Social Focus',
+      description: 'Energy devoted to group dynamics, community belonging, and social awareness'
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
@@ -148,7 +151,10 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
               totalTokens > 10 ? 'text-red-600' : 
               'text-blue-600'
             }`}>
-              {getValidationMessage()}
+              {totalTokens === 0 ? "Drag tokens to containers to begin" :
+               totalTokens < 10 ? `${remainingTokens} tokens remaining` :
+               totalTokens === 10 ? "Perfect! All tokens distributed" :
+               "Too many tokens distributed"}
             </span>
           </div>
         </div>
@@ -159,15 +165,15 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
             {/* Available Tokens */}
             <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Available Tokens</h3>
-              <div className="flex flex-wrap gap-2">
-                {Array.from({ length: remainingTokens }).map((_, index) => (
-                  <Token
-                    key={`available-token-${index}`}
-                    onDrop={handleTokenDrop}
-                    isBeingDragged={false}
-                  />
-                ))}
-                {remainingTokens === 0 && (
+              <div className="flex flex-wrap gap-3 justify-center min-h-[60px] items-center">
+                {remainingTokens > 0 ? (
+                  Array.from({ length: remainingTokens }).map((_, index) => (
+                    <Token
+                      key={`token-${index}`}
+                      onDrop={handleTokenDrop}
+                    />
+                  ))
+                ) : (
                   <p className="text-gray-500 italic">All tokens distributed</p>
                 )}
               </div>
@@ -175,155 +181,39 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
 
             {/* Three Containers */}
             <div className="space-y-4">
-              {/* Self-Preservation Container */}
-              <div 
-                className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[120px]"
-                data-container-id="self"
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                      🛡️ Self-Preservation Focus
-                    </h4>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Energy devoted to personal security, routines, and maintaining your environment
-                    </p>
+              {containers.map((container) => (
+                <div 
+                  key={container.id}
+                  className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[140px]"
+                  data-container-id={container.id}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        {container.emoji} {container.title}
+                      </h4>
+                      <p className="text-gray-600 text-sm mt-1">
+                        {container.description}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-lg font-semibold text-gray-700">
+                        Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-lg font-semibold text-gray-700">
-                      Tokens: {tokenDistribution.self}
-                    </span>
-                  </div>
-                </div>
 
-                {/* Click-to-add buttons */}
-                <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => handleAddToken('self')}
-                    disabled={remainingTokens === 0}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors"
-                  >
-                    Add Token
-                  </button>
-                  <button
-                    onClick={() => handleRemoveToken('self')}
-                    disabled={tokenDistribution.self === 0}
-                    className="px-3 py-1 bg-red-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors"
-                  >
-                    Remove Token
-                  </button>
-                </div>
-
-                {/* Display tokens in container */}
-                <div className="flex flex-wrap gap-1 mt-3">
-                  {Array.from({ length: tokenDistribution.self }).map((_, index) => (
-                    <div
-                      key={`self-token-${index}`}
-                      className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* One-to-One Container */}
-              <div 
-                className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[120px]"
-                data-container-id="oneToOne"
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                      🔥 One-to-One Focus
-                    </h4>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Energy devoted to intense personal connections and important relationships
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-lg font-semibold text-gray-700">
-                      Tokens: {tokenDistribution.oneToOne}
-                    </span>
+                  {/* Display tokens in container */}
+                  <div className="flex flex-wrap gap-2 mt-3 min-h-[40px] items-center">
+                    {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
+                      />
+                    ))}
                   </div>
                 </div>
-
-                {/* Click-to-add buttons */}
-                <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => handleAddToken('oneToOne')}
-                    disabled={remainingTokens === 0}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors"
-                  >
-                    Add Token
-                  </button>
-                  <button
-                    onClick={() => handleRemoveToken('oneToOne')}
-                    disabled={tokenDistribution.oneToOne === 0}
-                    className="px-3 py-1 bg-red-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors"
-                  >
-                    Remove Token
-                  </button>
-                </div>
-
-                {/* Display tokens in container */}
-                <div className="flex flex-wrap gap-1 mt-3">
-                  {Array.from({ length: tokenDistribution.oneToOne }).map((_, index) => (
-                    <div
-                      key={`oneToOne-token-${index}`}
-                      className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Social Container */}
-              <div 
-                className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20 min-h-[120px]"
-                data-container-id="social"
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                      🧱 Social Focus
-                    </h4>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Energy devoted to group dynamics, community belonging, and social awareness
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-lg font-semibold text-gray-700">
-                      Tokens: {tokenDistribution.social}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Click-to-add buttons */}
-                <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => handleAddToken('social')}
-                    disabled={remainingTokens === 0}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-blue-600 transition-colors"
-                  >
-                    Add Token
-                  </button>
-                  <button
-                    onClick={() => handleRemoveToken('social')}
-                    disabled={tokenDistribution.social === 0}
-                    className="px-3 py-1 bg-red-500 text-white rounded text-sm disabled:bg-gray-300 hover:bg-red-600 transition-colors"
-                  >
-                    Remove Token
-                  </button>
-                </div>
-
-                {/* Display tokens in container */}
-                <div className="flex flex-wrap gap-1 mt-3">
-                  {Array.from({ length: tokenDistribution.social }).map((_, index) => (
-                    <div
-                      key={`social-token-${index}`}
-                      className="w-6 h-6 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full border-2 border-orange-300"
-                    />
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Continue Button */}
