@@ -37,6 +37,19 @@ const DetailPhase: React.FC = () => {
     }
   };
 
+  // Click-to-add functionality as specified in Section 7.1
+  const handleContainerClick = (containerId: string) => {
+    if (remainingTokens <= 0) return;
+    
+    const validIds: (keyof TokenDistribution)[] = ['self', 'oneToOne', 'social'];
+    if (validIds.includes(containerId as keyof TokenDistribution)) {
+      setTokenDistribution(prev => ({
+        ...prev,
+        [containerId]: prev[containerId as keyof TokenDistribution] + 1
+      }));
+    }
+  };
+
   const handleContinue = () => {
     if (isComplete) {
       // Update assessment data with token distribution
@@ -87,7 +100,15 @@ const DetailPhase: React.FC = () => {
               <h1 className="text-3xl font-bold text-white mb-2">Distribute Your Energy</h1>
               <p className="text-white/80 mb-8">Place 10 tokens across the three areas based on where you naturally focus your energy</p>
               
-              <div className="text-white mb-6">Total: {totalTokens}/10 • Remaining: {remainingTokens}</div>
+              <div className="text-white mb-6">
+                Total: {totalTokens}/10 • Remaining: {remainingTokens}
+                {totalTokens === 10 && (
+                  <span className="text-green-400 ml-2 font-medium">✓ Complete</span>
+                )}
+                {totalTokens > 10 && (
+                  <span className="text-red-400 ml-2 font-medium">⚠ Over limit</span>
+                )}
+              </div>
 
               {/* Available Tokens */}
               <div className="mb-8">
@@ -112,8 +133,9 @@ const DetailPhase: React.FC = () => {
                 {containers.map((container) => (
                   <div 
                     key={container.id}
-                    className="bg-white/10 backdrop-blur-md rounded-xl p-6 border-2 border-white/20 hover:border-orange-400/50 transition-all duration-300"
+                    className="bg-white/10 backdrop-blur-md rounded-xl p-6 border-2 border-white/20 hover:border-orange-400/50 transition-all duration-300 cursor-pointer"
                     data-container-id={container.id}
+                    onClick={() => handleContainerClick(container.id)}
                   >
                     <div className="flex justify-between items-start mb-4">
                       <h4 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -136,6 +158,13 @@ const DetailPhase: React.FC = () => {
                         />
                       ))}
                     </div>
+                    
+                    {/* Click instruction */}
+                    {remainingTokens > 0 && (
+                      <p className="text-white/50 text-xs mt-2 italic">
+                        Click to add token or drag token here
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
