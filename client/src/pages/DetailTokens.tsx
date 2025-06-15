@@ -9,6 +9,8 @@ export default function DetailPhase({ personalityData, onComplete }) {
 
   const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
   const remainingTokens = 10 - totalTokens;
+  
+  console.log('Debug:', { tokenDistribution, totalTokens, remainingTokens });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-purple-800">
@@ -24,17 +26,16 @@ export default function DetailPhase({ personalityData, onComplete }) {
                 <div className="text-white/80">{remainingTokens} remaining</div>
               </div>
               <div className="bg-white/5 rounded-xl p-4 min-h-[60px] flex gap-2">
-                {Array.from({ length: remainingTokens }).map((_, i) => (
-                  <div 
-                    key={i} 
-                    className="w-8 h-8 bg-orange-400 rounded-full flex-shrink-0"
-                    style={{
-                      backgroundColor: '#fb923c',
-                      minWidth: '32px',
-                      minHeight: '32px'
-                    }}
-                  />
-                ))}
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
+                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
               </div>
             </div>
           </div>
