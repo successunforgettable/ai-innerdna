@@ -19,6 +19,50 @@ export default function DetailPhase({ personalityData, onComplete }) {
           <p className="text-white/80 mb-8">Place 10 tokens across the three areas</p>
           
           <div className="text-white">Total: {totalTokens}/10 • Remaining: {remainingTokens}</div>
+
+          <div className="space-y-6 mt-8">
+            <div 
+              className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+              data-container-id="self"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">🛡️</span>
+                <h3 className="text-xl font-semibold text-white">Self-Preservation Focus</h3>
+              </div>
+              <p className="text-white/70 text-sm mb-4 leading-relaxed">
+                Energy devoted to personal security, routines, and maintaining your environment
+              </p>
+              <div className="text-white font-medium">Tokens: {tokenDistribution.self}</div>
+            </div>
+
+            <div 
+              className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+              data-container-id="oneToOne"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">🔥</span>
+                <h3 className="text-xl font-semibold text-white">One-to-One Focus</h3>
+              </div>
+              <p className="text-white/70 text-sm mb-4 leading-relaxed">
+                Energy devoted to intense personal connections and important relationships
+              </p>
+              <div className="text-white font-medium">Tokens: {tokenDistribution.oneToOne}</div>
+            </div>
+
+            <div 
+              className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+              data-container-id="social"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">🧱</span>
+                <h3 className="text-xl font-semibold text-white">Social Focus</h3>
+              </div>
+              <p className="text-white/70 text-sm mb-4 leading-relaxed">
+                Energy devoted to group dynamics, community belonging, and social awareness
+              </p>
+              <div className="text-white font-medium">Tokens: {tokenDistribution.social}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
