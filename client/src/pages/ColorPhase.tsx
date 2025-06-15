@@ -7,6 +7,9 @@ import StateSlider from '@/components/StateSlider';
 import ContinueButton from '@/components/ContinueButton';
 import { TowerVisualization } from '@/components/TowerVisualization';
 import { stateOptions } from '@/lib/stateOptions';
+import stateDescriptionsPart1 from '@/lib/stateDescriptionsPart1';
+import stateDescriptionsPart2 from '@/lib/stateDescriptionsPart2';
+import stateDescriptionsPart3 from '@/lib/stateDescriptionsPart3';
 import '@/styles/color-phase.css';
 
 // Enhanced Page Animations
@@ -72,6 +75,37 @@ export default function ColorPhase() {
   const [canProceed, setCanProceed] = useState(false);
   const [distributions, setDistributions] = useState<Record<string, number>>({});
   const [colorDistribution, setColorDistribution] = useState({ primary: 70, secondary: 30 });
+  
+  // Get personality-specific state descriptions
+  const getPersonalityStateDescriptions = () => {
+    const personalityType = assessmentData.result?.primaryType;
+    if (!personalityType) return null;
+    
+    // Combine all state descriptions into one object
+    const allStateDescriptions: Record<string, any> = {
+      ...stateDescriptionsPart1,
+      ...stateDescriptionsPart2,
+      ...stateDescriptionsPart3
+    };
+    
+    return allStateDescriptions[personalityType as keyof typeof allStateDescriptions];
+  };
+  
+  // Get enhanced state options with personality-specific descriptions
+  const getEnhancedStateOptions = () => {
+    const personalityDescriptions = getPersonalityStateDescriptions();
+    
+    if (!personalityDescriptions) {
+      return stateOptions; // Fall back to generic if no personality type
+    }
+    
+    return stateOptions.map(state => ({
+      ...state,
+      description: personalityDescriptions[state.id]?.description || state.description
+    }));
+  };
+  
+  const enhancedStateOptions = getEnhancedStateOptions();
 
   const handleStateSelect = (stateId: string) => {
     if (selectedStates.includes(stateId)) {
@@ -207,7 +241,7 @@ export default function ColorPhase() {
             <p className="section-description">Choose exactly 2 color palettes from the 5 options below</p>
             
             <div className="color-states-grid">
-              {stateOptions.map((state, index) => (
+              {enhancedStateOptions.map((state, index) => (
                 <motion.div
                   key={state.id}
                   variants={cardVariants}
