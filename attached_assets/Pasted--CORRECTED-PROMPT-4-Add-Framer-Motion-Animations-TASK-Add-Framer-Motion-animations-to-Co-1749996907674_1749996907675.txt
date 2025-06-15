@@ -1,0 +1,152 @@
+# **CORRECTED PROMPT 4: Add Framer Motion Animations**
+
+**TASK:** Add Framer Motion animations to Color Phase components
+
+**CRITICAL ISSUE:** No animations are working - need to properly import and implement Framer Motion
+
+**IMPORT FRAMER MOTION:**
+```tsx
+import { motion, AnimatePresence } from 'framer-motion';
+```
+
+**PAGE ANIMATIONS:**
+```tsx
+const pageVariants = {
+  initial: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.98
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1],
+      staggerChildren: 0.1
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    scale: 0.98,
+    transition: {
+      duration: 0.3
+    }
+  }
+};
+
+const containerVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const cardVariants = {
+  initial: { 
+    opacity: 0, 
+    x: -20,
+    scale: 0.95
+  },
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  }
+};
+```
+
+**APPLY ANIMATIONS TO COMPONENTS:**
+```tsx
+// Wrap main container
+<motion.div
+  className="color-phase"
+  variants={pageVariants}
+  initial="initial"
+  animate="animate"
+  exit="exit"
+>
+  {/* Header with animation */}
+  <motion.div className="color-phase-header" variants={cardVariants}>
+    <h1>Color State Selection</h1>
+    <p>Select 2 color states that represent your current experience</p>
+  </motion.div>
+
+  {/* Content with staggered animations */}
+  <motion.div 
+    className="color-phase-content"
+    variants={containerVariants}
+  >
+    <motion.div className="color-selection-column" variants={cardVariants}>
+      {/* State cards with individual animations */}
+      {stateOptions.map((state, index) => (
+        <motion.div
+          key={state.id}
+          variants={cardVariants}
+          whileHover={{ 
+            scale: 1.02, 
+            y: -4,
+            transition: { duration: 0.2 }
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <StateCard
+            state={state}
+            isSelected={selectedStates.includes(state.id)}
+            onSelect={() => handleStateSelect(state.id)}
+          />
+        </motion.div>
+      ))}
+    </motion.div>
+
+    <motion.div className="tower-column" variants={cardVariants}>
+      {/* Tower with animation */}
+    </motion.div>
+  </motion.div>
+</motion.div>
+```
+
+**SLIDER ANIMATION (when 2 states selected):**
+```tsx
+<AnimatePresence>
+  {selectedStates.length === 2 && (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: {
+          duration: 0.5,
+          ease: [0.4, 0, 0.2, 1]
+        }
+      }}
+      exit={{ 
+        opacity: 0, 
+        y: -20, 
+        scale: 0.95,
+        transition: { duration: 0.3 }
+      }}
+    >
+      <StateSlider
+        value={colorDistribution.primary}
+        onChange={handleDistributionChange}
+        colors={getSelectedColors()}
+        stateNames={getSelectedStateNames()}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+```
+
+**VERIFICATION:** All components should have smooth entrance animations and interactive hover effects.

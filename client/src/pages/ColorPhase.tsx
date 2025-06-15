@@ -8,30 +8,59 @@ import ContinueButton from '@/components/ContinueButton';
 import { stateOptions } from '@/lib/stateOptions';
 import '@/styles/color-phase.css';
 
-// Page entrance animation
+// Enhanced Page Animations
 const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 }
+  initial: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.98
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1],
+      staggerChildren: 0.1
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    scale: 0.98,
+    transition: {
+      duration: 0.3
+    }
+  }
 };
 
-// State card animations
+const containerVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
 const cardVariants = {
-  initial: { opacity: 0, x: -20 },
-  animate: { opacity: 1, x: 0 },
-  hover: { scale: 1.02, y: -2 }
-};
-
-// Slider animations
-const sliderVariants = {
-  initial: { opacity: 0, scale: 0.95 },
-  animate: { opacity: 1, scale: 1 }
-};
-
-// Tower animations
-const towerVariants = {
-  initial: { opacity: 0, scale: 0.9 },
-  animate: { opacity: 1, scale: 1 }
+  initial: { 
+    opacity: 0, 
+    x: -20,
+    scale: 0.95
+  },
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  }
 };
 
 export default function ColorPhase() {
@@ -148,29 +177,22 @@ export default function ColorPhase() {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <motion.div 
         className="color-phase-header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+        variants={cardVariants}
       >
-        <h1 className="foundation-title">Color State Selection</h1>
-        <p className="phase-description">Select 2 color palettes that represent your current experience</p>
+        <h1>Color State Selection</h1>
+        <p>Select 2 color states that represent your current experience</p>
       </motion.div>
       
       <motion.div 
         className="color-phase-content"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
+        variants={containerVariants}
       >
         <motion.div 
           className="color-selection-column"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          variants={cardVariants}
         >
           <div className="glass-container">
             <h3 className="section-title">State Selection</h3>
@@ -181,10 +203,12 @@ export default function ColorPhase() {
                 <motion.div
                   key={state.id}
                   variants={cardVariants}
-                  initial="initial"
-                  animate="animate"
-                  whileHover="hover"
-                  transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
+                  whileHover={{ 
+                    scale: 1.02, 
+                    y: -4,
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <StateCard
                     state={{
@@ -202,11 +226,22 @@ export default function ColorPhase() {
             <AnimatePresence>
               {selectedStates.length === 2 && (
                 <motion.div
-                  variants={sliderVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.4, 0, 0.2, 1]
+                    }
+                  }}
+                  exit={{ 
+                    opacity: 0, 
+                    y: -20, 
+                    scale: 0.95,
+                    transition: { duration: 0.3 }
+                  }}
                 >
                   <StateSlider
                     value={colorDistribution.primary}
@@ -222,18 +257,15 @@ export default function ColorPhase() {
         
         <motion.div 
           className="tower-column"
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
+          variants={cardVariants}
         >
           <div className="glass-container">
             <h3 className="tower-title">Your Tower</h3>
             <motion.div 
               className="tower-color-preview"
-              variants={towerVariants}
-              initial="initial"
-              animate="animate"
-              transition={{ delay: 0.8, duration: 0.5 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
             >
               <div className="tower-visualization">
                 <motion.div 
