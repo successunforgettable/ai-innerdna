@@ -41,14 +41,12 @@ export default function DetailPhase({ personalityData, onComplete }) {
               <div className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-4">Available Tokens</h2>
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 min-h-[80px] border border-white/10">
+                  <div className="text-white mb-2">Testing single token:</div>
                   <div className="flex flex-wrap gap-3 justify-center">
-                    {Array.from({ length: remainingTokens }).map((_, i) => (
-                      <Token 
-                        key={`available-${i}`} 
-                        id={`available-${i}`}
-                        onDrop={handleTokenDrop}
-                      />
-                    ))}
+                    <Token 
+                      id="test-token"
+                      onDrop={handleTokenDrop}
+                    />
                   </div>
                 </div>
               </div>
