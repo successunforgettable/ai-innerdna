@@ -8,10 +8,10 @@ interface TowerVisualizationProps {
     width: string;
     height: string;
   }>;
-  selectedStates?: number[];
+  selectedStates?: string[];
   distribution?: { primary: number; secondary: number };
   stateOptions?: Array<{
-    id: number;
+    id: string;
     name: string;
     color: string;
     description: string;
