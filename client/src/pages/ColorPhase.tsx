@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
+import StateCard from '@/components/StateCard';
 import '@/styles/color-phase.css';
 
 export default function ColorPhase() {
@@ -116,22 +117,16 @@ export default function ColorPhase() {
             
             <div className="color-states-grid">
               {colorStates.map((state) => (
-                <motion.div
+                <StateCard
                   key={state.id}
-                  className={`color-state-card ${selectedStates.includes(state.id) ? 'selected' : ''}`}
-                  style={{ background: `linear-gradient(135deg, ${state.color}, ${state.color}dd)` }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleStateSelect(state.id)}
-                >
-                  <div className="color-state-content">
-                    <h4 className="color-state-name">{state.name}</h4>
-                    <p className="color-state-description">{state.description}</p>
-                  </div>
-                  {selectedStates.includes(state.id) && (
-                    <div className="color-state-check">✓</div>
-                  )}
-                </motion.div>
+                  state={{
+                    name: state.name,
+                    color: state.color,
+                    description: state.description
+                  }}
+                  isSelected={selectedStates.includes(state.id)}
+                  onSelect={() => handleStateSelect(state.id)}
+                />
               ))}
             </div>
 
