@@ -32,15 +32,15 @@
   margin-bottom: 32px;
 }
 
-/* Content Layout */
+/* Content Layout - Fixed Grid Structure */
 .color-phase-content {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 48px;
-  flex: 1;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  flex: 1;
 }
 
 /* Glass-Morphism Containers */
@@ -89,7 +89,6 @@
 .color-selection-column {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 /* Tower Column */
@@ -97,14 +96,41 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: sticky;
+  top: 24px;
+  height: fit-content;
+}
+
+/* State Cards Container */
+.state-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.section-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 /* Color States Grid */
 .color-states-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 /* State Card Component - Glass-Morphism */
@@ -252,7 +278,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* Tower Visualization */
+/* Tower Visualization Fix */
 .tower-color-preview {
   padding: 16px;
   border-radius: 8px;
@@ -261,14 +287,29 @@
 }
 
 .tower-visualization {
-  transition: background 0.3s ease;
-  border-radius: 8px;
-  min-height: 400px;
   width: 300px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
   padding: 2rem;
+  transition: background 0.3s ease;
+}
+
+.tower-status {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  text-align: center;
 }
 
 .foundation-base {

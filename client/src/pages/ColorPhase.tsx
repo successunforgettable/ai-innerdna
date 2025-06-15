@@ -173,7 +173,7 @@ export default function ColorPhase() {
           transition={{ delay: 0.5, duration: 0.6 }}
         >
           <div className="glass-container">
-            <h3 className="title-primary">State Selection</h3>
+            <h3 className="section-title">State Selection</h3>
             <p className="section-description">Choose exactly 2 color palettes from the 5 options below</p>
             
             <div className="color-states-grid">
