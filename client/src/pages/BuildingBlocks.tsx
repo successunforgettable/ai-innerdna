@@ -57,7 +57,8 @@ export default function BuildingBlocks() {
   const handleContinue = () => {
     if (selectedBlock !== null) {
       const wingData = determineWing(primaryType, selectedBlock);
-      setCurrentScreen('color-states');
+      setCurrentScreen('color-phase');
+      setLocation('/color-phase');
     }
   };
 

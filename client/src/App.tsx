@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import Welcome from "@/pages/Welcome";
 import FoundationStones from "@/pages/FoundationStones";
 import BuildingBlocks from "@/pages/BuildingBlocks";
-import ColorStates from "@/pages/ColorStates";
+import ColorPhase from "@/pages/ColorPhase";
 import DetailTokens from "@/pages/DetailTokens";
 import Results from "@/pages/Results";
 import NotFound from "@/pages/not-found";
@@ -23,7 +23,7 @@ function AppContent() {
       '/': 'welcome',
       '/foundation-stones': 'foundation-stones',
       '/building-blocks': 'building-blocks',
-      '/color-states': 'color-states',
+      '/color-phase': 'color-phase',
       '/detail-tokens': 'detail-tokens',
       '/results': 'results'
     };
@@ -42,8 +42,8 @@ function AppContent() {
         return <FoundationStones />;
       case 'building-blocks':
         return <BuildingBlocks />;
-      case 'color-states':
-        return <ColorStates />;
+      case 'color-phase':
+        return <ColorPhase />;
       case 'detail-tokens':
         return <DetailTokens />;
       case 'results':

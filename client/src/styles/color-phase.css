@@ -1,37 +1,53 @@
-/* Color Phase Layout - Section 6 Specifications */
-
+/* Color Phase Container */
 .color-phase {
   min-height: 100vh;
-  background: var(--bg-gradient);
-  padding: 2rem;
+  background: var(--gradient-background);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
+/* Header Section */
 .color-phase-header {
   text-align: center;
-  margin-bottom: 3rem;
-  max-width: 800px;
+  margin-bottom: 32px;
 }
 
+.color-phase-header h1 {
+  color: var(--text-primary);
+  font-size: var(--font-size-3xl);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.color-phase-header p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+/* Content Layout */
 .color-phase-content {
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 3rem;
+  gap: 48px;
+  flex: 1;
   max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
-  align-items: start;
 }
 
+/* Color Selection Column */
 .color-selection-column {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
+/* Tower Column */
 .tower-column {
-  position: sticky;
-  top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Color States Grid */
@@ -211,9 +227,9 @@
 
 /* Navigation */
 .color-phase-navigation {
-  margin-top: 3rem;
   display: flex;
   justify-content: center;
+  margin-top: 32px;
 }
 
 /* Responsive Design */
