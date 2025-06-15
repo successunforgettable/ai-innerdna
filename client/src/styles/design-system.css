@@ -232,18 +232,19 @@
   margin-top: 1rem;
 }
 
-/* Building Block Container - Increase height significantly */
+/* Building Block Container - Auto height with content flexibility */
 .building-block {
   width: 180px;
-  height: 200px; /* Increase height substantially for full text visibility */
+  height: auto; /* Let height adjust to content */
+  min-height: 180px; /* Minimum height for consistency */
   padding: 16px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: visible; /* Allow text to be fully visible */
+  overflow: visible;
   position: relative;
   box-sizing: border-box;
-  margin-bottom: 20px; /* Add space between blocks */
   border-radius: 12px;
   border: 3px solid transparent;
   cursor: pointer;
@@ -314,17 +315,17 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Description Text - Allow full visibility */
+/* Main Description Text - Content-adaptive display */
 .building-block-description {
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.3;
   color: var(--text-primary);
+  white-space: normal; /* Allow normal text wrapping */
   text-align: left;
   flex: 1;
-  overflow: visible; /* Remove overflow hidden */
+  overflow: visible;
   word-wrap: break-word;
   hyphens: auto;
-  /* Remove line clamping to show all text */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
