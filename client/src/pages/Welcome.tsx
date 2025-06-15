@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -10,6 +11,7 @@ export default function Welcome() {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [, setLocation] = useLocation();
   const { setCurrentUser, setCurrentScreen } = useAssessment();
 
   const createUserMutation = useMutation({
@@ -20,6 +22,7 @@ export default function Welcome() {
     onSuccess: (user) => {
       setCurrentUser(user);
       setCurrentScreen('foundation-stones');
+      setLocation('/foundation-stones');
     }
   });
 

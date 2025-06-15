@@ -66,7 +66,7 @@ function Router() {
       <Route path="/" component={AppContent} />
       <Route path="/foundation-stones" component={AppContent} />
       <Route path="/building-blocks" component={AppContent} />
-      <Route path="/color-states" component={AppContent} />
+      <Route path="/color-phase" component={AppContent} />
       <Route path="/detail-tokens" component={AppContent} />
       <Route path="/results" component={AppContent} />
       <Route component={NotFound} />
