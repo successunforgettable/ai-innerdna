@@ -1,61 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
 import StateCard from '@/components/StateCard';
+import { stateOptions } from '@/lib/stateOptions';
 import '@/styles/color-phase.css';
 
 export default function ColorPhase() {
   const [, setLocation] = useLocation();
   const { setCurrentScreen, assessmentData, setAssessmentData } = useAssessment();
+  // ColorPhase state management
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [canProceed, setCanProceed] = useState(false);
   const [distributions, setDistributions] = useState<Record<string, number>>({});
-
-  // Exact 5 state options from Section 6.2
-  const colorStates = [
-    { 
-      id: 'very-good', 
-      name: 'Very Good State', 
-      color: '#22c55e', 
-      description: 'Peak performance - You feel balanced, authentic, and naturally flowing' 
-    },
-    { 
-      id: 'good', 
-      name: 'Good State', 
-      color: '#34d399', 
-      description: 'Positive functioning - You\'re engaged, healthy, and constructive' 
-    },
-    { 
-      id: 'average', 
-      name: 'Average State', 
-      color: '#f59e0b', 
-      description: 'Mixed patterns - Some restrictions, habitual responses, moderate stress' 
-    },
-    { 
-      id: 'below-average', 
-      name: 'Below Average State', 
-      color: '#f97316', 
-      description: 'Stress responses - Defensive patterns, energy depletion, reactive' 
-    },
-    { 
-      id: 'destructive', 
-      name: 'Destructive State', 
-      color: '#ef4444', 
-      description: 'Crisis mode - Harmful patterns, disconnection, overwhelming stress' 
-    }
-  ];
 
   const handleStateSelect = (stateId: string) => {
     if (selectedStates.includes(stateId)) {
-      // Deselect
-      const newSelected = selectedStates.filter(id => id !== stateId);
-      setSelectedStates(newSelected);
-      
+      setSelectedStates(selectedStates.filter(id => id !== stateId));
       const newDistributions = { ...distributions };
       delete newDistributions[stateId];
       setDistributions(newDistributions);
     } else if (selectedStates.length < 2) {
-      // Select - exactly 2 as per Section 6.1
       const newSelected = [...selectedStates, stateId];
       setSelectedStates(newSelected);
       
@@ -70,6 +35,10 @@ export default function ColorPhase() {
     }
   };
 
+  useEffect(() => {
+    setCanProceed(selectedStates.length === 2);
+  }, [selectedStates]);
+
   const handleDistributionChange = (stateId: string, value: number) => {
     const otherStateId = selectedStates.find(id => id !== stateId);
     if (otherStateId) {
@@ -83,7 +52,7 @@ export default function ColorPhase() {
 
   const handleContinue = () => {
     const colorStateSelections = selectedStates.map(stateId => {
-      const state = colorStates.find(s => s.id === stateId);
+      const state = stateOptions.find(s => s.id === stateId);
       return {
         state: stateId,
         title: state?.name || '',
@@ -100,8 +69,6 @@ export default function ColorPhase() {
     setLocation('/detail-tokens');
   };
 
-  const canContinue = selectedStates.length === 2;
-
   return (
     <div className="color-phase">
       <div className="color-phase-header">
@@ -116,7 +83,7 @@ export default function ColorPhase() {
             <p className="section-description">Choose exactly 2 color palettes from the 5 options below</p>
             
             <div className="color-states-grid">
-              {colorStates.map((state) => (
+              {stateOptions.map((state) => (
                 <StateCard
                   key={state.id}
                   state={{
@@ -140,7 +107,7 @@ export default function ColorPhase() {
                 <p className="distribution-description">Set the balance between your selected states (must total 100%)</p>
                 
                 {selectedStates.map((stateId) => {
-                  const state = colorStates.find(s => s.id === stateId);
+                  const state = stateOptions.find(s => s.id === stateId);
                   return (
                     <div key={stateId} className="distribution-slider">
                       <label className="slider-label">
@@ -179,7 +146,7 @@ export default function ColorPhase() {
               {selectedStates.length > 0 && (
                 <div className="color-tower-blocks">
                   {selectedStates.map((stateId, index) => {
-                    const state = colorStates.find(s => s.id === stateId);
+                    const state = stateOptions.find(s => s.id === stateId);
                     const distribution = distributions[stateId] || 0;
                     
                     return (
