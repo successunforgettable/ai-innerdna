@@ -6,6 +6,7 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { FoundationTower } from '@/components/FoundationTower';
 import { useAssessment } from '@/context/AssessmentContext';
 import { stoneSets } from '@/lib/stoneData';
+import { determinePersonalityType } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
 
 export default function FoundationStones() {
@@ -84,6 +85,26 @@ export default function FoundationStones() {
     if (currentStoneSet < stoneSets.length - 1) {
       setCurrentStoneSet(currentStoneSet + 1);
     } else {
+      // Calculate personality type when all foundation stones are completed
+      const personalityResult = determinePersonalityType(stoneSelections);
+      
+      // Update assessment data with foundation stones and calculated personality type
+      const foundationStoneSelections = stoneSelections.map((selection, setIndex) => ({
+        setIndex,
+        stoneIndex: selection,
+        content: stoneSets[setIndex].stones[selection].content,
+        gradient: stoneSets[setIndex].stones[selection].gradient
+      }));
+      
+      const updatedAssessmentData = {
+        ...assessmentData,
+        foundationStones: foundationStoneSelections,
+        result: personalityResult
+      };
+      
+      setAssessmentData(updatedAssessmentData);
+      
+      // Navigate to building blocks
       setCurrentScreen('building-blocks');
       setLocation('/building-blocks');
     }

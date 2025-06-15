@@ -79,11 +79,8 @@ export default function ColorPhase() {
   // Get personality-specific state descriptions
   const getPersonalityStateDescriptions = () => {
     const personalityType = assessmentData.result?.primaryType;
-    console.log('Debug - Personality Type:', personalityType);
-    console.log('Debug - Assessment Data:', assessmentData);
     
     if (!personalityType) {
-      console.log('Debug - No personality type found, using generic descriptions');
       return null;
     }
     
@@ -94,11 +91,7 @@ export default function ColorPhase() {
       ...stateDescriptionsPart3
     };
     
-    console.log('Debug - All State Descriptions:', Object.keys(allStateDescriptions));
-    const typeDescriptions = allStateDescriptions[personalityType as keyof typeof allStateDescriptions];
-    console.log('Debug - Type Descriptions for', personalityType, ':', typeDescriptions);
-    
-    return typeDescriptions;
+    return allStateDescriptions[personalityType as keyof typeof allStateDescriptions];
   };
   
   // Get enhanced state options with personality-specific descriptions
