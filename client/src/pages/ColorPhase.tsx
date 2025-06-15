@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
 import StateCard from '@/components/StateCard';
+import StateSlider from '@/components/StateSlider';
 import { stateOptions } from '@/lib/stateOptions';
 import '@/styles/color-phase.css';
 
@@ -38,17 +39,6 @@ export default function ColorPhase() {
   useEffect(() => {
     setCanProceed(selectedStates.length === 2);
   }, [selectedStates]);
-
-  const handleDistributionChange = (stateId: string, value: number) => {
-    const otherStateId = selectedStates.find(id => id !== stateId);
-    if (otherStateId) {
-      const newDistributions = {
-        [stateId]: value,
-        [otherStateId]: 100 - value
-      };
-      setDistributions(newDistributions);
-    }
-  };
 
   const handleContinue = () => {
     const colorStateSelections = selectedStates.map(stateId => {
@@ -98,38 +88,28 @@ export default function ColorPhase() {
             </div>
 
             {selectedStates.length === 2 && (
-              <motion.div 
-                className="distribution-controls"
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h4 className="distribution-title">Adjust Distribution</h4>
-                <p className="distribution-description">Set the balance between your selected states (must total 100%)</p>
-                
-                {selectedStates.map((stateId) => {
-                  const state = stateOptions.find(s => s.id === stateId);
-                  return (
-                    <div key={stateId} className="distribution-slider">
-                      <label className="slider-label">
-                        {state?.name}: {distributions[stateId]}%
-                      </label>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        value={distributions[stateId] || 0}
-                        onChange={(e) => handleDistributionChange(stateId, parseInt(e.target.value))}
-                        className="color-slider"
-                        style={{ 
-                          background: `linear-gradient(to right, ${state?.color}, ${state?.color})`
-                        }}
-                      />
-                      <div className="percentage-display">
-                        {distributions[stateId] || 0}% / {100 - (distributions[stateId] || 0)}%
-                      </div>
-                    </div>
-                  );
-                })}
+                <StateSlider
+                  value={distributions[selectedStates[0]] || 50}
+                  onChange={(value) => {
+                    const newDistributions = {
+                      [selectedStates[0]]: value,
+                      [selectedStates[1]]: 100 - value
+                    };
+                    setDistributions(newDistributions);
+                  }}
+                  colors={[
+                    stateOptions.find(s => s.id === selectedStates[0])?.color || '#000',
+                    stateOptions.find(s => s.id === selectedStates[1])?.color || '#000'
+                  ] as [string, string]}
+                  stateNames={[
+                    stateOptions.find(s => s.id === selectedStates[0])?.name || '',
+                    stateOptions.find(s => s.id === selectedStates[1])?.name || ''
+                  ] as [string, string]}
+                />
               </motion.div>
             )}
           </div>

@@ -107,6 +107,65 @@
   height: 20px;
 }
 
+/* State Slider Component */
+.state-slider {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.state-slider-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.state-label {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  outline: none;
+  margin-bottom: 16px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.percentage-display {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+}
+
 /* Distribution Controls */
 .distribution-controls {
   margin-top: 2rem;
@@ -127,56 +186,6 @@
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
-}
-
-.distribution-slider {
-  margin-bottom: 1.5rem;
-}
-
-.slider-label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-}
-
-.color-slider {
-  width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  margin-bottom: 0.5rem;
-}
-
-.color-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  border: 2px solid #3b82f6;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.color-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  border: 2px solid #3b82f6;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.percentage-display {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  text-align: center;
-  font-weight: 500;
 }
 
 /* Tower Visualization */
