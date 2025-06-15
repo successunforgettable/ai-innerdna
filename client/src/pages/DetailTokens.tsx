@@ -11,41 +11,48 @@ export default function DetailTokens() {
     social: 0
   });
 
-  const handleTokenDrop = (containerId: string) => {
+  const totalTokens = tokenDistribution.self + tokenDistribution.oneToOne + tokenDistribution.social;
+  const remainingTokens = 10 - totalTokens;
+
+  const handleTokenAdd = (containerId: string) => {
+    if (remainingTokens <= 0) return;
+    
     setTokenDistribution(prev => ({
       ...prev,
       [containerId]: prev[containerId as keyof typeof prev] + 1
     }));
   };
 
-  const handleAddToken = (containerId: string) => {
-    const total = Object.values(tokenDistribution).reduce((sum, count) => sum + count, 0);
-    if (total < 10) {
-      setTokenDistribution(prev => ({
-        ...prev,
-        [containerId]: prev[containerId as keyof typeof prev] + 1
-      }));
-    }
+  const handleTokenDrop = (containerId: string) => {
+    if (remainingTokens <= 0) return;
+    
+    setTokenDistribution(prev => ({
+      ...prev,
+      [containerId]: prev[containerId as keyof typeof prev] + 1
+    }));
   };
 
+  const canContinue = totalTokens === 10;
+
+  // Container data from Section 7.2
   const containers = [
     {
       id: 'self',
-      emoji: '🧘',
-      title: 'Self-Preservation',
-      description: 'Focus on personal safety, comfort, and well-being. Energy directed toward maintaining physical and emotional security.'
+      emoji: '🛡️',
+      title: 'Self-Preservation Focus',
+      description: 'Energy devoted to personal security, routines, and maintaining your environment'
     },
     {
-      id: 'oneToOne',
-      emoji: '💕',
-      title: 'One-to-One',
-      description: 'Focus on intense personal connections and relationships. Energy directed toward bonding and intimate partnerships.'
+      id: 'oneToOne', 
+      emoji: '🔥',
+      title: 'One-to-One Focus',
+      description: 'Energy devoted to intense personal connections and important relationships'
     },
     {
       id: 'social',
-      emoji: '👥',
-      title: 'Social',
-      description: 'Focus on group dynamics and community. Energy directed toward belonging, status, and social networks.'
+      emoji: '🧱', 
+      title: 'Social Focus',
+      description: 'Energy devoted to group dynamics, community belonging, and social awareness'
     }
   ];
 
@@ -61,9 +68,9 @@ export default function DetailTokens() {
               
               {/* Token Pool */}
               <div className="mb-6">
-                <h3 className="text-white font-medium mb-3">Available Tokens:</h3>
+                <h3 className="text-white font-medium mb-3">Available Tokens: {remainingTokens}/10</h3>
                 <div className="flex gap-2 flex-wrap">
-                  {Array.from({ length: Math.max(0, 10 - Object.values(tokenDistribution).reduce((sum, count) => sum + count, 0)) }).map((_, i) => (
+                  {Array.from({ length: Math.max(0, remainingTokens) }).map((_, i) => (
                     <Token key={i} id={`token-${i}`} onDrop={handleTokenDrop} />
                   ))}
                 </div>
@@ -79,7 +86,7 @@ export default function DetailTokens() {
                     title={container.title}
                     description={container.description}
                     tokenCount={tokenDistribution[container.id as keyof typeof tokenDistribution]}
-                    onTokenClick={() => handleAddToken(container.id)}
+                    onTokenClick={() => handleTokenAdd(container.id)}
                   />
                 ))}
               </div>
