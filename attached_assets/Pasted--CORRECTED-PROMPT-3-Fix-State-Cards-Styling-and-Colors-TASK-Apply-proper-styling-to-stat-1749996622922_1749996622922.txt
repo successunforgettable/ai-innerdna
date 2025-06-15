@@ -1,0 +1,100 @@
+# **CORRECTED PROMPT 3: Fix State Cards Styling and Colors**
+
+**TASK:** Apply proper styling to state cards with correct colors and typography
+
+**CRITICAL ISSUE:** State cards have no visual styling and colors aren't displaying
+
+**EXACT STATE CARD STYLING:**
+```css
+.state-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.state-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--state-color);
+  transition: width 0.3s ease;
+}
+
+.state-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+}
+
+.state-card:hover::before {
+  width: 8px;
+}
+
+.state-card.selected {
+  border-color: var(--state-color);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 2px var(--state-color, rgba(255, 255, 255, 0.3));
+}
+
+.state-card.selected::before {
+  width: 100%;
+  opacity: 0.1;
+}
+```
+
+**COLOR INDICATOR STYLING:**
+```css
+.state-color-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: var(--state-color);
+}
+```
+
+**TEXT STYLING:**
+```css
+.state-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.state-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+}
+```
+
+**SELECTION INDICATOR:**
+```css
+.state-check {
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  color: var(--state-color);
+  flex-shrink: 0;
+}
+```
+
+**VERIFICATION:** State cards should have proper glass-morphism styling with color indicators and hover effects.

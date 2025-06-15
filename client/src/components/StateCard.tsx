@@ -14,15 +14,14 @@ interface StateCardProps {
 const StateCard = ({ state, isSelected, onSelect }: StateCardProps) => (
   <motion.div
     className={`state-card ${isSelected ? 'selected' : ''}`}
-    style={{ borderColor: state.color }}
+    style={{ 
+      '--state-color': state.color,
+    } as React.CSSProperties}
     whileHover={{ scale: 1.02 }}
     whileTap={{ scale: 0.98 }}
     onClick={onSelect}
   >
-    <div 
-      className="state-color-indicator"
-      style={{ backgroundColor: state.color }}
-    />
+    <div className="state-color-indicator" />
     <div className="state-content">
       <h3 className="state-name">{state.name}</h3>
       <p className="state-description">{state.description}</p>
