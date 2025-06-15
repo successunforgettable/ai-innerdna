@@ -43,6 +43,7 @@ export default function DetailPhase({ personalityData, onComplete }) {
                     {Array.from({ length: remainingTokens }).map((_, i) => (
                       <Token 
                         key={`available-${i}`} 
+                        id={`available-${i}`}
                         onDrop={handleTokenDrop}
                       />
                     ))}
