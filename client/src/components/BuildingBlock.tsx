@@ -6,6 +6,7 @@ interface BuildingBlockProps {
   isSelected: boolean;
   onSelect: () => void;
   gradient: string;
+  blockName: string;
 }
 
 // CheckIcon component
@@ -13,7 +14,7 @@ const CheckIcon = () => (
   <div className="check-icon">✓</div>
 );
 
-const BuildingBlock = ({ content, isSelected, onSelect, gradient }: BuildingBlockProps) => (
+const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: BuildingBlockProps) => (
   <motion.div
     className={`building-block ${isSelected ? 'selected' : ''}`}
     style={{ background: gradient }}
@@ -21,8 +22,9 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient }: BuildingBloc
     whileTap={{ scale: 0.97 }}
     onClick={onSelect}
   >
-    <div className="block-content">
-      <p className="building-block-text">{content}</p>
+    <div className="building-block-label">{blockName}</div>
+    <div className="building-block-description">
+      {content}
     </div>
     {isSelected && <CheckIcon />}
   </motion.div>

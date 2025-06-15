@@ -81,6 +81,7 @@ export default function BuildingBlocks() {
                 isSelected={selectedBlock === option.id}
                 onSelect={() => handleBlockSelect(option.id)}
                 gradient={option.gradient}
+                blockName={option.name}
               />
             ))}
           </div>
