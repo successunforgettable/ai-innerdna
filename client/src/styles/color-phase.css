@@ -4,7 +4,7 @@
 .color-phase .color-phase__title,
 .color-phase h1 {
   font-family: 'Inter', sans-serif !important;
-  color: rgba(255, 255, 255, 0.95) !important;
+  color: #fff8f0 !important; /* warm white */
   font-weight: 700 !important;
   font-size: 2.5rem !important;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
@@ -14,7 +14,7 @@
 
 .color-phase .color-phase__subtitle {
   font-family: 'Inter', sans-serif !important;
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: #fef7ed !important; /* cream */
   font-weight: 400 !important;
   font-size: 1.1rem !important;
   line-height: 1.6 !important;
@@ -208,7 +208,7 @@
 .color-phase .color-phase__state-name,
 .color-phase .state-name {
   font-family: 'Inter', sans-serif !important;
-  color: rgba(255, 255, 255, 0.95) !important;
+  color: #fdf4e7 !important; /* soft cream */
   font-weight: 600 !important;
   font-size: 1.1rem !important;
   margin-bottom: 4px !important;
@@ -218,7 +218,7 @@
 .color-phase .color-phase__state-description,
 .color-phase .state-description {
   font-family: 'Inter', sans-serif !important;
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: #fde68a !important; /* soft yellow */
   font-weight: 400 !important;
   font-size: 0.9rem !important;
   line-height: 1.5 !important;
@@ -467,7 +467,7 @@
 .color-phase .distribution-slider__title,
 .color-phase .distribution-title {
   font-family: 'Inter', sans-serif !important;
-  color: rgba(255, 255, 255, 0.95) !important;
+  color: #fef3c7 !important; /* light gold */
   font-weight: 600 !important;
   font-size: 1.25rem !important;
   margin-bottom: 0.5rem !important;
@@ -476,7 +476,7 @@
 .color-phase .distribution-slider__label,
 .color-phase .distribution-description {
   font-family: 'Inter', sans-serif !important;
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: #f9f1e6 !important; /* warm cream */
   font-weight: 500 !important;
   font-size: 0.9rem !important;
   margin-bottom: 1.5rem !important;
