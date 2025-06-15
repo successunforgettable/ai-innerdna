@@ -37,7 +37,8 @@ export default function DetailPhase({ personalityData, onComplete }) {
                         return (
                           <div
                             key={i}
-                            className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full shadow-lg border-2 border-white/20"
+                            className="w-8 h-8 bg-orange-500 rounded-full shadow-lg border-2 border-white/20"
+                            style={{ backgroundColor: '#f97316', minWidth: '32px', minHeight: '32px' }}
                           />
                         );
                       });
