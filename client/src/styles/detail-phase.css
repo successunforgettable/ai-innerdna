@@ -1,0 +1,234 @@
+/* Detail Phase Styling - Following Foundation/Building/Color design system */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.detail-phase {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-phase-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 0 24px;
+}
+
+.detail-phase .detail-phase__title,
+.detail-phase h1 {
+  font-family: 'Inter', sans-serif !important;
+  color: #fbbf24 !important; /* gold */
+  font-weight: 700 !important;
+  font-size: 2.5rem !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  text-align: center !important;
+  margin-bottom: 8px !important;
+}
+
+.detail-phase .detail-phase__subtitle {
+  font-family: 'Inter', sans-serif !important;
+  color: #fef7ed !important; /* cream */
+  font-weight: 400 !important;
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+  text-align: center !important;
+  margin-bottom: 32px !important;
+}
+
+.detail-phase-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 56px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  padding: 0 24px;
+}
+
+/* Glass container styling matching Foundation/Building/Color */
+.detail-phase .glass-container,
+.detail-phase .token-container,
+.detail-phase .tower-container {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(32px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  padding: 32px !important;
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.glass-container h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fbbf24 !important; /* gold */
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.glass-container .section-description {
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Token pool styling */
+.token-pool {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  min-height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container styling */
+.energy-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.container-header {
+  display: flex;
+  justify-content: between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.container-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.container-description {
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.token-count {
+  font-family: 'Inter', sans-serif;
+  color: #fbbf24;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.tokens-display {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 32px;
+  align-items: center;
+}
+
+/* Progress counter styling */
+.progress-counter {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.progress-text {
+  font-family: 'Inter', sans-serif;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.validation-message {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-top: 8px;
+}
+
+.validation-message.success {
+  color: #10b981;
+}
+
+.validation-message.warning {
+  color: #f59e0b;
+}
+
+.validation-message.info {
+  color: #3b82f6;
+}
+
+/* Tower styling */
+.detail-phase .tower-title {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #fbbf24 !important;
+  margin-bottom: 16px !important;
+  text-align: center !important;
+}
+
+/* Continue button styling matching other phases */
+.continue-button {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  width: 100%;
+  margin-top: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+}
+
+.continue-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .detail-phase-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .detail-phase .glass-container {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-phase {
+    padding: 16px;
+  }
+  
+  .detail-phase .detail-phase__title,
+  .detail-phase h1 {
+    font-size: 2rem !important;
+  }
+}
