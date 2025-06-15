@@ -323,7 +323,7 @@ export default function ColorPhase() {
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
             <TowerVisualization
-              title="Your Tower"
+              title={<span style={{ color: '#1e40af' }}>Your Tower</span>}
               selectedStates={selectedStates}
               distribution={colorDistribution}
               stateOptions={stateOptions}

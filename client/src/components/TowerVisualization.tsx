@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 
 interface TowerVisualizationProps {
-  title: string;
+  title: string | ReactNode;
   blocks?: Array<{
     gradient: string;
     width: string;
