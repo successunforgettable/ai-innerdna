@@ -1,12 +1,38 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import StateCard from '@/components/StateCard';
 import StateSlider from '@/components/StateSlider';
 import ContinueButton from '@/components/ContinueButton';
 import { stateOptions } from '@/lib/stateOptions';
 import '@/styles/color-phase.css';
+
+// Page entrance animation
+const pageVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 }
+};
+
+// State card animations
+const cardVariants = {
+  initial: { opacity: 0, x: -20 },
+  animate: { opacity: 1, x: 0 },
+  hover: { scale: 1.02, y: -2 }
+};
+
+// Slider animations
+const sliderVariants = {
+  initial: { opacity: 0, scale: 0.95 },
+  animate: { opacity: 1, scale: 1 }
+};
+
+// Tower animations
+const towerVariants = {
+  initial: { opacity: 0, scale: 0.9 },
+  animate: { opacity: 1, scale: 1 }
+};
 
 export default function ColorPhase() {
   const [, setLocation] = useLocation();
@@ -66,6 +92,21 @@ export default function ColorPhase() {
     setCanProceed(selectedStates.length === 2);
   }, [selectedStates]);
 
+  // Helper functions for animations
+  const getSelectedColors = (): [string, string] => {
+    return [
+      stateOptions.find(s => s.id === selectedStates[0])?.color || '#000',
+      stateOptions.find(s => s.id === selectedStates[1])?.color || '#000'
+    ];
+  };
+
+  const getSelectedStateNames = (): [string, string] => {
+    return [
+      stateOptions.find(s => s.id === selectedStates[0])?.name || '',
+      stateOptions.find(s => s.id === selectedStates[1])?.name || ''
+    ];
+  };
+
   // Update tower colors when selection or distribution changes
   useEffect(() => {
     if (selectedStates.length === 2) {
@@ -101,111 +142,171 @@ export default function ColorPhase() {
   };
 
   return (
-    <div className="color-phase">
-      <div className="color-phase-header">
+    <motion.div
+      className="color-phase"
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      <motion.div 
+        className="color-phase-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
         <h1 className="foundation-title">Color State Selection</h1>
         <p className="phase-description">Select 2 color palettes that represent your current experience</p>
-      </div>
+      </motion.div>
       
-      <div className="color-phase-content">
-        <div className="color-selection-column">
+      <motion.div 
+        className="color-phase-content"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      >
+        <motion.div 
+          className="color-selection-column"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+        >
           <div className="glass-container">
             <h3 className="title-primary">State Selection</h3>
             <p className="section-description">Choose exactly 2 color palettes from the 5 options below</p>
             
             <div className="color-states-grid">
-              {stateOptions.map((state) => (
-                <StateCard
+              {stateOptions.map((state, index) => (
+                <motion.div
                   key={state.id}
-                  state={{
-                    name: state.name,
-                    color: state.color,
-                    description: state.description
-                  }}
-                  isSelected={selectedStates.includes(state.id)}
-                  onSelect={() => handleStateSelect(state.id)}
-                />
+                  variants={cardVariants}
+                  initial="initial"
+                  animate="animate"
+                  whileHover="hover"
+                  transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
+                >
+                  <StateCard
+                    state={{
+                      name: state.name,
+                      color: state.color,
+                      description: state.description
+                    }}
+                    isSelected={selectedStates.includes(state.id)}
+                    onSelect={() => handleStateSelect(state.id)}
+                  />
+                </motion.div>
               ))}
             </div>
 
-            {selectedStates.length === 2 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <StateSlider
-                  value={distributions[selectedStates[0]] || 50}
-                  onChange={(value) => {
-                    const newDistributions = {
-                      [selectedStates[0]]: value,
-                      [selectedStates[1]]: 100 - value
-                    };
-                    setDistributions(newDistributions);
-                    handleDistributionChange(value);
-                  }}
-                  colors={[
-                    stateOptions.find(s => s.id === selectedStates[0])?.color || '#000',
-                    stateOptions.find(s => s.id === selectedStates[1])?.color || '#000'
-                  ] as [string, string]}
-                  stateNames={[
-                    stateOptions.find(s => s.id === selectedStates[0])?.name || '',
-                    stateOptions.find(s => s.id === selectedStates[1])?.name || ''
-                  ] as [string, string]}
-                />
-              </motion.div>
-            )}
+            <AnimatePresence>
+              {selectedStates.length === 2 && (
+                <motion.div
+                  variants={sliderVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <StateSlider
+                    value={colorDistribution.primary}
+                    onChange={handleDistributionChange}
+                    colors={getSelectedColors()}
+                    stateNames={getSelectedStateNames()}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
         
-        <div className="tower-column">
+        <motion.div 
+          className="tower-column"
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+        >
           <div className="glass-container">
             <h3 className="tower-title">Your Tower</h3>
-            <div className="tower-color-preview">
+            <motion.div 
+              className="tower-color-preview"
+              variants={towerVariants}
+              initial="initial"
+              animate="animate"
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
               <div className="tower-visualization">
-                <div className="foundation-base">
+                <motion.div 
+                  className="foundation-base"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.0, duration: 0.4 }}
+                >
                   <span className="foundation-text">Foundation Complete</span>
-                </div>
+                </motion.div>
                 
-                {selectedStates.length > 0 && (
-                  <div className="color-tower-blocks">
-                    {selectedStates.map((stateId, index) => {
-                      const state = stateOptions.find(s => s.id === stateId);
-                      const distribution = distributions[stateId] || 0;
-                      
-                      return (
-                        <motion.div
-                          key={stateId}
-                          className="color-tower-block"
-                          style={{ 
-                            background: state?.color,
-                            height: `${Math.max(distribution / 2, 20)}px`,
-                            opacity: distribution / 100
-                          }}
-                          initial={{ scale: 0, opacity: 0 }}
-                          animate={{ scale: 1, opacity: distribution / 100 }}
-                          transition={{ delay: index * 0.1 }}
-                        >
-                          {state?.name} ({distribution}%)
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                )}
+                <AnimatePresence>
+                  {selectedStates.length > 0 && (
+                    <div className="color-tower-blocks">
+                      {selectedStates.map((stateId, index) => {
+                        const state = stateOptions.find(s => s.id === stateId);
+                        const distribution = distributions[stateId] || 0;
+                        
+                        return (
+                          <motion.div
+                            key={stateId}
+                            className="color-tower-block"
+                            style={{ 
+                              background: state?.color,
+                              height: `${Math.max(distribution / 2, 20)}px`,
+                              opacity: distribution / 100
+                            }}
+                            initial={{ scale: 0, opacity: 0, y: 20 }}
+                            animate={{ 
+                              scale: 1, 
+                              opacity: distribution / 100,
+                              y: 0
+                            }}
+                            exit={{ scale: 0, opacity: 0, y: -20 }}
+                            transition={{ 
+                              delay: 1.1 + index * 0.1,
+                              duration: 0.5,
+                              type: "spring",
+                              stiffness: 100
+                            }}
+                          >
+                            {state?.name} ({distribution}%)
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
+            </motion.div>
             
-            <p className="foundation-description">
+            <motion.p 
+              className="foundation-description"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.4 }}
+            >
               Colors apply to tower in real-time
-            </p>
+            </motion.p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       
-      <div className="color-phase-navigation">
+      <motion.div 
+        className="color-phase-navigation"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.3, duration: 0.5 }}
+      >
         <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
           Continue to Detail Tokens
         </ContinueButton>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
