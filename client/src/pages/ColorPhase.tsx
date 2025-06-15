@@ -14,6 +14,7 @@ export default function ColorPhase() {
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
   const [canProceed, setCanProceed] = useState(false);
   const [distributions, setDistributions] = useState<Record<string, number>>({});
+  const [colorDistribution, setColorDistribution] = useState({ primary: 70, secondary: 30 });
 
   const handleStateSelect = (stateId: string) => {
     if (selectedStates.includes(stateId)) {
@@ -36,9 +37,40 @@ export default function ColorPhase() {
     }
   };
 
+  // Tower color update functionality
+  const updateTowerColors = (selectedStates: string[], distribution: { primary: number; secondary: number }) => {
+    const primaryState = selectedStates[0];
+    const secondaryState = selectedStates[1];
+    
+    if (!primaryState || !secondaryState) return;
+    
+    const primaryColor = stateOptions.find(s => s.id === primaryState)?.color;
+    const secondaryColor = stateOptions.find(s => s.id === secondaryState)?.color;
+    
+    // Apply colors to tower visualization
+    const towerElement = document.querySelector('.tower-visualization') as HTMLElement;
+    if (towerElement && primaryColor && secondaryColor) {
+      towerElement.style.background = `linear-gradient(${distribution.primary}%, ${primaryColor}, ${secondaryColor})`;
+    }
+  };
+
+  const handleDistributionChange = (value: number) => {
+    setColorDistribution({
+      primary: value,
+      secondary: 100 - value
+    });
+  };
+
   useEffect(() => {
     setCanProceed(selectedStates.length === 2);
   }, [selectedStates]);
+
+  // Update tower colors when selection or distribution changes
+  useEffect(() => {
+    if (selectedStates.length === 2) {
+      updateTowerColors(selectedStates, colorDistribution);
+    }
+  }, [selectedStates, colorDistribution]);
 
   const handleContinue = () => {
     const colorStateSelections = selectedStates.map(stateId => {
@@ -100,6 +132,7 @@ export default function ColorPhase() {
                       [selectedStates[1]]: 100 - value
                     };
                     setDistributions(newDistributions);
+                    handleDistributionChange(value);
                   }}
                   colors={[
                     stateOptions.find(s => s.id === selectedStates[0])?.color || '#000',
@@ -118,36 +151,38 @@ export default function ColorPhase() {
         <div className="tower-column">
           <div className="glass-container">
             <h3 className="tower-title">Your Tower</h3>
-            <div className="color-tower-visualization">
-              <div className="foundation-base">
-                <span className="foundation-text">Foundation Complete</span>
-              </div>
-              
-              {selectedStates.length > 0 && (
-                <div className="color-tower-blocks">
-                  {selectedStates.map((stateId, index) => {
-                    const state = stateOptions.find(s => s.id === stateId);
-                    const distribution = distributions[stateId] || 0;
-                    
-                    return (
-                      <motion.div
-                        key={stateId}
-                        className="color-tower-block"
-                        style={{ 
-                          background: state?.color,
-                          height: `${Math.max(distribution / 2, 20)}px`,
-                          opacity: distribution / 100
-                        }}
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: distribution / 100 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        {state?.name} ({distribution}%)
-                      </motion.div>
-                    );
-                  })}
+            <div className="tower-color-preview">
+              <div className="tower-visualization">
+                <div className="foundation-base">
+                  <span className="foundation-text">Foundation Complete</span>
                 </div>
-              )}
+                
+                {selectedStates.length > 0 && (
+                  <div className="color-tower-blocks">
+                    {selectedStates.map((stateId, index) => {
+                      const state = stateOptions.find(s => s.id === stateId);
+                      const distribution = distributions[stateId] || 0;
+                      
+                      return (
+                        <motion.div
+                          key={stateId}
+                          className="color-tower-block"
+                          style={{ 
+                            background: state?.color,
+                            height: `${Math.max(distribution / 2, 20)}px`,
+                            opacity: distribution / 100
+                          }}
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: distribution / 100 }}
+                          transition={{ delay: index * 0.1 }}
+                        >
+                          {state?.name} ({distribution}%)
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
             
             <p className="foundation-description">

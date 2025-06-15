@@ -189,11 +189,21 @@
 }
 
 /* Tower Visualization */
-.color-tower-visualization {
+.tower-color-preview {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background: var(--tower-gradient, transparent);
+}
+
+.tower-visualization {
+  transition: background 0.3s ease;
+  border-radius: 8px;
+  min-height: 400px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 300px;
   padding: 2rem;
 }
 
