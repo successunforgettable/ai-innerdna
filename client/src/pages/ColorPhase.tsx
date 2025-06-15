@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import StateCard from '@/components/StateCard';
 import StateSlider from '@/components/StateSlider';
 import ContinueButton from '@/components/ContinueButton';
+import { TowerVisualization } from '@/components/TowerVisualization';
 import { stateOptions } from '@/lib/stateOptions';
 import '@/styles/color-phase.css';
 
@@ -259,73 +260,18 @@ export default function ColorPhase() {
           className="tower-column"
           variants={cardVariants}
         >
-          <div className="glass-container">
-            <h3 className="tower-title">Your Tower</h3>
-            <motion.div 
-              className="tower-color-preview"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-            >
-              <div className="tower-visualization">
-                <motion.div 
-                  className="foundation-base"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.0, duration: 0.4 }}
-                >
-                  <span className="foundation-text">Foundation Complete</span>
-                </motion.div>
-                
-                <AnimatePresence>
-                  {selectedStates.length > 0 && (
-                    <div className="color-tower-blocks">
-                      {selectedStates.map((stateId, index) => {
-                        const state = stateOptions.find(s => s.id === stateId);
-                        const distribution = distributions[stateId] || 0;
-                        
-                        return (
-                          <motion.div
-                            key={stateId}
-                            className="color-tower-block"
-                            style={{ 
-                              background: state?.color,
-                              height: `${Math.max(distribution / 2, 20)}px`,
-                              opacity: distribution / 100
-                            }}
-                            initial={{ scale: 0, opacity: 0, y: 20 }}
-                            animate={{ 
-                              scale: 1, 
-                              opacity: distribution / 100,
-                              y: 0
-                            }}
-                            exit={{ scale: 0, opacity: 0, y: -20 }}
-                            transition={{ 
-                              delay: 1.1 + index * 0.1,
-                              duration: 0.5,
-                              type: "spring",
-                              stiffness: 100
-                            }}
-                          >
-                            {state?.name} ({distribution}%)
-                          </motion.div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </motion.div>
-            
-            <motion.p 
-              className="foundation-description"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.4 }}
-            >
-              Colors apply to tower in real-time
-            </motion.p>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <TowerVisualization
+              title="Your Tower"
+              selectedStates={selectedStates}
+              distribution={colorDistribution}
+              stateOptions={stateOptions}
+            />
+          </motion.div>
         </motion.div>
       </motion.div>
       

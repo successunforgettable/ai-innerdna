@@ -1,0 +1,180 @@
+# **CORRECTED PROMPT 7: Implement Real-time Tower Color Updates**
+
+**TASK:** Make tower visualization update colors in real-time when states are selected
+
+**CRITICAL ISSUE:** Tower is not showing color changes or proper visualization
+
+**TOWER VISUALIZATION COMPONENT:**
+```tsx
+const TowerVisualization = ({ selectedStates, distribution, stateOptions }) => {
+  const [towerGradient, setTowerGradient] = useState('');
+  
+  useEffect(() => {
+    if (selectedStates.length === 2) {
+      const primaryState = stateOptions.find(s => s.id === selectedStates[0]);
+      const secondaryState = stateOptions.find(s => s.id === selectedStates[1]);
+      
+      if (primaryState && secondaryState) {
+        const gradient = `linear-gradient(180deg, ${primaryState.color} 0%, ${primaryState.color} ${distribution.primary}%, ${secondaryState.color} ${distribution.primary}%, ${secondaryState.color} 100%)`;
+        setTowerGradient(gradient);
+      }
+    } else {
+      setTowerGradient('rgba(255, 255, 255, 0.1)');
+    }
+  }, [selectedStates, distribution, stateOptions]);
+
+  return (
+    <div className="tower-visualization-container">
+      <h3 className="tower-title">Your Tower</h3>
+      
+      <motion.div
+        className="tower-visualization"
+        style={{ background: towerGradient }}
+        animate={{
+          background: towerGradient,
+          transition: { duration: 0.5, ease: "easeInOut" }
+        }}
+      >
+        <div className="tower-content">
+          {selectedStates.length === 0 && (
+            <div className="tower-placeholder">
+              <span>Select states to see colors</span>
+            </div>
+          )}
+          
+          {selectedStates.length === 1 && (
+            <div className="tower-partial">
+              <span>Select one more state</span>
+            </div>
+          )}
+          
+          {selectedStates.length === 2 && (
+            <div className="tower-complete">
+              <div className="foundation-indicator">
+                Foundation Complete
+              </div>
+              <div className="color-preview">
+                <div 
+                  className="color-section primary"
+                  style={{ 
+                    background: stateOptions.find(s => s.id === selectedStates[0])?.color,
+                    height: `${distribution.primary}%`
+                  }}
+                />
+                <div 
+                  className="color-section secondary"
+                  style={{ 
+                    background: stateOptions.find(s => s.id === selectedStates[1])?.color,
+                    height: `${distribution.secondary}%`
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </motion.div>
+      
+      <div className="tower-description">
+        {selectedStates.length === 2 ? 
+          'Colors apply to tower in real-time' : 
+          'Select 2 color states to preview'
+        }
+      </div>
+    </div>
+  );
+};
+```
+
+**TOWER STYLING:**
+```css
+.tower-visualization-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tower-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.tower-visualization {
+  width: 300px;
+  height: 400px;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tower-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.tower-placeholder,
+.tower-partial {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  padding: 20px;
+}
+
+.foundation-indicator {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.color-preview {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.color-section {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tower-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-top: 16px;
+  font-style: italic;
+}
+```
+
+**VERIFICATION:** Tower should show real-time color changes as user selects states and adjusts distribution slider.
