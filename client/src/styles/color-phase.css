@@ -1,22 +1,25 @@
 /* Copy the exact font styling that makes Foundation look professional */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+.color-phase .color-phase__title,
 .color-phase h1 {
-  font-family: 'Inter', sans-serif;
-  color: #f8fafc !important; /* Soft white with slight blue tint - maximum emphasis */
+  font-family: 'Inter', sans-serif !important;
+  color: rgba(255, 255, 255, 0.95) !important;
   font-weight: 700 !important;
   font-size: 2.5rem !important;
-  text-align: center;
-  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  text-align: center !important;
+  margin-bottom: 8px !important;
 }
 
+.color-phase .color-phase__paragraph,
 .color-phase p {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif !important;
   color: #94a3b8 !important; /* Balanced blue-gray - medium emphasis */
   font-weight: 400 !important;
   font-size: 1rem !important;
-  text-align: center;
-  margin-bottom: 32px;
+  text-align: center !important;
+  margin-bottom: 32px !important;
 }
 
 /* Copy this exact structure from Foundation Phase */
@@ -109,24 +112,26 @@
 }
 
 /* Copy the exact section header styling from previous pages */
-.section-title {
-  font-family: 'Inter', sans-serif;
+.color-phase .color-phase__section-title,
+.color-phase .section-title {
+  font-family: 'Inter', sans-serif !important;
   color: #e2e8f0 !important; /* Light blue-gray - high emphasis */
   font-weight: 600 !important;
   font-size: 1.5rem !important;
-  margin-bottom: 20px;
-  letter-spacing: -0.02em; /* Tighter letter spacing */
-  text-align: center;
+  margin-bottom: 20px !important;
+  letter-spacing: -0.02em !important; /* Tighter letter spacing */
+  text-align: center !important;
 }
 
-.section-description {
-  font-family: 'Inter', sans-serif;
+.color-phase .color-phase__section-description,
+.color-phase .section-description {
+  font-family: 'Inter', sans-serif !important;
   color: #94a3b8 !important; /* Balanced blue-gray - medium emphasis */
   font-weight: 400 !important;
   font-size: 1rem !important;
-  margin-bottom: 32px;
-  line-height: 1.6; /* Better readability */
-  text-align: center;
+  margin-bottom: 32px !important;
+  line-height: 1.6 !important; /* Better readability */
+  text-align: center !important;
 }
 
 /* Color States Grid */
@@ -188,16 +193,18 @@
 }
 
 /* Copy the exact text styling that makes Foundation stones readable */
-.state-name {
-  font-family: 'Inter', sans-serif;
+.color-phase .color-phase__state-name,
+.color-phase .state-name {
+  font-family: 'Inter', sans-serif !important;
   color: #cbd5e1 !important; /* Medium blue-gray - medium-high emphasis */
   font-weight: 600 !important;
   font-size: 1.25rem !important;
-  margin-bottom: 4px;
+  margin-bottom: 4px !important;
 }
 
-.state-description {
-  font-family: 'Inter', sans-serif;
+.color-phase .color-phase__state-description,
+.color-phase .state-description {
+  font-family: 'Inter', sans-serif !important;
   color: #64748b !important; /* Readable blue-gray - lower priority but still clear */
   font-weight: 400 !important;
   font-size: 0.95rem !important;
@@ -421,15 +428,16 @@
   justify-content: center;
 }
 
-.tower-description,
-.helper-text {
-  font-family: 'Inter', sans-serif;
+.color-phase .color-phase__tower-description,
+.color-phase .tower-description,
+.color-phase .helper-text {
+  font-family: 'Inter', sans-serif !important;
   color: #475569 !important; /* Subtle blue-gray - lowest priority */
   font-weight: 400 !important;
   font-size: 0.9rem !important;
   font-style: italic !important;
-  text-align: center;
-  margin-top: 16px;
+  text-align: center !important;
+  margin-top: 16px !important;
 }
 
 /* Distribution Controls */
