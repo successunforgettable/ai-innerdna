@@ -357,18 +357,15 @@
 .tower-visualization {
   width: 300px;
   height: 400px;
-  background: transparent;
+  background: none;
   border-radius: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 
-    0 12px 40px rgba(31, 38, 135, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -431,8 +428,6 @@
   transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 14px;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
 }
 
 .color-preview {

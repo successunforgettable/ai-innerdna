@@ -28,17 +28,26 @@ export function TowerVisualization({
   const [towerGradient, setTowerGradient] = useState('');
   
   useEffect(() => {
+    console.log('TowerVisualization - selectedStates:', selectedStates);
+    console.log('TowerVisualization - distribution:', distribution);
+    console.log('TowerVisualization - stateOptions:', stateOptions);
+    
     if (selectedStates.length === 2) {
       const primaryState = stateOptions.find(s => s.id === selectedStates[0]);
       const secondaryState = stateOptions.find(s => s.id === selectedStates[1]);
       
+      console.log('TowerVisualization - primaryState:', primaryState);
+      console.log('TowerVisualization - secondaryState:', secondaryState);
+      
       if (primaryState && secondaryState) {
         const gradient = `linear-gradient(180deg, ${primaryState.color} 0%, ${primaryState.color} ${distribution.primary}%, ${secondaryState.color} ${distribution.primary}%, ${secondaryState.color} 100%)`;
+        console.log('TowerVisualization - generated gradient:', gradient);
         setTowerGradient(gradient);
       }
     } else if (selectedStates.length === 1) {
       const selectedState = stateOptions.find(s => s.id === selectedStates[0]);
       if (selectedState) {
+        console.log('TowerVisualization - single state color:', selectedState.color);
         setTowerGradient(selectedState.color);
       }
     } else {
@@ -126,9 +135,12 @@ export function TowerVisualization({
     <div className="tower-visualization-container">
       <h3 className="tower-title">{title}</h3>
       
-      <div className="tower-visualization">
-        <div className="tower-color-display" style={{ background: towerGradient }} />
-        
+      <div 
+        className="tower-visualization"
+        style={{ 
+          background: towerGradient || 'rgba(255, 255, 255, 0.1)'
+        }}
+      >        
         {selectedStates.length === 0 && (
           <div className="tower-status">
             Select states to see colors
