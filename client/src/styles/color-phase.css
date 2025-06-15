@@ -204,6 +204,32 @@
   padding-top: 1rem;
 }
 
+/* Fix 8: World-Class Animations - Premium feel */
+
+.state-card {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+  will-change: transform, box-shadow, background;
+}
+
+.state-card:hover:not(.state-card--selected) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.state-card:active {
+  transform: translateY(0px) scale(0.98);
+  transition: all 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Staggered entrance animation */
+.state-card:nth-child(1) { animation-delay: 0.1s; }
+.state-card:nth-child(2) { animation-delay: 0.2s; }
+.state-card:nth-child(3) { animation-delay: 0.3s; }
+.state-card:nth-child(4) { animation-delay: 0.4s; }
+.state-card:nth-child(5) { animation-delay: 0.5s; }
+
 /* Fix 3: Expand on Hover - Show full content when user hovers */
 
 .state-card:hover {
