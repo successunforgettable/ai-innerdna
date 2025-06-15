@@ -1,0 +1,141 @@
+# **DESIGN FIX 6: Copy Framer Motion Animations**
+
+**TASK:** Copy the exact animation patterns from Foundation/Building pages
+
+**CRITICAL:** Use the same smooth animations that make other pages feel premium
+
+**EXACT ANIMATION SETUP:**
+
+1. **Copy page entrance animations:**
+```tsx
+// Copy the exact animation variants from Foundation/Building pages
+const pageVariants = {
+  initial: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.98
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1],
+      staggerChildren: 0.1
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20,
+    scale: 0.98,
+    transition: { duration: 0.3 }
+  }
+};
+
+const containerVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const cardVariants = {
+  initial: { 
+    opacity: 0, 
+    x: -20,
+    scale: 0.95
+  },
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  }
+};
+```
+
+2. **Apply animations to main container:**
+```tsx
+// Copy the exact animation application from previous pages
+<motion.div
+  className="color-phase"
+  variants={pageVariants}
+  initial="initial"
+  animate="animate"
+  exit="exit"
+>
+  <motion.div className="color-phase-header" variants={cardVariants}>
+    <h1>Color State Selection</h1>
+    <p>Select 2 color states that represent your current experience</p>
+  </motion.div>
+
+  <motion.div 
+    className="color-phase-content"
+    variants={containerVariants}
+  >
+    {/* Content with staggered animations */}
+  </motion.div>
+</motion.div>
+```
+
+3. **Copy state card hover animations:**
+```tsx
+// Copy the exact hover animations from Foundation stones
+{stateOptions.map((state, index) => (
+  <motion.div
+    key={state.id}
+    variants={cardVariants}
+    whileHover={{ 
+      scale: 1.02, 
+      y: -4,
+      transition: { duration: 0.2 }
+    }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <StateCard
+      state={state}
+      isSelected={selectedStates.includes(state.id)}
+      onSelect={() => handleStateSelect(state.id)}
+    />
+  </motion.div>
+))}
+```
+
+4. **Copy slider appearance animation:**
+```tsx
+// Copy the AnimatePresence pattern from previous pages
+<AnimatePresence>
+  {selectedStates.length === 2 && (
+    <motion.div
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: {
+          duration: 0.5,
+          ease: [0.4, 0, 0.2, 1]
+        }
+      }}
+      exit={{ 
+        opacity: 0, 
+        y: -20, 
+        scale: 0.95,
+        transition: { duration: 0.3 }
+      }}
+    >
+      <StateSlider />
+    </motion.div>
+  )}
+</AnimatePresence>
+```
+
+**VERIFICATION:** All animations should feel as smooth and professional as Foundation/Building pages.

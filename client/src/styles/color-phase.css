@@ -202,7 +202,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Premium State Slider - Glass-Morphism Quality */
+/* Create premium slider container matching other glass elements */
 .state-slider {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
