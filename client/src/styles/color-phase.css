@@ -511,7 +511,7 @@
   padding: 24px;
 }
 
-/* Continue Button Component - Enhanced Styling */
+/* Copy the exact continue button styling that looks professional */
 .continue-button {
   background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
   border: none;
@@ -523,10 +523,11 @@
   color: white;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 255, 136, 0.3);
   position: relative;
   overflow: hidden;
   min-width: 200px;
+  text-align: center;
 }
 
 .continue-button::before {
@@ -542,7 +543,7 @@
 
 .continue-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.4);
 }
 
 .continue-button:hover::before {
@@ -565,7 +566,7 @@
   display: none;
 }
 
-/* Navigation Container - Copied from Foundation/Building Pages */
+/* Copy the exact navigation container from previous pages */
 .color-phase-navigation {
   display: flex;
   justify-content: center;
