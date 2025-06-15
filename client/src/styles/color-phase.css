@@ -311,6 +311,7 @@
   text-align: center;
 }
 
+/* Copy the exact tower styling from previous pages */
 .tower-visualization {
   width: 300px;
   height: 400px;
@@ -377,6 +378,7 @@
   z-index: 10;
 }
 
+/* Copy the smooth color transition styling */
 .tower-color-display {
   position: absolute;
   bottom: 0;
