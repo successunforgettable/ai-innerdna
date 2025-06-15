@@ -160,11 +160,7 @@ const DetailPhase: React.FC<DetailPhaseProps> = ({ personalityData, onComplete }
             <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/20">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Available Tokens</h3>
               
-              {/* Test token outside array */}
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">Test token (should be visible):</p>
-                <SimpleToken onClick={() => alert('Test token clicked')} />
-              </div>
+
               
               <div className="flex flex-wrap gap-2">
                 {remainingTokens > 0 ? (
