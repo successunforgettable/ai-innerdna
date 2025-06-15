@@ -180,10 +180,10 @@ export default function ColorPhase() {
       <div className="color-phase-navigation">
         <motion.button 
           className="btn-primary"
-          disabled={!canContinue}
+          disabled={!canProceed}
           onClick={handleContinue}
-          whileHover={canContinue ? { scale: 1.02 } : {}}
-          whileTap={canContinue ? { scale: 0.98 } : {}}
+          whileHover={canProceed ? { scale: 1.02 } : {}}
+          whileTap={canProceed ? { scale: 0.98 } : {}}
         >
           Continue to Detail Tokens
         </motion.button>
