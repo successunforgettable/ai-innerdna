@@ -39,32 +39,18 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: B
       }}
     >
       {/* Main block body */}
-      <div className={`w-80 h-24 bg-gradient-to-b ${
-        isBlockA 
-          ? 'from-purple-400 to-purple-600 border-purple-300' 
-          : 'from-green-400 to-green-600 border-green-300'
-      } rounded-lg shadow-lg border-2 relative`}>
-        
-        {/* LEGO studs on top */}
-        <div className="absolute -top-3 left-4 right-4 flex justify-around z-10">
-          <div className={`w-6 h-6 ${
-            isBlockA ? 'bg-purple-300 border-purple-200' : 'bg-green-300 border-green-200'
-          } rounded-full border-2 shadow-sm`}></div>
-          <div className={`w-6 h-6 ${
-            isBlockA ? 'bg-purple-300 border-purple-200' : 'bg-green-300 border-green-200'
-          } rounded-full border-2 shadow-sm`}></div>
-          <div className={`w-6 h-6 ${
-            isBlockA ? 'bg-purple-300 border-purple-200' : 'bg-green-300 border-green-200'
-          } rounded-full border-2 shadow-sm`}></div>
-          <div className={`w-6 h-6 ${
-            isBlockA ? 'bg-purple-300 border-purple-200' : 'bg-green-300 border-green-200'
-          } rounded-full border-2 shadow-sm`}></div>
-        </div>
-        
+      <div 
+        className={`${
+          isBlockA 
+            ? 'bg-gradient-to-r from-purple-500 to-pink-500' 
+            : 'bg-gradient-to-r from-blue-500 to-teal-500'
+        } rounded-lg flex items-center justify-center p-4 border-2 border-white/20 shadow-lg`}
+        style={{ width: '180px', height: '100px' }}
+      >
         {/* Block content */}
-        <div className="pt-4 px-4 text-center relative z-0">
-          <h3 className="text-lg font-bold text-white mb-1">{blockName}</h3>
-          <p className="text-xs text-white/90 leading-tight">
+        <div className="text-center">
+          <h3 className="text-white font-semibold text-sm mb-1">{blockName}</h3>
+          <p className="text-white/90 text-xs leading-tight text-center">
             {shortContent}
           </p>
         </div>
