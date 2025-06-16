@@ -72,15 +72,6 @@ export default function BuildingBlocks() {
 
   return (
     <div className="page-container">
-      <div className="flex justify-start mb-4">
-        <button
-          className="btn-secondary"
-          onClick={handleBackToWelcome}
-        >
-          ← Back to Welcome
-        </button>
-      </div>
-      
       <div className="building-content">
         <header className="building-header">
           <h1 className="detail-phase__title">Building Block Experience</h1>
@@ -104,15 +95,24 @@ export default function BuildingBlocks() {
             ))}
           </div>
           
-          <motion.button 
-            className="btn-primary"
-            disabled={selectedBlock === null}
-            onClick={handleContinue}
-            whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
-            whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
-          >
-            Continue
-          </motion.button>
+          <div className="flex justify-between items-center mt-6">
+            <button
+              className="btn-secondary"
+              onClick={handleBackToWelcome}
+            >
+              ← Back to Welcome
+            </button>
+            
+            <motion.button 
+              className="btn-primary"
+              disabled={selectedBlock === null}
+              onClick={handleContinue}
+              whileHover={selectedBlock !== null ? { scale: 1.02 } : {}}
+              whileTap={selectedBlock !== null ? { scale: 0.98 } : {}}
+            >
+              Continue
+            </motion.button>
+          </div>
         </section>
         
         <aside className="tower-visualization-area">
