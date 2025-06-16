@@ -5,6 +5,7 @@ import { buildingBlocks } from '@/lib/stoneData';
 import { determinePersonalityType, determineWing } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
 import BuildingBlock from '@/components/BuildingBlock';
+import '@/styles/detail-phase.css';
 
 interface BuildingBlockData {
   id: number;
