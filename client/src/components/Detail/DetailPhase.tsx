@@ -65,6 +65,18 @@ const DetailPhase: React.FC = () => {
     }
   };
 
+  // Drop zone handlers for containers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent, containerId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleTokenDrop(containerId);
+  };
+
   // Click-to-add functionality as specified in Section 7.1
   const handleContainerClick = (containerId: string) => {
     if (remainingTokens <= 0) return;
@@ -170,6 +182,8 @@ const DetailPhase: React.FC = () => {
                 className="glass-container energy-container"
                 data-container-id={container.id}
                 onClick={() => handleContainerClick(container.id)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, container.id)}
               >
                 <div className="container-header">
                   <div>

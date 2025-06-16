@@ -5,29 +5,23 @@ interface TokenProps {
   isBeingDragged?: boolean;
 }
 
-// Token.jsx - Exact from Section 7.3 specification
-const Token = ({ onDrop, isBeingDragged }: TokenProps) => (
-  <motion.div
-    className="token"
-    drag
-    dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-    whileDrag={{ scale: 1.1, zIndex: 1000 }}
-    onDragEnd={(event, info) => {
-      if (onDrop) {
-        // Find the drop target using data-container-id attributes as per spec
-        const element = document.elementFromPoint(info.point.x, info.point.y);
-        if (element) {
-          const container = element.closest('[data-container-id]');
-          if (container) {
-            const containerId = container.getAttribute('data-container-id');
-            if (containerId) {
-              onDrop(containerId);
-            }
-          }
-        }
-      }
-    }}
-  />
-);
+// Token.jsx - HTML5 drag and drop for container compatibility
+const Token = ({ onDrop, isBeingDragged }: TokenProps) => {
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData('text/plain', 'token');
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  return (
+    <motion.div
+      className="token"
+      draggable={true}
+      onDragStart={handleDragStart}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    />
+  );
+};
 
 export default Token;
