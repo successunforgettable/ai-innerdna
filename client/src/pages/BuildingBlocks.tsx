@@ -65,8 +65,22 @@ export default function BuildingBlocks() {
     }
   };
 
+  const handleBackToWelcome = () => {
+    setCurrentScreen('welcome');
+    setLocation('/');
+  };
+
   return (
     <div className="page-container">
+      <div className="flex justify-start mb-4">
+        <button
+          className="btn-secondary"
+          onClick={handleBackToWelcome}
+        >
+          ← Back to Welcome
+        </button>
+      </div>
+      
       <div className="building-content">
         <header className="building-header">
           <h1 className="detail-phase__title">Building Block Experience</h1>
