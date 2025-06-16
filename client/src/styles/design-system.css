@@ -238,7 +238,7 @@
   height: auto; /* Let height adjust to content */
   min-height: 180px; /* Reduced minimum height */
   padding: 28px; /* More generous padding for text spacing */
-  margin-bottom: 16px;
+  margin: 2cm; /* 2cm margin on all sides */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -250,8 +250,6 @@
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .building-block:hover {
