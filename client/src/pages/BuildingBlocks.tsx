@@ -77,7 +77,7 @@ export default function BuildingBlocks() {
           <h3 className="detail-phase__title">Building Block Selection</h3>
           <p className="section-description">Select one building block from options below</p>
           
-          <div className="flex flex-col space-y-6 w-full max-w-2xl mx-auto">
+          <div className="flex flex-col space-y-8 w-full max-w-xl mx-auto">
             {availableBlocks.map((option) => (
               <BuildingBlock
                 key={option.id}
