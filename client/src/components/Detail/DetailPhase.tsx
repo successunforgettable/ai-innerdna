@@ -123,7 +123,7 @@ const DetailPhase = () => {
     >
       <div className="detail-phase-header">
         <h1 className="detail-phase__title">Distribute Your Energy</h1>
-        <p className="detail-phase__subtitle">Place 10 tokens across the three areas based on where you naturally focus your energy</p>
+        <p className="detail-phase__subtitle">Drag or click any container to place all 10 tokens across the three areas based on where you naturally focus your energy</p>
       </div>
       
       <div className="detail-phase-content-single">
