@@ -243,21 +243,33 @@ const DetailPhase: React.FC = () => {
                   ))}
                 </div>
                 
-                {/* Click instruction area */}
-                <div className="click-instruction-area mt-2">
-                  {remainingTokens > 0 ? (
-                    <div 
-                      className="text-white/50 text-xs italic cursor-pointer hover:text-white/70 transition-colors duration-200 p-2 rounded border border-white/20 hover:border-white/40"
-                      onClick={() => handleContainerClick(container.id)}
-                    >
+                {/* Container interaction area with tokens or add instruction */}
+                <div 
+                  className="container-interaction-area mt-2 p-3 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center"
+                  onClick={() => handleContainerClick(container.id)}
+                >
+                  {tokenDistribution[container.id as keyof TokenDistribution] > 0 ? (
+                    <div className="container-tokens-display">
+                      {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
+                        <div
+                          key={index}
+                          className="token container-token"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTokenRemove(container.id, e);
+                          }}
+                          title="Click to remove token"
+                        />
+                      ))}
+                    </div>
+                  ) : remainingTokens > 0 ? (
+                    <div className="text-white/50 text-xs italic text-center">
                       Click to add token or drag token here
                     </div>
                   ) : (
-                    tokenDistribution[container.id as keyof TokenDistribution] > 0 && (
-                      <div className="text-white/40 text-xs italic p-2">
-                        Click tokens above to remove them
-                      </div>
-                    )
+                    <div className="text-white/30 text-xs italic text-center">
+                      No tokens available
+                    </div>
                   )}
                 </div>
               </div>
