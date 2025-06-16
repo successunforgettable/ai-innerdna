@@ -4,6 +4,7 @@ import { useAssessment } from '../../context/AssessmentContext';
 import { useLocation } from 'wouter';
 import ContinueButton from '../ContinueButton';
 import Token from './Token';
+import { subtypeDescriptions, type PersonalityType, type SubtypeKey } from '../../utils/subtypeDescriptions';
 import '../../styles/detail-phase.css';
 
 interface TokenDistribution {
@@ -84,24 +85,31 @@ const DetailPhase = () => {
     exit: { opacity: 0, y: -20 }
   };
 
+  // Get the user's personality type from assessment data
+  const userPersonalityType = assessmentData.result?.primaryType as PersonalityType || 'Type 1';
+  const typeData = subtypeDescriptions[userPersonalityType];
+
   const containers = [
     {
       id: 'self',
       title: 'Self-Preservation Focus',
       emoji: '🔒',
-      description: 'Energy devoted to personal survival, health, and maintaining your environment'
+      subtypeKey: 'Self-Preservation' as SubtypeKey,
+      descriptions: typeData['Self-Preservation']
     },
     {
       id: 'oneToOne',
-      title: 'One-to-One Focus',
+      title: 'One-to-One Focus', 
       emoji: '🔥',
-      description: 'Energy devoted to intense personal connections and understanding your environment'
+      subtypeKey: 'Sexual' as SubtypeKey,
+      descriptions: typeData.Sexual
     },
     {
       id: 'social',
       title: 'Social Focus',
       emoji: '🧱',
-      description: 'Energy devoted to group dynamics, community belonging, and social awareness'
+      subtypeKey: 'Social' as SubtypeKey,
+      descriptions: typeData.Social
     }
   ];
 
@@ -151,9 +159,13 @@ const DetailPhase = () => {
                   <h4 className="container-title">
                     {container.emoji} {container.title}
                   </h4>
-                  <p className="container-description">
-                    {container.description}
-                  </p>
+                  <div className="subtype-descriptions">
+                    {container.descriptions.map((description, index) => (
+                      <p key={index} className="subtype-description">
+                        {description}
+                      </p>
+                    ))}
+                  </div>
                 </div>
                 <div className="token-count">
                   Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
