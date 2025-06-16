@@ -30,7 +30,7 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: B
       whileTap={{ scale: 0.97 }}
       onClick={onSelect}
       style={{ 
-        margin: '0 auto',
+        margin: '3cm auto',
         display: 'block',
         background: 'none',
         border: 'none',
