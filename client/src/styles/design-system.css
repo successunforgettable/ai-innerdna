@@ -232,17 +232,18 @@
   margin-top: 1rem;
 }
 
-/* Building Block Container - Auto height with content flexibility */
+/* Building Block Container - Fixed height with proper text overflow handling */
 .building-block {
   width: 380px; /* Optimal width that fits in container */
-  height: auto; /* Let height adjust to content */
-  min-height: 200px; /* Comfortable minimum height */
-  padding: 32px; /* Balanced padding for content breathing room */
+  height: 160px; /* Fixed height for consistent sizing */
+  padding: 16px; /* Proper padding for text spacing */
   margin-bottom: 20px; /* Spacing between blocks */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Start from top for natural text flow */
-  overflow: visible;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  text-align: center;
+  overflow: hidden; /* Prevent text spillover */
   position: relative;
   box-sizing: border-box;
   border-radius: 20px; /* More rounded corners */
@@ -301,10 +302,10 @@
 /* Block Label (Block A/Block B) */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 18px; /* Balanced size for block proportions */
-  font-weight: 700; /* Bolder for better hierarchy */
+  font-size: 18px; /* Large for title hierarchy */
+  font-weight: 700; /* Bold for emphasis */
   color: white; /* White text for visibility on gradient backgrounds */
-  margin-bottom: 20px; /* Good spacing below label */
+  margin-bottom: 8px; /* Reduced spacing for fixed height */
   text-align: center;
   flex-shrink: 0; /* Don't shrink this element */
   letter-spacing: 0.5px; /* Better spacing */
@@ -322,19 +323,23 @@
 /* Main Description Text - Content-adaptive display */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px; /* Balanced size for comfortable reading */
-  line-height: 1.5; /* Good line spacing for readability */
-  color: white; /* White text for visibility on gradient backgrounds */
+  font-size: 14px; /* Smaller text for fixed height blocks */
+  line-height: 1.3; /* Tighter line spacing for more content */
+  color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
   white-space: normal; /* Allow normal text wrapping */
-  text-align: left;
+  text-align: center;
   flex: 1;
-  overflow: visible;
+  overflow: hidden;
   word-wrap: break-word;
   hyphens: none; /* Disable hyphenation for cleaner breaks */
   font-weight: 400; /* Clean readable weight */
   letter-spacing: 0.1px; /* Subtle letter spacing */
   position: relative;
   z-index: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  padding: 0 8px; /* Side padding for text breathing room */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */

@@ -1,0 +1,50 @@
+Building Blocks - Fix Text Content Display
+MICRO PROMPT: Fix Text Overflow in Building Blocks
+File to modify: src/pages/BuildingBlocks.tsx or the building block component
+ISSUE: Text content in Block A and Block B is overflowing the block boundaries and not wrapping properly.
+EXACT FIX NEEDED:
+Fix the building block text display with proper text wrapping and sizing:
+tsx// Replace the building block content structure with:
+<div className="building-block p-4 rounded-lg h-40 flex flex-col justify-center items-center text-center overflow-hidden">
+  
+  {/* Block Title */}
+  <h3 className="text-lg font-bold text-white mb-2">Block A</h3>
+  
+  {/* Block Content - Shortened and Properly Wrapped */}
+  <p className="text-sm text-white/90 leading-tight line-clamp-4 px-2">
+    I stay calm in the face of tension and seek to maintain internal balance. I want clarity and order, but without pressure or chaos.
+  </p>
+  
+</div>
+
+// For Block B:
+<div className="building-block p-4 rounded-lg h-40 flex flex-col justify-center items-center text-center overflow-hidden">
+  
+  {/* Block Title */}
+  <h3 className="text-lg font-bold text-white mb-2">Block B</h3>
+  
+  {/* Block Content - Shortened and Properly Wrapped */}
+  <p className="text-sm text-white/90 leading-tight line-clamp-4 px-2">
+    I help others grow and improve by gently guiding them. I care about people's progress and feel responsible for their success.
+  </p>
+  
+</div>
+CSS Classes Needed:
+css/* Add this CSS for text clamping if not available */
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+Requirements:
+
+Set fixed height: h-40 (160px) for consistent block sizing
+Use text-sm for smaller, readable text that fits
+Add line-clamp-4 to limit text to 4 lines maximum
+Use overflow-hidden to prevent text spillover
+Center content with flex flex-col justify-center items-center
+Add proper padding: p-4 for breathing room
+Keep text color: text-white for titles, text-white/90 for content
+
+This will make the text fit properly within the block boundaries and look aesthetically pleasing.
