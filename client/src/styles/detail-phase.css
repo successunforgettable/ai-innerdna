@@ -27,6 +27,11 @@
   margin-bottom: 8px !important;
 }
 
+/* Section headings - smaller than main title */
+.block-selection-area .detail-phase__title {
+  font-size: 1.4rem !important;
+}
+
 .detail-phase .detail-phase__subtitle,
 .detail-phase__subtitle {
   font-family: 'Inter', sans-serif !important;

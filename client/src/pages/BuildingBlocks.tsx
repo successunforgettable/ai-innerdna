@@ -74,7 +74,7 @@ export default function BuildingBlocks() {
         </header>
         
         <section className="block-selection-area">
-          <h3 className="detail-phase__title" style={{fontSize: '1.4rem', marginBottom: '16px'}}>Building Block Selection</h3>
+          <h3 className="detail-phase__title">Building Block Selection</h3>
           <p className="section-description">Select exactly 1 building block from the 2 options below</p>
           
           <div className="blocks-grid">
