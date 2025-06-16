@@ -84,27 +84,39 @@ const DetailPhase = () => {
   const userPersonalityType = assessmentData.result?.primaryType as PersonalityType || 'Type 1';
   const typeData = subtypeDescriptions[userPersonalityType];
 
+  // Fallback if typeData is undefined
+  if (!typeData) {
+    return (
+      <div className="detail-phase">
+        <div className="detail-phase-header">
+          <h1 className="detail-phase__title">Complete Previous Phases</h1>
+          <p className="detail-phase__subtitle">Please complete the Foundation Stones, Building Blocks, and Color States phases first.</p>
+        </div>
+      </div>
+    );
+  }
+
   const containers = [
     {
       id: 'self',
       title: 'Self-Preservation Focus',
       emoji: '🔒',
       subtypeKey: 'Self-Preservation' as SubtypeKey,
-      descriptions: typeData['Self-Preservation']
+      descriptions: typeData['Self-Preservation'] || []
     },
     {
       id: 'oneToOne',
       title: 'One-to-One Focus', 
       emoji: '🔥',
       subtypeKey: 'Sexual' as SubtypeKey,
-      descriptions: typeData.Sexual
+      descriptions: typeData.Sexual || []
     },
     {
       id: 'social',
       title: 'Social Focus',
       emoji: '🧱',
       subtypeKey: 'Social' as SubtypeKey,
-      descriptions: typeData.Social
+      descriptions: typeData.Social || []
     }
   ];
 
