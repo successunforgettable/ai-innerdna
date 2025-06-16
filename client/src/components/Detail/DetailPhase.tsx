@@ -14,7 +14,7 @@ interface TokenDistribution {
 }
 
 const DetailPhase = () => {
-  const { assessmentData, setAssessmentData } = useAssessment();
+  const { assessmentData, setAssessmentData, setCurrentScreen } = useAssessment();
   const [, setLocation] = useLocation();
   
   const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution>({
@@ -60,6 +60,7 @@ const DetailPhase = () => {
       }
     });
 
+    setCurrentScreen('results');
     setLocation('/results');
   };
 
