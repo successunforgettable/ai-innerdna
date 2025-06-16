@@ -68,8 +68,8 @@ export default function BuildingBlocks() {
     <div className="page-container">
       <div className="building-content">
         <header className="building-header">
-          <h2 className="foundation-title">Building Block Experience</h2>
-          <p className="phase-description">Based on your determined type, select 1 block representing your influence</p>
+          <h1 className="detail-phase__title">Building Block Experience</h1>
+          <p className="detail-phase__subtitle">Based on your determined type, select 1 block representing your influence</p>
         </header>
         
         <section className="block-selection-area">
