@@ -44,7 +44,7 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: B
           isBlockA 
             ? 'bg-gradient-to-r from-purple-500 to-pink-500' 
             : 'bg-gradient-to-r from-blue-500 to-teal-500'
-        } rounded-lg flex items-center justify-center p-4 border-4 border-gray-800 shadow-xl`}
+        } rounded-lg flex items-center justify-center p-4 border-4 border-black shadow-xl`}
         style={{ 
           width: '180px', 
           height: '100px',
