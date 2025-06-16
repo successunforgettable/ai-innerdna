@@ -16,16 +16,20 @@ const CheckIcon = () => (
 
 const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: BuildingBlockProps) => (
   <motion.div
-    className={`building-block ${isSelected ? 'selected' : ''}`}
+    className={`building-block p-6 rounded-lg w-full max-w-md mx-auto ${isSelected ? 'selected' : ''}`}
     style={{ background: gradient }}
     whileHover={{ scale: 1.03 }}
     whileTap={{ scale: 0.97 }}
     onClick={onSelect}
   >
-    <div className="building-block-label">{blockName}</div>
-    <div className="building-block-description">
+    {/* Block Title */}
+    <h3 className="text-xl font-bold text-white mb-4 text-center">{blockName}</h3>
+    
+    {/* Block Content - Full text with proper spacing */}
+    <p className="text-sm text-white leading-relaxed text-center">
       {content}
-    </div>
+    </p>
+    
     {isSelected && <CheckIcon />}
   </motion.div>
 );
