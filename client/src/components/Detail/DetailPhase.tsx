@@ -269,11 +269,68 @@ const DetailPhase: React.FC = () => {
         {/* Right Column - Tower Visualization Section */}
         <div className="right-column">
           <div className="glass-container tower-container">
-            <h3 className="tower-title">Your Tower</h3>
-            <TowerVisualization 
-              title=""
-              data={{ tokenDistribution }}
-            />
+            <h3 className="tower-title">Your Assessment Progress</h3>
+            
+            {/* Phase Progress Display */}
+            <div className="phase-progress">
+              <div className="phase-item completed">
+                <div className="phase-indicator">✓</div>
+                <div className="phase-info">
+                  <h4>Foundation Stones</h4>
+                  <p>9 sets completed</p>
+                </div>
+              </div>
+              
+              <div className="phase-item completed">
+                <div className="phase-indicator">✓</div>
+                <div className="phase-info">
+                  <h4>Building Blocks</h4>
+                  <p>Selection completed</p>
+                </div>
+              </div>
+              
+              <div className="phase-item completed">
+                <div className="phase-indicator">✓</div>
+                <div className="phase-info">
+                  <h4>Color States</h4>
+                  <p>States selected</p>
+                </div>
+              </div>
+              
+              <div className="phase-item current">
+                <div className="phase-indicator">{totalTokens}/10</div>
+                <div className="phase-info">
+                  <h4>Detail Tokens</h4>
+                  <p>Energy distribution</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Token Distribution Visualization */}
+            <div className="token-distribution-visual">
+              <h4 className="distribution-title">Current Distribution</h4>
+              <div className="distribution-bars">
+                {containers.map((container) => {
+                  const count = tokenDistribution[container.id as keyof TokenDistribution];
+                  const percentage = totalTokens > 0 ? (count / totalTokens) * 100 : 0;
+                  
+                  return (
+                    <div key={container.id} className="distribution-bar">
+                      <div className="bar-header">
+                        <span className="bar-label">{container.emoji} {container.title}</span>
+                        <span className="bar-count">{count}</span>
+                      </div>
+                      <div className="bar-track">
+                        <div 
+                          className="bar-fill"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>
