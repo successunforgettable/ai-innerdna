@@ -162,20 +162,20 @@
   align-items: center;
 }
 
-/* Containers section */
+/* Containers section - Mobile responsive */
 .containers-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
-/* Container styling - Drop zones for tokens - Section 2.3 sizing */
+/* Container styling - Drop zones for tokens - Mobile-friendly sizing */
 .energy-container {
   border: 2px solid rgba(255, 255, 255, 0.3) !important;
   transition: all 0.3s ease;
-  min-height: 140px;
+  min-height: 100px;
   position: relative;
-  padding: 20px;
+  padding: 12px;
 }
 
 .energy-container:hover {
@@ -189,45 +189,47 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  gap: 8px;
 }
 
 .container-title {
   font-family: 'Inter', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   color: white;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .container-description {
   font-family: 'Inter', sans-serif;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.875rem;
-  margin-top: 4px;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  margin-top: 2px;
+  line-height: 1.4;
 }
 
 .token-count {
   font-family: 'Inter', sans-serif;
   color: #fbbf24;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
 .tokens-display {
-  margin-top: 12px;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 6px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  min-height: 40px;
+  gap: 6px;
+  min-height: 28px;
   align-items: center;
-  padding: 8px;
+  padding: 6px;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -277,15 +279,16 @@
   text-align: center !important;
 }
 
-/* Token styling from Section 7.3 */
+/* Token styling from Section 7.3 - Mobile-friendly */
 .token {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   background: linear-gradient(135deg, #fb923c, #ea580c);
   border-radius: 50%;
-  border: 2px solid rgba(251, 191, 36, 0.3);
+  border: 1px solid rgba(251, 191, 36, 0.3);
   cursor: grab;
-  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+  box-shadow: 0 2px 8px rgba(251, 146, 60, 0.3);
+  flex-shrink: 0;
 }
 
 .token:active {
