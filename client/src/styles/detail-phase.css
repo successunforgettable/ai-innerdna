@@ -16,7 +16,8 @@
 }
 
 .detail-phase .detail-phase__title,
-.detail-phase h1 {
+.detail-phase h1,
+.detail-phase__title {
   font-family: 'Inter', sans-serif !important;
   color: #fbbf24 !important; /* gold */
   font-weight: 700 !important;
@@ -26,7 +27,8 @@
   margin-bottom: 8px !important;
 }
 
-.detail-phase .detail-phase__subtitle {
+.detail-phase .detail-phase__subtitle,
+.detail-phase__subtitle {
   font-family: 'Inter', sans-serif !important;
   color: #fef7ed !important; /* cream */
   font-weight: 400 !important;
