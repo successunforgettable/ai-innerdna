@@ -47,6 +47,18 @@
   padding: 0 24px;
 }
 
+/* Left and Right Column Layout */
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Glass container styling matching Foundation/Building/Color */
 .detail-phase .glass-container,
 .detail-phase .token-container,

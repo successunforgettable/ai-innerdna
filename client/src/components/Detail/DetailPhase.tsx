@@ -160,8 +160,9 @@ const DetailPhase: React.FC = () => {
       </div>
       
       <div className="detail-phase-content">
-        {/* Left Column - Token Distribution */}
-        <div className="glass-container token-container">
+        {/* Left Column - Token Distribution Section */}
+        <div className="left-column">
+          {/* Progress Counter */}
           <div className="progress-counter">
             <div className="progress-text">
               Total: {totalTokens}/10 • Remaining: {remainingTokens}
@@ -174,8 +175,8 @@ const DetailPhase: React.FC = () => {
             </div>
           </div>
 
-          {/* Available Tokens */}
-          <div className="token-section">
+          {/* Available Tokens Section */}
+          <div className="glass-container token-container">
             <h3 className="section-title">Available Tokens</h3>
             <div className="token-pool">
               {Array.from({ length: remainingTokens }).map((_, index) => (
@@ -190,7 +191,7 @@ const DetailPhase: React.FC = () => {
             </div>
           </div>
 
-          {/* Three Containers following Section 7.2 spec */}
+          {/* Three Distribution Containers */}
           <div className="containers-section">
             {containers.map((container) => (
               <div 
@@ -265,13 +266,15 @@ const DetailPhase: React.FC = () => {
           )}
         </div>
 
-        {/* Right Column - Tower Visualization */}
-        <div className="glass-container tower-container">
-          <h3 className="tower-title">Your Tower</h3>
-          <TowerVisualization 
-            title=""
-            data={{ tokenDistribution }}
-          />
+        {/* Right Column - Tower Visualization Section */}
+        <div className="right-column">
+          <div className="glass-container tower-container">
+            <h3 className="tower-title">Your Tower</h3>
+            <TowerVisualization 
+              title=""
+              data={{ tokenDistribution }}
+            />
+          </div>
         </div>
       </div>
     </motion.div>
