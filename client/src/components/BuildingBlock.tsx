@@ -25,11 +25,18 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: B
   
   return (
     <motion.button
-      className={`lego-block-container relative group ${isSelected ? 'ring-4 ring-blue-400 rounded-lg' : ''}`}
+      className={`relative group ${isSelected ? 'ring-4 ring-blue-400 rounded-lg' : ''}`}
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       onClick={onSelect}
-      style={{ margin: '0 auto' }}
+      style={{ 
+        margin: '0 auto',
+        display: 'block',
+        background: 'none',
+        border: 'none',
+        padding: 0,
+        cursor: 'pointer'
+      }}
     >
       {/* Main block body */}
       <div className={`w-80 h-24 bg-gradient-to-b ${

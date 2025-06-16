@@ -233,22 +233,14 @@
   margin-top: 1rem;
 }
 
-/* LEGO Block Container - Override all previous styles */
+/* LEGO Block Container - Clean styling */
 .lego-block-container {
-  all: unset !important;
   display: block !important;
   margin: 0 auto !important;
-  padding: 0 !important;
-  width: auto !important;
-  height: auto !important;
   background: none !important;
   border: none !important;
-  box-shadow: none !important;
-}
-
-/* Building Block Container - Legacy styles (disabled) */
-.building-block {
-  display: none !important;
+  padding: 0 !important;
+  cursor: pointer;
 }
 
 .building-block:hover {
