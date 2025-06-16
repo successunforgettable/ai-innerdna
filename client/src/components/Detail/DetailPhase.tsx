@@ -79,14 +79,24 @@ const DetailPhase: React.FC = () => {
 
   // Click-to-add functionality as specified in Section 7.1
   const handleContainerClick = (containerId: string) => {
-    if (remainingTokens <= 0) return;
+    console.log('Container clicked:', containerId, 'Remaining tokens:', remainingTokens);
+    
+    if (remainingTokens <= 0) {
+      console.log('No tokens remaining');
+      return;
+    }
     
     const validIds: (keyof TokenDistribution)[] = ['self', 'oneToOne', 'social'];
     if (validIds.includes(containerId as keyof TokenDistribution)) {
-      setTokenDistribution(prev => ({
-        ...prev,
-        [containerId]: prev[containerId as keyof TokenDistribution] + 1
-      }));
+      console.log('Adding token to:', containerId);
+      setTokenDistribution(prev => {
+        const newDistribution = {
+          ...prev,
+          [containerId]: prev[containerId as keyof TokenDistribution] + 1
+        };
+        console.log('New distribution:', newDistribution);
+        return newDistribution;
+      });
     }
   };
 
