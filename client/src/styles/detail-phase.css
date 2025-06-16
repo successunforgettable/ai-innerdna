@@ -727,18 +727,99 @@
   }
 }
 
-/* Horizontal Container Layout - New Layout from Diagram */
+/* Single Column Layout - Following Hand-drawn Diagram */
+.detail-phase-content-single {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Compact Token Container */
+.token-container-compact {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  text-align: center;
+}
+
+.token-pool-compact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-height: 60px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.token-count-display {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fbbf24;
+  margin-left: 1rem;
+  padding: 4px 12px;
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+/* Horizontal Container Layout - From Diagram */
 .containers-section-horizontal {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: 1.5rem;
+  margin: 1rem 0;
 }
 
+/* Tower Section at Bottom */
+.tower-section-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.tower-section-bottom .tower-container {
+  max-width: 400px;
+  width: 100%;
+}
+
+.tower-building-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 1rem;
+}
+
+/* Placed Tokens Display */
+.placed-token {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Mobile Responsive */
 @media (max-width: 900px) {
   .containers-section-horizontal {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+  
+  .detail-phase-content-single {
+    padding: 1rem;
+    gap: 1.5rem;
   }
 }
 
@@ -746,5 +827,14 @@
   .containers-section-horizontal {
     grid-template-columns: 1fr;
     gap: 0.75rem;
+  }
+  
+  .detail-phase-content-single {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+  
+  .tower-section-bottom .tower-container {
+    max-width: 100%;
   }
 }
