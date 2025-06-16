@@ -228,14 +228,26 @@ const DetailPhase: React.FC = () => {
 
                 {/* Display tokens in container */}
                 <div className="tokens-display">
-                  {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                    <div
-                      key={index}
-                      className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-2 border-orange-300/30 cursor-pointer hover:scale-110 transition-transform duration-200"
-                      onClick={(e) => handleTokenRemove(container.id, e)}
-                      title="Click to remove token"
-                    />
-                  ))}
+                  {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => {
+                    // Different colors for each container type
+                    const getTokenColor = (containerId: string) => {
+                      switch (containerId) {
+                        case 'self': return 'bg-gradient-to-br from-blue-400 to-blue-600 border-blue-300/50';
+                        case 'oneToOne': return 'bg-gradient-to-br from-red-400 to-red-600 border-red-300/50';
+                        case 'social': return 'bg-gradient-to-br from-green-400 to-green-600 border-green-300/50';
+                        default: return 'bg-gradient-to-br from-orange-400 to-orange-600 border-orange-300/50';
+                      }
+                    };
+
+                    return (
+                      <div
+                        key={index}
+                        className={`w-7 h-7 ${getTokenColor(container.id)} rounded-full border-2 cursor-pointer hover:scale-110 transition-all duration-200 shadow-lg hover:shadow-xl`}
+                        onClick={(e) => handleTokenRemove(container.id, e)}
+                        title="Click to remove token"
+                      />
+                    );
+                  })}
                 </div>
                 
                 {/* Click instruction area */}
