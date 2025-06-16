@@ -1,0 +1,86 @@
+MICRO PROMPT 4: Create MoodStates Component
+File to create: src/components/Results/MoodStates.tsx
+Task: Create mood state descriptions using approved terminology (no integration/disintegration).
+Code to implement:
+tsximport React from 'react';
+
+interface MoodStatesProps {
+  primaryType: string;
+}
+
+const moodStates = {
+  '1': {
+    good: 'more spontaneous, positive, and open to possibilities',
+    bad: 'more critical, withdrawn, and focused on flaws'
+  },
+  '2': {
+    good: 'more authentic and in touch with your own needs',
+    bad: 'more controlling, demanding, and confrontational'
+  },
+  '3': {
+    good: 'more loyal, committed, and team-oriented',
+    bad: 'more disengaged, indecisive, and procrastinating'
+  },
+  '4': {
+    good: 'more disciplined, structured, and principle-focused',
+    bad: 'more dependent on approval and emotionally needy'
+  },
+  '5': {
+    good: 'more confident, decisive, and action-oriented',
+    bad: 'more scattered, distracted, and avoidant'
+  },
+  '6': {
+    good: 'more peaceful, trusting, and relaxed',
+    bad: 'more image-conscious, competitive, and superficial'
+  },
+  '7': {
+    good: 'more focused, thoughtful, and depth-oriented',
+    bad: 'more critical, judgmental, and detail-fixated'
+  },
+  '8': {
+    good: 'more emotionally open, supportive, and nurturing',
+    bad: 'more withdrawn, detached, and intellectualizing'
+  },
+  '9': {
+    good: 'more motivated, productive, and goal-oriented',
+    bad: 'more anxious, suspicious, and seeking reassurance'
+  }
+};
+
+const MoodStates = ({ primaryType }: MoodStatesProps) => {
+  const moods = moodStates[primaryType as keyof typeof moodStates];
+  
+  if (!moods) {
+    return <div>Mood states not found</div>;
+  }
+
+  return (
+    <div className="mb-8">
+      <h3 className="text-2xl font-bold text-yellow-400 mb-4">
+        Your Mood States
+      </h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-green-500/20 rounded-lg p-4 border border-green-400/30">
+          <h4 className="text-lg font-semibold text-green-400 mb-2">
+            When you're in a good mood
+          </h4>
+          <p className="text-white/90">
+            You are {moods.good}
+          </p>
+        </div>
+        
+        <div className="bg-red-500/20 rounded-lg p-4 border border-red-400/30">
+          <h4 className="text-lg font-semibold text-red-400 mb-2">
+            When you're in a bad mood
+          </h4>
+          <p className="text-white/90">
+            You are {moods.bad}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MoodStates;
