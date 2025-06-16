@@ -237,8 +237,8 @@
   width: 420px; /* Wider to prevent text wrapping */
   height: auto; /* Let height adjust to content */
   min-height: 180px; /* Reduced minimum height */
-  padding: 28px; /* More generous padding for text spacing */
-  margin: 2cm 2cm 4cm 2cm; /* 2cm on top/left/right, 4cm on bottom */
+  padding: 2cm; /* 2cm padding on all sides inside the block */
+  margin-bottom: 16px; /* Reset to original spacing between blocks */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -250,6 +250,8 @@
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .building-block:hover {
