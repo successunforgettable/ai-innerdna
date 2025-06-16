@@ -238,7 +238,7 @@
   height: auto; /* Let height adjust to content */
   min-height: 180px; /* Reduced minimum height */
   padding: 28px; /* More generous padding for text spacing */
-  margin: 2cm; /* 2cm margin on all sides */
+  margin: 2cm 2cm 4cm 2cm; /* 2cm on top/left/right, 4cm on bottom */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
