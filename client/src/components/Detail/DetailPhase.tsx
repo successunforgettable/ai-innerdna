@@ -158,209 +158,195 @@ const DetailPhase: React.FC = () => {
 
   return (
     <motion.div
-      className="detail-phase"
       variants={pageVariants}
       initial="initial"
       animate="animate"
       exit="exit"
     >
-      <div className="detail-phase-header">
-        <h1 className="detail-phase__title">Distribute Your Energy</h1>
-        <p className="detail-phase__subtitle">Place 10 tokens across the three areas based on where you naturally focus your energy</p>
-      </div>
-      
-      <div className="detail-phase-content">
-        {/* Left Column - Token Distribution Section */}
-        <div className="left-column">
-          {/* Progress Counter */}
-          <div className="progress-counter">
-            <div className="progress-text">
-              Total: {totalTokens}/10 • Remaining: {remainingTokens}
-              {totalTokens === 10 && (
-                <span className="validation-message success ml-2">✓ Complete</span>
-              )}
-              {totalTokens > 10 && (
-                <span className="validation-message warning ml-2">⚠ Over limit</span>
-              )}
-            </div>
-          </div>
-
-          {/* Available Tokens Section */}
-          <div className="glass-container token-container">
-            <h3 className="section-title">Available Tokens</h3>
-            <div className="token-pool">
-              {Array.from({ length: remainingTokens }).map((_, index) => (
-                <Token
-                  key={`token-${index}`}
-                  onDrop={handleTokenDrop}
-                />
-              ))}
-              {remainingTokens === 0 && (
-                <p className="section-description italic">All tokens distributed</p>
-              )}
-            </div>
-          </div>
-
-          {/* Three Distribution Containers */}
-          <div className="containers-section">
-            {containers.map((container) => (
-              <div 
-                key={container.id}
-                className="glass-container energy-container"
-                data-container-id={container.id}
-                onClick={() => handleContainerClick(container.id)}
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, container.id)}
-              >
-                <div className="container-header">
-                  <div>
-                    <h4 className="container-title">
-                      {container.emoji} {container.title}
-                    </h4>
-                    <p className="container-description">
-                      {container.description}
-                    </p>
-                  </div>
-                  <span className="token-count">
-                    Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
-                  </span>
-                </div>
-
-
-                {/* Container interaction area with tokens or add instruction */}
-                <div 
-                  className="container-interaction-area mt-2 p-3 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center"
-                  onClick={() => handleContainerClick(container.id)}
-                >
-                  {tokenDistribution[container.id as keyof TokenDistribution] > 0 ? (
-                    <div className="container-tokens-display">
-                      {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                        <div
-                          key={index}
-                          className="token container-token"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleTokenRemove(container.id, e);
-                          }}
-                          title="Click to remove token"
-                        />
-                      ))}
-                    </div>
-                  ) : remainingTokens > 0 ? (
-                    <div className="text-white/50 text-xs italic text-center">
-                      Click to add token or drag token here
-                    </div>
-                  ) : (
-                    <div className="text-white/30 text-xs italic text-center">
-                      No tokens available
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Continue Button */}
-          {isComplete && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-8"
-            >
-              <ContinueButton
-                canProceed={isComplete}
-                onContinue={handleContinue}
-              >
-                Continue to Results
-              </ContinueButton>
-            </motion.div>
-          )}
-        </div>
-
-        {/* Right Column - Tower Visualization Section */}
-        <div className="right-column">
-          <div className="glass-container tower-container">
-            <h3 className="tower-title">Your Tower</h3>
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 overflow-hidden">
+        <div className="container mx-auto px-4 py-8 h-screen">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full max-w-7xl mx-auto">
             
-            {/* Visual Tower Building */}
-            <div className="tower-building">
-              {/* Detail Tokens Layer (Current) */}
-              <div className="tower-layer current-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Detail Tokens</span>
-                  <span className="layer-progress">{totalTokens}/10</span>
+            {/* Left Column - Token Distribution */}
+            <div className="flex flex-col space-y-6 overflow-y-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+                <h1 className="text-3xl font-bold text-white mb-2">Detail Token Distribution</h1>
+                <p className="text-white/80 mb-6">Distribute 10 tokens across the three areas to show your energy focus</p>
+                
+                {/* Progress indicator */}
+                <div className="text-white/80 mb-6">
+                  Tokens distributed: {totalTokens}/10
+                  {remainingTokens > 0 && <span className="text-orange-300 ml-2">({remainingTokens} remaining)</span>}
+                  {isComplete && <span className="text-green-300 ml-2">✓ Complete!</span>}
                 </div>
-                <div className="layer-block detail-tokens-block">
-                  <div className="token-distribution-mini">
-                    <div className="mini-token-group">
-                      <span className="mini-label">🛡️</span>
-                      <div className="mini-tokens">
-                        {Array.from({ length: tokenDistribution.self }).map((_, i) => (
-                          <div key={i} className="mini-token blue" />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mini-token-group">
-                      <span className="mini-label">🔥</span>
-                      <div className="mini-tokens">
-                        {Array.from({ length: tokenDistribution.oneToOne }).map((_, i) => (
-                          <div key={i} className="mini-token red" />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mini-token-group">
-                      <span className="mini-label">🧱</span>
-                      <div className="mini-tokens">
-                        {Array.from({ length: tokenDistribution.social }).map((_, i) => (
-                          <div key={i} className="mini-token green" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Color States Layer (Complete) */}
-              <div className="tower-layer completed-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Color States</span>
-                  <span className="layer-status">✓</span>
-                </div>
-                <div className="layer-block color-states-block">
-                  <div className="color-gradient-display">
-                    <div className="gradient-bar" style={{
-                      background: 'linear-gradient(90deg, #f59e0b 0%, #10b981 100%)'
-                    }} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Building Blocks Layer (Complete) */}
-              <div className="tower-layer completed-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Building Blocks</span>
-                  <span className="layer-status">✓</span>
-                </div>
-                <div className="layer-block building-blocks-block">
-                  <div className="block-stack">
-                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #8b5cf6, #a855f7)' }} />
-                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)' }} />
-                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Foundation Layer (Complete) */}
-              <div className="tower-layer completed-layer foundation-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Foundation</span>
-                  <span className="layer-status">✓</span>
-                </div>
-                <div className="layer-block foundation-block">
-                  <div className="foundation-stones">
-                    {Array.from({ length: 9 }).map((_, i) => (
-                      <div key={i} className="foundation-stone" />
+                {/* Available Tokens Section */}
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold text-white mb-4">Available Tokens</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {Array.from({ length: remainingTokens }).map((_, index) => (
+                      <Token
+                        key={`token-${index}`}
+                        onDrop={handleTokenDrop}
+                      />
                     ))}
+                    {remainingTokens === 0 && (
+                      <p className="text-white/50 italic">All tokens distributed</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Three Containers */}
+                <div className="space-y-6">
+                  {containers.map((container) => (
+                    <div 
+                      key={container.id}
+                      className="bg-white/5 backdrop-blur-md rounded-lg p-4 border border-white/20 hover:border-orange-400/50 transition-all duration-200 cursor-pointer"
+                      data-container-id={container.id}
+                      onClick={() => handleContainerClick(container.id)}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, container.id)}
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h4 className="text-lg font-semibold text-white flex items-center gap-2">
+                            {container.emoji} {container.title}
+                          </h4>
+                          <p className="text-white/70 text-sm mt-1">
+                            {container.description}
+                          </p>
+                        </div>
+                        <span className="text-orange-400 font-semibold">
+                          Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
+                        </span>
+                      </div>
+
+                      {/* Container interaction area with tokens or add instruction */}
+                      <div 
+                        className="bg-white/5 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center p-3"
+                        onClick={() => handleContainerClick(container.id)}
+                      >
+                        {tokenDistribution[container.id as keyof TokenDistribution] > 0 ? (
+                          <div className="flex flex-wrap gap-2 justify-center">
+                            {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
+                              <div
+                                key={index}
+                                className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border border-orange-300/50 cursor-pointer hover:scale-110 transition-transform duration-200"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleTokenRemove(container.id, e);
+                                }}
+                                title="Click to remove token"
+                              />
+                            ))}
+                          </div>
+                        ) : remainingTokens > 0 ? (
+                          <div className="text-white/50 text-xs italic text-center">
+                            Click to add token or drag token here
+                          </div>
+                        ) : (
+                          <div className="text-white/30 text-xs italic text-center">
+                            No tokens available
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Continue Button */}
+                {isComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-8"
+                  >
+                    <ContinueButton
+                      canProceed={isComplete}
+                      onContinue={handleContinue}
+                    >
+                      Continue to Results
+                    </ContinueButton>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+
+            {/* Right Column - Tower Visualization */}
+            <div className="flex items-center justify-center">
+              <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 w-fit">
+                <h3 className="text-xl font-semibold text-white mb-4 text-center">Your Tower Progress</h3>
+                <div className="flex flex-col items-center" style={{ width: '300px', height: '400px' }}>
+                  {/* Tower visualization */}
+                  <div className="flex flex-col gap-2 w-full h-full justify-center">
+                    {/* Detail Tokens Layer (Current) */}
+                    <div className="bg-orange-500/20 rounded-lg p-3 border border-orange-400/30">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white text-sm font-medium">Detail Tokens</span>
+                        <span className="text-orange-400 text-xs font-semibold">{totalTokens}/10</span>
+                      </div>
+                      <div className="flex gap-1 justify-center">
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs">🛡️</span>
+                          <div className="flex gap-1">
+                            {Array.from({ length: tokenDistribution.self }).map((_, i) => (
+                              <div key={i} className="w-2 h-2 bg-blue-400 rounded-full" />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs">🔥</span>
+                          <div className="flex gap-1">
+                            {Array.from({ length: tokenDistribution.oneToOne }).map((_, i) => (
+                              <div key={i} className="w-2 h-2 bg-red-400 rounded-full" />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs">🧱</span>
+                          <div className="flex gap-1">
+                            {Array.from({ length: tokenDistribution.social }).map((_, i) => (
+                              <div key={i} className="w-2 h-2 bg-green-400 rounded-full" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Color States Layer (Complete) */}
+                    <div className="bg-green-500/20 rounded-lg p-3 border border-green-400/30">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white text-sm font-medium">Color States</span>
+                        <span className="text-green-400 text-xs">✓</span>
+                      </div>
+                      <div className="h-4 bg-gradient-to-r from-amber-500 to-green-500 rounded" />
+                    </div>
+
+                    {/* Building Blocks Layer (Complete) */}
+                    <div className="bg-green-500/20 rounded-lg p-3 border border-green-400/30">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white text-sm font-medium">Building Blocks</span>
+                        <span className="text-green-400 text-xs">✓</span>
+                      </div>
+                      <div className="flex gap-1 justify-center">
+                        <div className="w-6 h-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded" />
+                        <div className="w-6 h-4 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded" />
+                        <div className="w-6 h-4 bg-gradient-to-br from-green-500 to-green-600 rounded" />
+                      </div>
+                    </div>
+
+                    {/* Foundation Layer (Complete) */}
+                    <div className="bg-green-500/20 rounded-lg p-3 border border-green-400/30">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white text-sm font-medium">Foundation</span>
+                        <span className="text-green-400 text-xs">✓</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1 max-w-16 mx-auto">
+                        {Array.from({ length: 9 }).map((_, i) => (
+                          <div key={i} className="w-3 h-3 bg-gray-500 rounded-sm" />
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
