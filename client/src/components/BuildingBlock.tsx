@@ -16,7 +16,7 @@ const CheckIcon = () => (
 
 const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: BuildingBlockProps) => (
   <motion.div
-    className={`building-block p-6 rounded-lg w-full max-w-md mx-auto ${isSelected ? 'selected' : ''}`}
+    className={`building-block ${isSelected ? 'selected' : ''}`}
     style={{ background: gradient }}
     whileHover={{ scale: 1.03 }}
     whileTap={{ scale: 0.97 }}
