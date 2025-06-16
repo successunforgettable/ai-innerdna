@@ -14,43 +14,53 @@ const Results = () => {
   const detailData = assessmentData.detailTokens;
   const personalityResult = assessmentData.result;
 
-  // Extract data for components
-  const primaryType = personalityResult?.primaryType || '1';
-  const typeName = getTypeName(primaryType);
-  const wingName = buildingData?.[0]?.name || 'Reformer 9';
-  const confidence = personalityResult?.confidence || 0.75;
+  // Extract data for components - use actual assessment data
+  const primaryType = personalityResult?.primaryType;
+  const typeName = primaryType ? getTypeName(primaryType) : undefined;
+  const wingName = buildingData?.[0]?.name;
+  const confidence = personalityResult?.confidence;
+
+  // Check if assessment is complete
+  const hasValidData = primaryType && typeName && confidence;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
       <div className="container mx-auto px-4 py-8">
         <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 max-w-4xl mx-auto">
           
-          <ReportHeader 
-            primaryType={primaryType}
-            typeName={typeName}
-            wingName={wingName}
-            confidence={confidence}
-          />
-          
-          <TypeDescription 
-            primaryType={primaryType}
-            typeName={typeName}
-          />
-          
-          <MoodStates 
-            primaryType={primaryType}
-          />
-          
-          {/* State Analysis and Subtype components will be added later */}
-          
-          {/* Debug: Show received data */}
-          <div className="text-white/80 text-xs mt-8 p-4 bg-black/20 rounded">
-            <p>Debug Data:</p>
-            <p>Primary Type: {personalityResult?.primaryType || 'Not determined'}</p>
-            <p>Wing: {buildingData?.[0]?.name || 'Not determined'}</p>
-            <p>States: {colorData?.[0]?.state || 'Not determined'}</p>
-            <p>Subtype: {detailData?.[0]?.token || 'Not determined'}</p>
-          </div>
+          {hasValidData ? (
+            <>
+              <ReportHeader 
+                primaryType={primaryType!}
+                typeName={typeName!}
+                wingName={wingName || 'Not determined'}
+                confidence={confidence!}
+              />
+              
+              <TypeDescription 
+                primaryType={primaryType!}
+                typeName={typeName!}
+              />
+              
+              <MoodStates 
+                primaryType={primaryType!}
+              />
+              
+              {/* State Analysis and Subtype components will be added later */}
+            </>
+          ) : (
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-yellow-400 mb-8">
+                Complete Your Assessment
+              </h1>
+              <p className="text-white/80 text-lg mb-8">
+                Please complete the full Inner DNA assessment to see your personalized results.
+              </p>
+              <p className="text-white/60">
+                Go through Foundation Stones, Building Blocks, Color States, and Detail Tokens to generate your authentic personality profile.
+              </p>
+            </div>
+          )}
           
         </div>
       </div>
