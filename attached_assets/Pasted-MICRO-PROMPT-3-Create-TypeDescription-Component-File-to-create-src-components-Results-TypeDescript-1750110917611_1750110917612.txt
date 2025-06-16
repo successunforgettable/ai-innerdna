@@ -1,0 +1,77 @@
+MICRO PROMPT 3: Create TypeDescription Component
+File to create: src/components/Results/TypeDescription.tsx
+Task: Create dynamic type descriptions for all 9 types using approved terminology.
+Code to implement:
+tsximport React from 'react';
+
+interface TypeDescriptionProps {
+  primaryType: string;
+  typeName: string;
+}
+
+const typeDescriptions = {
+  '1': {
+    name: 'Reformer',
+    description: 'You are principled, purposeful, and driven by a desire for integrity and improvement. Your inner compass guides you toward making things better and doing what\'s right. You have a natural ability to see how things could be improved and feel compelled to work toward perfection and correctness.'
+  },
+  '2': {
+    name: 'Helper',
+    description: 'You are caring, interpersonal, and driven by a desire to feel loved and appreciated. You naturally focus on others\' needs and feelings, offering support and assistance to those around you. Your greatest joy comes from being helpful and making a positive difference in people\'s lives.'
+  },
+  '3': {
+    name: 'Achiever',
+    description: 'You are adaptive, excelling, and driven by a desire to feel valuable and worthwhile. You naturally focus on goals, efficiency, and success. You have an innate ability to adapt to different situations and present yourself in ways that will help you achieve your objectives.'
+  },
+  '4': {
+    name: 'Individualist',
+    description: 'You are expressive, dramatic, and driven by a desire to find your authentic self and significance. You naturally focus on what\'s missing in yourself and your life. You have a gift for authenticity and emotional depth, often seeing beauty and meaning that others miss.'
+  },
+  '5': {
+    name: 'Investigator',
+    description: 'You are intense, cerebral, and driven by a desire to be capable and competent. You naturally focus on conserving energy and gaining knowledge. You have a gift for deep thinking and understanding complex systems, preferring to observe and understand before acting.'
+  },
+  '6': {
+    name: 'Sentinel',
+    description: 'You are engaging, responsible, and driven by a desire for security and support. You naturally focus on potential problems and seek guidance from trusted authorities. You have a gift for loyalty and commitment, often serving as the backbone of teams and relationships.'
+  },
+  '7': {
+    name: 'Enthusiast',
+    description: 'You are spontaneous, versatile, and driven by a desire to maintain happiness and avoid pain. You naturally focus on exciting possibilities and keeping your options open. You have a gift for bringing enthusiasm and optimism to situations, seeing potential and opportunities everywhere.'
+  },
+  '8': {
+    name: 'Challenger',
+    description: 'You are self-confident, decisive, and driven by a desire to be self-reliant and in control. You naturally focus on power dynamics and protecting yourself and others. You have a gift for leadership and taking charge, especially in challenging situations.'
+  },
+  '9': {
+    name: 'Peacemaker',
+    description: 'You are accepting, trusting, and driven by a desire to maintain inner and outer peace. You naturally focus on harmony and avoiding conflict. You have a gift for seeing all sides of a situation and bringing people together through your calming presence.'
+  }
+};
+
+const TypeDescription = ({ primaryType, typeName }: TypeDescriptionProps) => {
+  const typeInfo = typeDescriptions[primaryType as keyof typeof typeDescriptions];
+  
+  if (!typeInfo) {
+    return <div>Type description not found</div>;
+  }
+
+  return (
+    <div className="mb-8">
+      <h3 className="text-2xl font-bold text-yellow-400 mb-4">
+        Your Inner DNA: The {typeInfo.name}
+      </h3>
+      <p className="text-lg text-white/90 leading-relaxed">
+        {typeInfo.description}
+      </p>
+    </div>
+  );
+};
+
+export default TypeDescription;
+Requirements:
+
+Use yellow-400 for section headings (matching app color scheme)
+NEVER use "Enneagram" terminology
+Type 6 must be called "Sentinel" not "Loyalist"
+Use approved descriptions focusing on motivations and patterns
+Maintain consistent styling with other components
