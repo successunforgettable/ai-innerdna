@@ -232,18 +232,18 @@
   margin-top: 1rem;
 }
 
-/* Building Block Container - Fixed height with proper text overflow handling */
+/* Building Block Container - Auto-sizing with natural text flow */
 .building-block {
   width: 380px; /* Optimal width that fits in container */
-  height: 160px; /* Fixed height for consistent sizing */
-  padding: 16px; /* Proper padding for text spacing */
+  min-height: 120px; /* Minimum height that can expand for content */
+  padding: 24px; /* Generous padding for text breathing room */
   margin-bottom: 20px; /* Spacing between blocks */
   display: flex;
   flex-direction: column;
   justify-content: center; /* Center content vertically */
   align-items: center; /* Center content horizontally */
   text-align: center;
-  overflow: hidden; /* Prevent text spillover */
+  overflow: visible; /* Allow natural text display */
   position: relative;
   box-sizing: border-box;
   border-radius: 20px; /* More rounded corners */
@@ -302,10 +302,10 @@
 /* Block Label (Block A/Block B) */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 18px; /* Large for title hierarchy */
+  font-size: 20px; /* Larger for better hierarchy */
   font-weight: 700; /* Bold for emphasis */
   color: white; /* White text for visibility on gradient backgrounds */
-  margin-bottom: 8px; /* Reduced spacing for fixed height */
+  margin-bottom: 12px; /* Better spacing for auto-height */
   text-align: center;
   flex-shrink: 0; /* Don't shrink this element */
   letter-spacing: 0.5px; /* Better spacing */
@@ -320,26 +320,23 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Description Text - Content-adaptive display */
+/* Main Description Text - Natural text display without clamping */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px; /* Smaller text for fixed height blocks */
-  line-height: 1.3; /* Tighter line spacing for more content */
-  color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+  font-size: 16px; /* Base text size for readability */
+  line-height: 1.5; /* Relaxed line spacing for comfort */
+  color: white; /* Clean white text */
   white-space: normal; /* Allow normal text wrapping */
   text-align: center;
   flex: 1;
-  overflow: hidden;
+  overflow: visible; /* Allow natural text display */
   word-wrap: break-word;
   hyphens: none; /* Disable hyphenation for cleaner breaks */
   font-weight: 400; /* Clean readable weight */
   letter-spacing: 0.1px; /* Subtle letter spacing */
   position: relative;
   z-index: 2;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  padding: 0 8px; /* Side padding for text breathing room */
+  max-width: 280px; /* Control text width for better readability */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
