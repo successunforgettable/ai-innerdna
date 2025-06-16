@@ -213,7 +213,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  Detail Tokens
+                  Subtypes
                   <br />
                   {totalTokens}/10
                 </span>
@@ -245,7 +245,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  Color States
+                  States
                   <br />
                   Complete
                 </span>
@@ -277,7 +277,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  Building Blocks
+                  Influences
                   <br />
                   Complete
                 </span>
@@ -308,7 +308,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  Foundation
+                  {userPersonalityType} {typeData.name}
                   <br />
                   Complete
                 </span>
