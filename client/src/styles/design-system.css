@@ -245,7 +245,7 @@
   overflow: visible;
   position: relative;
   box-sizing: border-box;
-  border-radius: 12px;
+  border-radius: 20px; /* More rounded corners */
   border: 3px solid transparent;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
