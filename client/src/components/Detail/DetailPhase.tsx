@@ -291,9 +291,14 @@ const DetailPhase: React.FC = () => {
               
               {/* Detail Tokens Layer (Top - Current) */}
               <motion.div 
-                className="tower-layer current-layer"
+                className="tower-layer current-layer cursor-pointer"
                 initial={{ opacity: 0, y: -20, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -2,
+                  transition: { duration: 0.2, ease: "easeOut" }
+                }}
                 transition={{ 
                   duration: 0.6, 
                   delay: 0.3,
@@ -313,7 +318,18 @@ const DetailPhase: React.FC = () => {
                   justifyContent: 'center',
                   marginBottom: '4px',
                   boxShadow: '0 8px 32px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative'
+                  position: 'relative',
+                  transition: 'all 0.2s ease-out'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(245, 158, 11, 0.25)';
+                  e.currentTarget.style.border = '1px solid rgba(245, 158, 11, 0.5)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(245, 158, 11, 0.15)';
+                  e.currentTarget.style.border = '1px solid rgba(245, 158, 11, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
                 }}
               >
                 <span className="text-orange-300 text-xs font-semibold">
@@ -324,9 +340,14 @@ const DetailPhase: React.FC = () => {
 
               {/* Color States Layer */}
               <motion.div 
-                className="tower-layer completed-layer"
+                className="tower-layer completed-layer cursor-pointer"
                 initial={{ opacity: 0, y: -15, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ 
+                  scale: 1.03,
+                  y: -2,
+                  transition: { duration: 0.2, ease: "easeOut" }
+                }}
                 transition={{ 
                   duration: 0.5, 
                   delay: 0.2,
@@ -346,7 +367,18 @@ const DetailPhase: React.FC = () => {
                   justifyContent: 'center',
                   marginBottom: '4px',
                   boxShadow: '0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative'
+                  position: 'relative',
+                  transition: 'all 0.2s ease-out'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.25)';
+                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.5)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.15)';
+                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
                 }}
               >
                 <span className="text-purple-300 text-xs font-semibold">
@@ -364,9 +396,14 @@ const DetailPhase: React.FC = () => {
 
               {/* Building Blocks Layer */}
               <motion.div 
-                className="tower-layer completed-layer"
+                className="tower-layer completed-layer cursor-pointer"
                 initial={{ opacity: 0, y: -10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  y: -1,
+                  transition: { duration: 0.2, ease: "easeOut" }
+                }}
                 transition={{ 
                   duration: 0.4, 
                   delay: 0.1,
@@ -386,7 +423,18 @@ const DetailPhase: React.FC = () => {
                   justifyContent: 'center',
                   marginBottom: '4px',
                   boxShadow: '0 8px 32px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative'
+                  position: 'relative',
+                  transition: 'all 0.2s ease-out'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(6, 182, 212, 0.25)';
+                  e.currentTarget.style.border = '1px solid rgba(6, 182, 212, 0.5)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(6, 182, 212, 0.15)';
+                  e.currentTarget.style.border = '1px solid rgba(6, 182, 212, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
                 }}
               >
                 <span className="text-cyan-300 text-xs font-semibold">
@@ -397,9 +445,14 @@ const DetailPhase: React.FC = () => {
 
               {/* Foundation Layer (Base) */}
               <motion.div 
-                className="foundation-base"
+                className="foundation-base cursor-pointer"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ 
+                  scale: 1.01,
+                  y: -1,
+                  transition: { duration: 0.2, ease: "easeOut" }
+                }}
                 transition={{ 
                   duration: 0.3,
                   type: "spring",
@@ -417,7 +470,18 @@ const DetailPhase: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   boxShadow: '0 8px 32px rgba(100, 116, 139, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative'
+                  position: 'relative',
+                  transition: 'all 0.2s ease-out'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(100, 116, 139, 0.25)';
+                  e.currentTarget.style.border = '1px solid rgba(100, 116, 139, 0.5)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(100, 116, 139, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(100, 116, 139, 0.15)';
+                  e.currentTarget.style.border = '1px solid rgba(100, 116, 139, 0.3)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(100, 116, 139, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
                 }}
               >
                 <span className="text-slate-300 text-xs font-semibold">
