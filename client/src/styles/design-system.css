@@ -232,12 +232,13 @@
   margin-top: 1rem;
 }
 
-/* Building Block Container - Auto-sizing with natural text flow */
+/* Building Block Container - Wider blocks for full text display */
 .building-block {
-  width: 380px; /* Optimal width that fits in container */
+  width: 100%; /* Full width within container */
+  max-width: 448px; /* Max width for optimal readability (~28rem) */
   min-height: 120px; /* Minimum height that can expand for content */
   padding: 24px; /* Generous padding for text breathing room */
-  margin-bottom: 20px; /* Spacing between blocks */
+  margin-bottom: 24px; /* Spacing between blocks */
   display: flex;
   flex-direction: column;
   justify-content: center; /* Center content vertically */
@@ -246,7 +247,7 @@
   overflow: visible; /* Allow natural text display */
   position: relative;
   box-sizing: border-box;
-  border-radius: 20px; /* More rounded corners */
+  border-radius: 12px; /* Rounded corners */
   border: 3px solid transparent;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -302,10 +303,10 @@
 /* Block Label (Block A/Block B) */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 20px; /* Larger for better hierarchy */
+  font-size: 20px; /* Large for title hierarchy */
   font-weight: 700; /* Bold for emphasis */
   color: white; /* White text for visibility on gradient backgrounds */
-  margin-bottom: 12px; /* Better spacing for auto-height */
+  margin-bottom: 16px; /* Better spacing for wider blocks */
   text-align: center;
   flex-shrink: 0; /* Don't shrink this element */
   letter-spacing: 0.5px; /* Better spacing */
@@ -320,11 +321,11 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Description Text - Natural text display without clamping */
+/* Main Description Text - Optimized for wider blocks */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px; /* Base text size for readability */
-  line-height: 1.5; /* Relaxed line spacing for comfort */
+  font-size: 14px; /* Smaller text for better fit in wider blocks */
+  line-height: 1.6; /* Relaxed line spacing for comfortable reading */
   color: white; /* Clean white text */
   white-space: normal; /* Allow normal text wrapping */
   text-align: center;
@@ -336,7 +337,7 @@
   letter-spacing: 0.1px; /* Subtle letter spacing */
   position: relative;
   z-index: 2;
-  max-width: 280px; /* Control text width for better readability */
+  max-width: 400px; /* Wider text area for full content display */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
