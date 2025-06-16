@@ -284,66 +284,89 @@ const DetailPhase: React.FC = () => {
         {/* Right Column - Tower Visualization Section */}
         <div className="right-column">
           <div className="glass-container tower-container">
-            <h3 className="tower-title">Your Assessment Progress</h3>
+            <h3 className="tower-title">Your Tower</h3>
             
-            {/* Phase Progress Display */}
-            <div className="phase-progress">
-              <div className="phase-item completed">
-                <div className="phase-indicator">✓</div>
-                <div className="phase-info">
-                  <h4>Foundation Stones</h4>
-                  <p>9 sets completed</p>
+            {/* Visual Tower Building */}
+            <div className="tower-building">
+              {/* Detail Tokens Layer (Current) */}
+              <div className="tower-layer current-layer">
+                <div className="layer-header">
+                  <span className="layer-title">Detail Tokens</span>
+                  <span className="layer-progress">{totalTokens}/10</span>
                 </div>
-              </div>
-              
-              <div className="phase-item completed">
-                <div className="phase-indicator">✓</div>
-                <div className="phase-info">
-                  <h4>Building Blocks</h4>
-                  <p>Selection completed</p>
-                </div>
-              </div>
-              
-              <div className="phase-item completed">
-                <div className="phase-indicator">✓</div>
-                <div className="phase-info">
-                  <h4>Color States</h4>
-                  <p>States selected</p>
-                </div>
-              </div>
-              
-              <div className="phase-item current">
-                <div className="phase-indicator">{totalTokens}/10</div>
-                <div className="phase-info">
-                  <h4>Detail Tokens</h4>
-                  <p>Energy distribution</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Token Distribution Visualization */}
-            <div className="token-distribution-visual">
-              <h4 className="distribution-title">Current Distribution</h4>
-              <div className="distribution-bars">
-                {containers.map((container) => {
-                  const count = tokenDistribution[container.id as keyof TokenDistribution];
-                  const percentage = totalTokens > 0 ? (count / totalTokens) * 100 : 0;
-                  
-                  return (
-                    <div key={container.id} className="distribution-bar">
-                      <div className="bar-header">
-                        <span className="bar-label">{container.emoji} {container.title}</span>
-                        <span className="bar-count">{count}</span>
-                      </div>
-                      <div className="bar-track">
-                        <div 
-                          className="bar-fill"
-                          style={{ width: `${percentage}%` }}
-                        />
+                <div className="layer-block detail-tokens-block">
+                  <div className="token-distribution-mini">
+                    <div className="mini-token-group">
+                      <span className="mini-label">🛡️</span>
+                      <div className="mini-tokens">
+                        {Array.from({ length: tokenDistribution.self }).map((_, i) => (
+                          <div key={i} className="mini-token blue" />
+                        ))}
                       </div>
                     </div>
-                  );
-                })}
+                    <div className="mini-token-group">
+                      <span className="mini-label">🔥</span>
+                      <div className="mini-tokens">
+                        {Array.from({ length: tokenDistribution.oneToOne }).map((_, i) => (
+                          <div key={i} className="mini-token red" />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mini-token-group">
+                      <span className="mini-label">🧱</span>
+                      <div className="mini-tokens">
+                        {Array.from({ length: tokenDistribution.social }).map((_, i) => (
+                          <div key={i} className="mini-token green" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Color States Layer (Complete) */}
+              <div className="tower-layer completed-layer">
+                <div className="layer-header">
+                  <span className="layer-title">Color States</span>
+                  <span className="layer-status">✓</span>
+                </div>
+                <div className="layer-block color-states-block">
+                  <div className="color-gradient-display">
+                    <div className="gradient-bar" style={{
+                      background: 'linear-gradient(90deg, #f59e0b 0%, #10b981 100%)'
+                    }} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Building Blocks Layer (Complete) */}
+              <div className="tower-layer completed-layer">
+                <div className="layer-header">
+                  <span className="layer-title">Building Blocks</span>
+                  <span className="layer-status">✓</span>
+                </div>
+                <div className="layer-block building-blocks-block">
+                  <div className="block-stack">
+                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #8b5cf6, #a855f7)' }} />
+                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)' }} />
+                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Foundation Layer (Complete) */}
+              <div className="tower-layer completed-layer foundation-layer">
+                <div className="layer-header">
+                  <span className="layer-title">Foundation</span>
+                  <span className="layer-status">✓</span>
+                </div>
+                <div className="layer-block foundation-block">
+                  <div className="foundation-stones">
+                    {Array.from({ length: 9 }).map((_, i) => (
+                      <div key={i} className="foundation-stone" />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
