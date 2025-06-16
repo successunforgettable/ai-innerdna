@@ -291,96 +291,139 @@ const DetailPhase: React.FC = () => {
               
               {/* Detail Tokens Layer (Top - Current) */}
               <motion.div 
-                className="detail-tokens-layer"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                className="tower-layer current-layer"
+                initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: 0.3,
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30
+                }}
                 style={{
-                  width: '140px',
-                  height: '50px',
-                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  width: '120px',
+                  height: '40px',
+                  background: 'rgba(245, 158, 11, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(245, 158, 11, 0.3)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '8px',
-                  boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
-                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                  marginBottom: '4px',
+                  boxShadow: '0 8px 32px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  position: 'relative'
                 }}
               >
-                <span className="text-white text-sm font-semibold">
-                  Tokens {totalTokens}/10
+                <span className="text-orange-300 text-xs font-semibold">
+                  {totalTokens}/10
                 </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-amber-400/10 rounded-lg" />
               </motion.div>
 
               {/* Color States Layer */}
               <motion.div 
-                className="color-states-layer"
-                initial={{ opacity: 0.7 }}
-                animate={{ opacity: 1 }}
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -15, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 0.2,
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 25
+                }}
                 style={{
-                  width: '180px',
-                  height: '60px',
-                  background: colorData?.primaryColor ? 
-                    `linear-gradient(135deg, ${colorData.primaryColor}, ${colorData.secondaryColor || colorData.primaryColor})` :
-                    'linear-gradient(135deg, #8b5cf6, #a855f7)',
+                  width: '150px',
+                  height: '50px',
+                  background: 'rgba(139, 92, 246, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(139, 92, 246, 0.3)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '8px',
-                  boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)',
-                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                  marginBottom: '4px',
+                  boxShadow: '0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  position: 'relative'
                 }}
               >
-                <span className="text-white text-sm font-semibold">
-                  Color States
+                <span className="text-purple-300 text-xs font-semibold">
+                  Colors
                 </span>
+                <div 
+                  className="absolute inset-0 rounded-lg opacity-20"
+                  style={{
+                    background: colorData?.primaryColor ? 
+                      `linear-gradient(135deg, ${colorData.primaryColor}, ${colorData.secondaryColor || colorData.primaryColor})` :
+                      'linear-gradient(135deg, #8b5cf6, #a855f7)'
+                  }}
+                />
               </motion.div>
 
               {/* Building Blocks Layer */}
               <motion.div 
-                className="building-blocks-layer"
-                initial={{ opacity: 0.7 }}
-                animate={{ opacity: 1 }}
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: 0.1,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 20
+                }}
                 style={{
-                  width: '220px',
-                  height: '70px',
-                  background: buildingData?.gradient || 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                  width: '180px',
+                  height: '60px',
+                  background: 'rgba(6, 182, 212, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(6, 182, 212, 0.3)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '8px',
-                  boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)',
-                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                  marginBottom: '4px',
+                  boxShadow: '0 8px 32px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  position: 'relative'
                 }}
               >
-                <span className="text-white text-sm font-semibold">
-                  {buildingData?.name || 'Building Block'}
+                <span className="text-cyan-300 text-xs font-semibold">
+                  Building
                 </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-blue-400/10 rounded-lg" />
               </motion.div>
 
               {/* Foundation Layer (Base) */}
               <motion.div 
                 className="foundation-base"
-                initial={{ opacity: 0.7 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ 
+                  duration: 0.3,
+                  type: "spring",
+                  stiffness: 150,
+                  damping: 15
+                }}
                 style={{
-                  width: '260px',
-                  height: '80px',
-                  background: 'linear-gradient(135deg, #64748b, #475569)',
+                  width: '220px',
+                  height: '70px',
+                  background: 'rgba(100, 116, 139, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(100, 116, 139, 0.3)',
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 6px 16px rgba(100, 116, 139, 0.4)',
-                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                  boxShadow: '0 8px 32px rgba(100, 116, 139, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  position: 'relative'
                 }}
               >
-                <span className="text-white font-semibold">
-                  Foundation Complete
+                <span className="text-slate-300 text-xs font-semibold">
+                  Foundation
                 </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-400/10 to-gray-400/10 rounded-xl" />
               </motion.div>
 
             </div>
