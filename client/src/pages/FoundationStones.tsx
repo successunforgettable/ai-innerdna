@@ -79,6 +79,11 @@ export default function FoundationStones() {
       ...assessmentData,
       foundationStones: newFoundationStones
     });
+
+    // Auto-advance to next set after a brief delay
+    setTimeout(() => {
+      handleNextSet();
+    }, 800);
   };
 
   const handleNextSet = () => {
@@ -110,7 +115,11 @@ export default function FoundationStones() {
     }
   };
 
-  const isNextDisabled = selectedStone === null;
+  const handlePrevious = () => {
+    if (currentStoneSet > 0) {
+      setCurrentStoneSet(currentStoneSet - 1);
+    }
+  };
 
   return (
     <div className="page-container">
@@ -149,15 +158,16 @@ export default function FoundationStones() {
             ))}
           </motion.div>
 
-          <div className="flex justify-center">
-            <button
-              className="btn-primary"
-              onClick={handleNextSet}
-              disabled={isNextDisabled}
-            >
-              {currentStoneSet < stoneSets.length - 1 ? 'Next Set' : 'Continue to Building Blocks'}
-            </button>
-          </div>
+          {currentStoneSet > 0 && (
+            <div className="flex justify-center">
+              <button
+                className="btn-secondary"
+                onClick={handlePrevious}
+              >
+                ← Back to Previous Set
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="glass-container">
