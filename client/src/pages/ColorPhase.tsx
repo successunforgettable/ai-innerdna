@@ -172,19 +172,57 @@ export default function ColorPhase() {
     setCanProceed(selectedStates.length === 2);
   }, [selectedStates]);
 
-  // Helper functions for animations
+  // Helper functions for animations - ensure good states (green) are on the right, poor states (orange) on the left
   const getSelectedColors = (): [string, string] => {
-    return [
-      stateOptions.find(s => s.id === selectedStates[0])?.color || '#000',
-      stateOptions.find(s => s.id === selectedStates[1])?.color || '#000'
-    ];
+    const state1 = stateOptions.find(s => s.id === selectedStates[0]);
+    const state2 = stateOptions.find(s => s.id === selectedStates[1]);
+    
+    if (!state1 || !state2) return ['#000', '#000'];
+    
+    // Define state quality order: good states should be on the right (secondary position)
+    const stateQuality = {
+      'veryGood': 5,
+      'good': 4,
+      'average': 3,
+      'belowAverage': 2,
+      'destructive': 1
+    };
+    
+    const quality1 = stateQuality[state1.id as keyof typeof stateQuality] || 0;
+    const quality2 = stateQuality[state2.id as keyof typeof stateQuality] || 0;
+    
+    // Put lower quality state first (left), higher quality state second (right)
+    if (quality1 <= quality2) {
+      return [state1.color, state2.color];
+    } else {
+      return [state2.color, state1.color];
+    }
   };
 
   const getSelectedStateNames = (): [string, string] => {
-    return [
-      stateOptions.find(s => s.id === selectedStates[0])?.name || '',
-      stateOptions.find(s => s.id === selectedStates[1])?.name || ''
-    ];
+    const state1 = stateOptions.find(s => s.id === selectedStates[0]);
+    const state2 = stateOptions.find(s => s.id === selectedStates[1]);
+    
+    if (!state1 || !state2) return ['', ''];
+    
+    // Define state quality order: good states should be on the right (secondary position)
+    const stateQuality = {
+      'veryGood': 5,
+      'good': 4,
+      'average': 3,
+      'belowAverage': 2,
+      'destructive': 1
+    };
+    
+    const quality1 = stateQuality[state1.id as keyof typeof stateQuality] || 0;
+    const quality2 = stateQuality[state2.id as keyof typeof stateQuality] || 0;
+    
+    // Put lower quality state first (left), higher quality state second (right)
+    if (quality1 <= quality2) {
+      return [state1.name, state2.name];
+    } else {
+      return [state2.name, state1.name];
+    }
   };
 
   // Update tower colors when selection or distribution changes
