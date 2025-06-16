@@ -226,23 +226,7 @@ const DetailPhase: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Display tokens in container */}
-                <div className="tokens-display">
-                  {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                    <div
-                      key={index}
-                      className="token"
-                      onClick={(e) => handleTokenRemove(container.id, e)}
-                      title="Click to remove token"
-                      style={{
-                        cursor: 'pointer',
-                        opacity: 1,
-                        visibility: 'visible'
-                      }}
-                    />
-                  ))}
-                </div>
-                
+
                 {/* Container interaction area with tokens or add instruction */}
                 <div 
                   className="container-interaction-area mt-2 p-3 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center"
