@@ -26,6 +26,14 @@ const Results = () => {
             <p>Wing: {buildingData?.[0]?.name || 'Not determined'}</p>
             <p>States: {colorData?.[0]?.state || 'Not determined'}</p>
             <p>Subtype: {detailData?.[0]?.token || 'Not determined'}</p>
+            
+            {/* Additional debugging */}
+            <div className="mt-4 p-4 bg-black/20 rounded">
+              <p className="text-xs">Full Assessment Data:</p>
+              <pre className="text-xs overflow-auto max-h-40">
+                {JSON.stringify(assessmentData, null, 2)}
+              </pre>
+            </div>
           </div>
           
           {/* Report components will go here */}
