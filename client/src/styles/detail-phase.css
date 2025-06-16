@@ -38,13 +38,14 @@
 
 .detail-phase-content {
   display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 56px;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   flex: 1;
   padding: 0 24px;
+  overflow: hidden;
 }
 
 /* Left and Right Column Layout */
@@ -57,15 +58,19 @@
 .right-column {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
+  max-width: 320px;
+  overflow: hidden;
 }
 
 /* Section 2.3 Tower Dimensions */
 .tower-container {
-  width: 300px !important;
+  width: 100% !important;
+  max-width: 320px !important;
   height: 400px !important;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 /* Glass container styling matching Foundation/Building/Color */
@@ -76,10 +81,12 @@
   backdrop-filter: blur(32px) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 20px !important;
-  padding: 32px !important;
+  padding: 24px !important;
   box-shadow: 
     0 8px 32px rgba(31, 38, 135, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .glass-container h3 {
@@ -410,16 +417,22 @@
 .tower-building {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 6px;
+  margin-top: 12px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .tower-layer {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 12px;
+  border-radius: 8px;
+  padding: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .tower-layer.current-layer {
@@ -660,5 +673,19 @@
   
   .containers-section {
     gap: 6px;
+  }
+  
+  /* Tower responsive adjustments */
+  .tower-container {
+    height: 350px !important;
+  }
+  
+  .tower-layer {
+    padding: 6px;
+  }
+  
+  .layer-block {
+    min-height: 30px;
+    padding: 6px;
   }
 }
