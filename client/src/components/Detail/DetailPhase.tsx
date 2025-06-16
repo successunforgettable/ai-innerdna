@@ -150,19 +150,6 @@ const DetailPhase: React.FC = () => {
       <div className="detail-phase-content">
         {/* Left Column - Token Distribution Section */}
         <div className="left-column">
-          {/* Progress Counter */}
-          <div className="progress-counter">
-            <div className="progress-text">
-              Total: {totalTokens}/10 • Remaining: {remainingTokens}
-              {totalTokens === 10 && (
-                <span className="validation-message success ml-2">✓ Complete</span>
-              )}
-              {totalTokens > 10 && (
-                <span className="validation-message warning ml-2">⚠ Over limit</span>
-              )}
-            </div>
-          </div>
-
           {/* Available Tokens Section */}
           <div className="glass-container token-container">
             <h3 className="section-title">Available Tokens</h3>
