@@ -43,6 +43,11 @@ const pageVariants = {
 const DetailPhase: React.FC = () => {
   const { assessmentData, setAssessmentData } = useAssessment();
   const [, setLocation] = useLocation();
+  
+  // Access previous phase data from navigation state
+  const foundationData = (window.history.state?.usr?.foundationData) || assessmentData.result;
+  const buildingData = (window.history.state?.usr?.buildingData) || assessmentData.buildingBlocks?.[0];
+  const colorData = (window.history.state?.usr?.colorData) || assessmentData.colorStates?.[0];
   const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution>({
     self: 0,
     oneToOne: 0,
@@ -282,87 +287,36 @@ const DetailPhase: React.FC = () => {
             <h3 className="tower-title">Your Tower</h3>
             
             {/* Visual Tower Building */}
-            <div className="tower-building">
-              {/* Detail Tokens Layer (Current) */}
-              <div className="tower-layer current-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Detail Tokens</span>
-                  <span className="layer-progress">{totalTokens}/10</span>
-                </div>
-                <div className="layer-block detail-tokens-block">
-                  <div className="token-distribution-mini">
-                    <div className="mini-token-group">
-                      <span className="mini-label">🛡️</span>
-                      <div className="mini-tokens">
-                        {Array.from({ length: tokenDistribution.self }).map((_, i) => (
-                          <div key={i} className="mini-token blue" />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mini-token-group">
-                      <span className="mini-label">🔥</span>
-                      <div className="mini-tokens">
-                        {Array.from({ length: tokenDistribution.oneToOne }).map((_, i) => (
-                          <div key={i} className="mini-token red" />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="mini-token-group">
-                      <span className="mini-label">🧱</span>
-                      <div className="mini-tokens">
-                        {Array.from({ length: tokenDistribution.social }).map((_, i) => (
-                          <div key={i} className="mini-token green" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div className="flex flex-col items-center" style={{ width: '300px', height: '400px' }}>
+              
+              {/* Detail Tokens Layer (Top) - Current Phase */}
+              <div className="w-full h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg flex items-center justify-center mb-2">
+                <span className="text-white font-semibold">Detail Tokens</span>
+                <span className="ml-2 text-white/80">{totalTokens}/10</span>
               </div>
 
-              {/* Color States Layer (Complete) */}
-              <div className="tower-layer completed-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Color States</span>
-                  <span className="layer-status">✓</span>
-                </div>
-                <div className="layer-block color-states-block">
-                  <div className="color-gradient-display">
-                    <div className="gradient-bar" style={{
-                      background: 'linear-gradient(90deg, #f59e0b 0%, #10b981 100%)'
-                    }} />
-                  </div>
-                </div>
+              {/* Color States Layer */}
+              <div 
+                className="w-full h-20 rounded-lg mb-2 flex items-center justify-center"
+                style={{ 
+                  background: `linear-gradient(to right, ${colorData?.primaryColor || '#f59e0b'} ${colorData?.distribution?.primary || 50}%, ${colorData?.secondaryColor || '#34d399'} ${colorData?.distribution?.primary || 50}%)`
+                }}
+              >
+                <span className="text-white font-semibold">Color States</span>
               </div>
 
-              {/* Building Blocks Layer (Complete) */}
-              <div className="tower-layer completed-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Building Blocks</span>
-                  <span className="layer-status">✓</span>
-                </div>
-                <div className="layer-block building-blocks-block">
-                  <div className="block-stack">
-                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #8b5cf6, #a855f7)' }} />
-                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)' }} />
-                    <div className="mini-block" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }} />
-                  </div>
-                </div>
+              {/* Building Blocks Layer */}
+              <div className="w-full h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mb-2 flex items-center justify-center">
+                <span className="text-white font-semibold">Building Blocks</span>
+                <span className="ml-2 text-white/80">{buildingData?.wingName || 'Wing'}</span>
               </div>
 
-              {/* Foundation Layer (Complete) */}
-              <div className="tower-layer completed-layer foundation-layer">
-                <div className="layer-header">
-                  <span className="layer-title">Foundation</span>
-                  <span className="layer-status">✓</span>
-                </div>
-                <div className="layer-block foundation-block">
-                  <div className="foundation-stones">
-                    {Array.from({ length: 9 }).map((_, i) => (
-                      <div key={i} className="foundation-stone" />
-                    ))}
-                  </div>
-                </div>
+              {/* Foundation Layer (Bottom) */}
+              <div className="w-full h-28 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-b-lg flex items-center justify-center">
+                <span className="text-white font-semibold">Foundation</span>
+                <span className="ml-2 text-white/80">{foundationData?.typeName || 'Type'}</span>
               </div>
+
             </div>
           </div>
         </div>

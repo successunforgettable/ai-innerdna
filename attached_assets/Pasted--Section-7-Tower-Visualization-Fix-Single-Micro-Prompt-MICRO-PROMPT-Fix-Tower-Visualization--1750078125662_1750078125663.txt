@@ -1,0 +1,63 @@
+# Section 7 Tower Visualization Fix - Single Micro Prompt
+
+## MICRO PROMPT: Fix Tower Visualization Only
+
+**File to modify:** `src/pages/DetailTokens.tsx`
+
+**ISSUE:** Tower should show progressive building layers (Foundation → Building Blocks → Color States → Detail Tokens) instead of assessment progress.
+
+**EXACT FIX NEEDED:**
+Replace the tower visualization section with this structure that shows the building progress:
+
+```tsx
+// In the right column "Your Tower" section, replace the tower content with:
+<div className="flex flex-col items-center" style={{ width: '300px', height: '400px' }}>
+  
+  {/* Detail Tokens Layer (Top) - Current Phase */}
+  <div className="w-full h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg flex items-center justify-center mb-2">
+    <span className="text-white font-semibold">Detail Tokens</span>
+    <span className="ml-2 text-white/80">{totalDistributed}/10</span>
+  </div>
+
+  {/* Color States Layer */}
+  <div 
+    className="w-full h-20 rounded-lg mb-2 flex items-center justify-center"
+    style={{ 
+      background: `linear-gradient(to right, ${colorData?.primaryColor || '#f59e0b'} ${colorData?.distribution?.primary || 50}%, ${colorData?.secondaryColor || '#34d399'} ${colorData?.distribution?.primary || 50}%)`
+    }}
+  >
+    <span className="text-white font-semibold">Color States</span>
+  </div>
+
+  {/* Building Blocks Layer */}
+  <div className="w-full h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mb-2 flex items-center justify-center">
+    <span className="text-white font-semibold">Building Blocks</span>
+    <span className="ml-2 text-white/80">{buildingData?.wingName || 'Wing'}</span>
+  </div>
+
+  {/* Foundation Layer (Bottom) */}
+  <div className="w-full h-28 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-b-lg flex items-center justify-center">
+    <span className="text-white font-semibold">Foundation</span>
+    <span className="ml-2 text-white/80">{foundationData?.typeName || 'Type'}</span>
+  </div>
+
+</div>
+```
+
+**Requirements:**
+- Keep exact tower dimensions: 300px width, 400px height from Section 2.3
+- Show 4 layers stacked vertically: Detail Tokens (top) → Color States → Building Blocks → Foundation (bottom)
+- Use data from previous phases: `foundationData`, `buildingData`, `colorData` from location.state
+- Current Detail Tokens layer shows progress: "{totalDistributed}/10"
+- DO NOT change any other part of the existing design
+- Keep all existing functionality, styling, and layout exactly as is
+
+**Data Access:**
+```tsx
+// Access previous phase data from navigation state:
+const foundationData = location.state?.foundationData;
+const buildingData = location.state?.buildingData;
+const colorData = location.state?.colorData;
+```
+
+This fixes ONLY the tower visualization to show building progress instead of assessment progress, maintaining all existing design and functionality.
