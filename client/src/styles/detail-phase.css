@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* Section 2.1 Color Variables - Exact from specification */
 :root {
   --blue-primary: #3b82f6;
@@ -11,11 +13,9 @@
   --border-light: #e2e8f0;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 .detail-phase {
   min-height: 100vh;
-  background: var(--bg-secondary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 24px;
   font-family: 'Inter', sans-serif;
 }
