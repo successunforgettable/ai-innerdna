@@ -234,14 +234,14 @@
 
 /* Building Block Container - Auto height with content flexibility */
 .building-block {
-  width: 500px; /* Much wider for better text flow */
+  width: 380px; /* Optimal width that fits in container */
   height: auto; /* Let height adjust to content */
-  min-height: 250px; /* Taller minimum height for better proportions */
-  padding: 40px; /* Generous padding for breathing room */
-  margin-bottom: 16px; /* Reset to original spacing between blocks */
+  min-height: 200px; /* Comfortable minimum height */
+  padding: 32px; /* Balanced padding for content breathing room */
+  margin-bottom: 20px; /* Spacing between blocks */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
+  justify-content: flex-start; /* Start from top for natural text flow */
   overflow: visible;
   position: relative;
   box-sizing: border-box;
@@ -301,10 +301,10 @@
 /* Block Label (Block A/Block B) */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 20px; /* Larger for better hierarchy */
+  font-size: 18px; /* Balanced size for block proportions */
   font-weight: 700; /* Bolder for better hierarchy */
   color: var(--text-primary);
-  margin-bottom: 24px; /* More space below label */
+  margin-bottom: 20px; /* Good spacing below label */
   text-align: center;
   flex-shrink: 0; /* Don't shrink this element */
   letter-spacing: 0.5px; /* Better spacing */
@@ -320,8 +320,8 @@
 /* Main Description Text - Content-adaptive display */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px; /* Increased for better readability */
-  line-height: 1.6; /* More generous line spacing */
+  font-size: 15px; /* Balanced size for comfortable reading */
+  line-height: 1.5; /* Good line spacing for readability */
   color: var(--text-primary);
   white-space: normal; /* Allow normal text wrapping */
   text-align: left;
@@ -330,7 +330,7 @@
   word-wrap: break-word;
   hyphens: none; /* Disable hyphenation for cleaner breaks */
   font-weight: 400; /* Clean readable weight */
-  letter-spacing: 0.2px; /* Better letter spacing */
+  letter-spacing: 0.1px; /* Subtle letter spacing */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
