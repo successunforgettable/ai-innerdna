@@ -13,13 +13,14 @@ const Token = ({ onDrop, isBeingDragged }: TokenProps) => {
   };
 
   return (
-    <motion.div
+    <div
       className="token"
       draggable={true}
       onDragStart={handleDragStart}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      style={{
+        transform: isBeingDragged ? 'scale(1.1)' : 'scale(1)',
+        transition: 'transform 0.2s ease'
+      }}
     />
   );
 };

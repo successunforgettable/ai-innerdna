@@ -90,6 +90,22 @@ const DetailPhase: React.FC = () => {
     }
   };
 
+  // Remove token functionality
+  const handleTokenRemove = (containerId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent container click from firing
+    
+    const validIds: (keyof TokenDistribution)[] = ['self', 'oneToOne', 'social'];
+    if (validIds.includes(containerId as keyof TokenDistribution)) {
+      const currentCount = tokenDistribution[containerId as keyof TokenDistribution];
+      if (currentCount > 0) {
+        setTokenDistribution(prev => ({
+          ...prev,
+          [containerId]: prev[containerId as keyof TokenDistribution] - 1
+        }));
+      }
+    }
+  };
+
   const handleContinue = () => {
     if (isComplete) {
       // Update assessment data with token distribution
@@ -204,17 +220,30 @@ const DetailPhase: React.FC = () => {
                   {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
                     <div
                       key={index}
-                      className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-2 border-orange-300/30"
+                      className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-2 border-orange-300/30 cursor-pointer hover:scale-110 transition-transform duration-200"
+                      onClick={(e) => handleTokenRemove(container.id, e)}
+                      title="Click to remove token"
                     />
                   ))}
                 </div>
                 
-                {/* Click instruction */}
-                {remainingTokens > 0 && (
-                  <p className="text-white/50 text-xs mt-2 italic">
-                    Click to add token or drag token here
-                  </p>
-                )}
+                {/* Click instruction area */}
+                <div className="click-instruction-area mt-2">
+                  {remainingTokens > 0 ? (
+                    <div 
+                      className="text-white/50 text-xs italic cursor-pointer hover:text-white/70 transition-colors duration-200 p-2 rounded border border-white/20 hover:border-white/40"
+                      onClick={() => handleContainerClick(container.id)}
+                    >
+                      Click to add token or drag token here
+                    </div>
+                  ) : (
+                    tokenDistribution[container.id as keyof TokenDistribution] > 0 && (
+                      <div className="text-white/40 text-xs italic p-2">
+                        Click tokens above to remove them
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
             ))}
           </div>
