@@ -1,12 +1,23 @@
-/* Detail Phase Styling - Following Foundation/Building/Color design system */
+/* Section 2.1 Color Variables - Exact from specification */
+:root {
+  --blue-primary: #3b82f6;
+  --green-primary: #10b981;
+  --orange-primary: #f59e0b;
+  --purple-primary: #8b5cf6;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-light: #e2e8f0;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .detail-phase {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-secondary);
   padding: 24px;
-  display: flex;
-  flex-direction: column;
+  font-family: 'Inter', sans-serif;
 }
 
 .detail-phase-header {
@@ -18,17 +29,16 @@
 .detail-phase .detail-phase__title,
 .detail-phase h1 {
   font-family: 'Inter', sans-serif !important;
-  color: #fbbf24 !important; /* gold */
+  color: var(--text-primary) !important;
   font-weight: 700 !important;
   font-size: 2.5rem !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   text-align: center !important;
   margin-bottom: 8px !important;
 }
 
 .detail-phase .detail-phase__subtitle {
   font-family: 'Inter', sans-serif !important;
-  color: #fef7ed !important; /* cream */
+  color: var(--text-secondary) !important;
   font-weight: 400 !important;
   font-size: 1.1rem !important;
   line-height: 1.6 !important;
@@ -47,32 +57,29 @@
   padding: 0 24px;
 }
 
-/* Glass container styling matching Foundation/Building/Color */
+/* Glass container styling using Section 2.1 colors */
 .detail-phase .glass-container,
 .detail-phase .token-container,
 .detail-phase .tower-container {
-  background: rgba(255, 255, 255, 0.08) !important;
-  backdrop-filter: blur(32px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-light) !important;
   border-radius: 20px !important;
   padding: 32px !important;
-  box-shadow: 
-    0 8px 32px rgba(31, 38, 135, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1) !important;
 }
 
 .glass-container h3 {
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fbbf24 !important; /* gold */
+  color: var(--text-primary) !important;
   margin-bottom: 1rem;
   text-align: center;
 }
 
 .glass-container .section-description {
   font-family: 'Inter', sans-serif;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   font-size: 1rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -80,7 +87,7 @@
 
 /* Token pool styling */
 .token-pool {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-secondary);
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 24px;
@@ -90,17 +97,7 @@
   gap: 12px;
   justify-content: center;
   align-items: center;
-}
-
-/* Glass container styling */
-.glass-container {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-light);
 }
 
 /* Token section styling */
@@ -112,7 +109,7 @@
 
 .section-title {
   font-family: 'Inter', sans-serif;
-  color: #1e40af;
+  color: var(--blue-primary);
   font-weight: 600;
   font-size: 1.5rem;
   margin-bottom: 16px;
@@ -121,23 +118,10 @@
 
 .section-description {
   font-family: 'Inter', sans-serif;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   font-size: 1rem;
   text-align: center;
   margin-bottom: 16px;
-}
-
-/* Token pool styling */
-.token-pool {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 24px;
-  min-height: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Containers section */
@@ -149,22 +133,22 @@
 
 /* Container styling - Drop zones for tokens */
 .energy-container {
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border: 2px solid var(--border-light) !important;
   transition: all 0.3s ease;
   min-height: 120px;
   position: relative;
 }
 
 .energy-container:hover {
-  border-color: rgba(251, 146, 60, 0.5) !important;
-  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: var(--orange-primary) !important;
+  background: var(--bg-secondary) !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(251, 146, 60, 0.2);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2);
 }
 
 .container-header {
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 12px;
 }
@@ -173,7 +157,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -181,7 +165,7 @@
 
 .container-description {
   font-family: 'Inter', sans-serif;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   font-size: 0.875rem;
   margin-top: 4px;
   line-height: 1.5;
@@ -189,7 +173,7 @@
 
 .token-count {
   font-family: 'Inter', sans-serif;
-  color: #fbbf24;
+  color: var(--orange-primary);
   font-weight: 600;
   font-size: 1rem;
 }
@@ -205,8 +189,8 @@
 
 /* Progress counter styling */
 .progress-counter {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 16px 24px;
   margin-bottom: 24px;
@@ -215,7 +199,7 @@
 
 .progress-text {
   font-family: 'Inter', sans-serif;
-  color: white;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 1.1rem;
 }
@@ -228,15 +212,15 @@
 }
 
 .validation-message.success {
-  color: #10b981;
+  color: var(--green-primary);
 }
 
 .validation-message.warning {
-  color: #f59e0b;
+  color: var(--orange-primary);
 }
 
 .validation-message.info {
-  color: #3b82f6;
+  color: var(--blue-primary);
 }
 
 /* Tower styling */
@@ -244,30 +228,36 @@
   font-family: 'Inter', sans-serif !important;
   font-size: 1.5rem !important;
   font-weight: 600 !important;
-  color: #fbbf24 !important;
+  color: var(--text-primary) !important;
   margin-bottom: 16px !important;
   text-align: center !important;
 }
 
-/* Token styling from Section 7.3 */
+/* Token styling from Section 7.3 using Section 2.1 colors */
 .token {
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #fb923c, #ea580c);
+  background: var(--orange-primary);
   border-radius: 50%;
-  border: 2px solid rgba(251, 191, 36, 0.3);
+  border: 2px solid var(--border-light);
   cursor: grab;
-  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease;
+}
+
+.token:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
 .token:active {
   cursor: grabbing;
 }
 
-/* Continue button styling matching other phases */
+/* Continue button styling using Section 2.1 colors */
 .continue-button {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: var(--green-primary);
+  color: var(--bg-primary);
   border: none;
   border-radius: 12px;
   padding: 16px 32px;
