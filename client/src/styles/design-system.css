@@ -234,10 +234,10 @@
 
 /* Building Block Container - Auto height with content flexibility */
 .building-block {
-  width: 380px; /* Fixed optimal width for text flow */
+  width: 420px; /* Wider to prevent text wrapping */
   height: auto; /* Let height adjust to content */
-  min-height: 200px; /* Reduced minimum height */
-  padding: 24px; /* More generous padding */
+  min-height: 180px; /* Reduced minimum height */
+  padding: 28px; /* More generous padding for text spacing */
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
@@ -320,17 +320,17 @@
 /* Main Description Text - Content-adaptive display */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px; /* Further increased for readability */
-  line-height: 1.4; /* Better line spacing */
+  font-size: 14px; /* Reduced to prevent wrapping issues */
+  line-height: 1.5; /* Better line spacing */
   color: var(--text-primary);
   white-space: normal; /* Allow normal text wrapping */
   text-align: left;
   flex: 1;
   overflow: visible;
   word-wrap: break-word;
-  hyphens: auto;
+  hyphens: none; /* Disable hyphenation for cleaner breaks */
   font-weight: 400; /* Clean readable weight */
-  letter-spacing: 0.2px; /* Subtle letter spacing */
+  letter-spacing: 0.1px; /* Reduced letter spacing */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
