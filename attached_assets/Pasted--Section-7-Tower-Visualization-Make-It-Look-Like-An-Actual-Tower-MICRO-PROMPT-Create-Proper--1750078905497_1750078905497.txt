@@ -1,0 +1,73 @@
+# Section 7 Tower Visualization - Make It Look Like An Actual Tower
+
+## MICRO PROMPT: Create Proper Tower Structure
+
+**File to modify:** `src/pages/DetailTokens.tsx`
+
+**ISSUE:** Current tower doesn't look like a tower - just colored rectangles. Need proper tower shape with tapered structure.
+
+**EXACT FIX NEEDED:**
+Replace the tower visualization with this actual tower structure:
+
+```tsx
+// Replace the tower content with proper tower shape:
+<div className="flex flex-col items-center justify-end" style={{ width: '300px', height: '400px' }}>
+  
+  {/* Detail Tokens Layer (Top - Narrowest) */}
+  <div 
+    className="bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg flex items-center justify-center mb-1 relative"
+    style={{ width: '120px', height: '60px' }}
+  >
+    <span className="text-white text-xs font-semibold">Detail</span>
+    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-orange-500"></div>
+  </div>
+
+  {/* Color States Layer */}
+  <div 
+    className="rounded-lg flex items-center justify-center mb-1 relative"
+    style={{ 
+      width: '160px', 
+      height: '70px',
+      background: `linear-gradient(to right, ${colorData?.primaryColor || '#f59e0b'} ${colorData?.distribution?.primary || 50}%, ${colorData?.secondaryColor || '#34d399'} ${colorData?.distribution?.primary || 50}%)`
+    }}
+  >
+    <span className="text-white text-sm font-semibold">Colors</span>
+    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-10 border-r-10 border-t-10 border-l-transparent border-r-transparent border-t-current"></div>
+  </div>
+
+  {/* Building Blocks Layer */}
+  <div 
+    className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-1 relative"
+    style={{ width: '200px', height: '80px' }}
+  >
+    <span className="text-white text-sm font-semibold">Building</span>
+    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-12 border-r-12 border-t-12 border-l-transparent border-r-transparent border-t-purple-500"></div>
+  </div>
+
+  {/* Foundation Layer (Bottom - Widest) */}
+  <div 
+    className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-b-lg flex items-center justify-center"
+    style={{ width: '240px', height: '100px' }}
+  >
+    <span className="text-white font-semibold">Foundation</span>
+  </div>
+
+  {/* Tower Base */}
+  <div 
+    className="bg-gray-600 rounded-sm mt-2"
+    style={{ width: '280px', height: '20px' }}
+  >
+  </div>
+
+</div>
+```
+
+**Requirements:**
+- Tapered tower shape: Foundation (240px) → Building (200px) → Colors (160px) → Detail (120px)
+- Each layer gets progressively narrower going up
+- Proper tower proportions with base foundation
+- Stack from bottom to top with proper spacing
+- Keep existing data integration for colors and layer labels
+- Total height stays within 400px container
+
+This creates an actual tower structure that tapers from wide foundation to narrow top.

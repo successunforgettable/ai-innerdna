@@ -287,34 +287,52 @@ const DetailPhase: React.FC = () => {
             <h3 className="tower-title">Your Tower</h3>
             
             {/* Visual Tower Building */}
-            <div className="flex flex-col items-center" style={{ width: '300px', height: '400px' }}>
+            <div className="flex flex-col items-center justify-end" style={{ width: '300px', height: '400px' }}>
               
-              {/* Detail Tokens Layer (Top) - Current Phase */}
-              <div className="w-full h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg flex items-center justify-center mb-2">
-                <span className="text-white font-semibold">Detail Tokens</span>
-                <span className="ml-2 text-white/80">{totalTokens}/10</span>
+              {/* Detail Tokens Layer (Top - Narrowest) */}
+              <div 
+                className="bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg flex items-center justify-center mb-1 relative"
+                style={{ width: '120px', height: '60px' }}
+              >
+                <span className="text-white text-xs font-semibold">Detail</span>
+                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-orange-500"></div>
               </div>
 
               {/* Color States Layer */}
               <div 
-                className="w-full h-20 rounded-lg mb-2 flex items-center justify-center"
+                className="rounded-lg flex items-center justify-center mb-1 relative"
                 style={{ 
+                  width: '160px', 
+                  height: '70px',
                   background: `linear-gradient(to right, ${colorData?.primaryColor || '#f59e0b'} ${colorData?.distribution?.primary || 50}%, ${colorData?.secondaryColor || '#34d399'} ${colorData?.distribution?.primary || 50}%)`
                 }}
               >
-                <span className="text-white font-semibold">Color States</span>
+                <span className="text-white text-sm font-semibold">Colors</span>
+                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-10 border-r-10 border-t-10 border-l-transparent border-r-transparent border-t-current"></div>
               </div>
 
               {/* Building Blocks Layer */}
-              <div className="w-full h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mb-2 flex items-center justify-center">
-                <span className="text-white font-semibold">Building Blocks</span>
-                <span className="ml-2 text-white/80">{buildingData?.wingName || 'Wing'}</span>
+              <div 
+                className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-1 relative"
+                style={{ width: '200px', height: '80px' }}
+              >
+                <span className="text-white text-sm font-semibold">Building</span>
+                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-12 border-r-12 border-t-12 border-l-transparent border-r-transparent border-t-purple-500"></div>
               </div>
 
-              {/* Foundation Layer (Bottom) */}
-              <div className="w-full h-28 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-b-lg flex items-center justify-center">
+              {/* Foundation Layer (Bottom - Widest) */}
+              <div 
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-b-lg flex items-center justify-center"
+                style={{ width: '240px', height: '100px' }}
+              >
                 <span className="text-white font-semibold">Foundation</span>
-                <span className="ml-2 text-white/80">{foundationData?.typeName || 'Type'}</span>
+              </div>
+
+              {/* Tower Base */}
+              <div 
+                className="bg-gray-600 rounded-sm mt-2"
+                style={{ width: '280px', height: '20px' }}
+              >
               </div>
 
             </div>
