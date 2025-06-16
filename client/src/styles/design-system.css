@@ -150,12 +150,11 @@
 
 /* Blocks Grid - Section 5.1: Must show exactly 2 options */
 .blocks-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
   margin: 2rem 0;
-  width: 100%;
-  max-width: 600px;
+  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -233,14 +232,26 @@
   margin-top: 1rem;
 }
 
-/* LEGO Block Container - Clean styling */
-.lego-block-container {
-  display: block !important;
-  margin: 0 auto !important;
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
+/* Building Block Container - Auto height with content flexibility */
+.building-block {
+  width: 380px; /* Optimal width that fits in container */
+  height: auto; /* Let height adjust to content */
+  min-height: 200px; /* Comfortable minimum height */
+  padding: 32px; /* Balanced padding for content breathing room */
+  margin-bottom: 20px; /* Spacing between blocks */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Start from top for natural text flow */
+  overflow: visible;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 20px; /* More rounded corners */
+  border: 3px solid transparent;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .building-block:hover {
