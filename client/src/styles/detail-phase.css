@@ -462,4 +462,70 @@
   .detail-phase h1 {
     font-size: 2rem !important;
   }
+  
+  /* Mobile container adjustments */
+  .energy-container {
+    min-height: 80px;
+    padding: 10px;
+  }
+  
+  .container-title {
+    font-size: 0.875rem;
+  }
+  
+  .container-description {
+    font-size: 0.7rem;
+  }
+  
+  .token-count {
+    font-size: 0.75rem;
+  }
+  
+  .tokens-display {
+    min-height: 24px;
+    padding: 4px;
+    gap: 4px;
+  }
+  
+  .token {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .containers-section {
+    gap: 8px;
+  }
+  
+  .container-header {
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .energy-container {
+    min-height: 70px;
+    padding: 8px;
+  }
+  
+  .container-title {
+    font-size: 0.8rem;
+  }
+  
+  .container-description {
+    font-size: 0.65rem;
+  }
+  
+  .token-count {
+    font-size: 0.7rem;
+  }
+  
+  .token {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .containers-section {
+    gap: 6px;
+  }
 }
