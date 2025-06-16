@@ -44,8 +44,12 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: B
           isBlockA 
             ? 'bg-gradient-to-r from-purple-500 to-pink-500' 
             : 'bg-gradient-to-r from-blue-500 to-teal-500'
-        } rounded-lg flex items-center justify-center p-4 border-2 border-white/20 shadow-lg`}
-        style={{ width: '180px', height: '100px' }}
+        } rounded-lg flex items-center justify-center p-4 border-4 border-gray-800 shadow-xl`}
+        style={{ 
+          width: '180px', 
+          height: '100px',
+          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+        }}
       >
         {/* Block content */}
         <div className="text-center">
