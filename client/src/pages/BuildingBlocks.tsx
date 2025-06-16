@@ -102,7 +102,7 @@ export default function BuildingBlocks() {
         </section>
         
         <aside className="tower-visualization-area">
-          <h3 className="tower-title">Your Tower</h3>
+          <h3 className="detail-phase__title">Your Tower</h3>
           <div className="tower-building-view">
             <motion.div 
               className="foundation-base"

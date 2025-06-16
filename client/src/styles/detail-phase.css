@@ -28,7 +28,8 @@
 }
 
 /* Section headings - smaller than main title */
-.block-selection-area .detail-phase__title {
+.block-selection-area .detail-phase__title,
+.tower-visualization-area .detail-phase__title {
   font-size: 1.4rem !important;
 }
 
