@@ -51,13 +51,7 @@ const DetailPhase = () => {
 
     setAssessmentData({
       ...assessmentData,
-      detailTokens,
-      result: {
-        primaryType: 'Type 1',
-        confidence: 85,
-        allScores: {},
-        rawScores: {}
-      }
+      detailTokens
     });
 
     setCurrentScreen('results');
