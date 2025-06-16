@@ -783,9 +783,6 @@
 /* Subtype Descriptions Styling */
 .subtype-descriptions {
   margin-top: 1rem;
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 8px;
 }
 
 .subtype-description {
@@ -806,9 +803,8 @@
 
 /* Adjust energy container height for longer content */
 .energy-container {
-  min-height: 350px !important;
-  max-height: 500px;
-  overflow-y: auto;
+  min-height: auto !important;
+  height: auto;
   padding: 1.5rem !important;
 }
 
