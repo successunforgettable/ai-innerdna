@@ -286,54 +286,102 @@ const DetailPhase: React.FC = () => {
           <div className="glass-container tower-container">
             <h3 className="tower-title">Your Tower</h3>
             
-            {/* Visual Tower Building */}
-            <div className="flex flex-col items-center justify-end" style={{ width: '300px', height: '400px' }}>
+            {/* Visual Tower Building - Continuation of previous phases */}
+            <div className="tower-building-view">
               
-              {/* Detail Tokens Layer (Top - Narrowest) */}
-              <div 
-                className="bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg flex items-center justify-center mb-1 relative"
-                style={{ width: '120px', height: '60px' }}
-              >
-                <span className="text-white text-xs font-semibold">Detail</span>
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-orange-500"></div>
-              </div>
-
-              {/* Color States Layer */}
-              <div 
-                className="rounded-lg flex items-center justify-center mb-1 relative"
-                style={{ 
-                  width: '160px', 
-                  height: '70px',
-                  background: `linear-gradient(to right, ${colorData?.primaryColor || '#f59e0b'} ${colorData?.distribution?.primary || 50}%, ${colorData?.secondaryColor || '#34d399'} ${colorData?.distribution?.primary || 50}%)`
+              {/* Detail Tokens Layer (Top - Current) */}
+              <motion.div 
+                className="detail-tokens-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                style={{
+                  width: '140px',
+                  height: '50px',
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '8px',
+                  boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
+                  border: '2px solid rgba(255, 255, 255, 0.2)'
                 }}
               >
-                <span className="text-white text-sm font-semibold">Colors</span>
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-10 border-r-10 border-t-10 border-l-transparent border-r-transparent border-t-current"></div>
-              </div>
+                <span className="text-white text-sm font-semibold">
+                  Tokens {totalTokens}/10
+                </span>
+              </motion.div>
+
+              {/* Color States Layer */}
+              <motion.div 
+                className="color-states-layer"
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                style={{
+                  width: '180px',
+                  height: '60px',
+                  background: colorData?.primaryColor ? 
+                    `linear-gradient(135deg, ${colorData.primaryColor}, ${colorData.secondaryColor || colorData.primaryColor})` :
+                    'linear-gradient(135deg, #8b5cf6, #a855f7)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '8px',
+                  boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)',
+                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
+                <span className="text-white text-sm font-semibold">
+                  Color States
+                </span>
+              </motion.div>
 
               {/* Building Blocks Layer */}
-              <div 
-                className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-1 relative"
-                style={{ width: '200px', height: '80px' }}
+              <motion.div 
+                className="building-blocks-layer"
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                style={{
+                  width: '220px',
+                  height: '70px',
+                  background: buildingData?.gradient || 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '8px',
+                  boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)',
+                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                }}
               >
-                <span className="text-white text-sm font-semibold">Building</span>
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-12 border-r-12 border-t-12 border-l-transparent border-r-transparent border-t-purple-500"></div>
-              </div>
+                <span className="text-white text-sm font-semibold">
+                  {buildingData?.name || 'Building Block'}
+                </span>
+              </motion.div>
 
-              {/* Foundation Layer (Bottom - Widest) */}
-              <div 
-                className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-b-lg flex items-center justify-center"
-                style={{ width: '240px', height: '100px' }}
+              {/* Foundation Layer (Base) */}
+              <motion.div 
+                className="foundation-base"
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                style={{
+                  width: '260px',
+                  height: '80px',
+                  background: 'linear-gradient(135deg, #64748b, #475569)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 6px 16px rgba(100, 116, 139, 0.4)',
+                  border: '2px solid rgba(255, 255, 255, 0.2)'
+                }}
               >
-                <span className="text-white font-semibold">Foundation</span>
-              </div>
-
-              {/* Tower Base */}
-              <div 
-                className="bg-gray-600 rounded-sm mt-2"
-                style={{ width: '280px', height: '20px' }}
-              >
-              </div>
+                <span className="text-white font-semibold">
+                  Foundation Complete
+                </span>
+              </motion.div>
 
             </div>
           </div>
