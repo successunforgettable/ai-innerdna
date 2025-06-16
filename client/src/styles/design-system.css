@@ -234,7 +234,7 @@
 
 /* Building Block Container - Auto height with content flexibility */
 .building-block {
-  width: 280px; /* Further increased for better width */
+  width: 350px; /* Significantly wider to accommodate text */
   height: auto; /* Let height adjust to content */
   min-height: 220px; /* Increased from 180px */
   padding: 24px; /* More generous padding */
