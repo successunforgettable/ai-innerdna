@@ -726,3 +726,17 @@
     padding: 4px;
   }
 }
+
+/* Horizontal Container Layout - New Layout from Diagram */
+.containers-section-horizontal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 900px) {
+  .containers-section-horizontal {
+    grid-template-columns: 1fr;
+  }
+}

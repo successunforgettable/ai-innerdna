@@ -147,97 +147,117 @@ const DetailPhase: React.FC = () => {
         <p className="detail-phase__subtitle">Place 10 tokens across the three areas based on where you naturally focus your energy</p>
       </div>
       
-      <div className="detail-phase-content-single">
-        {/* Progress Counter */}
-        <div className="progress-counter">
-          <div className="progress-text">
-            Total: {totalTokens}/10 • Remaining: {remainingTokens}
-            {totalTokens === 10 && (
-              <span className="validation-message success ml-2">✓ Complete</span>
-            )}
-            {totalTokens > 10 && (
-              <span className="validation-message warning ml-2">⚠ Over limit</span>
-            )}
-          </div>
-        </div>
-
-        {/* Available Tokens Section */}
-        <div className="glass-container token-container">
-          <h3 className="section-title">Available Tokens</h3>
-          <div className="token-pool">
-            {Array.from({ length: remainingTokens }).map((_, index) => (
-              <Token
-                key={`token-${index}`}
-                onDrop={handleTokenDrop}
-              />
-            ))}
-            {remainingTokens === 0 && (
-              <p className="section-description italic">All tokens distributed</p>
-            )}
-          </div>
-        </div>
-
-        {/* Three Distribution Containers - Horizontal Layout */}
-        <div className="containers-section-horizontal">
-          {containers.map((container) => (
-            <div 
-              key={container.id}
-              className="glass-container energy-container"
-              data-container-id={container.id}
-              onClick={() => handleContainerClick(container.id)}
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, container.id)}
-            >
-              <div className="container-header">
-                <div>
-                  <h4 className="container-title">
-                    {container.emoji} {container.title}
-                  </h4>
-                  <p className="container-description">
-                    {container.description}
-                  </p>
-                </div>
-                <span className="token-count">
-                  Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
-                </span>
-              </div>
-
-              {/* Container interaction area with tokens or add instruction */}
-              <div 
-                className="container-interaction-area mt-2 p-3 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center"
-                onClick={() => handleContainerClick(container.id)}
-              >
-                {tokenDistribution[container.id as keyof TokenDistribution] > 0 ? (
-                  <div className="container-tokens-display">
-                    {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                      <div
-                        key={index}
-                        className="token container-token"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTokenRemove(container.id, e);
-                        }}
-                        title="Click to remove token"
-                      />
-                    ))}
-                  </div>
-                ) : remainingTokens > 0 ? (
-                  <div className="text-white/50 text-xs italic text-center">
-                    Click to add token or drag token here
-                  </div>
-                ) : (
-                  <div className="text-white/30 text-xs italic text-center">
-                    No tokens available
-                  </div>
-                )}
-              </div>
+      <div className="detail-phase-content">
+        {/* Left Column - Token Distribution Section */}
+        <div className="left-column">
+          {/* Progress Counter */}
+          <div className="progress-counter">
+            <div className="progress-text">
+              Total: {totalTokens}/10 • Remaining: {remainingTokens}
+              {totalTokens === 10 && (
+                <span className="validation-message success ml-2">✓ Complete</span>
+              )}
+              {totalTokens > 10 && (
+                <span className="validation-message warning ml-2">⚠ Over limit</span>
+              )}
             </div>
-          ))}
+          </div>
+
+          {/* Available Tokens Section */}
+          <div className="glass-container token-container">
+            <h3 className="section-title">Available Tokens</h3>
+            <div className="token-pool">
+              {Array.from({ length: remainingTokens }).map((_, index) => (
+                <Token
+                  key={`token-${index}`}
+                  onDrop={handleTokenDrop}
+                />
+              ))}
+              {remainingTokens === 0 && (
+                <p className="section-description italic">All tokens distributed</p>
+              )}
+            </div>
+          </div>
+
+          {/* Three Distribution Containers - Horizontal Layout */}
+          <div className="containers-section-horizontal">
+            {containers.map((container) => (
+              <div 
+                key={container.id}
+                className="glass-container energy-container"
+                data-container-id={container.id}
+                onClick={() => handleContainerClick(container.id)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, container.id)}
+              >
+                <div className="container-header">
+                  <div>
+                    <h4 className="container-title">
+                      {container.emoji} {container.title}
+                    </h4>
+                    <p className="container-description">
+                      {container.description}
+                    </p>
+                  </div>
+                  <span className="token-count">
+                    Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
+                  </span>
+                </div>
+
+                {/* Container interaction area with tokens or add instruction */}
+                <div 
+                  className="container-interaction-area mt-2 p-3 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center"
+                  onClick={() => handleContainerClick(container.id)}
+                >
+                  {tokenDistribution[container.id as keyof TokenDistribution] > 0 ? (
+                    <div className="container-tokens-display">
+                      {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
+                        <div
+                          key={index}
+                          className="token container-token"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTokenRemove(container.id, e);
+                          }}
+                          title="Click to remove token"
+                        />
+                      ))}
+                    </div>
+                  ) : remainingTokens > 0 ? (
+                    <div className="text-white/50 text-xs italic text-center">
+                      Click to add token or drag token here
+                    </div>
+                  ) : (
+                    <div className="text-white/30 text-xs italic text-center">
+                      No tokens available
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Continue Button */}
+          {isComplete && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-8"
+            >
+              <ContinueButton
+                canProceed={isComplete}
+                onContinue={handleContinue}
+              >
+                Continue to Results
+              </ContinueButton>
+            </motion.div>
+          )}
         </div>
 
-        {/* Tower Visualization Section */}
-        <div className="glass-container tower-container">
-          <h3 className="tower-title">Your Tower</h3>
+        {/* Right Column - Tower Visualization Section */}
+        <div className="right-column">
+          <div className="glass-container tower-container">
+            <h3 className="tower-title">Your Tower</h3>
             
             {/* Visual Tower Building - Continuation of previous phases */}
             <div className="tower-building-view">
@@ -445,22 +465,7 @@ const DetailPhase: React.FC = () => {
 
             </div>
           </div>
-
-        {/* Continue Button */}
-        {isComplete && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-8"
-          >
-            <ContinueButton
-              canProceed={isComplete}
-              onContinue={handleContinue}
-            >
-              Continue to Results
-            </ContinueButton>
-          </motion.div>
-        )}
+        </div>
       </div>
     </motion.div>
   );
