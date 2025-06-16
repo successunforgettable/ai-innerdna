@@ -234,10 +234,10 @@
 
 /* Building Block Container - Auto height with content flexibility */
 .building-block {
-  width: 240px; /* Increased from 180px */
+  width: 280px; /* Further increased for better width */
   height: auto; /* Let height adjust to content */
   min-height: 220px; /* Increased from 180px */
-  padding: 20px; /* Increased from 16px */
+  padding: 24px; /* More generous padding */
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
@@ -300,12 +300,14 @@
 
 /* Block Label (Block A/Block B) */
 .building-block-label {
-  font-size: 16px; /* Increased by 2px */
-  font-weight: 600;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px; /* Further increased for better visibility */
+  font-weight: 700; /* Bolder for better hierarchy */
   color: var(--text-primary);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   text-align: center;
   flex-shrink: 0; /* Don't shrink this element */
+  letter-spacing: 0.5px; /* Better spacing */
 }
 
 .block-text {
@@ -317,8 +319,9 @@
 
 /* Main Description Text - Content-adaptive display */
 .building-block-description {
-  font-size: 14px; /* Increased by 2px */
-  line-height: 1.3;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px; /* Further increased for readability */
+  line-height: 1.4; /* Better line spacing */
   color: var(--text-primary);
   white-space: normal; /* Allow normal text wrapping */
   text-align: left;
@@ -326,6 +329,8 @@
   overflow: visible;
   word-wrap: break-word;
   hyphens: auto;
+  font-weight: 400; /* Clean readable weight */
+  letter-spacing: 0.2px; /* Subtle letter spacing */
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
