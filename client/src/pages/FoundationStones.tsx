@@ -159,7 +159,7 @@ export default function FoundationStones() {
           </motion.div>
 
           {currentStoneSet > 0 && (
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-6">
               <button
                 className="btn-secondary"
                 onClick={handlePrevious}
