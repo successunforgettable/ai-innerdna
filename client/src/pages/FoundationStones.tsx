@@ -121,6 +121,11 @@ export default function FoundationStones() {
     }
   };
 
+  const handleBackToBuildingBlocks = () => {
+    setCurrentScreen('building-blocks');
+    setLocation('/building-blocks');
+  };
+
   return (
     <div className="page-container">
       <ProgressBar 
@@ -128,6 +133,15 @@ export default function FoundationStones() {
         total={9} 
         label="Foundation Stones" 
       />
+      
+      <div className="flex justify-start mb-4">
+        <button
+          className="btn-secondary"
+          onClick={handleBackToBuildingBlocks}
+        >
+          ← Back to Building Blocks
+        </button>
+      </div>
       
       <div className="foundation-content">
         <div className="glass-container">
