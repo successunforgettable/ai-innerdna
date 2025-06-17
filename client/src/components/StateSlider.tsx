@@ -43,13 +43,13 @@ const StateSlider = ({ value, onChange, colors, stateNames }: StateSliderProps) 
         className="percentage-value" 
         style={{ color: colors[0], borderColor: colors[0] }}
       >
-        {value}%
+        {100 - value}%
       </span>
       <span 
         className="percentage-value" 
         style={{ color: colors[1], borderColor: colors[1] }}
       >
-        {100 - value}%
+        {value}%
       </span>
     </div>
   </div>
