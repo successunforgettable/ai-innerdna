@@ -14,6 +14,7 @@ import DetailPhase from "@/components/Detail/DetailPhase";
 import Results from "@/pages/Results";
 import Analytics from "@/pages/Analytics";
 import AdminLogin from "@/pages/AdminLogin";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 
 function AppContent() {
@@ -54,7 +55,11 @@ function AppContent() {
       case 'results':
         return <Results />;
       case 'analytics':
-        return <Analytics />;
+        return (
+          <ProtectedRoute>
+            <Analytics />
+          </ProtectedRoute>
+        );
       case 'admin-login':
         return <AdminLogin />;
       default:
