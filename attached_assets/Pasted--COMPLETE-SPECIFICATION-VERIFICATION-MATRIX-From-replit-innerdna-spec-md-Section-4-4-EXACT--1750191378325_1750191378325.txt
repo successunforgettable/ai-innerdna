@@ -1,0 +1,110 @@
+// COMPLETE SPECIFICATION VERIFICATION MATRIX
+// From replit_innerdna_spec.md Section 4.4
+
+// EXACT SPECIFICATION REQUIREMENTS:
+const SPEC_ALGORITHM = {
+  weights: [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0],
+  
+  scoring: {
+    // Case 0: Decision-Making Center
+    case0: {
+      selection0_head: { type5: 3, type6: 2, type7: 1 }, // SPEC ORIGINAL
+      selection1_heart: { type2: 3, type3: 2, type4: 3 },
+      selection2_body: { type1: 2, type8: 3, type9: 2 }
+    },
+    
+    // Case 1: Core Motivation  
+    case1: {
+      selection0_security: { type5: 2, type6: 3, type7: 1 }, // SPEC ORIGINAL
+      selection1_identity: { type2: 2, type3: 3, type4: 3 },
+      selection2_power: { type1: 3, type8: 3, type9: 2 }
+    },
+    
+    // Case 2: Energy Direction
+    case2: {
+      selection0_internal: { type4: 2, type5: 3, type9: 2 },
+      selection1_assertive: { type3: 3, type7: 2, type8: 3 }, // SPEC ORIGINAL
+      selection2_cooperative: { type1: 2, type2: 2, type6: 3 }
+    },
+    
+    // Case 3: Social Approach
+    case3: {
+      selection0_independence: { type5: 3, type4: 2 },
+      selection1_connection: { type2: 3, type6: 2 },
+      selection2_autonomy: { type1: 2, type8: 2 }
+    },
+    
+    // Case 4: Processing Style
+    case4: {
+      selection0_conceptual: { type5: 3, type1: 2 },
+      selection1_emotional: { type4: 3, type2: 2 },
+      selection2_practical: { type3: 2, type8: 2 }
+    },
+    
+    // Case 5: Stress Reaction
+    case5: {
+      selection0_cautious: { type6: 3, type5: 2 },
+      selection1_recognition: { type3: 3, type4: 2 },
+      selection2_control: { type8: 3, type1: 2 }
+    },
+    
+    // Case 6: Conflict Style
+    case6: {
+      selection0_harmony: { type9: 3, type5: 1 },
+      selection1_support: { type2: 2, type6: 2 },
+      selection2_directness: { type8: 3, type1: 1 }
+    },
+    
+    // Case 7: Success Definition
+    case7: {
+      selection0_standard: { type1: 3, type6: 1 },
+      selection1_relational: { type2: 3, type3: 1 },
+      selection2_achievement: { type5: 2, type8: 2 }
+    },
+    
+    // Case 8: Relationship Priority
+    case8: {
+      selection0_independence: { type5: 2, type8: 1 },
+      selection1_reciprocity: { type2: 2, type9: 2 },
+      selection2_leadership: { type1: 1, type8: 2 }
+    }
+  }
+};
+
+// AUTHORIZED MODIFICATIONS (ONLY THESE 3):
+const AUTHORIZED_CHANGES = {
+  case0_type7: "1.0 → 2.5", // Head center Type 7 strengthening
+  case1_type7: "1.0 → 2.5", // Security Type 7 strengthening  
+  case2_type7: "2.0 → 3.5"  // Assertive Type 7 strengthening
+};
+
+// RED FLAGS TO CHECK FOR:
+const UNAUTHORIZED_VIOLATIONS = [
+  "Any scoring changes beyond the 3 Type 7 modifications",
+  "Modified weights array", 
+  "Additional conditional logic after main algorithm",
+  "Hardcoded type returns",
+  "Pattern matching logic",
+  "Combination scoring sections",
+  "Post-processing modifications",
+  "Score reduction logic (Math.max operations)",
+  "Type bonus/penalty systems"
+];
+
+// VERIFICATION CHECKLIST:
+const VERIFICATION_STEPS = {
+  step1: "Confirm weights = [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0]",
+  step2: "Verify 9 switch cases with exact selection scoring",
+  step3: "Check ONLY 3 Type 7 modifications exist",
+  step4: "Ensure no additional functions or logic",
+  step5: "Confirm final calculation follows spec exactly"
+};
+
+// CRITICAL QUESTIONS FOR REPLIT VERIFICATION:
+const CRITICAL_CHECKS = [
+  "Does the algorithm contain EXACTLY the scoring from this matrix?",
+  "Are there ANY modifications beyond the 3 authorized Type 7 changes?", 
+  "Is there ANY code after the main algorithm function?",
+  "Does the weights array match the specification exactly?",
+  "Are there any Math.max, conditional bonuses, or pattern matching?"
+];
