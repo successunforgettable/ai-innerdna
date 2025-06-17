@@ -93,7 +93,17 @@ export default function BuildingBlocks() {
           </div>
           
           <div className="flex justify-between items-center mt-6">
-            <div></div>
+            <motion.button 
+              className="btn-primary"
+              onClick={() => {
+                setCurrentScreen('foundation-stones');
+                setLocation('/foundation-stones');
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              ← Back to Foundation Stones
+            </motion.button>
             
             <motion.button 
               className="btn-primary"
