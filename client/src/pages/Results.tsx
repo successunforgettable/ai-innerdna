@@ -1,11 +1,13 @@
 import React from 'react';
+import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import ReportHeader from '@/components/Results/ReportHeader';
 import TypeDescription from '@/components/Results/TypeDescription';
 import MoodStates from '@/components/Results/MoodStates';
 
 const Results = () => {
-  const { assessmentData } = useAssessment();
+  const [, setLocation] = useLocation();
+  const { assessmentData, setCurrentScreen } = useAssessment();
   
   // Extract data from assessment context
   const foundationData = assessmentData.foundationStones;
@@ -42,6 +44,32 @@ const Results = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
       <div className="container mx-auto px-4 py-8">
         <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 max-w-4xl mx-auto">
+          
+          {/* Back Button */}
+          <div className="mb-6 flex justify-start">
+            <button
+              className="continue-button enabled"
+              onClick={() => {
+                setCurrentScreen('detail-tokens');
+                setLocation('/detail-tokens');
+              }}
+              style={{
+                background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '16px 32px',
+                color: 'white',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 16px rgba(0, 255, 136, 0.3)'
+              }}
+            >
+              ← Back to Detail Tokens
+            </button>
+          </div>
           
           {hasValidData ? (
             <>

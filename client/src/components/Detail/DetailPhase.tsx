@@ -326,21 +326,47 @@ const DetailPhase = () => {
           </div>
         </div>
 
-        {/* Continue Button */}
-        {isComplete && (
-          <motion.div
+        {/* Navigation Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-8 flex justify-between items-center w-full"
+        >
+          <motion.button
+            className="continue-button enabled"
+            onClick={() => {
+              setCurrentScreen('color-phase');
+              setLocation('/color-phase');
+            }}
+            whileHover={{ 
+              scale: 1.05,
+              y: -2,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ 
+              scale: 0.95,
+              y: 0,
+              transition: { duration: 0.1 }
+            }}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-8"
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              transition: { delay: 0.8, duration: 0.4 }
+            }}
           >
+            ← Back to Color Phase
+          </motion.button>
+          
+          {isComplete && (
             <ContinueButton
               canProceed={isComplete}
               onContinue={handleContinue}
             >
               Continue to Results
             </ContinueButton>
-          </motion.div>
-        )}
+          )}
+        </motion.div>
       </div>
     </motion.div>
   );
