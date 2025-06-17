@@ -160,16 +160,25 @@ export default function FoundationStones() {
             ))}
           </motion.div>
 
-          {currentStoneSet > 0 && (
-            <div className="flex justify-center mt-6">
+          <div className="flex justify-between items-center mt-6">
+            {currentStoneSet > 0 && (
               <button
                 className="btn-secondary"
                 onClick={handlePrevious}
               >
-                ← Back to Previous Set
+                ← Previous Set
               </button>
-            </div>
-          )}
+            )}
+            
+            {selectedStone !== null && (
+              <button
+                className="btn-primary"
+                onClick={handleNextSet}
+              >
+                {currentStoneSet === stoneSets.length - 1 ? 'Complete Foundation' : 'Next Set →'}
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="glass-container">
