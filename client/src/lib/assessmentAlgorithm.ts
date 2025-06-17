@@ -34,7 +34,7 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
         if (selection === 0) { // Security BASELINES
           typeScores[5] += 2 * weight;
           typeScores[6] += 3 * weight;
-          typeScores[7] += 1 * weight;
+          typeScores[7] += 2.5 * weight;
         } else if (selection === 1) { // Identity BASELINES
           typeScores[2] += 2 * weight;
           typeScores[3] += 3 * weight;
