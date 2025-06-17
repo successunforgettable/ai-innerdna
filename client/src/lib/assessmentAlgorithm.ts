@@ -146,10 +146,10 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
   // Head + Fear + Assertive = Type 7 (REQUIRED by specification)
   if (selections[0] === 0 && selections[1] === 0 && selections[2] === 1) {
     // Per replit_innerdna_spec.md Section 3.5: This combination MUST produce Type 7
-    typeScores[7] += 4.0; // Strong boost for Type 7
+    typeScores[7] += 8.0; // Stronger boost for Type 7 to ensure dominance
     typeScores[5] += 1.0; // Type 5 secondary per spec
-    typeScores[8] = Math.max(0, typeScores[8] - 2.0); // Reduce Type 8 scoring
-    typeScores[6] = Math.max(0, typeScores[6] - 1.0); // Reduce Type 6 scoring
+    typeScores[8] = Math.max(0, typeScores[8] - 3.0); // Reduce Type 8 scoring more
+    typeScores[6] = Math.max(0, typeScores[6] - 3.0); // Reduce Type 6 scoring more
   }
 
   // Head + Fear + Compliant = Type 6 (per Section 3.5)

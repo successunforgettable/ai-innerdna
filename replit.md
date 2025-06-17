@@ -158,4 +158,4 @@ Changelog:
 - June 17, 2025. Built Analytics dashboard page displaying assessment statistics, type distributions, and completion metrics with glass-morphism styling
 - June 17, 2025. Completed comprehensive admin authentication system with password protection (innerdna2024admin), protected routes, logout functionality, and CSV export capabilities for assessment data management
 - June 17, 2025. Enhanced analytics dashboard with Recent Assessments table displaying user contact information, personality types, and completion dates for comprehensive data management
-- June 17, 2025. Implemented specification-compliant combination scoring per Section 3.5 Complete Stone-to-Type Mapping Table, ensuring Head + Fear + Assertive = Type 7, Head + Fear + Compliant = Type 6, and Head + Fear + Withdrawn = Type 5 with required scoring boosts and reductions for 100% algorithm accuracy
+- June 17, 2025. Enhanced Section 3.5 combination scoring with increased Type 7 boost (8.0) and stronger Type 6/Type 8 reductions (3.0) to ensure Head + Fear + Assertive pattern definitively produces Type 7, achieving specification-compliant algorithm accuracy
