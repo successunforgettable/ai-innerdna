@@ -113,6 +113,20 @@ export function TowerVisualization({
               initial={{ opacity: 0, y: 20, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: index * 0.1, duration: 0.3 }}
+              whileHover={{
+                scale: 1.05,
+                y: -2,
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                filter: 'brightness(1.1)',
+                transition: {
+                  duration: 0.2,
+                  ease: [0.4, 0, 0.2, 1]
+                }
+              }}
+              whileTap={{
+                scale: 0.98,
+                transition: { duration: 0.1 }
+              }}
               style={{
                 background: block.gradient,
                 width: getWidthValue(block.width),
@@ -120,7 +134,8 @@ export function TowerVisualization({
                 borderRadius: '0.5rem',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                backdropFilter: 'blur(10px)'
+                backdropFilter: 'blur(10px)',
+                cursor: 'pointer'
               }}
             />
           ))}
