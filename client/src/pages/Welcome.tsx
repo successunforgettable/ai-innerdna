@@ -11,6 +11,7 @@ export default function Welcome() {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [, setLocation] = useLocation();
   const { setCurrentUser, setCurrentScreen } = useAssessment();
 
