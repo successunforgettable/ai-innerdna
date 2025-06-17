@@ -325,7 +325,7 @@ const DetailPhase = () => {
           className="mt-8 flex justify-between items-center w-full"
         >
           <motion.button
-            className="continue-button enabled"
+            className="btn-primary"
             onClick={() => {
               setCurrentScreen('color-phase');
               setLocation('/color-phase');

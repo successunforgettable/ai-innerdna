@@ -8,7 +8,7 @@ interface ContinueButtonProps {
 
 const ContinueButton = ({ canProceed, onContinue, children }: ContinueButtonProps) => (
   <motion.button
-    className={`continue-button ${canProceed ? 'enabled' : 'disabled'}`}
+    className={`btn-primary ${canProceed ? '' : 'opacity-50 cursor-not-allowed'}`}
     disabled={!canProceed}
     onClick={onContinue}
     whileHover={canProceed ? { 

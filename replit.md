@@ -140,3 +140,4 @@ Changelog:
 - June 17, 2025. Enhanced tower visualization with distinct solid colors for each layer (orange, green, purple, gray) and black text while preserving exact tower dimensions and shape
 - June 17, 2025. Fixed Foundation Stones back button to navigate to previous stone set instead of welcome page, with dynamic button text based on current position
 - June 17, 2025. Corrected Color Phase slider percentage inversion - percentages now increase correctly when moving towards each respective state
+- June 17, 2025. Fixed Detail Tokens page button sizing to match 85% sizing rule by converting continue-button class to btn-primary class
