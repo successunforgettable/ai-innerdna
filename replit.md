@@ -141,3 +141,4 @@ Changelog:
 - June 17, 2025. Fixed Foundation Stones back button to navigate to previous stone set instead of welcome page, with dynamic button text based on current position
 - June 17, 2025. Corrected Color Phase slider percentage inversion - percentages now increase correctly when moving towards each respective state
 - June 17, 2025. Fixed Detail Tokens page button sizing to match 85% sizing rule by converting continue-button class to btn-primary class
+- June 17, 2025. Added gap spacing between navigation buttons on Building Blocks, Color Phase, and Detail Tokens pages for improved visual balance

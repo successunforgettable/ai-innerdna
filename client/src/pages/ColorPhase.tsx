@@ -378,7 +378,7 @@ export default function ColorPhase() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.3, duration: 0.5 }}
       >
-        <div className="flex justify-between items-center w-full">
+        <div className="flex justify-between items-center w-full gap-4">
           <motion.button
             className="btn-primary"
             onClick={() => {
