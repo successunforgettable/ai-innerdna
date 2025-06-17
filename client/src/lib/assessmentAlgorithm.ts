@@ -145,9 +145,27 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
     if (selections[2] === 1) { // Assertive energy = Type 7 escapes fear through action
       typeScores[7] += 2 * weights[2];
       typeScores[6] -= 0.5 * weights[2];
+      // Reduce Type 8 when it's escape-focused assertiveness, not control-focused
+      if (selections[4] !== 2 && selections[5] !== 2) { // Not Power + Control focused
+        typeScores[8] -= 1 * weights[2];
+      }
     } else if (selections[2] === 2) { // Cooperative energy = Type 6 seeks security through structure
       typeScores[6] += 2 * weights[2];
       typeScores[7] -= 0.5 * weights[2];
+    }
+  }
+
+  // Type 7 vs Type 8 differentiation - both can be assertive but different motivations
+  if (selections[0] === 0 && selections[2] === 1) { // Head + Assertive
+    // Type 7 pattern: Connection-focused, Emotional, Recognition-seeking (escape-focused)
+    if (selections[3] === 1 && selections[4] === 1 && selections[5] === 0) {
+      typeScores[7] += 2 * weights[3];
+      typeScores[8] -= 1 * weights[3];
+    }
+    // Type 8 pattern: Autonomy-focused, Power, Control (control-focused)
+    if (selections[3] === 2 && selections[5] === 2) {
+      typeScores[8] += 2 * weights[3];
+      typeScores[7] -= 1 * weights[3];
     }
   }
 

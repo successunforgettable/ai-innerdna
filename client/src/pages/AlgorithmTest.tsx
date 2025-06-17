@@ -29,7 +29,7 @@ const AlgorithmTest = () => {
     console.log("=== DEBUGGING TYPE 7 ALGORITHM ===");
     
     // Get the exact Type 7 test case
-    const type7Selections = [0, 0, 1, 2, 1, 2, 2, 2, 2];
+    const type7Selections = [0, 0, 1, 1, 1, 0, 1, 1, 0];
     console.log("Type 7 Test Selections:", type7Selections);
     
     // Run the algorithm with detailed logging
