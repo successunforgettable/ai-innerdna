@@ -28,21 +28,34 @@ export default function Welcome() {
   });
 
   const handleStart = () => {
-    // Required fields validation - exact from spec
+    // Required fields validation for registration
     if (!email.trim()) {
       alert('Email is required to continue');
       return;
     }
+    if (!firstName.trim()) {
+      alert('First name is required to continue');
+      return;
+    }
+    if (!lastName.trim()) {
+      alert('Last name is required to continue');
+      return;
+    }
+    if (!phoneNumber.trim()) {
+      alert('Phone number is required for WhatsApp report delivery');
+      return;
+    }
 
-    // emailForm structure - exact from spec
-    const emailForm = {
-      email: email.trim(), // Required
-      firstName: firstName.trim() || '', // Optional
-      lastName: lastName.trim() || '', // Optional
+    // Registration form structure
+    const registrationForm = {
+      email: email.trim(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      phoneNumber: phoneNumber.trim(),
       timestamp: Date.now()
     };
 
-    createUserMutation.mutate(emailForm);
+    createUserMutation.mutate(registrationForm);
   };
 
   // Tower Preview Animation - correct orientation with largest at bottom
