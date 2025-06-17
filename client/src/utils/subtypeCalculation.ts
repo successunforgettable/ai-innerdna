@@ -53,7 +53,7 @@ export function determineSubtypeStack(distribution: TokenDistribution): SubtypeR
   let stackType: string;
   if (primaryCount >= 6) {
     stackType = 'dominant';
-  } else if (Math.abs(primaryCount - secondaryCount) <= 1 && Math.abs(secondaryCount - tertiaryCount) <= 1) {
+  } else if (primaryCount === secondaryCount && secondaryCount === tertiaryCount) {
     stackType = 'balanced';
   } else {
     stackType = 'moderate';
