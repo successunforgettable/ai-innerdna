@@ -382,16 +382,17 @@ body {
   text-align: center;
 }
 
-/* Building Block Styles - Larger containers for proper display */
+/* Building Block Styles - Constrained for proper text wrapping */
 .building-block {
   width: 100%;
-  min-height: 200px;
+  min-height: 180px;
+  max-height: 220px;
   height: auto;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
-  padding: 32px;
+  padding: 28px 24px;
   cursor: pointer;
   position: relative;
   display: flex;
@@ -402,7 +403,8 @@ body {
     0 8px 32px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: visible;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .building-block::before {
@@ -450,14 +452,18 @@ body {
   color: var(--text-primary) !important;
   z-index: 10 !important;
   width: 100% !important;
+  max-width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 16px !important;
+  gap: 12px !important;
   height: 100% !important;
-  min-height: 140px !important;
+  min-height: 120px !important;
+  max-height: 160px !important;
   position: relative !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 .check-icon {
