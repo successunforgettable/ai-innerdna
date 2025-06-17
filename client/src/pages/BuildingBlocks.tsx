@@ -155,7 +155,7 @@ export default function BuildingBlocks() {
                 >
                   {availableBlocks[selectedBlock]?.name}
                   <br />
-                  Wing {getCurrentWing()}
+                  {getCurrentWing()}
                 </motion.div>
               )}
             </div>
