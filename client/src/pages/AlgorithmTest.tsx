@@ -101,6 +101,39 @@ const AlgorithmTest = () => {
     console.log(`Type 7 > Type 8: ${type7Score > type8Score ? 'YES' : 'NO'}`);
   };
 
+  const verifyAlgorithmFix = () => {
+    console.log("=== Verifying Algorithm Fix ===");
+    
+    // Re-run all tests using the existing function
+    const results = runAlgorithmValidation();
+    
+    // Specifically check the previously failing test
+    const type7Test = results.find((test: any) => test.testId === "HEAD_PURE_TYPE7");
+    
+    if (type7Test) {
+      console.log("HEAD_PURE_TYPE7 result:", type7Test.actualType);
+      console.log("Expected Type 7, got:", type7Test.actualType);
+      console.log("Test passed:", type7Test.passed);
+    }
+    
+    // Calculate final accuracy
+    const passedTests = results.filter((t: any) => t.passed).length;
+    const totalTests = results.length;
+    const accuracy = Math.round((passedTests / totalTests) * 100);
+    
+    console.log(`Final accuracy: ${accuracy}% (${passedTests}/${totalTests})`);
+    
+    if (accuracy === 100) {
+      console.log("🎉 ALGORITHM FIX SUCCESSFUL - 100% ACCURACY ACHIEVED!");
+    } else {
+      console.log("❌ Still need additional fixes");
+      console.log("Failed tests:");
+      results.filter((t: any) => !t.passed).forEach((test: any) => {
+        console.log(`  - ${test.testId}: Expected ${test.expectedType}, got ${test.actualType}`);
+      });
+    }
+  };
+
   const testType5Pattern = () => {
     console.log("Testing Type 5 Pattern...");
     const type5Selections = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // All Head/Security/Internal pattern
@@ -178,6 +211,13 @@ const AlgorithmTest = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
               >
                 Test Head+Fear+Assertive
+              </button>
+              
+              <button
+                onClick={verifyAlgorithmFix}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
+              >
+                Verify Algorithm Fix
               </button>
             </div>
             
