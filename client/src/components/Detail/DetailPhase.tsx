@@ -286,7 +286,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  {assessmentData.buildingBlocks?.[0]?.name || 'Building Block'}
+                  {assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0 ? assessmentData.buildingBlocks[0].name : 'Building Block'}
                   <br />
                   Complete
                 </span>
