@@ -286,7 +286,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  Influences
+                  {assessmentData.buildingBlocks?.[0]?.name || 'Building Block'}
                   <br />
                   Complete
                 </span>
