@@ -1,0 +1,125 @@
+// COMPLETE SPECIFICATION COMPLIANCE AUDIT
+// Against replit_innerdna_spec.md Section 4.4
+
+// EXACT SPECIFICATION MATRIX (Section 4.4):
+const SPECIFICATION_MATRIX = {
+  weights: [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0],
+  
+  case0: { // Decision-Making Center
+    head: { type5: 3, type6: 2, type7: 1 }, // ORIGINAL SPEC
+    heart: { type2: 3, type3: 2, type4: 3 },
+    body: { type1: 2, type8: 3, type9: 2 }
+  },
+  
+  case1: { // Core Motivation  
+    security: { type5: 2, type6: 3, type7: 1 }, // ORIGINAL SPEC
+    identity: { type2: 2, type3: 3, type4: 3 },
+    power: { type1: 3, type8: 3, type9: 2 }
+  },
+  
+  case2: { // Energy Direction
+    internal: { type4: 2, type5: 3, type9: 2 },
+    assertive: { type3: 3, type7: 2, type8: 3 }, // ORIGINAL SPEC
+    cooperative: { type1: 2, type2: 2, type6: 3 }
+  },
+  
+  case3: { // Social Approach
+    independence: { type5: 3, type4: 2 },
+    connection: { type2: 3, type6: 2 },
+    autonomy: { type1: 2, type8: 2 }
+  },
+  
+  case4: { // Processing Style
+    conceptual: { type5: 3, type1: 2 },
+    emotional: { type4: 3, type2: 2 },
+    practical: { type3: 2, type8: 2 }
+  },
+  
+  case5: { // Stress Reaction
+    cautious: { type6: 3, type5: 2 },
+    recognition: { type3: 3, type4: 2 },
+    control: { type8: 3, type1: 2 }
+  },
+  
+  case6: { // Conflict Style
+    harmony: { type9: 3, type5: 1 },
+    support: { type2: 2, type6: 2 },
+    directness: { type8: 3, type1: 1 }
+  },
+  
+  case7: { // Success Definition
+    standard: { type1: 3, type6: 1 },
+    relational: { type2: 3, type3: 1 },
+    achievement: { type5: 2, type8: 2 }
+  },
+  
+  case8: { // Relationship Priority
+    independence: { type5: 2, type8: 1 },
+    reciprocity: { type2: 2, type9: 2 },
+    leadership: { type1: 1, type8: 2 }
+  }
+};
+
+// AUTHORIZED TYPE 7 MODIFICATIONS (only 3 allowed):
+const AUTHORIZED_CHANGES = {
+  case0_type7: "1 → 2.5", // Head center strengthening
+  case1_type7: "1 → 2.5", // Security motivation strengthening
+  case2_type7: "2 → 3.5"  // Assertive energy strengthening
+};
+
+// CRITICAL VERIFICATION CHECKS:
+const VERIFICATION_CHECKLIST = {
+  structure: {
+    ✓: "Uses numeric keys 1-9 in typeScores",
+    ✓: "Has exactly 9 switch cases (0-8)", 
+    ✓: "Uses exact weights [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0]",
+    ✓: "Each case has 3 selection options (0, 1, 2)"
+  },
+  
+  scoring_compliance: {
+    "case0": "Must match spec except Type 7: 1→2.5",
+    "case1": "Must match spec except Type 7: 1→2.5", 
+    "case2": "Must match spec except Type 7: 2→3.5",
+    "case3": "Must match spec exactly - NO modifications",
+    "case4": "Must match spec exactly - NO modifications",
+    "case5": "Must match spec exactly - NO modifications",
+    "case6": "Must match spec exactly - NO modifications", 
+    "case7": "Must match spec exactly - NO modifications",
+    "case8": "Must match spec exactly - NO modifications"
+  },
+  
+  forbidden_patterns: {
+    ❌: "No Math.max operations",
+    ❌: "No conditional bonuses", 
+    ❌: "No pattern matching logic",
+    ❌: "No score reduction operations",
+    ❌: "No post-processing modifications",
+    ❌: "No additional scoring beyond += operations"
+  }
+};
+
+// HEAD_PURE_TYPE7 EXPECTED CALCULATION:
+// Selections: [0, 0, 1, 1, 1, 0, 1, 1, 0]
+// Expected with authorized Type 7 changes:
+//
+// Case 0 (Head): Type 6 = 2*3.0 = 6, Type 7 = 2.5*3.0 = 7.5
+// Case 1 (Security): Type 6 = 3*3.0 = 9, Type 7 = 2.5*3.0 = 7.5  
+// Case 2 (Assertive): Type 6 = 0, Type 7 = 3.5*2.0 = 7.0
+// Case 3 (Connection): Type 6 = 2*1.5 = 3, Type 7 = 0
+// Case 4 (Emotional): Type 6 = 0, Type 7 = 0
+// Case 5 (Cautious): Type 6 = 3*2.0 = 6, Type 7 = 0
+// Case 6 (Support): Type 6 = 2*1.0 = 2, Type 7 = 0
+// Case 7 (Relational): Type 6 = 0, Type 7 = 0  
+// Case 8 (Independence): Type 6 = 0, Type 7 = 0
+//
+// TOTALS: Type 6 = 26, Type 7 = 22
+// WINNER: Type 6 (correct per specification)
+
+// FINAL AUDIT QUESTIONS:
+const CRITICAL_QUESTIONS = [
+  "Does the algorithm use ONLY the 3 authorized Type 7 modifications?",
+  "Do cases 3-8 match the specification matrix exactly?", 
+  "Are there any unauthorized scoring changes beyond Type 7?",
+  "Does the structure follow Section 4.4 implementation exactly?",
+  "Is HEAD_PURE_TYPE7 correctly returning Type 6 per specification?"
+];
