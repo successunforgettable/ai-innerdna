@@ -140,6 +140,28 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
     }
   });
 
+  // Enhanced Type 6 vs Type 7 differentiation for Head center types
+  if (selections[0] === 0 && selections[1] === 0) { // Head + Security/Fear motivation
+    if (selections[2] === 1) { // Assertive energy = Type 7 escapes fear through action
+      typeScores[7] += 2 * weights[2];
+      typeScores[6] -= 0.5 * weights[2];
+    } else if (selections[2] === 2) { // Cooperative energy = Type 6 seeks security through structure
+      typeScores[6] += 2 * weights[2];
+      typeScores[7] -= 0.5 * weights[2];
+    }
+  }
+
+  // Additional differentiation in conflict style
+  if (selections[0] === 0) { // Head center types
+    if (selections[6] === 2) { // Direct conflict style - Type 7 more likely
+      typeScores[7] += 1.5 * weights[6];
+      typeScores[6] += 0.5 * weights[6];
+    } else if (selections[6] === 1) { // Support conflict style - Type 6 more likely
+      typeScores[6] += 1.5 * weights[6];
+      typeScores[7] += 0.5 * weights[6];
+    }
+  }
+
   // Calculate total and normalize scores - EXACT from specification
   const totalScore = Object.values(typeScores).reduce((sum, score) => sum + score, 0);
   const normalizedScores: Record<string, number> = {};

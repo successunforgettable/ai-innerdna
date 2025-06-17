@@ -1,0 +1,83 @@
+Type 7 vs Type 6 Algorithm Fix
+MICRO PROMPT: Fix Type 7 vs Type 6 Differentiation
+File to modify: Your personality type calculation algorithm
+ISSUE: HEAD_PURE_TYPE7 test returning Type 6 instead of Type 7. Both are Head center types, so the algorithm needs better differentiation.
+EXACT FIX NEEDED:
+The key difference between Type 6 and Type 7 is their response to fear and energy direction:
+
+Type 6 (Sentinel): Fear-based + Compliant/Cooperative energy
+Type 7 (Enthusiast): Fear-based + Assertive energy (escaping fear through action)
+
+Code to fix:
+javascript// In your personality type calculation function, find the section that handles
+// Head center types (Types 5, 6, 7) and update the differentiation logic:
+
+// When Head center is selected (selections[0] === 0):
+if (selections[0] === 0) { // Head center
+  
+  // Base scoring for all head types
+  typeScores.type5 += 1 * setWeights[0];
+  typeScores.type6 += 1 * setWeights[0];
+  typeScores.type7 += 1 * setWeights[0];
+  
+  // Differentiate based on fear motivation and energy direction
+  if (selections[1] === 0) { // Fear motivation
+    
+    if (selections[2] === 2) { // Compliant/Cooperative energy = Type 6
+      typeScores.type6 += 3 * setWeights[0];
+      typeScores.type7 += 0.5 * setWeights[0];
+      typeScores.type5 += 1 * setWeights[0];
+      
+    } else if (selections[2] === 1) { // Assertive energy = Type 7  
+      typeScores.type7 += 3 * setWeights[0];
+      typeScores.type6 += 0.5 * setWeights[0];
+      typeScores.type5 += 1 * setWeights[0];
+      
+    } else if (selections[2] === 0) { // Withdrawn energy = Type 5
+      typeScores.type5 += 3 * setWeights[0];
+      typeScores.type6 += 1 * setWeights[0];
+      typeScores.type7 += 1 * setWeights[0];
+    }
+  }
+}
+
+// Also strengthen the energy direction scoring in Set 3:
+if (selections[2] === 1) { // Assertive energy
+  // Type 7 uses assertive energy to escape fear/anxiety
+  if (selections[0] === 0 && selections[1] === 0) { // Head + Fear + Assertive
+    typeScores.type7 += 2 * setWeights[2];
+    typeScores.type6 += 0.5 * setWeights[2];
+  }
+  
+} else if (selections[2] === 2) { // Compliant/Cooperative energy  
+  // Type 6 seeks security through cooperation and structure
+  if (selections[0] === 0 && selections[1] === 0) { // Head + Fear + Compliant
+    typeScores.type6 += 2 * setWeights[2];
+    typeScores.type7 += 0.5 * setWeights[2];
+  }
+}
+
+// Additional differentiation in conflict style (Set 7):
+if (selections[6] === 2) { // Direct conflict style
+  // Type 7 more likely to be direct to avoid being trapped
+  typeScores.type7 += 1.5 * setWeights[6];
+  typeScores.type6 += 0.5 * setWeights[6];
+  
+} else if (selections[6] === 1) { // Accommodating conflict style
+  // Type 6 more likely to accommodate for security
+  typeScores.type6 += 1.5 * setWeights[6];
+  typeScores.type7 += 0.5 * setWeights[6];
+}
+Key Differentiation Points:
+
+Energy Direction: Type 7 = Assertive, Type 6 = Compliant
+Fear Response: Type 7 escapes through action, Type 6 seeks security through structure
+Conflict Style: Type 7 more direct, Type 6 more accommodating
+Motivation: Type 7 avoids limitations, Type 6 seeks support/guidance
+
+Requirements:
+
+Strengthen Type 7 scoring when Head + Fear + Assertive pattern appears
+Strengthen Type 6 scoring when Head + Fear + Compliant pattern appears
+Ensure the algorithm clearly differentiates these similar types
+Don't break any currently passing tests
