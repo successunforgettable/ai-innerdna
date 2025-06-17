@@ -131,10 +131,10 @@ const Results = () => {
               {/* Influence Description */}
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Influence: {wingName || buildingData?.[0]?.name || ''}
+                  Your Influence: {influenceName || buildingData?.[0]?.name || ''}
                 </h3>
                 <p className="text-lg text-white/90 leading-relaxed">
-                  The {wingName || buildingData?.[0]?.name || ''} influence brings a peaceful, harmonizing quality to your assertive nature. 
+                  The {influenceName || buildingData?.[0]?.name || ''} influence brings a peaceful, harmonizing quality to your assertive nature. 
                   You approach challenges through steady, measured means rather than pure force. This influence 
                   helps you maintain relationships while still standing firm in your convictions.
                 </p>
