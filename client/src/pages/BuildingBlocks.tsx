@@ -51,10 +51,20 @@ export default function BuildingBlocks() {
         buildingBlocks: [{
           type: selectedBlockData.type,
           name: selectedBlockData.name,
-          description: selectedBlockData.description
+          description: selectedBlockData.description,
+          wing: wingResult.wing
         }]
       });
     }
+  };
+
+  // Get the current wing number for display
+  const getCurrentWing = () => {
+    if (selectedBlock !== null) {
+      const wingResult = determineWing(primaryType, selectedBlock);
+      return wingResult.wing;
+    }
+    return null;
   };
 
   const handleContinue = () => {
@@ -126,7 +136,9 @@ export default function BuildingBlocks() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <span className="foundation-text">Foundation Stones Complete</span>
+              <span className="foundation-text">
+                {getCurrentWing() ? `Type ${primaryType} Wing ${getCurrentWing()}` : `Type ${primaryType} Foundation`}
+              </span>
             </motion.div>
             
             <div className="building-block-area">

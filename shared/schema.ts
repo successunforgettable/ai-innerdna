@@ -31,6 +31,7 @@ export type BuildingBlockSelection = {
   type: number;
   name: string;
   description: string;
+  wing?: string;
 };
 
 export type ColorStateSelection = {
