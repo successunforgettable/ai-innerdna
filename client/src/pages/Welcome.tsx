@@ -212,7 +212,7 @@ export default function Welcome() {
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <label htmlFor="firstName" className={styles.formLabel}>First Name</label>
+              <label htmlFor="firstName" className={styles.formLabel}>First Name *</label>
               <motion.input
                 id="firstName"
                 type="text"
@@ -237,7 +237,7 @@ export default function Welcome() {
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <label htmlFor="lastName" className={styles.formLabel}>Last Name</label>
+              <label htmlFor="lastName" className={styles.formLabel}>Last Name *</label>
               <motion.input
                 id="lastName"
                 type="text"
@@ -257,6 +257,35 @@ export default function Welcome() {
                 transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
               />
             </motion.div>
+          </motion.div>
+          
+          {/* Phone Number Field */}
+          <motion.div 
+            className={styles.formGroup}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.8, duration: 0.3 }}
+          >
+            <label htmlFor="phoneNumber" className={styles.formLabel}>Phone Number (for WhatsApp report) *</label>
+            <motion.input
+              id="phoneNumber"
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="+1 (555) 123-4567"
+              className={styles.formInput}
+              required
+              whileFocus={{ 
+                scale: 1.02,
+                boxShadow: "0 0 0 4px rgba(59, 130, 246, 0.15)",
+                borderColor: "var(--blue-primary)"
+              }}
+              whileHover={{ 
+                borderColor: "var(--blue-primary)",
+                boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.1)"
+              }}
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            />
           </motion.div>
         </motion.div>
         

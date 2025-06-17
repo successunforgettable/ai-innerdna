@@ -7,6 +7,7 @@ export const users = pgTable("users", {
   email: text("email").notNull(),
   firstName: text("first_name"),
   lastName: text("last_name"),
+  phoneNumber: text("phone_number"),
   startedAt: timestamp("started_at").notNull(),
   completedAt: timestamp("completed_at"),
   assessmentData: jsonb("assessment_data"),
