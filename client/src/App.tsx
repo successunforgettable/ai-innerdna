@@ -74,6 +74,7 @@ function Router() {
       <Route path="/color-phase" component={AppContent} />
       <Route path="/detail-tokens" component={AppContent} />
       <Route path="/results" component={AppContent} />
+      <Route path="/analytics" component={AppContent} />
       <Route component={NotFound} />
     </Switch>
   );
