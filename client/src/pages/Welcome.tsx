@@ -37,6 +37,21 @@ export default function Welcome() {
       if (result.requiresVerification) {
         setShowVerification(true);
       } else {
+        // Store user info for later use in assessment
+        const fullPhoneNumber = isLoginMode ? 
+          (result.user?.phoneNumber || '') : 
+          `${countryCode}${phoneNumber.trim()}`;
+          
+        const userInfo = {
+          email: email.trim(),
+          firstName: firstName.trim() || result.user?.firstName || 'User',
+          lastName: lastName.trim() || result.user?.lastName || '',
+          phoneNumber: fullPhoneNumber,
+          registeredAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('current-user-info', JSON.stringify(userInfo));
+        
         setCurrentUser(result.user);
         setCurrentScreen('foundation-stones');
         setLocation('/foundation-stones');
@@ -54,6 +69,17 @@ export default function Welcome() {
       return response.json();
     },
     onSuccess: () => {
+      // Store user info for later use in assessment
+      const userInfo = {
+        email: email.trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        phoneNumber: `${countryCode}${phoneNumber.trim()}`,
+        registeredAt: new Date().toISOString()
+      };
+      
+      localStorage.setItem('current-user-info', JSON.stringify(userInfo));
+      
       // After verification, start assessment
       setCurrentUser({ 
         id: 0, 
