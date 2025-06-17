@@ -1,0 +1,107 @@
+// Add state for user information at the top of Welcome component:
+const [userInfo, setUserInfo] = useState({
+  email: '',
+  firstName: '',
+  lastName: '',
+  phone: ''
+});
+const [showUserForm, setShowUserForm] = useState(false);
+
+// Add form submission handler:
+const handleUserInfoSubmit = (e) => {
+  e.preventDefault();
+  if (userInfo.email && userInfo.firstName) {
+    // Store user info for later use
+    localStorage.setItem('current-user-info', JSON.stringify(userInfo));
+    // Continue to assessment
+    navigate('/foundation-stones');
+  }
+};
+
+// Replace the "Begin Your Assessment" button with:
+{!showUserForm ? (
+  <button
+    onClick={() => setShowUserForm(true)}
+    className="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-4 px-8 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 text-lg"
+  >
+    Begin Your Assessment
+  </button>
+) : (
+  <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 mt-8 max-w-md mx-auto">
+    <h3 className="text-xl font-bold text-yellow-400 mb-4 text-center">
+      Your Information
+    </h3>
+    <form onSubmit={handleUserInfoSubmit} className="space-y-4">
+      <div>
+        <label className="block text-white/80 text-sm font-medium mb-1">
+          Email Address *
+        </label>
+        <input
+          type="email"
+          value={userInfo.email}
+          onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
+          className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          placeholder="your@email.com"
+          required
+        />
+      </div>
+      
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-white/80 text-sm font-medium mb-1">
+            First Name *
+          </label>
+          <input
+            type="text"
+            value={userInfo.firstName}
+            onChange={(e) => setUserInfo({...userInfo, firstName: e.target.value})}
+            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            placeholder="John"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-white/80 text-sm font-medium mb-1">
+            Last Name
+          </label>
+          <input
+            type="text"
+            value={userInfo.lastName}
+            onChange={(e) => setUserInfo({...userInfo, lastName: e.target.value})}
+            className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            placeholder="Doe"
+          />
+        </div>
+      </div>
+      
+      <div>
+        <label className="block text-white/80 text-sm font-medium mb-1">
+          Phone Number
+        </label>
+        <input
+          type="tel"
+          value={userInfo.phone}
+          onChange={(e) => setUserInfo({...userInfo, phone: e.target.value})}
+          className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          placeholder="+1 (555) 123-4567"
+        />
+      </div>
+      
+      <div className="flex gap-3 pt-2">
+        <button
+          type="button"
+          onClick={() => setShowUserForm(false)}
+          className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-colors"
+        >
+          Back
+        </button>
+        <button
+          type="submit"
+          className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-semibold py-2 px-4 rounded-lg transition-colors"
+        >
+          Start Assessment
+        </button>
+      </div>
+    </form>
+  </div>
+)}

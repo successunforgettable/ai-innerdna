@@ -43,7 +43,16 @@ const Results = () => {
   useEffect(() => {
     // Save assessment data when results are displayed
     if (foundationData && buildingData && colorData && detailData) {
+      const storedUserInfo = localStorage.getItem('current-user-info');
+      const userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : {};
+
       const completeAssessment = {
+        // User Information
+        email: userInfo.email || '',
+        firstName: userInfo.firstName || '',
+        lastName: userInfo.lastName || '',
+        phone: userInfo.phone || '',
+        
         // Core Results
         primaryType: primaryType,
         typeName: personalityName,
@@ -69,6 +78,9 @@ const Results = () => {
       if (assessmentId) {
         console.log('Assessment saved with ID:', assessmentId);
       }
+      
+      // Clear user info after saving assessment
+      localStorage.removeItem('current-user-info');
     }
   }, [foundationData, buildingData, colorData, detailData, primaryType, personalityName, influenceNumber, confidence]);
 
