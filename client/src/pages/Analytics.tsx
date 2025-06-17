@@ -12,6 +12,7 @@ interface AnalyticsStats {
 const Analytics = () => {
   const { logout } = useAuth();
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
+  const [assessments, setAssessments] = useState<any[]>([]);
 
   const handleLogout = () => {
     logout();
@@ -20,6 +21,7 @@ const Analytics = () => {
 
   useEffect(() => {
     const assessments = getStoredAssessments();
+    setAssessments(assessments);
     
     // Calculate statistics per Section 9.3
     const totalCompletions = assessments.length;
@@ -104,6 +106,43 @@ const Analytics = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Recent Assessments */}
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-yellow-400 mb-4">Recent Assessments</h3>
+            <div className="bg-white/5 rounded-lg border border-white/10 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-white/10">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-white font-semibold">Name</th>
+                      <th className="px-4 py-3 text-left text-white font-semibold">Email</th>
+                      <th className="px-4 py-3 text-left text-white font-semibold">Type</th>
+                      <th className="px-4 py-3 text-left text-white font-semibold">Completed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {assessments.slice(0, 10).map((assessment, index) => (
+                      <tr key={assessment.id} className={index % 2 === 0 ? 'bg-white/5' : ''}>
+                        <td className="px-4 py-3 text-white/90">
+                          {assessment.firstName} {assessment.lastName}
+                        </td>
+                        <td className="px-4 py-3 text-white/90">
+                          {assessment.email}
+                        </td>
+                        <td className="px-4 py-3 text-white/90">
+                          Type {assessment.primaryType} - {assessment.typeName}
+                        </td>
+                        <td className="px-4 py-3 text-white/90">
+                          {new Date(assessment.completedAt).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
