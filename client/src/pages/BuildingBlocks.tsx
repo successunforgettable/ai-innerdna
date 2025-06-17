@@ -65,10 +65,7 @@ export default function BuildingBlocks() {
     }
   };
 
-  const handleBackToFoundationStones = () => {
-    setCurrentScreen('foundation-stones');
-    setLocation('/foundation-stones');
-  };
+
 
   return (
     <div className="page-container">
