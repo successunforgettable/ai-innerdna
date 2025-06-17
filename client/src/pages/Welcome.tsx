@@ -24,10 +24,16 @@ export default function Welcome() {
   const authMutation = useMutation({
     mutationFn: async (data: any) => {
       const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
-      const response = await apiRequest('POST', endpoint, data);
-      return response.json();
+      try {
+        const response = await apiRequest('POST', endpoint, data);
+        return await response.json();
+      } catch (error: any) {
+        console.error('Auth error:', error);
+        throw new Error(error.message || 'Authentication failed');
+      }
     },
     onSuccess: (result) => {
+      console.log('Auth success:', result);
       if (result.requiresVerification) {
         setShowVerification(true);
       } else {
@@ -35,6 +41,10 @@ export default function Welcome() {
         setCurrentScreen('foundation-stones');
         setLocation('/foundation-stones');
       }
+    },
+    onError: (error: any) => {
+      console.error('Auth mutation error:', error);
+      alert(error.message || 'Registration failed. Please try again.');
     }
   });
 

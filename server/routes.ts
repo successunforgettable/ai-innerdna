@@ -16,20 +16,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "All fields are required" });
       }
 
-      const result = await authService.register({
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ error: "User already exists with this email" });
+      }
+
+      // Hash password
+      const passwordHash = await authService.hashPassword(password);
+      
+      // Create user directly without email verification for development
+      const newUser = await storage.createUser({
         email,
         firstName,
         lastName,
         phoneNumber,
-        password
+        passwordHash,
+        emailVerified: new Date(), // Skip verification for development
+        phoneVerified: null,
+        verificationCode: null,
+        resetToken: null,
+        resetTokenExpiry: null,
+        startedAt: new Date(),
+        completedAt: null,
+        assessmentData: null
       });
 
       res.json({
-        user: result.user,
-        requiresVerification: result.requiresVerification,
-        message: "Registration successful. Please check your email for verification code."
+        user: {
+          id: newUser.id,
+          email: newUser.email,
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          phoneNumber: newUser.phoneNumber,
+          emailVerified: newUser.emailVerified
+        },
+        requiresVerification: false,
+        message: "Registration successful!"
       });
     } catch (error: any) {
+      console.error('Registration error:', error);
       res.status(400).json({ error: error.message || "Registration failed" });
     }
   });
@@ -42,11 +68,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Email and password are required" });
       }
 
-      const result = await authService.login(email, password);
+      // Get user by email
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(400).json({ error: "Invalid email or password" });
+      }
+
+      // Verify password
+      const isValidPassword = await authService.verifyPassword(password, user.passwordHash || '');
+      if (!isValidPassword) {
+        return res.status(400).json({ error: "Invalid email or password" });
+      }
       
       res.json({
-        user: result.user,
-        token: result.token,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber,
+          emailVerified: user.emailVerified
+        },
         message: "Login successful"
       });
     } catch (error: any) {
