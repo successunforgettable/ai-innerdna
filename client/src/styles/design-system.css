@@ -322,15 +322,15 @@
 /* Block Label (Block A/Block B) */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #fbbf24;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   text-align: center;
   flex-shrink: 0;
   letter-spacing: 0.5px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 

@@ -319,8 +319,9 @@ body {
 .blocks-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
   margin: 2rem 0;
+  width: 100%;
 }
 
 .tower-building-view {
@@ -381,16 +382,16 @@ body {
   text-align: center;
 }
 
-/* Building Block Styles - Increased size for proper content display */
+/* Building Block Styles - Larger containers for proper display */
 .building-block {
   width: 100%;
-  min-height: 160px;
+  min-height: 200px;
   height: auto;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
-  padding: 24px;
+  padding: 32px;
   cursor: pointer;
   position: relative;
   display: flex;
@@ -453,8 +454,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 16px;
   height: 100%;
+  min-height: 140px;
 }
 
 .check-icon {
