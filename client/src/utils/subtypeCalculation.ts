@@ -49,10 +49,11 @@ export function determineSubtypeStack(distribution: TokenDistribution): SubtypeR
   // Determine stack type
   const primaryCount = sortedSubtypes[0].count;
   const secondaryCount = sortedSubtypes[1].count;
+  const tertiaryCount = sortedSubtypes[2].count;
   let stackType: string;
   if (primaryCount >= 6) {
     stackType = 'dominant';
-  } else if (primaryCount === secondaryCount) {
+  } else if (secondaryCount === tertiaryCount) {
     stackType = 'balanced';
   } else {
     stackType = 'moderate';
