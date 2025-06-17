@@ -5,6 +5,7 @@ import { buildingBlocks } from '@/lib/stoneData';
 import { determinePersonalityType, determineWing } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
 import BuildingBlock from '@/components/BuildingBlock';
+import BackButton from '@/components/BackButton';
 import '@/styles/detail-phase.css';
 
 interface BuildingBlockData {
@@ -65,9 +66,9 @@ export default function BuildingBlocks() {
     }
   };
 
-  const handleBackToWelcome = () => {
-    setCurrentScreen('welcome');
-    setLocation('/');
+  const handleBackToFoundationStones = () => {
+    setCurrentScreen('foundation-stones');
+    setLocation('/foundation-stones');
   };
 
   return (
@@ -96,12 +97,9 @@ export default function BuildingBlocks() {
           </div>
           
           <div className="flex justify-between items-center mt-6">
-            <button
-              className="btn-secondary"
-              onClick={handleBackToWelcome}
-            >
-              ← Back to Welcome
-            </button>
+            <BackButton onBack={handleBackToFoundationStones}>
+              ← Back to Foundation Stones
+            </BackButton>
             
             <motion.button 
               className="btn-primary"

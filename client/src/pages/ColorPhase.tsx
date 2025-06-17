@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import StateCard from '@/components/StateCard';
 import StateSlider from '@/components/StateSlider';
 import ContinueButton from '@/components/ContinueButton';
+import BackButton from '@/components/BackButton';
 import { TowerVisualization } from '@/components/TowerVisualization';
 import { stateOptions } from '@/lib/stateOptions';
 import stateDescriptionsPart1 from '@/lib/stateDescriptionsPart1';
@@ -266,6 +267,11 @@ export default function ColorPhase() {
     setLocation('/detail-tokens');
   };
 
+  const handleBackToBuildingBlocks = () => {
+    setCurrentScreen('building-blocks');
+    setLocation('/building-blocks');
+  };
+
   return (
     <motion.div
       className="color-phase"
@@ -376,9 +382,15 @@ export default function ColorPhase() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.3, duration: 0.5 }}
       >
-        <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
-          Continue to Detail Tokens
-        </ContinueButton>
+        <div className="flex justify-between items-center w-full">
+          <BackButton onBack={handleBackToBuildingBlocks}>
+            ← Back to Building Blocks
+          </BackButton>
+          
+          <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
+            Continue to Detail Tokens
+          </ContinueButton>
+        </div>
       </motion.div>
     </motion.div>
   );

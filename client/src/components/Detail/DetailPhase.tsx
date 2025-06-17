@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAssessment } from '../../context/AssessmentContext';
 import { useLocation } from 'wouter';
 import ContinueButton from '../ContinueButton';
+import BackButton from '../BackButton';
 import Token from './Token';
 import { subtypeDescriptions, type PersonalityType, type SubtypeKey } from '../../utils/subtypeDescriptions';
 import '../../styles/detail-phase.css';
