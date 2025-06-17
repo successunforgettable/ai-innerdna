@@ -152,3 +152,7 @@ Changelog:
 - June 17, 2025. Implemented comprehensive authentication system with user registration, email verification, password management, and login functionality for returning users
 - June 17, 2025. Added phone number collection for WhatsApp report delivery and updated database schema with authentication fields
 - June 17, 2025. Created authentication middleware and routes for secure user management and data extraction capabilities
+- June 17, 2025. Fixed database schema alignment for authentication system and added country code dropdown with international options for phone number collection
+- June 17, 2025. Added terms and conditions checkbox requirement and simplified registration flow for immediate assessment access
+- June 17, 2025. Created localStorage-based assessment storage system with comprehensive data capture including all phases, results, and metadata
+- June 17, 2025. Built Analytics dashboard page displaying assessment statistics, type distributions, and completion metrics with glass-morphism styling
