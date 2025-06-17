@@ -82,21 +82,21 @@ const DetailPhase = () => {
     exit: { opacity: 0, y: -20 }
   };
 
+  // Check if previous phases are completed
+  const hasFoundation = assessmentData.foundationStones && assessmentData.foundationStones.length > 0;
+  const hasBuildingBlocks = assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0;
+  const hasColorStates = assessmentData.colorStates && assessmentData.colorStates.length > 0;
+
   // Get the user's personality type from assessment data
   const userPersonalityType = assessmentData.result?.primaryType as PersonalityType || 'Type 1';
   const typeData = subtypeDescriptions[userPersonalityType];
 
-  // Fallback if typeData is undefined
-  if (!typeData) {
-    return (
-      <div className="detail-phase">
-        <div className="detail-phase-header">
-          <h1 className="detail-phase__title">Complete Previous Phases</h1>
-          <p className="detail-phase__subtitle">Please complete the Foundation Stones, Building Blocks, and Color States phases first.</p>
-        </div>
-      </div>
-    );
-  }
+  // Only require typeData if we actually have a personality type, otherwise use default
+  const safeTypeData = typeData || {
+    'Self-Preservation': ['Focus on security and stability'],
+    Sexual: ['Focus on intensity and connection'],
+    Social: ['Focus on community and belonging']
+  };
 
   const containers = [
     {
@@ -104,21 +104,21 @@ const DetailPhase = () => {
       title: 'Self-Preservation Focus',
       emoji: '🔒',
       subtypeKey: 'Self-Preservation' as SubtypeKey,
-      descriptions: typeData['Self-Preservation'] || []
+      descriptions: safeTypeData['Self-Preservation'] || []
     },
     {
       id: 'oneToOne',
       title: 'One-to-One Focus', 
       emoji: '🔥',
       subtypeKey: 'Sexual' as SubtypeKey,
-      descriptions: typeData.Sexual || []
+      descriptions: safeTypeData.Sexual || []
     },
     {
       id: 'social',
       title: 'Social Focus',
       emoji: '🧱',
       subtypeKey: 'Social' as SubtypeKey,
-      descriptions: typeData.Social || []
+      descriptions: safeTypeData.Social || []
     }
   ];
 
