@@ -33,6 +33,7 @@ const Analytics = () => {
       const type = assessment.primaryType || 
                    assessment.result?.primaryType || 
                    assessment.personalityType ||
+                   assessment.assessmentData?.result?.primaryType ||
                    null;
       
       if (type) {
