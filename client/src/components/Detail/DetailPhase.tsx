@@ -205,7 +205,7 @@ const DetailPhase = () => {
                 style={{
                   width: '120px',
                   height: '40px',
-                  background: '#f59e0b',
+                  background: 'linear-gradient(135deg, #ef4444, #dc2626)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -235,7 +235,7 @@ const DetailPhase = () => {
                 style={{
                   width: '140px',
                   height: '40px',
-                  background: '#10b981',
+                  background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -265,7 +265,7 @@ const DetailPhase = () => {
                 style={{
                   width: '160px',
                   height: '40px',
-                  background: '#8b5cf6',
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -295,7 +295,37 @@ const DetailPhase = () => {
                 style={{
                   width: '180px',
                   height: '40px',
-                  background: '#6b7280',
+                  background: 'linear-gradient(135deg, #10b981, #047857)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '4px',
+                  margin: '0 auto 4px auto'
+                }}
+              >
+                <span style={{ 
+                  color: '#000000', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  textAlign: 'center'
+                }}>
+                  {userPersonalityType}
+                  <br />
+                  Complete
+                </span>
+              </motion.div>
+
+              {/* Base Layer - Blue */}
+              <motion.div 
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: -0.1 }}
+                style={{
+                  width: '200px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -309,7 +339,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  {userPersonalityType}
+                  Foundation
                   <br />
                   Complete
                 </span>

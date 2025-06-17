@@ -144,3 +144,4 @@ Changelog:
 - June 17, 2025. Added gap spacing between navigation buttons on Building Blocks, Color Phase, and Detail Tokens pages for improved visual balance
 - June 17, 2025. Fixed button positioning to center alignment with proper spacing instead of justify-between layout
 - June 17, 2025. Added dynamic wing number display in selected building blocks showing calculated wing based on user selection
+- June 17, 2025. Updated tower visualization colors to match welcome screen design with red, purple, orange, green, and blue gradient layers for visual consistency
