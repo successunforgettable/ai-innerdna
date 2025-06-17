@@ -62,98 +62,80 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
         }
         break;
 
-      case 3: // Set 4: Relationship Focus
+      case 3: // Set 4: Social Approach
         if (selection === 0) { // Independence BASELINES
-          typeScores[1] += 2 * weight;
+          typeScores[5] += 3 * weight;
           typeScores[4] += 2 * weight;
-          typeScores[9] += 2 * weight;
         } else if (selection === 1) { // Connection BASELINES
           typeScores[2] += 3 * weight;
           typeScores[6] += 2 * weight;
-          typeScores[7] += 2 * weight;
         } else { // Autonomy BASELINES
-          typeScores[3] += 2 * weight;
-          typeScores[5] += 2 * weight;
-          typeScores[8] += 3 * weight;
+          typeScores[1] += 2 * weight;
+          typeScores[8] += 2 * weight;
         }
         break;
 
-      case 4: // Set 5: Emotional Processing
-        if (selection === 0) { // Rational BASELINES
-          typeScores[1] += 2 * weight;
+      case 4: // Set 5: Processing Style
+        if (selection === 0) { // Conceptual BASELINES
           typeScores[5] += 3 * weight;
-          typeScores[9] += 2 * weight;
+          typeScores[1] += 2 * weight;
         } else if (selection === 1) { // Emotional BASELINES
-          typeScores[2] += 2 * weight;
           typeScores[4] += 3 * weight;
-          typeScores[7] += 2 * weight;
+          typeScores[2] += 2 * weight;
         } else { // Practical BASELINES
-          typeScores[3] += 3 * weight;
-          typeScores[6] += 2 * weight;
+          typeScores[3] += 2 * weight;
           typeScores[8] += 2 * weight;
         }
         break;
 
-      case 5: // Set 6: Recognition/Achievement
-        if (selection === 0) { // Recognition BASELINES
-          typeScores[2] += 3 * weight;
-          typeScores[6] += 2 * weight;
-          typeScores[7] += 2 * weight;
-        } else if (selection === 1) { // Authenticity BASELINES
-          typeScores[1] += 2 * weight;
-          typeScores[4] += 2 * weight;
-          typeScores[9] += 2 * weight;
-        } else { // Achievement BASELINES
-          typeScores[3] += 3 * weight;
+      case 5: // Set 6: Stress Reaction
+        if (selection === 0) { // Cautious BASELINES
+          typeScores[6] += 3 * weight;
           typeScores[5] += 2 * weight;
-          typeScores[8] += 2 * weight;
+        } else if (selection === 1) { // Recognition BASELINES
+          typeScores[3] += 3 * weight;
+          typeScores[4] += 2 * weight;
+        } else { // Control BASELINES
+          typeScores[8] += 3 * weight;
+          typeScores[1] += 2 * weight;
         }
         break;
 
       case 6: // Set 7: Conflict Style
-        if (selection === 0) { // Avoidance BASELINES
-          typeScores[4] += 2 * weight;
-          typeScores[5] += 2 * weight;
-          typeScores[9] += 2 * weight;
+        if (selection === 0) { // Harmony BASELINES
+          typeScores[9] += 3 * weight;
+          typeScores[5] += 1 * weight;
         } else if (selection === 1) { // Support BASELINES
           typeScores[2] += 2 * weight;
           typeScores[6] += 2 * weight;
-          typeScores[7] += 2 * weight;
-        } else { // Direct BASELINES
-          typeScores[1] += 2 * weight;
-          typeScores[3] += 2 * weight;
-          typeScores[8] += 2 * weight;
+        } else { // Directness BASELINES
+          typeScores[8] += 3 * weight;
+          typeScores[1] += 1 * weight;
         }
         break;
 
-      case 7: // Set 8: Social Approach
-        if (selection === 0) { // Individual BASELINES
-          typeScores[4] += 2 * weight;
-          typeScores[5] += 2 * weight;
-          typeScores[9] += 2 * weight;
+      case 7: // Set 8: Success Definition
+        if (selection === 0) { // Standard BASELINES
+          typeScores[1] += 3 * weight;
+          typeScores[6] += 1 * weight;
         } else if (selection === 1) { // Relational BASELINES
-          typeScores[2] += 2 * weight;
-          typeScores[6] += 2 * weight;
-          typeScores[7] += 2 * weight;
-        } else { // Professional BASELINES
-          typeScores[1] += 2 * weight;
-          typeScores[3] += 2 * weight;
+          typeScores[2] += 3 * weight;
+          typeScores[3] += 1 * weight;
+        } else { // Achievement BASELINES
+          typeScores[5] += 2 * weight;
           typeScores[8] += 2 * weight;
         }
         break;
 
-      case 8: // Set 9: Reciprocity vs Boundaries
-        if (selection === 0) { // Reciprocity BASELINES
-          typeScores[2] += 2 * weight;
-          typeScores[6] += 2 * weight;
-          typeScores[7] += 2 * weight;
-        } else if (selection === 1) { // Balance BASELINES
-          typeScores[4] += 2 * weight;
+      case 8: // Set 9: Relationship Priority
+        if (selection === 0) { // Independence BASELINES
           typeScores[5] += 2 * weight;
+          typeScores[8] += 1 * weight;
+        } else if (selection === 1) { // Reciprocity BASELINES
+          typeScores[2] += 2 * weight;
           typeScores[9] += 2 * weight;
-        } else { // Boundaries BASELINES
-          typeScores[1] += 2 * weight;
-          typeScores[3] += 2 * weight;
+        } else { // Leadership BASELINES
+          typeScores[1] += 1 * weight;
           typeScores[8] += 2 * weight;
         }
         break;
