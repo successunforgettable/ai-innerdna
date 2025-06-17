@@ -218,9 +218,15 @@ const Results = () => {
                       );
                     }
                     
-                    const selfTokens = detailData.filter(token => token.category === 'Self-Preservation').length;
-                    const oneToOneTokens = detailData.filter(token => token.category === 'One-to-One').length;
-                    const socialTokens = detailData.filter(token => token.category === 'Social').length;
+                    // Extract token counts from the correct data structure
+                    const selfTokenData = detailData.find(item => item.category === 'Self-Preservation');
+                    const oneToOneTokenData = detailData.find(item => item.category === 'One-to-One');
+                    const socialTokenData = detailData.find(item => item.category === 'Social');
+                    
+                    // Parse token counts from "X tokens" format
+                    const selfTokens = selfTokenData ? parseInt(selfTokenData.token.split(' ')[0]) : 0;
+                    const oneToOneTokens = oneToOneTokenData ? parseInt(oneToOneTokenData.token.split(' ')[0]) : 0;
+                    const socialTokens = socialTokenData ? parseInt(socialTokenData.token.split(' ')[0]) : 0;
                     const totalTokens = selfTokens + oneToOneTokens + socialTokens;
                     
                     // Calculate percentages based on actual token distribution
