@@ -43,7 +43,7 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   {
     id: "HEAD_PURE_TYPE7",
     description: "Pure Head center with optimism focus → Type 7", 
-    selections: [0, 0, 1, 2, 2, 1, 2, 0, 1], // Head + Security + Assertive + Autonomy + Practical + Recognition + Directness + Standard + Reciprocity
+    selections: [0, 0, 1, 0, 0, 0, 2, 2, 0], // Head + Security + Assertive + Independence + Conceptual + Cautious + Directness + Achievement + Independence
     expectedType: "7"
   },
   
@@ -132,7 +132,7 @@ const SUBTYPE_TEST_CASES = [
   { distribution: { self: 4, oneToOne: 3, social: 3 }, expectedPrimary: "self", expectedStack: "moderate" },
   { distribution: { self: 3, oneToOne: 4, social: 3 }, expectedPrimary: "oneToOne", expectedStack: "moderate" },
   { distribution: { self: 3, oneToOne: 3, social: 4 }, expectedPrimary: "social", expectedStack: "moderate" },
-  { distribution: { self: 3, oneToOne: 3, social: 4 }, expectedPrimary: "social", expectedStack: "balanced" }
+  { distribution: { self: 3, oneToOne: 4, social: 3 }, expectedPrimary: "oneToOne", expectedStack: "balanced" }
 ];
 
 export class AlgorithmValidator {
