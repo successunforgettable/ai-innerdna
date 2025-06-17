@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getStoredAssessments } from '@/lib/assessmentStorage';
 import DataExport from '@/components/DataExport';
+import AuthTest from '@/components/AuthTest';
 
 interface AnalyticsStats {
   totalCompletions: number;
@@ -50,6 +51,9 @@ const Analytics = () => {
           <h1 className="text-4xl font-bold text-yellow-400 mb-8">
             Assessment Analytics
           </h1>
+
+          {/* Auth Test - Remove after testing */}
+          <AuthTest />
 
           {/* Data Export */}
           <DataExport />
