@@ -322,15 +322,16 @@
 /* Block Label (Block A/Block B) */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 20px; /* Large for title hierarchy */
-  font-weight: 700; /* Bold for emphasis */
-  color: white; /* White text for visibility on gradient backgrounds */
-  margin-bottom: 16px; /* Better spacing for wider blocks */
+  font-size: 18px;
+  font-weight: 700;
+  color: #fbbf24; /* Gold color matching section titles */
+  margin-bottom: 16px;
   text-align: center;
-  flex-shrink: 0; /* Don't shrink this element */
-  letter-spacing: 0.5px; /* Better spacing */
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
   position: relative;
   z-index: 2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .block-text {
@@ -340,23 +341,24 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Description Text - Optimized for wider blocks */
+/* Main Description Text - Clean readable styling matching subtype containers */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px; /* Smaller text for better fit in wider blocks */
-  line-height: 1.6; /* Relaxed line spacing for comfortable reading */
-  color: white; /* Clean white text */
-  white-space: normal; /* Allow normal text wrapping */
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  white-space: normal;
   text-align: center;
   flex: 1;
-  overflow: visible; /* Allow natural text display */
+  overflow: visible;
   word-wrap: break-word;
-  hyphens: none; /* Disable hyphenation for cleaner breaks */
-  font-weight: 400; /* Clean readable weight */
-  letter-spacing: 0.1px; /* Subtle letter spacing */
+  hyphens: none;
+  font-weight: 400;
+  letter-spacing: 0.1px;
   position: relative;
   z-index: 2;
-  max-width: 400px; /* Wider text area for full content display */
+  max-width: 100%;
+  opacity: 0.9;
 }
 
 /* Building Block Selection Container - Adjust for taller blocks */
