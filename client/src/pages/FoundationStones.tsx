@@ -164,13 +164,17 @@ export default function FoundationStones() {
             <motion.button
               className="btn-primary"
               onClick={() => {
-                setCurrentScreen('welcome');
-                setLocation('/');
+                if (currentStoneSet > 0) {
+                  setCurrentStoneSet(currentStoneSet - 1);
+                } else {
+                  setCurrentScreen('welcome');
+                  setLocation('/');
+                }
               }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              ← Back to Welcome
+              {currentStoneSet > 0 ? '← Previous Set' : '← Back to Welcome'}
             </motion.button>
             
             {selectedStone !== null && (
