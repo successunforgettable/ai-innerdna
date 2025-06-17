@@ -282,7 +282,7 @@ const DetailPhase = () => {
                 }}>
                   {assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0 ? assessmentData.buildingBlocks[0].name : 'Building Block'}
                   <br />
-                  Complete
+                  {assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0 ? assessmentData.buildingBlocks[0].wing || 'Complete' : 'Complete'}
                 </span>
               </motion.div>
 
