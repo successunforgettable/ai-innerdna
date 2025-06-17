@@ -150,28 +150,57 @@ const Results = () => {
                 </h3>
                 <div className="bg-white/5 rounded-lg p-6 border border-white/10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {colorData && colorData.length >= 2 ? (
-                      <>
-                        <div>
-                          <h4 className="text-lg font-semibold text-white mb-2">Primary State</h4>
-                          <p className="text-white/80">{colorData[0]?.title}: {Math.round(JSON.parse(localStorage.getItem('colorDistribution') || '{"left": 50, "right": 50}').left)}%</p>
+                    {(() => {
+                      // Extract state data from localStorage according to spec
+                      const savedAssessment = JSON.parse(localStorage.getItem('innerDnaAssessment') || '{}');
+                      const colorState = savedAssessment.colorState;
+                      const colorDistribution = JSON.parse(localStorage.getItem('colorDistribution') || '{"left": 50, "right": 50}');
+                      
+                      if (colorData && colorData.length >= 2 && colorState) {
+                        const primaryStatePercent = Math.round(colorDistribution.left);
+                        const secondaryStatePercent = Math.round(colorDistribution.right);
+                        
+                        return (
+                          <>
+                            <div>
+                              <h4 className="text-lg font-semibold text-white mb-2">Primary State</h4>
+                              <p className="text-white/80">{colorData[0]?.title}: {primaryStatePercent}%</p>
+                            </div>
+                            <div>
+                              <h4 className="text-lg font-semibold text-white mb-2">Secondary State</h4>
+                              <p className="text-white/80">{colorData[1]?.title}: {secondaryStatePercent}%</p>
+                            </div>
+                          </>
+                        );
+                      }
+                      
+                      return (
+                        <div className="col-span-2">
+                          <p className="text-white/80">Complete the Color States phase to see your state distribution</p>
                         </div>
-                        <div>
-                          <h4 className="text-lg font-semibold text-white mb-2">Secondary State</h4>
-                          <p className="text-white/80">{colorData[1]?.title}: {Math.round(JSON.parse(localStorage.getItem('colorDistribution') || '{"left": 50, "right": 50}').right)}%</p>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="col-span-2">
-                        <p className="text-white/80">Complete the Color States phase to see your state distribution</p>
-                      </div>
-                    )}
+                      );
+                    })()}
                   </div>
                   <p className="text-white/90 mt-4">
-                    {colorData && colorData.length >= 2 
-                      ? `Your energy is primarily focused on ${colorData[0]?.title} patterns, showing how you naturally respond to different situations.`
-                      : 'Your state distribution will be analyzed based on your Color States selections.'
-                    }
+                    {(() => {
+                      const savedAssessment = JSON.parse(localStorage.getItem('innerDnaAssessment') || '{}');
+                      const colorDistribution = JSON.parse(localStorage.getItem('colorDistribution') || '{"left": 50, "right": 50}');
+                      
+                      if (colorData && colorData.length >= 2) {
+                        const primaryPercent = Math.round(colorDistribution.left);
+                        const primaryState = colorData[0]?.title;
+                        
+                        if (primaryPercent >= 60) {
+                          return `You tend to operate from a ${primaryState.toLowerCase()} state, showing strong consistency in your emotional patterns.`;
+                        } else if (primaryPercent >= 40) {
+                          return `You tend to operate from a balanced but occasionally ${primaryState.toLowerCase()} state, with access to healthier patterns when conditions are supportive.`;
+                        } else {
+                          return `Your energy alternates between different states, showing flexibility in how you respond to various situations.`;
+                        }
+                      }
+                      
+                      return 'Your state distribution will be analyzed based on your Color States selections.';
+                    })()}
                   </p>
                 </div>
               </div>
@@ -183,18 +212,28 @@ const Results = () => {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {(() => {
-                    // Calculate actual subtype percentages from detail token distribution
-                    const selfTokens = detailData?.filter(token => token.category === 'Self-Preservation').length || 0;
-                    const oneToOneTokens = detailData?.filter(token => token.category === 'One-to-One').length || 0;
-                    const socialTokens = detailData?.filter(token => token.category === 'Social').length || 0;
+                    // Calculate actual subtype percentages from detail token distribution according to spec
+                    if (!detailData || detailData.length === 0) {
+                      return (
+                        <div className="col-span-3">
+                          <p className="text-white/80">Complete the Detail Tokens phase to see your subtype focus</p>
+                        </div>
+                      );
+                    }
+                    
+                    const selfTokens = detailData.filter(token => token.category === 'Self-Preservation').length;
+                    const oneToOneTokens = detailData.filter(token => token.category === 'One-to-One').length;
+                    const socialTokens = detailData.filter(token => token.category === 'Social').length;
                     const totalTokens = selfTokens + oneToOneTokens + socialTokens;
                     
+                    // Calculate percentages based on actual token distribution
                     const selfPercent = totalTokens > 0 ? Math.round((selfTokens / totalTokens) * 100) : 0;
                     const oneToOnePercent = totalTokens > 0 ? Math.round((oneToOneTokens / totalTokens) * 100) : 0;
                     const socialPercent = totalTokens > 0 ? Math.round((socialTokens / totalTokens) * 100) : 0;
                     
-                    const dominantSubtype = selfPercent >= oneToOnePercent && selfPercent >= socialPercent ? 'Self-Preservation' :
-                                          oneToOnePercent >= socialPercent ? 'One-to-One' : 'Social';
+                    // Determine dominant subtype according to spec
+                    const dominantSubtype = selfPercent >= oneToOnePercent && selfPercent >= socialPercent ? 'self-preservation' :
+                                          oneToOnePercent >= socialPercent ? 'one-to-one' : 'social';
                     
                     return (
                       <>
@@ -204,7 +243,7 @@ const Results = () => {
                             <h4 className="text-lg font-semibold text-blue-400">Self-Preservation</h4>
                           </div>
                           <p className="text-sm text-white/80">
-                            {selfPercent}% ({selfTokens}/10 tokens) - Focus on personal security and routines
+                            {selfPercent}% - Focus on personal security and routines
                           </p>
                         </div>
                         
@@ -214,7 +253,7 @@ const Results = () => {
                             <h4 className="text-lg font-semibold text-red-400">One-to-One</h4>
                           </div>
                           <p className="text-sm text-white/80">
-                            {oneToOnePercent}% ({oneToOneTokens}/10 tokens) - Focus on intense personal connections
+                            {oneToOnePercent}% - Focus on intense personal connections
                           </p>
                         </div>
                         
@@ -224,14 +263,13 @@ const Results = () => {
                             <h4 className="text-lg font-semibold text-green-400">Social</h4>
                           </div>
                           <p className="text-sm text-white/80">
-                            {socialPercent}% ({socialTokens}/10 tokens) - Focus on group dynamics and community
+                            {socialPercent}% - Focus on group dynamics and community
                           </p>
                         </div>
                         
                         <div className="col-span-3 mt-4">
                           <p className="text-white/90">
-                            Your energy is primarily focused on {dominantSubtype.toLowerCase()}, 
-                            showing how you naturally prioritize and direct your attention.
+                            Your energy is primarily focused on {dominantSubtype}, showing how you naturally prioritize and direct your attention.
                           </p>
                         </div>
                       </>
