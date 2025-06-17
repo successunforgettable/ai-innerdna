@@ -26,10 +26,15 @@ const Analytics = () => {
     // Calculate statistics per Section 9.3
     const totalCompletions = assessments.length;
     
-    // Type distribution calculation
+    // Type distribution calculation with multiple fallback strategies
     const typeDistribution: Record<string, number> = {};
     assessments.forEach((assessment: any) => {
-      const type = assessment.primaryType;
+      // Try multiple ways to extract personality type
+      const type = assessment.primaryType || 
+                   assessment.result?.primaryType || 
+                   assessment.personalityType ||
+                   null;
+      
       if (type) {
         typeDistribution[type] = (typeDistribution[type] || 0) + 1;
       }
@@ -133,7 +138,24 @@ const Analytics = () => {
                           {assessment.email}
                         </td>
                         <td className="px-4 py-3 text-white/90">
-                          Type {assessment.primaryType} - {assessment.typeName}
+                          {(() => {
+                            // Multiple fallback strategies for personality type extraction
+                            const type = assessment.primaryType || 
+                                       assessment.result?.primaryType || 
+                                       assessment.personalityType ||
+                                       assessment.assessmentData?.result?.primaryType;
+                            
+                            const typeName = assessment.typeName || 
+                                           assessment.result?.typeName || 
+                                           assessment.personalityName ||
+                                           assessment.assessmentData?.result?.typeName;
+                            
+                            if (type) {
+                              return `Type ${type}${typeName ? ` - ${typeName}` : ''}`;
+                            } else {
+                              return 'Type - (Data Missing)';
+                            }
+                          })()}
                         </td>
                         <td className="px-4 py-3 text-white/90">
                           {new Date(assessment.completedAt).toLocaleDateString()}
