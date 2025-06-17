@@ -20,8 +20,8 @@ const Results = () => {
 
   // Extract data for components - use actual assessment data
   const primaryType = personalityResult?.primaryType;
-  const typeName = primaryType ? getTypeName(primaryType) : undefined;
-  const wingName = buildingData?.[0]?.name;
+  const personalityName = primaryType ? getPersonalityName(primaryType) : undefined;
+  const influenceName = buildingData?.[0]?.name;
   const confidence = personalityResult?.confidence;
 
   // Debug logging
@@ -33,12 +33,12 @@ const Results = () => {
     detailData,
     personalityResult,
     primaryType,
-    typeName,
+    personalityName,
     confidence
   });
 
   // Check if assessment is complete
-  const hasValidData = primaryType && typeName && confidence;
+  const hasValidData = primaryType && personalityName && confidence;
 
   return (
     <motion.div 
@@ -77,13 +77,10 @@ const Results = () => {
               {/* Header */}
               <div className="text-center mb-12">
                 <h1 className="text-6xl font-bold text-yellow-400 mb-4">
-                  Type {primaryType}
+                  The {personalityName}
                 </h1>
-                <h2 className="text-4xl font-bold text-white mb-2">
-                  The {typeName}
-                </h2>
                 <p className="text-xl text-white/80 mb-4">
-                  Your influence: {wingName || `${typeName} ${buildingData?.[0]?.wing || ''}`}
+                  Your influence: {influenceName || buildingData?.[0]?.name || ''}
                 </p>
                 <div className="text-lg text-green-400">
                   High Confidence ({Math.round((confidence || 0) * 100)}%)
@@ -91,14 +88,14 @@ const Results = () => {
                 <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-6"></div>
               </div>
 
-              {/* Type Description */}
+              {/* Personality Description */}
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Inner DNA: The {typeName}
+                  Your Inner DNA: The {personalityName}
                 </h3>
                 <TypeDescription 
                   primaryType={primaryType!}
-                  typeName={typeName!}
+                  typeName={personalityName!}
                 />
               </div>
 
@@ -131,13 +128,13 @@ const Results = () => {
                 </div>
               </div>
 
-              {/* Wing Influence */}
+              {/* Influence Description */}
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Influence: {wingName}
+                  Your Influence: {wingName || buildingData?.[0]?.name || ''}
                 </h3>
                 <p className="text-lg text-white/90 leading-relaxed">
-                  The {wingName} influence brings a peaceful, harmonizing quality to your assertive nature. 
+                  The {wingName || buildingData?.[0]?.name || ''} influence brings a peaceful, harmonizing quality to your assertive nature. 
                   You approach challenges through steady, measured means rather than pure force. This influence 
                   helps you maintain relationships while still standing firm in your convictions.
                 </p>
@@ -331,9 +328,9 @@ const Results = () => {
   );
 };
 
-// Helper function to get type name
-const getTypeName = (primaryType: string): string => {
-  const typeNames: Record<string, string> = {
+// Helper function to get personality name (no prohibited terminology)
+const getPersonalityName = (primaryType: string): string => {
+  const personalityNames: Record<string, string> = {
     '1': 'Reformer',
     '2': 'Helper',
     '3': 'Achiever',
@@ -344,7 +341,7 @@ const getTypeName = (primaryType: string): string => {
     '8': 'Challenger',
     '9': 'Peacemaker'
   };
-  return typeNames[primaryType] || 'Reformer';
+  return personalityNames[primaryType] || 'Reformer';
 };
 
 export default Results;
