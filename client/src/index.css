@@ -382,32 +382,30 @@ body {
   text-align: center;
 }
 
-/* Building Block Wrapper - Contains label and container */
+/* Building Block Wrapper - Simple horizontal layout */
 .building-block {
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 24px;
+  align-items: stretch;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-/* Building Block Container - Main content area */
+/* Building Block Container - Clean glass container */
 .building-block-container {
   flex: 1;
-  min-height: 160px;
+  min-height: 120px;
   height: auto;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
-  padding: 32px;
+  padding: 24px;
   cursor: pointer;
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
