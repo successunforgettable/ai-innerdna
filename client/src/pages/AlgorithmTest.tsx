@@ -74,6 +74,33 @@ const AlgorithmTest = () => {
     console.log("=== END DEBUG ===");
   };
 
+  const testHeadFearAssertive = () => {
+    console.log("=== Testing Head + Fear + Assertive Pattern (Section 3.5) ===");
+    
+    // Test the exact pattern that should produce Type 7
+    const testSelections = [0, 0, 1]; // Head, Fear, Assertive (first 3 selections)
+    
+    // Complete with remaining selections for a full test
+    const fullTestSelections = [0, 0, 1, 0, 0, 0, 1, 2, 0]; // Example completion
+    
+    const result = determinePersonalityType(fullTestSelections);
+    
+    console.log("Test selections:", fullTestSelections);
+    console.log("Expected: Type 7");
+    console.log("Actual:", result.primaryType);
+    console.log("All scores:", result.allScores);
+    
+    // Per Section 3.5, Type 7 should score highest, Type 5 should be secondary
+    const type7Score = result.allScores?.type7 || 0;
+    const type8Score = result.allScores?.type8 || 0;
+    const type5Score = result.allScores?.type5 || 0;
+    
+    console.log(`Type 7 score: ${type7Score}`);
+    console.log(`Type 8 score: ${type8Score}`);
+    console.log(`Type 5 score: ${type5Score}`);
+    console.log(`Type 7 > Type 8: ${type7Score > type8Score ? 'YES' : 'NO'}`);
+  };
+
   const testType5Pattern = () => {
     console.log("Testing Type 5 Pattern...");
     const type5Selections = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // All Head/Security/Internal pattern
@@ -144,6 +171,13 @@ const AlgorithmTest = () => {
                 className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg"
               >
                 Debug Type 7 Test
+              </button>
+              
+              <button
+                onClick={testHeadFearAssertive}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+              >
+                Test Head+Fear+Assertive
               </button>
             </div>
             
