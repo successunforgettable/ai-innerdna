@@ -13,6 +13,7 @@ import ColorPhase from "@/pages/ColorPhase";
 import DetailPhase from "@/components/Detail/DetailPhase";
 import Results from "@/pages/Results";
 import Analytics from "@/pages/Analytics";
+import AdminLogin from "@/pages/AdminLogin";
 import NotFound from "@/pages/not-found";
 
 function AppContent() {
@@ -28,7 +29,8 @@ function AppContent() {
       '/color-phase': 'color-phase',
       '/detail-tokens': 'detail-tokens',
       '/results': 'results',
-      '/analytics': 'analytics'
+      '/analytics': 'analytics',
+      '/admin-login': 'admin-login'
     };
     
     const screen = urlToScreen[location as keyof typeof urlToScreen];
@@ -53,6 +55,8 @@ function AppContent() {
         return <Results />;
       case 'analytics':
         return <Analytics />;
+      case 'admin-login':
+        return <AdminLogin />;
       default:
         return <Welcome />;
     }
@@ -75,6 +79,7 @@ function Router() {
       <Route path="/detail-tokens" component={AppContent} />
       <Route path="/results" component={AppContent} />
       <Route path="/analytics" component={AppContent} />
+      <Route path="/admin-login" component={AppContent} />
       <Route component={NotFound} />
     </Switch>
   );
