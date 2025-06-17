@@ -129,10 +129,10 @@ const SUBTYPE_TEST_CASES = [
   { distribution: { self: 7, oneToOne: 2, social: 1 }, expectedPrimary: "self", expectedStack: "dominant" },
   { distribution: { self: 1, oneToOne: 7, social: 2 }, expectedPrimary: "oneToOne", expectedStack: "dominant" },
   { distribution: { self: 2, oneToOne: 1, social: 7 }, expectedPrimary: "social", expectedStack: "dominant" },
-  { distribution: { self: 4, oneToOne: 3, social: 3 }, expectedPrimary: "self", expectedStack: "moderate" },
-  { distribution: { self: 3, oneToOne: 4, social: 3 }, expectedPrimary: "oneToOne", expectedStack: "moderate" },
-  { distribution: { self: 3, oneToOne: 3, social: 4 }, expectedPrimary: "social", expectedStack: "moderate" },
-  { distribution: { self: 3, oneToOne: 4, social: 3 }, expectedPrimary: "oneToOne", expectedStack: "balanced" }
+  { distribution: { self: 6, oneToOne: 2, social: 2 }, expectedPrimary: "self", expectedStack: "moderate" },
+  { distribution: { self: 2, oneToOne: 6, social: 2 }, expectedPrimary: "oneToOne", expectedStack: "moderate" },
+  { distribution: { self: 2, oneToOne: 2, social: 6 }, expectedPrimary: "social", expectedStack: "moderate" },
+  { distribution: { self: 4, oneToOne: 3, social: 3 }, expectedPrimary: "self", expectedStack: "balanced" }
 ];
 
 export class AlgorithmValidator {
