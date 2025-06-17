@@ -1,0 +1,72 @@
+import React from 'react';
+import { getStoredAssessments } from '../utils/dataStorage';
+
+const DataExport = () => {
+  const exportToCSV = () => {
+    const assessments = getStoredAssessments();
+    
+    if (assessments.length === 0) {
+      alert('No assessment data to export');
+      return;
+    }
+
+    // CSV headers per Section 9.2
+    const headers = [
+      'Assessment ID',
+      'Completed At',
+      'Primary Type',
+      'Type Name', 
+      'Wing Name',
+      'Confidence',
+      'Foundation Selections',
+      'Building Selections',
+      'Color Selections',
+      'Subtype Distribution',
+      'Version'
+    ];
+
+    // Convert assessment data to CSV rows
+    const csvData = assessments.map(assessment => [
+      assessment.id,
+      assessment.completedAt,
+      assessment.primaryType,
+      assessment.typeName,
+      assessment.wingName,
+      assessment.confidence,
+      JSON.stringify(assessment.foundationSelections),
+      JSON.stringify(assessment.buildingSelections),
+      JSON.stringify(assessment.colorSelections),
+      JSON.stringify(assessment.subtypeDistribution),
+      assessment.version
+    ]);
+
+    // Create CSV content
+    const csvContent = [headers, ...csvData]
+      .map(row => row.map(field => `"${field}"`).join(','))
+      .join('\n');
+
+    // Download CSV file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `inner-dna-assessments-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div className="mb-6">
+      <button
+        onClick={exportToCSV}
+        className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors"
+      >
+        Export Assessment Data (CSV)
+      </button>
+    </div>
+  );
+};
+
+export default DataExport;

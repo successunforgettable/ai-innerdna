@@ -51,14 +51,14 @@ const Results = () => {
         confidence: confidence,
         
         // Phase Data
-        foundationSelections: foundationData.selections || [],
-        buildingSelections: buildingData.selections || [],
-        colorSelections: colorData.selections || [],
-        colorDistribution: colorData.distribution || {},
-        subtypeDistribution: detailData.tokenDistribution || {},
+        foundationSelections: foundationData || [],
+        buildingSelections: buildingData || [],
+        colorSelections: colorData || [],
+        colorDistribution: colorData || {},
+        subtypeDistribution: detailData || {},
         
         // Analysis Results
-        subtypeResult: detailData.subtypeResult || {},
+        subtypeResult: detailData || {},
         
         // Metadata
         completedAt: new Date().toISOString(),

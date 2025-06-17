@@ -11,6 +11,7 @@ import BuildingBlocks from "@/pages/BuildingBlocks";
 import ColorPhase from "@/pages/ColorPhase";
 import DetailPhase from "@/components/Detail/DetailPhase";
 import Results from "@/pages/Results";
+import Analytics from "@/pages/Analytics";
 import NotFound from "@/pages/not-found";
 
 function AppContent() {
@@ -25,7 +26,8 @@ function AppContent() {
       '/building-blocks': 'building-blocks',
       '/color-phase': 'color-phase',
       '/detail-tokens': 'detail-tokens',
-      '/results': 'results'
+      '/results': 'results',
+      '/analytics': 'analytics'
     };
     
     const screen = urlToScreen[location as keyof typeof urlToScreen];
@@ -48,6 +50,8 @@ function AppContent() {
         return <DetailPhase />;
       case 'results':
         return <Results />;
+      case 'analytics':
+        return <Analytics />;
       default:
         return <Welcome />;
     }
