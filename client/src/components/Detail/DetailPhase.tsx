@@ -59,6 +59,11 @@ const DetailPhase = () => {
     setLocation('/results');
   };
 
+  const handleBackToColorPhase = () => {
+    setCurrentScreen('color-phase');
+    setLocation('/color-phase');
+  };
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
@@ -325,21 +330,25 @@ const DetailPhase = () => {
           </div>
         </div>
 
-        {/* Continue Button */}
-        {isComplete && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-8"
-          >
+        {/* Navigation Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-8 flex justify-between items-center w-full"
+        >
+          <BackButton onBack={handleBackToColorPhase}>
+            ← Back to Color Phase
+          </BackButton>
+          
+          {isComplete && (
             <ContinueButton
               canProceed={isComplete}
               onContinue={handleContinue}
             >
               Continue to Results
             </ContinueButton>
-          </motion.div>
-        )}
+          )}
+        </motion.div>
       </div>
     </motion.div>
   );

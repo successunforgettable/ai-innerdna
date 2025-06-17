@@ -1,11 +1,14 @@
 import React from 'react';
+import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import ReportHeader from '@/components/Results/ReportHeader';
 import TypeDescription from '@/components/Results/TypeDescription';
 import MoodStates from '@/components/Results/MoodStates';
+import BackButton from '@/components/BackButton';
 
 const Results = () => {
-  const { assessmentData } = useAssessment();
+  const [, setLocation] = useLocation();
+  const { assessmentData, setCurrentScreen } = useAssessment();
   
   // Extract data from assessment context
   const foundationData = assessmentData.foundationStones;
@@ -36,10 +39,22 @@ const Results = () => {
   // Check if assessment is complete
   const hasValidData = primaryType && typeName && confidence;
 
+  const handleBackToDetailTokens = () => {
+    setCurrentScreen('detail-tokens');
+    setLocation('/detail-tokens');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
       <div className="container mx-auto px-4 py-8">
         <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 max-w-4xl mx-auto">
+          
+          {/* Back Button */}
+          <div className="mb-6">
+            <BackButton onBack={handleBackToDetailTokens}>
+              ← Back to Detail Tokens
+            </BackButton>
+          </div>
           
           {hasValidData ? (
             <>
