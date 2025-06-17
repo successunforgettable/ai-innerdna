@@ -266,10 +266,7 @@ export default function ColorPhase() {
     setLocation('/detail-tokens');
   };
 
-  const handleBackToBuildingBlocks = () => {
-    setCurrentScreen('building-blocks');
-    setLocation('/building-blocks');
-  };
+
 
   return (
     <motion.div
@@ -381,15 +378,9 @@ export default function ColorPhase() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.3, duration: 0.5 }}
       >
-        <div className="flex justify-between items-center w-full">
-          <BackButton onBack={handleBackToBuildingBlocks}>
-            ← Back to Building Blocks
-          </BackButton>
-          
-          <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
-            Continue to Detail Tokens
-          </ContinueButton>
-        </div>
+        <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
+          Continue to Detail Tokens
+        </ContinueButton>
       </motion.div>
     </motion.div>
   );

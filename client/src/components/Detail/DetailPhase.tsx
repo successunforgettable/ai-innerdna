@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { useAssessment } from '../../context/AssessmentContext';
 import { useLocation } from 'wouter';
 import ContinueButton from '../ContinueButton';
-import BackButton from '../BackButton';
 import Token from './Token';
 import { subtypeDescriptions, type PersonalityType, type SubtypeKey } from '../../utils/subtypeDescriptions';
 import '../../styles/detail-phase.css';
@@ -59,10 +58,7 @@ const DetailPhase = () => {
     setLocation('/results');
   };
 
-  const handleBackToColorPhase = () => {
-    setCurrentScreen('color-phase');
-    setLocation('/color-phase');
-  };
+
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -330,25 +326,21 @@ const DetailPhase = () => {
           </div>
         </div>
 
-        {/* Navigation Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-8 flex justify-between items-center w-full"
-        >
-          <BackButton onBack={handleBackToColorPhase}>
-            ← Back to Color Phase
-          </BackButton>
-          
-          {isComplete && (
+        {/* Continue Button */}
+        {isComplete && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8"
+          >
             <ContinueButton
               canProceed={isComplete}
               onContinue={handleContinue}
             >
               Continue to Results
             </ContinueButton>
-          )}
-        </motion.div>
+          </motion.div>
+        )}
       </div>
     </motion.div>
   );

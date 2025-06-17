@@ -121,10 +121,7 @@ export default function FoundationStones() {
     }
   };
 
-  const handleBackToWelcome = () => {
-    setCurrentScreen('welcome');
-    setLocation('/');
-  };
+
 
   return (
     <div className="page-container">
