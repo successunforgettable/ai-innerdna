@@ -44,9 +44,9 @@ const DetailPhase = () => {
 
   const handleContinue = () => {
     const detailTokens = [
-      { category: 'self', token: `${tokenDistribution.self} tokens` },
-      { category: 'oneToOne', token: `${tokenDistribution.oneToOne} tokens` },
-      { category: 'social', token: `${tokenDistribution.social} tokens` }
+      { category: 'Self-Preservation', token: `${tokenDistribution.self} tokens` },
+      { category: 'One-to-One', token: `${tokenDistribution.oneToOne} tokens` },
+      { category: 'Social', token: `${tokenDistribution.social} tokens` }
     ];
 
     setAssessmentData({

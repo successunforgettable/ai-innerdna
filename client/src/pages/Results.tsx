@@ -151,14 +151,13 @@ const Results = () => {
                 <div className="bg-white/5 rounded-lg p-6 border border-white/10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {(() => {
-                      // Extract state data from localStorage according to spec
+                      // Extract actual state data from localStorage according to ColorPhase structure
                       const savedAssessment = JSON.parse(localStorage.getItem('innerDnaAssessment') || '{}');
                       const colorState = savedAssessment.colorState;
-                      const colorDistribution = JSON.parse(localStorage.getItem('colorDistribution') || '{"left": 50, "right": 50}');
                       
-                      if (colorData && colorData.length >= 2 && colorState) {
-                        const primaryStatePercent = Math.round(colorDistribution.left);
-                        const secondaryStatePercent = Math.round(colorDistribution.right);
+                      if (colorData && colorData.length >= 2 && colorState?.distribution) {
+                        const primaryStatePercent = Math.round(colorState.distribution.primary);
+                        const secondaryStatePercent = Math.round(colorState.distribution.secondary);
                         
                         return (
                           <>
@@ -184,16 +183,16 @@ const Results = () => {
                   <p className="text-white/90 mt-4">
                     {(() => {
                       const savedAssessment = JSON.parse(localStorage.getItem('innerDnaAssessment') || '{}');
-                      const colorDistribution = JSON.parse(localStorage.getItem('colorDistribution') || '{"left": 50, "right": 50}');
+                      const colorState = savedAssessment.colorState;
                       
-                      if (colorData && colorData.length >= 2) {
-                        const primaryPercent = Math.round(colorDistribution.left);
+                      if (colorData && colorData.length >= 2 && colorState?.distribution) {
+                        const primaryPercent = Math.round(colorState.distribution.primary);
                         const primaryState = colorData[0]?.title;
                         
                         if (primaryPercent >= 60) {
-                          return `You tend to operate from a ${primaryState.toLowerCase()} state, showing strong consistency in your emotional patterns.`;
+                          return `You tend to operate from a ${primaryState.toLowerCase()}, showing strong consistency in your emotional patterns.`;
                         } else if (primaryPercent >= 40) {
-                          return `You tend to operate from a balanced but occasionally ${primaryState.toLowerCase()} state, with access to healthier patterns when conditions are supportive.`;
+                          return `You tend to operate from a balanced but occasionally ${primaryState.toLowerCase()}, with access to healthier patterns when conditions are supportive.`;
                         } else {
                           return `Your energy alternates between different states, showing flexibility in how you respond to various situations.`;
                         }
