@@ -21,7 +21,7 @@ const Results = () => {
   // Extract data for components - use actual assessment data
   const primaryType = personalityResult?.primaryType;
   const personalityName = primaryType ? getPersonalityName(primaryType) : undefined;
-  const influenceName = buildingData?.[0]?.name;
+  const influenceNumber = buildingData?.[0]?.wing || '9'; // Show wing number, not block name
   const confidence = personalityResult?.confidence;
 
   // Debug logging
@@ -34,6 +34,7 @@ const Results = () => {
     personalityResult,
     primaryType,
     personalityName,
+    influenceNumber,
     confidence
   });
 
@@ -80,7 +81,7 @@ const Results = () => {
                   The {personalityName}
                 </h1>
                 <p className="text-xl text-white/80 mb-4">
-                  Your influence: {influenceName || buildingData?.[0]?.name || ''}
+                  Your influence: {influenceNumber}
                 </p>
                 <div className="text-lg text-green-400">
                   High Confidence ({Math.round((confidence || 0) * 100)}%)
@@ -131,10 +132,10 @@ const Results = () => {
               {/* Influence Description */}
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Influence: {influenceName || buildingData?.[0]?.name || ''}
+                  Your Influence: {influenceNumber}
                 </h3>
                 <p className="text-lg text-white/90 leading-relaxed">
-                  The {influenceName || buildingData?.[0]?.name || ''} influence brings a peaceful, harmonizing quality to your assertive nature. 
+                  The {influenceNumber} influence brings a peaceful, harmonizing quality to your assertive nature. 
                   You approach challenges through steady, measured means rather than pure force. This influence 
                   helps you maintain relationships while still standing firm in your convictions.
                 </p>
