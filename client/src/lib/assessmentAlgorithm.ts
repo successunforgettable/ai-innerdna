@@ -140,6 +140,29 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
     }
   });
 
+  // CRITICAL: Combination scoring per Section 3.5 Complete Stone-to-Type Mapping Table
+  // Head + Fear + Assertive = Type 7 (REQUIRED by specification)
+  if (selections[0] === 0 && selections[1] === 0 && selections[2] === 1) {
+    // Per replit_innerdna_spec.md Section 3.5: This combination MUST produce Type 7
+    typeScores[7] += 4.0; // Strong boost for Type 7
+    typeScores[5] += 1.0; // Type 5 secondary per spec
+    typeScores[8] = Math.max(0, typeScores[8] - 2.0); // Reduce Type 8 scoring
+    typeScores[6] = Math.max(0, typeScores[6] - 1.0); // Reduce Type 6 scoring
+  }
+
+  // Head + Fear + Compliant = Type 6 (per Section 3.5)
+  if (selections[0] === 0 && selections[1] === 0 && selections[2] === 2) {
+    typeScores[6] += 4.0; // Strong boost for Type 6
+    typeScores[5] += 1.0; // Type 5 secondary per spec
+    typeScores[7] = Math.max(0, typeScores[7] - 2.0); // Reduce Type 7 scoring
+  }
+
+  // Head + Fear + Withdrawn = Type 5 (per Section 3.5)
+  if (selections[0] === 0 && selections[1] === 0 && selections[2] === 0) {
+    typeScores[5] += 4.0; // Strong boost for Type 5
+    typeScores[6] += 1.0; // Type 6 secondary per spec
+  }
+
   // Enhanced Type 6 vs Type 7 differentiation for Head center types
   if (selections[0] === 0 && selections[1] === 0) { // Head + Security/Fear motivation
     if (selections[2] === 1) { // Assertive energy = Type 7 escapes fear through action
