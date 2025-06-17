@@ -53,7 +53,6 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
           typeScores[9] += 2 * weight;
         } else if (selection === 1) { // Assertive BASELINES
           typeScores[3] += 3 * weight;
-          typeScores[6] += 0 * weight;  // Type 6: +0.0 (remove any Type 6 scoring for Assertive)
           typeScores[7] += 3.5 * weight;
           typeScores[8] += 3 * weight;
         } else { // Cooperative BASELINES
