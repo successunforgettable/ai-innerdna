@@ -92,7 +92,7 @@ export default function BuildingBlocks() {
             ))}
           </div>
           
-          <div className="flex justify-between items-center mt-6 gap-4">
+          <div className="flex justify-center items-center mt-6 gap-8">
             <motion.button 
               className="btn-primary"
               onClick={() => {
