@@ -146,3 +146,4 @@ Changelog:
 - June 17, 2025. Added dynamic wing number display in selected building blocks showing calculated wing based on user selection
 - June 17, 2025. Updated tower visualization colors to match welcome screen design with red, purple, orange, green, and blue gradient layers for visual consistency
 - June 17, 2025. Simplified wing number display to show just the number (e.g., "9") instead of "Wing 9" for cleaner presentation
+- June 17, 2025. Fixed wing number calculation to display correct values from building block data instead of recalculating through algorithm

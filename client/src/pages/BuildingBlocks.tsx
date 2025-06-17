@@ -61,8 +61,7 @@ export default function BuildingBlocks() {
   // Get the current wing number for display
   const getCurrentWing = () => {
     if (selectedBlock !== null) {
-      const wingResult = determineWing(primaryType, selectedBlock);
-      return wingResult.wing;
+      return availableBlocks[selectedBlock]?.wing;
     }
     return null;
   };
