@@ -8,6 +8,7 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { stoneSets } from '@/lib/stoneData';
 import { determinePersonalityType } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
+import BackButton from '@/components/BackButton';
 
 export default function FoundationStones() {
   const [, setLocation] = useLocation();
@@ -121,9 +122,9 @@ export default function FoundationStones() {
     }
   };
 
-  const handleBackToBuildingBlocks = () => {
-    setCurrentScreen('building-blocks');
-    setLocation('/building-blocks');
+  const handleBackToWelcome = () => {
+    setCurrentScreen('welcome');
+    setLocation('/');
   };
 
   return (
@@ -135,12 +136,9 @@ export default function FoundationStones() {
       />
       
       <div className="flex justify-start mb-4">
-        <button
-          className="btn-secondary"
-          onClick={handleBackToBuildingBlocks}
-        >
-          ← Back to Building Blocks
-        </button>
+        <BackButton onBack={handleBackToWelcome}>
+          ← Back to Welcome
+        </BackButton>
       </div>
       
       <div className="foundation-content">
