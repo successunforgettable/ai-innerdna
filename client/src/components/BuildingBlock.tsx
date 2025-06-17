@@ -15,20 +15,40 @@ const CheckIcon = () => (
 );
 
 const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: BuildingBlockProps) => (
-  <div className="building-block">
-    <div className="building-block-label">{blockName}</div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+    <div style={{ 
+      width: '60px', 
+      fontSize: '18px', 
+      fontWeight: '700', 
+      color: '#fbbf24',
+      textAlign: 'left'
+    }}>
+      {blockName}
+    </div>
     <motion.div
-      className={`building-block-container ${isSelected ? 'selected' : ''}`}
+      style={{
+        flex: 1,
+        minHeight: '100px',
+        background: 'rgba(255, 255, 255, 0.08)',
+        backdropFilter: 'blur(12px)',
+        border: isSelected ? '1px solid rgba(59, 130, 246, 0.4)' : '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: '20px',
+        padding: '24px',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative'
+      }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onSelect}
-      transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 20
-      }}
     >
-      <div className="building-block-description">
+      <div style={{
+        color: '#ffffff',
+        fontSize: '14px',
+        lineHeight: '1.5',
+        width: '100%'
+      }}>
         {content}
       </div>
       {isSelected && <CheckIcon />}
