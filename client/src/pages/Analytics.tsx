@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getStoredAssessments } from '@/lib/assessmentStorage';
+import DataExport from '@/components/DataExport';
 
 interface AnalyticsStats {
   totalCompletions: number;
@@ -49,6 +50,9 @@ const Analytics = () => {
           <h1 className="text-4xl font-bold text-yellow-400 mb-8">
             Assessment Analytics
           </h1>
+
+          {/* Data Export */}
+          <DataExport />
 
           {/* Summary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
