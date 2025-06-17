@@ -56,9 +56,9 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   },
   {
     id: "HEART_PURE_TYPE3",
-    description: "Heart center produces Type 8 per specification",
+    description: "Pure Heart center with achievement focus → Type 3",
     selections: [1, 1, 1, 2, 2, 1, 2, 2, 2], // Heart + Identity + Assertive
-    expectedType: "8"
+    expectedType: "3"
   },
   {
     id: "HEART_PURE_TYPE4",
