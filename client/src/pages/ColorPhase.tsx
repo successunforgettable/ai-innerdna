@@ -380,34 +380,26 @@ export default function ColorPhase() {
       >
         <div className="flex justify-between items-center w-full">
           <motion.button
-            className="continue-button enabled"
+            className="btn-primary"
             onClick={() => {
               setCurrentScreen('building-blocks');
               setLocation('/building-blocks');
             }}
-            whileHover={{ 
-              scale: 1.05,
-              y: -2,
-              transition: { duration: 0.2 }
-            }}
-            whileTap={{ 
-              scale: 0.95,
-              y: 0,
-              transition: { duration: 0.1 }
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ 
-              opacity: 1, 
-              y: 0,
-              transition: { delay: 0.8, duration: 0.4 }
-            }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             ← Back to Building Blocks
           </motion.button>
           
-          <ContinueButton canProceed={canProceed} onContinue={handleContinue}>
+          <motion.button
+            className="btn-primary"
+            disabled={!canProceed}
+            onClick={handleContinue}
+            whileHover={canProceed ? { scale: 1.02 } : {}}
+            whileTap={canProceed ? { scale: 0.98 } : {}}
+          >
             Continue to Detail Tokens
-          </ContinueButton>
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>

@@ -161,23 +161,27 @@ export default function FoundationStones() {
           </motion.div>
 
           <div className="flex justify-between items-center mt-6">
-            <button
+            <motion.button
               className="btn-primary"
               onClick={() => {
                 setCurrentScreen('welcome');
                 setLocation('/');
               }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               ← Back to Welcome
-            </button>
+            </motion.button>
             
             {selectedStone !== null && (
-              <button
+              <motion.button
                 className="btn-primary"
                 onClick={handleNextSet}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {currentStoneSet === stoneSets.length - 1 ? 'Complete Foundation' : 'Next Set →'}
-              </button>
+              </motion.button>
             )}
           </div>
         </div>
