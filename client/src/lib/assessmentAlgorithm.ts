@@ -142,69 +142,6 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
     }
   });
 
-  // CRITICAL: Combination scoring per Section 3.5 Complete Stone-to-Type Mapping Table
-  // Head + Fear + Assertive = Type 7 (REQUIRED by specification)
-  if (selections[0] === 0 && selections[1] === 0 && selections[2] === 1) {
-    // Per replit_innerdna_spec.md Section 3.5: This combination MUST produce Type 7
-    typeScores[7] += 8.0; // Stronger boost for Type 7 to ensure dominance
-    typeScores[5] += 1.0; // Type 5 secondary per spec
-    typeScores[8] = Math.max(0, typeScores[8] - 3.0); // Reduce Type 8 scoring more
-    typeScores[6] = Math.max(0, typeScores[6] - 3.0); // Reduce Type 6 scoring more
-  }
-
-  // Head + Fear + Compliant = Type 6 (per Section 3.5)
-  if (selections[0] === 0 && selections[1] === 0 && selections[2] === 2) {
-    typeScores[6] += 4.0; // Strong boost for Type 6
-    typeScores[5] += 1.0; // Type 5 secondary per spec
-    typeScores[7] = Math.max(0, typeScores[7] - 2.0); // Reduce Type 7 scoring
-  }
-
-  // Head + Fear + Withdrawn = Type 5 (per Section 3.5)
-  if (selections[0] === 0 && selections[1] === 0 && selections[2] === 0) {
-    typeScores[5] += 4.0; // Strong boost for Type 5
-    typeScores[6] += 1.0; // Type 6 secondary per spec
-  }
-
-  // Enhanced Type 6 vs Type 7 differentiation for Head center types
-  if (selections[0] === 0 && selections[1] === 0) { // Head + Security/Fear motivation
-    if (selections[2] === 1) { // Assertive energy = Type 7 escapes fear through action
-      typeScores[7] += 2 * weights[2];
-      typeScores[6] -= 0.5 * weights[2];
-      // Reduce Type 8 when it's escape-focused assertiveness, not control-focused
-      if (selections[4] !== 2 && selections[5] !== 2) { // Not Power + Control focused
-        typeScores[8] -= 1 * weights[2];
-      }
-    } else if (selections[2] === 2) { // Cooperative energy = Type 6 seeks security through structure
-      typeScores[6] += 2 * weights[2];
-      typeScores[7] -= 0.5 * weights[2];
-    }
-  }
-
-  // Type 7 vs Type 8 differentiation - both can be assertive but different motivations
-  if (selections[0] === 0 && selections[2] === 1) { // Head + Assertive
-    // Type 7 pattern: Connection-focused, Emotional, Recognition-seeking (escape-focused)
-    if (selections[3] === 1 && selections[4] === 1 && selections[5] === 0) {
-      typeScores[7] += 2 * weights[3];
-      typeScores[8] -= 1 * weights[3];
-    }
-    // Type 8 pattern: Autonomy-focused, Power, Control (control-focused)
-    if (selections[3] === 2 && selections[5] === 2) {
-      typeScores[8] += 2 * weights[3];
-      typeScores[7] -= 1 * weights[3];
-    }
-  }
-
-  // Additional differentiation in conflict style
-  if (selections[0] === 0) { // Head center types
-    if (selections[6] === 2) { // Direct conflict style - Type 7 more likely
-      typeScores[7] += 1.5 * weights[6];
-      typeScores[6] += 0.5 * weights[6];
-    } else if (selections[6] === 1) { // Support conflict style - Type 6 more likely
-      typeScores[6] += 1.5 * weights[6];
-      typeScores[7] += 0.5 * weights[6];
-    }
-  }
-
   // Calculate total and normalize scores - EXACT from specification
   const totalScore = Object.values(typeScores).reduce((sum, score) => sum + score, 0);
   const normalizedScores: Record<string, number> = {};
