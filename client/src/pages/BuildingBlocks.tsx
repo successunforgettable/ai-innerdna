@@ -136,9 +136,7 @@ export default function BuildingBlocks() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <span className="foundation-text">
-                {getCurrentWing() ? `Type ${primaryType} Wing ${getCurrentWing()}` : `Type ${primaryType} Foundation`}
-              </span>
+              <span className="foundation-text">Foundation Stones Complete</span>
             </motion.div>
             
             <div className="building-block-area">
@@ -156,6 +154,8 @@ export default function BuildingBlocks() {
                   }}
                 >
                   {availableBlocks[selectedBlock]?.name}
+                  <br />
+                  Wing {getCurrentWing()}
                 </motion.div>
               )}
             </div>

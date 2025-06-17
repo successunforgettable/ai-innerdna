@@ -142,3 +142,5 @@ Changelog:
 - June 17, 2025. Corrected Color Phase slider percentage inversion - percentages now increase correctly when moving towards each respective state
 - June 17, 2025. Fixed Detail Tokens page button sizing to match 85% sizing rule by converting continue-button class to btn-primary class
 - June 17, 2025. Added gap spacing between navigation buttons on Building Blocks, Color Phase, and Detail Tokens pages for improved visual balance
+- June 17, 2025. Fixed button positioning to center alignment with proper spacing instead of justify-between layout
+- June 17, 2025. Added dynamic wing number display in selected building blocks showing calculated wing based on user selection
