@@ -29,7 +29,7 @@ const AlgorithmTest = () => {
     console.log("=== DEBUGGING TYPE 7 ALGORITHM ===");
     
     // Get the exact Type 7 test case
-    const type7Selections = [0, 0, 1, 1, 1, 1, 1, 1, 1];
+    const type7Selections = [0, 0, 1, 2, 1, 2, 2, 2, 2];
     console.log("Type 7 Test Selections:", type7Selections);
     
     // Run the algorithm with detailed logging
@@ -72,6 +72,28 @@ const AlgorithmTest = () => {
     });
     
     console.log("=== END DEBUG ===");
+  };
+
+  const testType5Pattern = () => {
+    console.log("Testing Type 5 Pattern...");
+    const type5Selections = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // All Head/Security/Internal pattern
+    const result = determinePersonalityType(type5Selections);
+    console.log("Type 5 Test:", result);
+  };
+
+  const testType8Pattern = () => {
+    console.log("Testing Type 8 Pattern...");
+    const type8Selections = [2, 2, 1, 2, 2, 2, 2, 2, 2]; // All Body/Power/Assertive pattern
+    const result = determinePersonalityType(type8Selections);
+    console.log("Type 8 Test:", result);
+  };
+
+  const testWingCalculation = () => {
+    console.log("Testing Wing Calculation...");
+    const wing1Test = determineWing("1", 0);
+    const wing2Test = determineWing("1", 1);
+    console.log("Type 1 Wing 0:", wing1Test);
+    console.log("Type 1 Wing 1:", wing2Test);
   };
 
   const updateSelection = (index: number, value: number) => {
