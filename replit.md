@@ -32,7 +32,7 @@ This is a full-stack web application for conducting personality assessments base
 ## Key Components
 
 ### Assessment Flow
-1. **Welcome Screen**: User registration with email and optional name fields
+1. **Welcome Screen**: Full user registration with email, name, phone number, and password authentication
 2. **Foundation Stones**: 9 sets of 3 stones each representing core personality dimensions
 3. **Building Blocks**: Selection of personality building blocks that stack visually
 4. **Color States**: Selection of up to 3 emotional/behavioral states

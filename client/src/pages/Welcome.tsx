@@ -8,54 +8,105 @@ import { TowerVisualization } from '@/components/TowerVisualization';
 import styles from './Welcome.module.css';
 
 export default function Welcome() {
+  const [isLoginMode, setIsLoginMode] = useState(false);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [showVerification, setShowVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
   const [, setLocation] = useLocation();
   const { setCurrentUser, setCurrentScreen } = useAssessment();
 
-  const createUserMutation = useMutation({
-    mutationFn: async (userData: any) => {
-      const response = await apiRequest('POST', '/api/users', userData);
+  const authMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+      const response = await apiRequest('POST', endpoint, data);
       return response.json();
     },
-    onSuccess: (user) => {
-      setCurrentUser(user);
+    onSuccess: (result) => {
+      if (result.requiresVerification) {
+        setShowVerification(true);
+      } else {
+        setCurrentUser(result.user);
+        setCurrentScreen('foundation-stones');
+        setLocation('/foundation-stones');
+      }
+    }
+  });
+
+  const verifyMutation = useMutation({
+    mutationFn: async (data: { email: string; code: string }) => {
+      const response = await apiRequest('POST', '/api/auth/verify-email', data);
+      return response.json();
+    },
+    onSuccess: () => {
+      // After verification, start assessment
+      setCurrentUser({ 
+        id: 0, 
+        email, 
+        firstName, 
+        lastName, 
+        phoneNumber,
+        startedAt: new Date(),
+        completedAt: null,
+        assessmentData: null,
+        passwordHash: null,
+        emailVerified: new Date(),
+        phoneVerified: null,
+        verificationCode: null,
+        resetToken: null,
+        resetTokenExpiry: null
+      });
       setCurrentScreen('foundation-stones');
       setLocation('/foundation-stones');
     }
   });
 
   const handleStart = () => {
-    // Required fields validation for registration
     if (!email.trim()) {
       alert('Email is required to continue');
       return;
     }
-    if (!firstName.trim()) {
-      alert('First name is required to continue');
-      return;
-    }
-    if (!lastName.trim()) {
-      alert('Last name is required to continue');
-      return;
-    }
-    if (!phoneNumber.trim()) {
-      alert('Phone number is required for WhatsApp report delivery');
+    if (!password.trim()) {
+      alert('Password is required');
       return;
     }
 
-    // Registration form structure
-    const registrationForm = {
+    if (isLoginMode) {
+      // Login validation
+      authMutation.mutate({
+        email: email.trim(),
+        password: password.trim()
+      });
+    } else {
+      // Registration validation
+      if (!firstName.trim() || !lastName.trim() || !phoneNumber.trim()) {
+        alert('All fields are required for registration');
+        return;
+      }
+
+      authMutation.mutate({
+        email: email.trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        phoneNumber: phoneNumber.trim(),
+        password: password.trim()
+      });
+    }
+  };
+
+  const handleVerification = () => {
+    if (!verificationCode.trim()) {
+      alert('Verification code is required');
+      return;
+    }
+
+    verifyMutation.mutate({
       email: email.trim(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      phoneNumber: phoneNumber.trim(),
-      timestamp: Date.now()
-    };
-
-    createUserMutation.mutate(registrationForm);
+      code: verificationCode.trim()
+    });
   };
 
   // Tower Preview Animation - correct orientation with largest at bottom
@@ -287,12 +338,41 @@ export default function Welcome() {
               transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             />
           </motion.div>
+
+          {/* Password Field */}
+          <motion.div 
+            className={styles.formGroup}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.9, duration: 0.3 }}
+          >
+            <label htmlFor="password" className={styles.formLabel}>Password *</label>
+            <motion.input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className={styles.formInput}
+              required
+              whileFocus={{ 
+                scale: 1.02,
+                boxShadow: "0 0 0 4px rgba(59, 130, 246, 0.15)",
+                borderColor: "var(--blue-primary)"
+              }}
+              whileHover={{ 
+                borderColor: "var(--blue-primary)",
+                boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.1)"
+              }}
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            />
+          </motion.div>
         </motion.div>
         
         {/* StartButton - exact from spec */}
         <motion.button
           onClick={handleStart}
-          disabled={createUserMutation.isPending}
+          disabled={authMutation.isPending}
           className={styles.startButton}
           variants={itemVariants}
           whileHover={{ 
@@ -305,7 +385,7 @@ export default function Welcome() {
             ease: [0.4, 0, 0.2, 1]
           }}
         >
-          {createUserMutation.isPending ? 'Starting...' : 'Begin Your Journey'}
+          {authMutation.isPending ? 'Starting...' : 'Begin Your Journey'}
         </motion.button>
       </motion.div>
     </div>
