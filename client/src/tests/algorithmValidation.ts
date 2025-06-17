@@ -43,7 +43,7 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   {
     id: "HEAD_PURE_TYPE7",
     description: "Pure Head center with optimism focus → Type 7", 
-    selections: [0, 0, 1, 0, 0, 0, 2, 2, 0], // Head + Security + Assertive + Independence + Conceptual + Cautious + Directness + Achievement + Independence
+    selections: [0, 0, 1, 1, 1, 1, 1, 1, 1], // Head + Security + Assertive + Connection + Emotional + Recognition + Support + Relational + Reciprocity
     expectedType: "7"
   },
   
