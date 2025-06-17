@@ -8,7 +8,6 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { stoneSets } from '@/lib/stoneData';
 import { determinePersonalityType } from '@/lib/assessmentAlgorithm';
 import { motion } from 'framer-motion';
-import BackButton from '@/components/BackButton';
 
 export default function FoundationStones() {
   const [, setLocation] = useLocation();
@@ -134,12 +133,6 @@ export default function FoundationStones() {
         total={9} 
         label="Foundation Stones" 
       />
-      
-      <div className="flex justify-start mb-4">
-        <BackButton onBack={handleBackToWelcome}>
-          ← Back to Welcome
-        </BackButton>
-      </div>
       
       <div className="foundation-content">
         <div className="glass-container">

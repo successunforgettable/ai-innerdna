@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import StateCard from '@/components/StateCard';
 import StateSlider from '@/components/StateSlider';
 import ContinueButton from '@/components/ContinueButton';
-import BackButton from '@/components/BackButton';
 import { TowerVisualization } from '@/components/TowerVisualization';
 import { stateOptions } from '@/lib/stateOptions';
 import stateDescriptionsPart1 from '@/lib/stateDescriptionsPart1';
