@@ -21,7 +21,11 @@ const BuildingBlock = ({ content, isSelected, onSelect, gradient, blockName }: B
       fontSize: '18px', 
       fontWeight: '700', 
       color: '#fbbf24',
-      textAlign: 'left'
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100px'
     }}>
       {blockName}
     </div>
