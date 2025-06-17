@@ -42,6 +42,16 @@ const DetailPhase = () => {
     }
   };
 
+  const handleTokenRemove = (containerId: string) => {
+    const currentCount = tokenDistribution[containerId as keyof TokenDistribution];
+    if (currentCount > 0) {
+      setTokenDistribution(prev => ({
+        ...prev,
+        [containerId]: prev[containerId as keyof TokenDistribution] - 1
+      }));
+    }
+  };
+
   const handleContinue = () => {
     const detailTokens = [
       { category: 'Self-Preservation', token: `${tokenDistribution.self} tokens` },
@@ -188,7 +198,15 @@ const DetailPhase = () => {
               
               <div className="tokens-display">
                 {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                  <div key={index} className="placed-token" />
+                  <div 
+                    key={index} 
+                    className="placed-token clickable-token" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleTokenRemove(container.id);
+                    }}
+                    title="Click to remove token"
+                  />
                 ))}
               </div>
             </div>
