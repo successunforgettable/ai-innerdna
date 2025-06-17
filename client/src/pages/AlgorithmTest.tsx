@@ -25,6 +25,55 @@ const AlgorithmTest = () => {
     setCustomResult(result);
   };
 
+  const debugType7Test = () => {
+    console.log("=== DEBUGGING TYPE 7 ALGORITHM ===");
+    
+    // Get the exact Type 7 test case
+    const type7Selections = [0, 0, 1, 2, 2, 1, 2, 0, 1];
+    console.log("Type 7 Test Selections:", type7Selections);
+    
+    // Run the algorithm with detailed logging
+    const result = determinePersonalityType(type7Selections);
+    
+    console.log("Algorithm Result:", result);
+    console.log("All Type Scores:", result.rawScores);
+    console.log("Normalized Scores:", result.allScores);
+    
+    // Check specific scoring patterns
+    console.log("\n=== SCORE ANALYSIS ===");
+    if (result.rawScores) {
+      console.log(`Type 5 Raw Score: ${result.rawScores[5] || 0}`);
+      console.log(`Type 6 Raw Score: ${result.rawScores[6] || 0}`);
+      console.log(`Type 7 Raw Score: ${result.rawScores[7] || 0}`);
+      console.log(`Type 8 Raw Score: ${result.rawScores[8] || 0}`);
+      
+      const type7Score = result.rawScores[7] || 0;
+      const type5Score = result.rawScores[5] || 0;
+      console.log(`Type 7 vs Type 5 Difference: ${type7Score - type5Score}`);
+    }
+    
+    // Test individual selection impacts
+    console.log("\n=== SELECTION IMPACT ANALYSIS ===");
+    const selectionLabels = [
+      ['Head', 'Heart', 'Body'],
+      ['Security', 'Identity', 'Power'],
+      ['Internal', 'Assertive', 'Cooperative'],
+      ['Independence', 'Connection', 'Autonomy'],
+      ['Conceptual', 'Emotional', 'Practical'],
+      ['Cautious', 'Recognition', 'Control'],
+      ['Harmony', 'Support', 'Directness'],
+      ['Standard', 'Relational', 'Achievement'],
+      ['Independence', 'Reciprocity', 'Leadership']
+    ];
+    
+    type7Selections.forEach((selection, index) => {
+      const label = selectionLabels[index] ? selectionLabels[index][selection] : `Option ${selection}`;
+      console.log(`Set ${index + 1}: Selection ${selection} (${label})`);
+    });
+    
+    console.log("=== END DEBUG ===");
+  };
+
   const updateSelection = (index: number, value: number) => {
     const newSelections = [...customSelections];
     newSelections[index] = value;
@@ -59,13 +108,22 @@ const AlgorithmTest = () => {
               Tests all 9 personality types, 18 wing combinations, and 7 subtype scenarios against the specification.
             </p>
             
-            <button
-              onClick={runComprehensiveTests}
-              disabled={testingInProgress}
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors mb-4"
-            >
-              {testingInProgress ? 'Running Tests...' : 'Run All Tests'}
-            </button>
+            <div className="flex gap-4 mb-4">
+              <button
+                onClick={runComprehensiveTests}
+                disabled={testingInProgress}
+                className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                {testingInProgress ? 'Running Tests...' : 'Run All Tests'}
+              </button>
+              
+              <button
+                onClick={debugType7Test}
+                className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg"
+              >
+                Debug Type 7 Test
+              </button>
+            </div>
             
             {summary && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
