@@ -89,6 +89,7 @@ function Router() {
       <Route path="/results" component={AppContent} />
       <Route path="/analytics" component={AppContent} />
       <Route path="/admin-login" component={AppContent} />
+      <Route path="/algorithm-test" component={AppContent} />
       <Route component={NotFound} />
     </Switch>
   );
