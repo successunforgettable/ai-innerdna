@@ -293,7 +293,7 @@ export default function ColorPhase() {
           variants={cardVariants}
         >
           <div className="glass-container">
-            <h3 className="section-title" style={{ color: '#d97706' }}>State Selection</h3>
+            <h3 className="section-title" style={{ color: '#fbbf24' }}>State Selection</h3>
             <p className="section-description">Choose exactly 2 color palettes from the 5 options below</p>
             
             <div className="color-states-grid">
@@ -363,7 +363,7 @@ export default function ColorPhase() {
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
             <TowerVisualization
-              title={<span style={{ color: '#d97706' }}>Your Tower</span>}
+              title={<span style={{ color: '#fbbf24' }}>Your Tower</span>}
               selectedStates={selectedStates}
               distribution={colorDistribution}
               stateOptions={stateOptions}
