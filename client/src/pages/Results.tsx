@@ -1,9 +1,11 @@
 import React from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
+import { motion } from 'framer-motion';
 import ReportHeader from '@/components/Results/ReportHeader';
 import TypeDescription from '@/components/Results/TypeDescription';
 import MoodStates from '@/components/Results/MoodStates';
+import '@/styles/design-system.css';
 
 const Results = () => {
   const [, setLocation] = useLocation();
@@ -38,27 +40,37 @@ const Results = () => {
   // Check if assessment is complete
   const hasValidData = primaryType && typeName && confidence;
 
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
+    <motion.div 
+      className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       
       {/* Back Button */}
       <div className="max-w-6xl mx-auto mb-6">
-        <button
+        <motion.button
           onClick={() => {
             setCurrentScreen('detail-tokens');
             setLocation('/detail-tokens');
           }}
           className="btn-primary"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
           ← Back to Detail Tokens
-        </button>
+        </motion.button>
       </div>
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto">
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 shadow-2xl">
+        <motion.div 
+          className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 shadow-2xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           
           {hasValidData ? (
             <>
@@ -133,9 +145,9 @@ const Results = () => {
             </div>
           )}
           
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
