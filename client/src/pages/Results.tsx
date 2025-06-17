@@ -130,6 +130,117 @@ const Results = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Wing Influence */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                  Your Influence: {wingName}
+                </h3>
+                <p className="text-lg text-white/90 leading-relaxed">
+                  The {wingName} influence brings a peaceful, harmonizing quality to your assertive nature. 
+                  You approach challenges through steady, measured means rather than pure force. This influence 
+                  helps you maintain relationships while still standing firm in your convictions.
+                </p>
+              </div>
+
+              {/* State Analysis */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                  Your Current State Distribution
+                </h3>
+                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="text-lg font-semibold text-white mb-2">Primary State</h4>
+                      <p className="text-white/80">{colorData?.primaryState || 'Average'}: {colorData?.distribution?.primary || 70}%</p>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-white mb-2">Secondary State</h4>
+                      <p className="text-white/80">{colorData?.secondaryState || 'Good'}: {colorData?.distribution?.secondary || 30}%</p>
+                    </div>
+                  </div>
+                  <p className="text-white/90 mt-4">
+                    You tend to operate from a balanced but occasionally stressed state, with access to 
+                    healthier patterns when conditions are supportive.
+                  </p>
+                </div>
+              </div>
+
+              {/* Subtype Analysis */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                  Your Subtype Focus
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-2">🛡️</span>
+                      <h4 className="text-lg font-semibold text-blue-400">Self-Preservation</h4>
+                    </div>
+                    <p className="text-sm text-white/80">
+                      {detailData?.subtypeResult?.dominance?.self || 40}% - Focus on personal security and routines
+                    </p>
+                  </div>
+                  
+                  <div className="bg-red-500/20 rounded-lg p-4 border border-red-400/30">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-2">🔥</span>
+                      <h4 className="text-lg font-semibold text-red-400">One-to-One</h4>
+                    </div>
+                    <p className="text-sm text-white/80">
+                      {detailData?.subtypeResult?.dominance?.oneToOne || 30}% - Focus on intense personal connections
+                    </p>
+                  </div>
+                  
+                  <div className="bg-green-500/20 rounded-lg p-4 border border-green-400/30">
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-2">🧱</span>
+                      <h4 className="text-lg font-semibold text-green-400">Social</h4>
+                    </div>
+                    <p className="text-sm text-white/80">
+                      {detailData?.subtypeResult?.dominance?.social || 30}% - Focus on group dynamics and community
+                    </p>
+                  </div>
+                </div>
+                <p className="text-white/90 mt-4">
+                  Your energy is primarily focused on {detailData?.subtypeResult?.primary || 'self-preservation'}, 
+                  showing how you naturally prioritize and direct your attention.
+                </p>
+              </div>
+
+              {/* Growth Recommendations */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                  Growth Recommendations
+                </h3>
+                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-6 border border-purple-400/30">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-lg font-semibold text-purple-400 mb-2">For Personal Development:</h4>
+                      <p className="text-white/90">
+                        Practice vulnerability and emotional openness. Allow others to support you without 
+                        seeing it as weakness. Develop patience with those who process differently than you.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-semibold text-purple-400 mb-2">In Relationships:</h4>
+                      <p className="text-white/90">
+                        Work on expressing your softer emotions and needs. Practice listening without 
+                        immediately moving to action or solutions. Show appreciation for others' contributions.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-semibold text-purple-400 mb-2">At Work:</h4>
+                      <p className="text-white/90">
+                        Delegate more and trust others' capabilities. Practice collaborative decision-making. 
+                        Use your natural leadership to empower others rather than controlling outcomes.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </>
           ) : (
             <div className="text-center">
