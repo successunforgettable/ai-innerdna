@@ -161,14 +161,15 @@ export default function FoundationStones() {
           </motion.div>
 
           <div className="flex justify-between items-center mt-6">
-            {currentStoneSet > 0 && (
-              <button
-                className="btn-secondary"
-                onClick={handlePrevious}
-              >
-                ← Previous Set
-              </button>
-            )}
+            <button
+              className="btn-primary"
+              onClick={() => {
+                setCurrentScreen('welcome');
+                setLocation('/');
+              }}
+            >
+              ← Back to Welcome
+            </button>
             
             {selectedStone !== null && (
               <button
