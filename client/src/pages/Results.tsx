@@ -20,6 +20,19 @@ const Results = () => {
   const wingName = buildingData?.[0]?.name;
   const confidence = personalityResult?.confidence;
 
+  // Debug logging
+  console.log('Results Debug:', {
+    assessmentData,
+    foundationData,
+    buildingData,
+    colorData,
+    detailData,
+    personalityResult,
+    primaryType,
+    typeName,
+    confidence
+  });
+
   // Check if assessment is complete
   const hasValidData = primaryType && typeName && confidence;
 
