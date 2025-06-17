@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
 import ReportHeader from '@/components/Results/ReportHeader';
 import TypeDescription from '@/components/Results/TypeDescription';
 import MoodStates from '@/components/Results/MoodStates';
+import { saveAssessmentData } from '@/lib/assessmentStorage';
 import '@/styles/design-system.css';
 
 const Results = () => {
@@ -37,6 +38,39 @@ const Results = () => {
     influenceNumber,
     confidence
   });
+
+  // Add this useEffect after the existing data extraction:
+  useEffect(() => {
+    // Save assessment data when results are displayed
+    if (foundationData && buildingData && colorData && detailData) {
+      const completeAssessment = {
+        // Core Results
+        primaryType: primaryType,
+        typeName: personalityName,
+        wingName: influenceNumber,
+        confidence: confidence,
+        
+        // Phase Data
+        foundationSelections: foundationData.selections || [],
+        buildingSelections: buildingData.selections || [],
+        colorSelections: colorData.selections || [],
+        colorDistribution: colorData.distribution || {},
+        subtypeDistribution: detailData.tokenDistribution || {},
+        
+        // Analysis Results
+        subtypeResult: detailData.subtypeResult || {},
+        
+        // Metadata
+        completedAt: new Date().toISOString(),
+        version: 'v1.0'
+      };
+      
+      const assessmentId = saveAssessmentData(completeAssessment);
+      if (assessmentId) {
+        console.log('Assessment saved with ID:', assessmentId);
+      }
+    }
+  }, [foundationData, buildingData, colorData, detailData, primaryType, personalityName, influenceNumber, confidence]);
 
   // Check if assessment is complete
   const hasValidData = primaryType && personalityName && confidence;
