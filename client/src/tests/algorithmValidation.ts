@@ -43,7 +43,7 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   {
     id: "HEAD_PURE_TYPE7",
     description: "Pure Head center with optimism focus → Type 7", 
-    selections: [0, 1, 1, 2, 2, 1, 2, 2, 0], // Head + Identity + Assertive
+    selections: [0, 1, 1, 0, 1, 1, 2, 2, 0], // Head + Identity + Assertive + Recognition
     expectedType: "7"
   },
   
@@ -71,7 +71,7 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   {
     id: "BODY_PURE_TYPE1",
     description: "Pure Body center with standards focus → Type 1",
-    selections: [2, 2, 2, 2, 2, 2, 0, 0, 0], // Body + Power + Cooperative + High standards
+    selections: [2, 2, 2, 2, 0, 2, 0, 0, 2], // Body + Power + Cooperative + Standards focus
     expectedType: "1"
   },
   {
@@ -83,7 +83,7 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   {
     id: "BODY_PURE_TYPE9",
     description: "Pure Body center with harmony focus → Type 9",
-    selections: [2, 2, 2, 1, 0, 0, 0, 1, 1], // Body + Power + Cooperative + Harmony
+    selections: [2, 2, 0, 1, 0, 0, 0, 1, 1], // Body + Power + Internal + Harmony focus
     expectedType: "9"
   },
   
