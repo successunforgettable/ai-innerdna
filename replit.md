@@ -137,3 +137,4 @@ Changelog:
 - June 17, 2025. Resolved Detail Tokens page runtime errors by adding proper null checking for assessment data and fixed building block name display in tower visualization
 - June 17, 2025. Updated Color Phase description text to more engaging copy and completed comprehensive testing verification of full assessment flow functionality
 - June 17, 2025. Reduced all button sizes to 85% (padding, border radius, font size) across entire assessment platform per user requirement
+- June 17, 2025. Enhanced tower visualization with distinct solid colors for each layer (orange, green, purple, gray) and black text while preserving exact tower dimensions and shape

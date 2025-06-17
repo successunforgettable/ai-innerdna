@@ -205,9 +205,7 @@ const DetailPhase = () => {
                 style={{
                   width: '120px',
                   height: '40px',
-                  background: 'rgba(245, 158, 11, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(245, 158, 11, 0.3)',
+                  background: '#f59e0b',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -217,7 +215,7 @@ const DetailPhase = () => {
                 }}
               >
                 <span style={{ 
-                  color: '#f59e0b', 
+                  color: '#000000', 
                   fontSize: '0.75rem', 
                   fontWeight: '600',
                   textAlign: 'center'
@@ -237,9 +235,7 @@ const DetailPhase = () => {
                 style={{
                   width: '140px',
                   height: '40px',
-                  background: 'rgba(16, 185, 129, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  background: '#10b981',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -249,7 +245,7 @@ const DetailPhase = () => {
                 }}
               >
                 <span style={{ 
-                  color: '#10b981', 
+                  color: '#000000', 
                   fontSize: '0.75rem', 
                   fontWeight: '600',
                   textAlign: 'center'
@@ -269,9 +265,7 @@ const DetailPhase = () => {
                 style={{
                   width: '160px',
                   height: '40px',
-                  background: 'rgba(139, 92, 246, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(139, 92, 246, 0.3)',
+                  background: '#8b5cf6',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -281,7 +275,7 @@ const DetailPhase = () => {
                 }}
               >
                 <span style={{ 
-                  color: '#8b5cf6', 
+                  color: '#000000', 
                   fontSize: '0.75rem', 
                   fontWeight: '600',
                   textAlign: 'center'
@@ -301,9 +295,7 @@ const DetailPhase = () => {
                 style={{
                   width: '180px',
                   height: '40px',
-                  background: 'rgba(107, 114, 128, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(107, 114, 128, 0.3)',
+                  background: '#6b7280',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -312,7 +304,7 @@ const DetailPhase = () => {
                 }}
               >
                 <span style={{ 
-                  color: '#6b7280', 
+                  color: '#000000', 
                   fontSize: '0.75rem', 
                   fontWeight: '600',
                   textAlign: 'center'
