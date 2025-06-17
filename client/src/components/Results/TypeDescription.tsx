@@ -52,14 +52,9 @@ const TypeDescription = ({ primaryType, typeName }: TypeDescriptionProps) => {
   }
 
   return (
-    <div className="mb-8">
-      <h3 className="text-2xl font-bold text-yellow-400 mb-4">
-        Your Inner DNA: The {typeInfo.name}
-      </h3>
-      <p className="text-lg text-white/90 leading-relaxed">
-        {typeInfo.description}
-      </p>
-    </div>
+    <p className="text-lg text-white/90 leading-relaxed">
+      {typeInfo.description}
+    </p>
   );
 };
 

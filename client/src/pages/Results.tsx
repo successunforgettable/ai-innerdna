@@ -41,65 +41,93 @@ const Results = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 max-w-4xl mx-auto">
-          
-          {/* Back Button */}
-          <div className="mb-6 flex justify-start">
-            <button
-              className="continue-button enabled"
-              onClick={() => {
-                setCurrentScreen('detail-tokens');
-                setLocation('/detail-tokens');
-              }}
-              style={{
-                background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '16px 32px',
-                color: 'white',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '1.1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 16px rgba(0, 255, 136, 0.3)'
-              }}
-            >
-              ← Back to Detail Tokens
-            </button>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
+      
+      {/* Back Button */}
+      <div className="max-w-6xl mx-auto mb-6">
+        <button
+          onClick={() => {
+            setCurrentScreen('detail-tokens');
+            setLocation('/detail-tokens');
+          }}
+          className="btn-primary"
+        >
+          ← Back to Detail Tokens
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 shadow-2xl">
           
           {hasValidData ? (
             <>
-              <ReportHeader 
-                primaryType={primaryType!}
-                typeName={typeName!}
-                wingName={wingName || 'Not determined'}
-                confidence={confidence!}
-              />
-              
-              <TypeDescription 
-                primaryType={primaryType!}
-                typeName={typeName!}
-              />
-              
-              <MoodStates 
-                primaryType={primaryType!}
-              />
-              
-              {/* State Analysis and Subtype components will be added later */}
+              {/* Header */}
+              <div className="text-center mb-12">
+                <h1 className="text-6xl font-bold text-yellow-400 mb-4">
+                  Type {primaryType}
+                </h1>
+                <h2 className="text-4xl font-bold text-white mb-2">
+                  The {typeName}
+                </h2>
+                <p className="text-xl text-white/80 mb-4">
+                  Your influence: {wingName || `${typeName} ${buildingData?.[0]?.wing || ''}`}
+                </p>
+                <div className="text-lg text-green-400">
+                  High Confidence ({Math.round((confidence || 0) * 100)}%)
+                </div>
+                <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-6"></div>
+              </div>
+
+              {/* Type Description */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                  Your Inner DNA: The {typeName}
+                </h3>
+                <TypeDescription 
+                  primaryType={primaryType!}
+                  typeName={typeName!}
+                />
+              </div>
+
+              {/* Mood States */}
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                  Your Mood States
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-green-500/20 rounded-lg p-6 border border-green-400/30 backdrop-blur-sm">
+                    <h4 className="text-xl font-semibold text-green-400 mb-3">
+                      When you're in a good mood
+                    </h4>
+                    <MoodStates 
+                      primaryType={primaryType!}
+                      moodType="good"
+                    />
+                  </div>
+                  
+                  <div className="bg-red-500/20 rounded-lg p-6 border border-red-400/30 backdrop-blur-sm">
+                    <h4 className="text-xl font-semibold text-red-400 mb-3">
+                      When you're in a bad mood
+                    </h4>
+                    <MoodStates 
+                      primaryType={primaryType!}
+                      moodType="bad"
+                    />
+                  </div>
+                </div>
+              </div>
             </>
           ) : (
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-yellow-400 mb-8">
+              <h1 className="text-6xl font-bold text-yellow-400 mb-8">
                 Complete Your Assessment
               </h1>
-              <p className="text-white/80 text-lg mb-8">
+              <p className="text-white/80 text-xl mb-8">
                 Please complete the full Inner DNA assessment to see your personalized results.
               </p>
-              <p className="text-white/60">
+              <p className="text-white/60 text-lg">
                 Go through Foundation Stones, Building Blocks, Color States, and Detail Tokens to generate your authentic personality profile.
               </p>
             </div>

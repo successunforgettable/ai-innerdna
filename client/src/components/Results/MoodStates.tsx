@@ -2,6 +2,7 @@ import React from 'react';
 
 interface MoodStatesProps {
   primaryType: string;
+  moodType?: 'good' | 'bad';
 }
 
 const moodStates = {
@@ -43,13 +44,23 @@ const moodStates = {
   }
 };
 
-const MoodStates = ({ primaryType }: MoodStatesProps) => {
+const MoodStates = ({ primaryType, moodType }: MoodStatesProps) => {
   const moods = moodStates[primaryType as keyof typeof moodStates];
   
   if (!moods) {
     return <div>Mood states not found</div>;
   }
 
+  // If moodType is specified, only show that specific mood
+  if (moodType) {
+    return (
+      <p className="text-white/90 text-lg">
+        You are {moods[moodType]}
+      </p>
+    );
+  }
+
+  // Otherwise show both moods (original behavior)
   return (
     <div className="mb-8">
       <h3 className="text-2xl font-bold text-yellow-400 mb-4">
