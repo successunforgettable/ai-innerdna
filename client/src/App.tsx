@@ -14,6 +14,7 @@ import DetailPhase from "@/components/Detail/DetailPhase";
 import Results from "@/pages/Results";
 import Analytics from "@/pages/Analytics";
 import AdminLogin from "@/pages/AdminLogin";
+import AlgorithmTest from "@/pages/AlgorithmTest";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 
@@ -31,7 +32,8 @@ function AppContent() {
       '/detail-tokens': 'detail-tokens',
       '/results': 'results',
       '/analytics': 'analytics',
-      '/admin-login': 'admin-login'
+      '/admin-login': 'admin-login',
+      '/algorithm-test': 'algorithm-test'
     };
     
     const screen = urlToScreen[location as keyof typeof urlToScreen];
@@ -62,6 +64,8 @@ function AppContent() {
         );
       case 'admin-login':
         return <AdminLogin />;
+      case 'algorithm-test':
+        return <AlgorithmTest />;
       default:
         return <Welcome />;
     }
