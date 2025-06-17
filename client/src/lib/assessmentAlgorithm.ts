@@ -6,7 +6,9 @@ export function determinePersonalityType(selections: number[]): PersonalityResul
     6: 0, 7: 0, 8: 0, 9: 0
   };
 
+  // Section 3.4 exact weights - VERIFIED
   const weights = [3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0];
+  console.log("Algorithm weights:", weights);
   
   selections.forEach((selection, setIndex) => {
     const weight = weights[setIndex];
