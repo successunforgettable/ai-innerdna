@@ -319,10 +319,10 @@
   text-align: center;
 }
 
-/* Block Label (Block A/Block B) - Left-aligned in horizontal layout */
+/* Block Label (Block A/Block B) - External label */
 .building-block-label {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 24px !important;
+  font-size: 18px !important;
   font-weight: 700 !important;
   color: #fbbf24 !important;
   margin: 0 !important;
@@ -336,11 +336,8 @@
   align-items: center !important;
   justify-content: center !important;
   width: 80px !important;
-  height: 80px !important;
-  background: rgba(251, 191, 36, 0.15) !important;
-  border: 2px solid rgba(251, 191, 36, 0.3) !important;
-  border-radius: 12px !important;
-  backdrop-filter: blur(8px) !important;
+  writing-mode: vertical-rl !important;
+  text-orientation: mixed !important;
 }
 
 .block-text {
@@ -350,16 +347,16 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Description Text - Horizontal layout with more space */
+/* Main Description Text - Clean layout with proper spacing */
 .building-block-description {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 14px !important;
-  line-height: 1.5 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
   color: #ffffff !important;
   white-space: normal !important;
   text-align: left !important;
-  flex: 1 !important;
-  overflow: hidden !important;
+  width: 100% !important;
+  overflow: visible !important;
   word-wrap: break-word !important;
   hyphens: auto !important;
   font-weight: 400 !important;
@@ -369,10 +366,6 @@
   opacity: 0.9 !important;
   margin: 0 !important;
   padding: 0 !important;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 3 !important;
-  -webkit-box-orient: vertical !important;
-  text-overflow: ellipsis !important;
   box-sizing: border-box !important;
 }
 
