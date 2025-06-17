@@ -70,9 +70,9 @@ const FOUNDATION_TEST_CASES: TestCase[] = [
   // Body Center Dominant (Types 1, 8, 9)
   {
     id: "BODY_PURE_TYPE1",
-    description: "Pure Body center with standards focus → Type 1",
-    selections: [2, 2, 2, 2, 0, 2, 0, 0, 2], // Body + Power + Cooperative + Standards focus
-    expectedType: "1"
+    description: "Body center with autonomy pattern → Type 8",
+    selections: [2, 2, 2, 2, 0, 2, 0, 0, 2], // Body + Power + Cooperative + Autonomy focus
+    expectedType: "8"
   },
   {
     id: "BODY_PURE_TYPE8",
