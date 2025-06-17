@@ -90,15 +90,10 @@ const DetailPhase = () => {
   // Get the user's personality type from assessment data
   let userPersonalityType: PersonalityType = 'Type 1';
   
-  console.log('Assessment data result:', assessmentData.result);
-  console.log('Primary type from result:', assessmentData.result?.primaryType);
-  
   if (assessmentData.result?.primaryType) {
     // Convert stored primaryType (e.g., "4") to PersonalityType format (e.g., "Type 4")
     userPersonalityType = `Type ${assessmentData.result.primaryType}` as PersonalityType;
   }
-  
-  console.log('Detail Tokens - Using personality type:', userPersonalityType);
   const typeData = subtypeDescriptions[userPersonalityType];
 
   // Only require typeData if we actually have a personality type, otherwise use default
