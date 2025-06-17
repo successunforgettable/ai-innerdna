@@ -317,7 +317,7 @@ const DetailPhase = () => {
                   fontWeight: '600',
                   textAlign: 'center'
                 }}>
-                  {userPersonalityType} {typeData.name}
+                  {userPersonalityType}
                   <br />
                   Complete
                 </span>
