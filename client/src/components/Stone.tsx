@@ -42,7 +42,15 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         wordWrap: 'break-word',
         hyphens: 'auto'
       }}>
-        {content[0]}
+        {content[0].split(' • ').map((statement, index) => (
+          <div key={index} style={{
+            display: 'block',
+            marginBottom: index < content[0].split(' • ').length - 1 ? '4px' : '0',
+            textAlign: 'center'
+          }}>
+            {statement}
+          </div>
+        ))}
       </div>
       {isSelected && (
         <Check 
