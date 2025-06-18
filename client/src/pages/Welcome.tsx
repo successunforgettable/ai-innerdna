@@ -290,7 +290,7 @@ export default function Welcome() {
             style={{
               position: 'absolute',
               top: '0',
-              right: '0',
+              right: '-20px',
               padding: '8px 16px',
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
