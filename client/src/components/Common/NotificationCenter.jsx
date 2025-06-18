@@ -82,8 +82,10 @@ const NotificationItem = ({ notification, onRead }) => {
       <div className={styles.notificationContent}>
         <div className={styles.notificationHeader}>
           <h4>{notification.title}</h4>
-          {notification.priority === 'high' && (
-            <span className={styles.priorityBadge}>HIGH</span>
+          {notification.priority && (
+            <span className={`${styles.priorityBadge} ${styles[notification.priority + 'Priority']}`}>
+              {notification.priority.toUpperCase()}
+            </span>
           )}
         </div>
         <p>{notification.message}</p>

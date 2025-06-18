@@ -32,6 +32,11 @@ export const NotificationProvider = ({ children }) => {
           // Add new notification to existing list
           setNotifications(prev => [messageData.data, ...prev]);
           
+          // Save to localStorage for persistence
+          const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
+          activeNotifications.unshift(messageData.data);
+          localStorage.setItem('active_notifications', JSON.stringify(activeNotifications));
+          
           // Increment unread count
           setUnreadCount(prev => prev + 1);
           
@@ -39,12 +44,12 @@ export const NotificationProvider = ({ children }) => {
           const soundType = messageData.data.priority === 'high' ? 'high' : 'default';
           notificationSounds.playNotificationSound(soundType);
           
-          // Optional: Show browser notification if permission granted
+          // Show browser notification if permission granted
           if ('Notification' in window && Notification.permission === 'granted') {
             new Notification(messageData.data.title, {
               body: messageData.data.message,
               icon: '/favicon.ico',
-              tag: messageData.data.id // Prevent duplicate notifications
+              tag: messageData.data.id
             });
           }
         }
