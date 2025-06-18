@@ -21,6 +21,11 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
   const parts = content[0].split(' • ');
   const contextPhrase = parts[0]; // "When making decisions, I think"
   const actionStatements = parts.slice(1); // ["statement 1", "statement 2"]
+  
+  console.log('Stone content:', content[0]);
+  console.log('Parts:', parts);
+  console.log('Context:', contextPhrase);
+  console.log('Actions:', actionStatements);
 
   return (
     <motion.div
