@@ -390,7 +390,7 @@ export default function Reports() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                   {assessmentData?.colorStates?.map((state: any, index: number) => (
                     <div key={index}>
-                      <h4 className="text-lg font-semibold text-white mb-2">
+                      <h4 className="text-lg font-semibold text-yellow-400 mb-2">
                         {index === 0 ? 'Primary' : 'Secondary'} State
                       </h4>
                       <p className="text-white/80">{state.title}</p>
