@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema, type AssessmentData } from "@shared/schema";
-import { authService } from "./auth";
+import { hashPassword, verifyPassword, generateToken, generateResetToken } from "./auth";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -23,7 +23,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Hash password
-      const passwordHash = await authService.hashPassword(password);
+      const passwordHash = await hashPassword(password);
       
       // Create user directly without email verification for development
       const newUser = await storage.createUser({
@@ -75,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Verify password
-      const isValidPassword = await authService.verifyPassword(password, user.passwordHash || '');
+      const isValidPassword = await verifyPassword(password, user.passwordHash || '');
       if (!isValidPassword) {
         return res.status(400).json({ error: "Invalid email or password" });
       }
@@ -96,58 +96,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/auth/verify-email", async (req, res) => {
+  // Get user reports by email (for login access)
+  app.post("/api/auth/get-reports", async (req, res) => {
     try {
-      const { email, code } = req.body;
+      const { email, password } = req.body;
       
-      if (!email || !code) {
-        return res.status(400).json({ error: "Email and verification code are required" });
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
       }
 
-      const verified = await authService.verifyEmail(email, code);
-      
-      if (verified) {
-        res.json({ message: "Email verified successfully" });
-      } else {
-        res.status(400).json({ error: "Invalid verification code" });
+      // Get user by email
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(400).json({ error: "Invalid email or password" });
       }
+
+      // Verify password
+      const isValidPassword = await verifyPassword(password, user.passwordHash || '');
+      if (!isValidPassword) {
+        return res.status(400).json({ error: "Invalid email or password" });
+      }
+
+      // Return user with assessment data
+      res.json({
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber,
+          completedAt: user.completedAt,
+          assessmentData: user.assessmentData
+        },
+        message: "Reports retrieved successfully"
+      });
     } catch (error: any) {
-      res.status(400).json({ error: error.message || "Verification failed" });
-    }
-  });
-
-  app.post("/api/auth/forgot-password", async (req, res) => {
-    try {
-      const { email } = req.body;
-      
-      if (!email) {
-        return res.status(400).json({ error: "Email is required" });
-      }
-
-      await authService.requestPasswordReset(email);
-      res.json({ message: "If the email exists, a reset link has been sent" });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message || "Password reset request failed" });
-    }
-  });
-
-  app.post("/api/auth/reset-password", async (req, res) => {
-    try {
-      const { token, newPassword } = req.body;
-      
-      if (!token || !newPassword) {
-        return res.status(400).json({ error: "Token and new password are required" });
-      }
-
-      const reset = await authService.resetPassword(token, newPassword);
-      
-      if (reset) {
-        res.json({ message: "Password reset successful" });
-      } else {
-        res.status(400).json({ error: "Invalid or expired reset token" });
-      }
-    } catch (error: any) {
-      res.status(400).json({ error: error.message || "Password reset failed" });
+      res.status(400).json({ error: error.message || "Failed to retrieve reports" });
     }
   });
 
