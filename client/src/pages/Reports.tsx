@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
+import { subtypeDescriptions } from "../utils/subtypeDescriptions";
 
 interface UserReport {
   id: number;
@@ -39,6 +40,90 @@ export default function Reports() {
     setLocation("/");
   };
 
+  // Get personality type information
+  const getPersonalityInfo = (primaryType: string) => {
+    const typeKey = `Type ${primaryType}`;
+    const typeInfo = subtypeDescriptions[typeKey];
+    
+    if (!typeInfo) {
+      return {
+        name: 'Unknown',
+        emoji: '❓',
+        description: 'Personality type not found.'
+      };
+    }
+    
+    return {
+      name: typeInfo.name,
+      emoji: typeInfo.emoji,
+      description: getPersonalityDescription(primaryType)
+    };
+  };
+
+  // Get personality description based on type
+  const getPersonalityDescription = (type: string) => {
+    const descriptions = {
+      '1': 'Principled, purposeful, self-controlled, and perfectionistic. They strive to be good and right, improve everything, and fear making mistakes.',
+      '2': 'Caring, interpersonal type. They are empathetic, sincere, warm-hearted, and often put others\' needs before their own.',
+      '3': 'Success-oriented, pragmatic, and driven. They are adaptable, excelling, and often focused on image and achievement.',
+      '4': 'Sensitive, withdrawn type. They are expressive, dramatic, self-absorbed, and temperamental. They seek authenticity and meaning.',
+      '5': 'Intense, cerebral type. They are perceptive, innovative, secretive, and isolated. They conserve energy and fear being overwhelmed.',
+      '6': 'Committed, security-oriented type. They are engaging, responsible, anxious, and suspicious. They seek security and support.',
+      '7': 'Spontaneous, versatile, acquisitive, and scattered. They seek to maintain their freedom and happiness while avoiding pain.',
+      '8': 'Powerful, dominating type. Self-confident, decisive, willful, and confrontational. They seek control and resist vulnerability.',
+      '9': 'Easygoing, self-effacing type. They are creative, optimistic, and supportive, but can be too willing to go along with others.'
+    };
+    
+    return descriptions[type] || 'Personality type not found.';
+  };
+
+  // Get mood states based on type
+  const getMoodStates = (type: string) => {
+    const moodStates = {
+      '1': {
+        good: ['Principled and ethical', 'Self-disciplined and orderly', 'Rational and reasonable', 'Purposeful and dedicated'],
+        bad: ['Critical and judgmental', 'Rigid and inflexible', 'Impatient and irritable', 'Controlling and perfectionist']
+      },
+      '2': {
+        good: ['Loving and caring', 'Generous and giving', 'People-focused and helpful', 'Warm and encouraging'],
+        bad: ['Manipulative and possessive', 'Self-sacrificing to get attention', 'Intrusive and controlling', 'Victim mentality']
+      },
+      '3': {
+        good: ['Adaptable and driven', 'Optimistic and energetic', 'Practical and efficient', 'Self-assured and attractive'],
+        bad: ['Image-conscious and deceptive', 'Narcissistic and exhibitionist', 'Grandiose and contemptuous', 'Malicious and relentless']
+      },
+      '4': {
+        good: ['Self-aware and introspective', 'Sensitive and intuitive', 'Gentle and tactful', 'Inspired and creative'],
+        bad: ['Moody and self-conscious', 'Withdrawn and stubborn', 'Self-indulgent and depressive', 'Alienated and despairing']
+      },
+      '5': {
+        good: ['Perceptive and insightful', 'Curious and investigative', 'Independent and innovative', 'Inventive and pioneering'],
+        bad: ['Detached and preoccupied', 'High-strung and intense', 'Provocative and abrasive', 'Obsessed and disturbed']
+      },
+      '6': {
+        good: ['Engaging and responsible', 'Reliable and trustworthy', 'Committed and loyal', 'Defensive of others'],
+        bad: ['Self-doubting and reactive', 'Anxious and pessimistic', 'Suspicious and aggressive', 'Panicky and depressive']
+      },
+      '7': {
+        good: ['Spontaneous and versatile', 'Enthusiastic and productive', 'Practical and prolific', 'Cross-fertilizing areas of interest'],
+        bad: ['Hyperactive and impulsive', 'Distracted and scattered', 'Self-centered and insensitive', 'Manic and compulsive']
+      },
+      '8': {
+        good: ['Magnanimous and generous', 'Protective and championing', 'Self-restraining and merciful', 'Heroic and inspiring'],
+        bad: ['Egocentric and willful', 'Confrontational and intimidating', 'Ruthless and dictatorial', 'Destructive and vengeful']
+      },
+      '9': {
+        good: ['Receptive and agreeable', 'Trusting and stable', 'Creative and optimistic', 'Supportive and reassuring'],
+        bad: ['Complacent and resigned', 'Passive-aggressive and stubborn', 'Disengaged and neglectful', 'Repressed and explosive']
+      }
+    };
+    
+    return moodStates[type] || {
+      good: ['Positive traits not available'],
+      bad: ['Negative traits not available']
+    };
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
@@ -57,6 +142,9 @@ export default function Reports() {
 
   const hasCompletedAssessment = userReport.completedAt && userReport.assessmentData;
   const assessmentData = userReport.assessmentData;
+  const primaryType = assessmentData?.result?.primaryType || '1';
+  const personalityInfo = getPersonalityInfo(primaryType);
+  const moodStates = getMoodStates(primaryType);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
@@ -104,7 +192,7 @@ export default function Reports() {
             {/* Results Header */}
             <div className="text-center mb-12 results-header">
               <h2 className="text-6xl font-bold text-yellow-400 mb-4 results-title">
-                The Challenger
+                The {personalityInfo.name}
               </h2>
               <p className="text-xl text-white/90 mb-2 results-influence">
                 Your primary personality influence
@@ -117,13 +205,11 @@ export default function Reports() {
             {/* Personality Description */}
             <div className="mb-12">
               <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                Your Inner DNA: The Challenger
+                Your Inner DNA: The {personalityInfo.name}
               </h3>
               <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
                 <p className="text-lg text-white/90 leading-relaxed">
-                  Powerful, dominating type. Self-confident, decisive, willful, and confrontational. 
-                  Can be egoistic and dominating at their worst. At their best: self-mastering, 
-                  they use their strength to improve others' lives, becoming heroic, magnanimous, and inspiring.
+                  {personalityInfo.description}
                 </p>
               </div>
             </div>
