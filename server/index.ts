@@ -46,15 +46,21 @@ app.use((req, res, next) => {
 // Store recent notifications for polling
 let recentNotifications: any[] = [];
 
-// Analytics file path
-const ANALYTICS_FILE = path.join(__dirname, 'analytics.json');
+// Analytics file path - use project root to ensure consistency
+const ANALYTICS_FILE = path.join(process.cwd(), 'server', 'analytics.json');
 
 // Load analytics from file
 function loadAnalytics() {
   try {
+    console.log('🔍 Looking for analytics file at:', ANALYTICS_FILE);
+    console.log('🔍 File exists:', fs.existsSync(ANALYTICS_FILE));
     if (fs.existsSync(ANALYTICS_FILE)) {
       const data = fs.readFileSync(ANALYTICS_FILE, 'utf8');
-      return JSON.parse(data);
+      const analytics = JSON.parse(data);
+      console.log('✅ Loaded analytics:', analytics.totalNotifications, 'notifications,', analytics.totalOpened, 'opened');
+      return analytics;
+    } else {
+      console.log('⚠️ Analytics file not found, creating default');
     }
   } catch (error) {
     console.error('Error loading analytics:', error);
