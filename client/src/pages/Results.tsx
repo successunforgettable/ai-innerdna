@@ -105,21 +105,7 @@ const Results = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      
-      {/* Back Button */}
-      <div className="max-w-6xl mx-auto mb-6">
-        <motion.button
-          onClick={() => {
-            setCurrentScreen('detail-tokens');
-            setLocation('/detail-tokens');
-          }}
-          className="btn-primary"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          ← Back to Detail Tokens
-        </motion.button>
-      </div>
+
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto">
