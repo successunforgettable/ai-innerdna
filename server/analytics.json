@@ -1,9 +1,9 @@
 {
   "totalNotifications": 8,
   "totalSent": 8,
-  "totalOpened": 5,
-  "globalOpenRate": "62.5",
-  "lastUpdated": "2025-06-18T20:39:47.600Z",
+  "totalOpened": 6,
+  "globalOpenRate": "75.0",
+  "lastUpdated": "2025-06-18T20:39:48.532Z",
   "interactions": [
     {
       "notificationId": "notif_1750279104003",
@@ -69,6 +69,11 @@
       "notificationId": "notif_1750279139446",
       "action": "opened",
       "timestamp": "2025-06-18T20:39:47.600Z"
+    },
+    {
+      "notificationId": "notif_1750279104003",
+      "action": "opened",
+      "timestamp": "2025-06-18T20:39:48.532Z"
     }
   ]
 }
