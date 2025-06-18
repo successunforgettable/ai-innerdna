@@ -256,6 +256,7 @@ export default function Welcome() {
         <motion.header 
           className={styles.header}
           variants={itemVariants}
+          style={{ position: 'relative' }}
         >
           <motion.div 
             className={styles.logo}
@@ -270,6 +271,40 @@ export default function Welcome() {
           >
             Discover Your Unique Inner DNA
           </motion.div>
+          
+          {/* Login Button - Top Right */}
+          <motion.button
+            onClick={() => setLocation('/login')}
+            variants={itemVariants}
+            whileHover={{
+              scale: 1.02,
+              opacity: 0.9
+            }}
+            whileTap={{
+              scale: 0.98
+            }}
+            transition={{
+              duration: 0.2,
+              ease: [0.4, 0, 0.2, 1]
+            }}
+            style={{
+              position: 'absolute',
+              top: '0',
+              right: '0',
+              padding: '8px 16px',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              backdropFilter: 'blur(10px)',
+              textDecoration: 'none'
+            }}
+          >
+            Login
+          </motion.button>
         </motion.header>
         
         {/* HeroSection - exact from spec */}
@@ -591,39 +626,6 @@ export default function Welcome() {
           }}
         >
           {authMutation.isPending ? 'Processing...' : (isLoginMode ? 'Login & Begin' : 'Begin Your Journey')}
-        </motion.button>
-
-        {/* View Previous Report Button */}
-        <motion.button
-          className={styles.viewReportButton}
-          onClick={() => setLocation('/login')}
-          variants={itemVariants}
-          whileHover={{
-            scale: 1.02,
-            opacity: 0.9
-          }}
-          whileTap={{
-            scale: 0.98
-          }}
-          transition={{
-            duration: 0.2,
-            ease: [0.4, 0, 0.2, 1]
-          }}
-          style={{
-            marginTop: '16px',
-            padding: '12px 24px',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '12px',
-            color: 'white',
-            fontSize: '14px',
-            fontWeight: '500',
-            cursor: 'pointer',
-            backdropFilter: 'blur(10px)',
-            textDecoration: 'none'
-          }}
-        >
-          View Previous Report
         </motion.button>
       </motion.div>
     </div>
