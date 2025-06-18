@@ -19,6 +19,10 @@ import Login from "@/pages/Login";
 import Reports from "@/pages/Reports";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
+import { NotificationProvider } from './context/NotificationContext';
+import NotificationBell from './components/Common/NotificationBell';
+import NotificationCenter from './components/Common/NotificationCenter';
+import LoginNotification from './components/Common/LoginNotification';
 
 function AppContent() {
   const { currentScreen, setCurrentScreen } = useAssessment();
@@ -110,8 +114,12 @@ function App() {
       <TooltipProvider>
         <AuthProvider>
           <AssessmentProvider>
-            <Toaster />
-            <Router />
+            <NotificationProvider>
+              <Toaster />
+              <Router />
+              <NotificationCenter />
+              <LoginNotification user={null} />
+            </NotificationProvider>
           </AssessmentProvider>
         </AuthProvider>
       </TooltipProvider>
