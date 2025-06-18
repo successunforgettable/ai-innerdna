@@ -156,15 +156,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const id = parseInt(req.params.id);
       const updates = req.body;
       
-      const user = await storage.updateUser(id, updates);
-      if (!user) {
-        res.status(404).json({ error: "User not found" });
-        return;
+      // Validate required fields for assessment completion
+      if (updates.assessmentData && updates.completedAt) {
+        const updateData = {
+          assessmentData: updates.assessmentData,
+          completedAt: new Date(updates.completedAt)
+        };
+        
+        const user = await storage.updateUser(id, updateData);
+        if (!user) {
+          res.status(404).json({ error: "User not found" });
+          return;
+        }
+        
+        res.json(user);
+      } else {
+        res.status(400).json({ error: "Missing assessment data or completion date" });
       }
-      
-      res.json(user);
     } catch (error) {
-      res.status(400).json({ error: "Invalid update data" });
+      console.error('Update user error:', error);
+      res.status(400).json({ error: "Failed to update user assessment" });
     }
   });
 
@@ -192,6 +203,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Get all assessments for analytics dashboard
+  app.get("/api/assessments/all", async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      
+      // Filter users who have completed assessments
+      const completedAssessments = users
+        .filter(user => user.completedAt && user.assessmentData)
+        .map(user => ({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber,
+          completedAt: user.completedAt,
+          assessmentData: user.assessmentData
+        }));
+      
+      res.json(completedAssessments);
+    } catch (error) {
+      console.error('Failed to fetch assessments:', error);
+      res.status(500).json({ error: "Failed to fetch assessments" });
     }
   });
 
