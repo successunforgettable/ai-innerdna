@@ -42,6 +42,7 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         hyphens: 'none',
         whiteSpace: 'normal'
       }}>
+        {/* Force browser refresh - updated structure */}
         {content[0].split(' • ').map((statement, index) => (
           <div key={index} style={{
             display: 'block',
