@@ -4,42 +4,78 @@ const useWebSocket = (url) => {
   const [connectionStatus, setConnectionStatus] = useState('Connecting');
   const [lastMessage, setLastMessage] = useState(null);
   const ws = useRef(null);
+  const reconnectTimeoutRef = useRef(null);
+  const reconnectAttemptsRef = useRef(0);
+  const isConnectingRef = useRef(false);
+
+  const connect = () => {
+    if (isConnectingRef.current) return;
+    
+    try {
+      isConnectingRef.current = true;
+      const wsUrl = url || `ws://localhost:3001`;
+      ws.current = new WebSocket(wsUrl);
+
+      ws.current.onopen = () => {
+        console.log('🔗 WebSocket connected');
+        setConnectionStatus('Connected');
+        reconnectAttemptsRef.current = 0;
+        isConnectingRef.current = false;
+      };
+
+      ws.current.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          console.log('📨 WebSocket message received:', message);
+          setLastMessage(message);
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
+        }
+      };
+
+      ws.current.onclose = () => {
+        console.log('❌ WebSocket disconnected');
+        setConnectionStatus('Disconnected');
+        isConnectingRef.current = false;
+        
+        // Attempt to reconnect with exponential backoff
+        if (reconnectAttemptsRef.current < 3) {
+          const delay = Math.min(2000 * Math.pow(2, reconnectAttemptsRef.current), 8000);
+          console.log(`🔄 Attempting to reconnect in ${delay}ms...`);
+          reconnectTimeoutRef.current = setTimeout(() => {
+            reconnectAttemptsRef.current++;
+            setConnectionStatus('Connecting');
+            connect();
+          }, delay);
+        } else {
+          setConnectionStatus('Error');
+          console.error('❌ Max reconnection attempts reached');
+        }
+      };
+
+      ws.current.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        setConnectionStatus('Error');
+        isConnectingRef.current = false;
+      };
+    } catch (error) {
+      console.error('Failed to create WebSocket connection:', error);
+      setConnectionStatus('Error');
+      isConnectingRef.current = false;
+    }
+  };
 
   useEffect(() => {
-    // Create WebSocket connection on separate port to avoid Vite HMR conflicts
-    const wsUrl = url || `ws://localhost:3001`;
-    ws.current = new WebSocket(wsUrl);
+    connect();
 
-    ws.current.onopen = () => {
-      console.log('🔗 WebSocket connected');
-      setConnectionStatus('Connected');
-    };
-
-    ws.current.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        console.log('📨 WebSocket message received:', message);
-        setLastMessage(message);
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-      }
-    };
-
-    ws.current.onclose = () => {
-      console.log('❌ WebSocket disconnected');
-      setConnectionStatus('Disconnected');
-    };
-
-    ws.current.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setConnectionStatus('Error');
-    };
-
-    // Cleanup on unmount
     return () => {
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
       if (ws.current) {
         ws.current.close();
       }
+      isConnectingRef.current = false;
     };
   }, [url]);
 

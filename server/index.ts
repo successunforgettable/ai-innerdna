@@ -72,22 +72,42 @@ function broadcastNotification(notification: any) {
     console.log('🔗 New WebSocket client connected');
     clients.add(ws);
 
-    // Send welcome message
-    ws.send(JSON.stringify({
-      type: 'connection',
-      message: 'WebSocket connected successfully'
-    }));
+    // Send welcome message immediately
+    setTimeout(() => {
+      if (ws.readyState === ws.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'connection',
+          message: 'WebSocket connected successfully'
+        }));
+      }
+    }, 100);
+
+    // Keep connection alive with ping/pong
+    const pingInterval = setInterval(() => {
+      if (ws.readyState === ws.OPEN) {
+        ws.ping();
+      } else {
+        clearInterval(pingInterval);
+      }
+    }, 30000);
 
     // Handle client disconnect
     ws.on('close', () => {
       console.log('❌ WebSocket client disconnected');
       clients.delete(ws);
+      clearInterval(pingInterval);
     });
 
     // Handle errors
     ws.on('error', (error: any) => {
       console.error('WebSocket error:', error);
       clients.delete(ws);
+      clearInterval(pingInterval);
+    });
+
+    // Handle pong responses
+    ws.on('pong', () => {
+      // Connection is alive
     });
   });
 
