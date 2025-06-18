@@ -42,7 +42,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   z-index: 1000;
   display: flex;
   align-items: flex-start;
@@ -51,12 +52,14 @@
 }
 
 .notificationCenter {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
   width: 100%;
-  max-width: 400px;
-  max-height: 500px;
+  max-width: 420px;
+  max-height: 520px;
   overflow: hidden;
 }
 
@@ -64,49 +67,68 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e2e8f0;
-  background: #f8fafc;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
 }
 
 .centerHeader h3 {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #1e293b;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .closeButton {
-  background: none;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
-  color: #64748b;
-  padding: 0;
-  width: 24px;
-  height: 24px;
+  color: white;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
 .notificationList {
-  max-height: 400px;
+  max-height: 420px;
   overflow-y: auto;
+  background: rgba(248, 250, 252, 0.5);
 }
 
 .emptyState {
-  padding: 40px 20px;
+  padding: 60px 24px;
   text-align: center;
   color: #64748b;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
 }
 
 .notificationItem {
-  padding: 16px 20px;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
   position: relative;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+.notificationItem:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(147, 197, 253, 0.05));
+  transform: translateX(4px);
+  border-left: 3px solid #3b82f6;
 }
 
 .notificationItem:last-child {
@@ -114,22 +136,30 @@
 }
 
 .notificationContent h4 {
-  margin: 0 0 4px 0;
-  font-size: 1rem;
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
   font-weight: 600;
   color: #1e293b;
+  background: linear-gradient(135deg, #1e293b, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .notificationContent p {
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
   font-size: 0.875rem;
-  color: #64748b;
-  line-height: 1.4;
+  color: #475569;
+  line-height: 1.5;
 }
 
 .timestamp {
   font-size: 0.75rem;
-  color: #64748b;
+  color: #94a3b8;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-block;
 }
 
 /* Login Notification */
