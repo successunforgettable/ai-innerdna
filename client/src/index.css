@@ -161,8 +161,8 @@ body {
   margin: 0 auto;
 }
 
-/* Mobile responsive foundation stones - for actual mobile devices */
-@media (max-width: 768px) and (max-height: 1024px) {
+/* Mobile responsive foundation stones - for phones in portrait mode */
+@media (max-width: 768px) and (orientation: portrait) {
   .foundation-stone {
     width: 150px;
     height: 150px;
@@ -171,7 +171,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
   .foundation-stone {
     width: 130px;
     height: 130px;
@@ -189,8 +189,8 @@ body {
   margin-right: 20px;
 }
 
-/* Mobile responsive stones grid - only for actual mobile devices */
-@media (max-width: 768px) and (max-height: 1024px) {
+/* Mobile responsive stones grid - only for phones in portrait mode */
+@media (max-width: 768px) and (orientation: portrait) {
   .stones-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -200,7 +200,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
   .stones-grid {
     grid-template-columns: 1fr;
     gap: 0.75rem;
@@ -244,8 +244,8 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Mobile responsive foundation base - for actual mobile devices */
-@media (max-width: 768px) and (max-height: 1024px) {
+/* Mobile responsive foundation base - for phones in portrait mode */
+@media (max-width: 768px) and (orientation: portrait) {
   .foundation-base {
     width: 240px;
     height: 240px;
@@ -253,7 +253,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
   .foundation-base {
     width: 200px;
     height: 200px;
@@ -725,8 +725,8 @@ body {
   align-items: start;
 }
 
-/* Mobile responsive layout - only for actual mobile devices */
-@media (max-width: 768px) and (max-height: 1024px) {
+/* Mobile responsive layout - only for phones in portrait mode */
+@media (max-width: 768px) and (orientation: portrait) {
   .foundation-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -749,8 +749,8 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Mobile responsive glass containers - for actual mobile devices */
-@media (max-width: 768px) and (max-height: 1024px) {
+/* Mobile responsive glass containers - for phones in portrait mode */
+@media (max-width: 768px) and (orientation: portrait) {
   .stone-selection-area,
   .tower-visualization-area {
     padding: 1.5rem;
@@ -758,7 +758,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
   .stone-selection-area,
   .tower-visualization-area {
     padding: 1rem;
@@ -904,8 +904,8 @@ body {
     cursor: pointer;
   }
 
-  /* Mobile responsive building blocks - for actual mobile devices */
-  @media (max-width: 768px) and (max-height: 1024px) {
+  /* Mobile responsive building blocks - for phones in portrait mode */
+  @media (max-width: 768px) and (orientation: portrait) {
     .building-block {
       width: 150px;
       height: 85px;
@@ -913,7 +913,7 @@ body {
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 480px) and (orientation: portrait) {
     .building-block {
       width: 130px;
       height: 75px;
@@ -1074,8 +1074,8 @@ body {
   }
 }
 
-/* Comprehensive mobile responsiveness for actual mobile devices */
-@media (max-width: 768px) and (max-height: 1024px) {
+/* Comprehensive mobile responsiveness - portrait phones only */
+@media (max-width: 768px) and (orientation: portrait) {
   .foundation-phase {
     padding: 1rem 0.5rem;
   }
@@ -1101,7 +1101,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
   .foundation-phase {
     padding: 0.75rem 0.25rem;
   }
