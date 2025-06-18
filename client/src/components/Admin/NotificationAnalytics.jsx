@@ -75,7 +75,9 @@ const NotificationAnalytics = () => {
     const result = simulateNotificationOpen('fallback_001');
     if (result) {
       // Refresh analytics immediately
-      loadAnalytics();
+      setTimeout(() => {
+        loadAnalytics();
+      }, 100);
       
       // Show success message
       const notification = document.createElement('div');
@@ -92,7 +94,7 @@ const NotificationAnalytics = () => {
         font-weight: 600;
         max-width: 400px;
       `;
-      notification.textContent = `Notification opened! Open rate now: ${result.globalOpenRate}%`;
+      notification.textContent = `📊 Open rate increased to ${result.globalOpenRate}%`;
       document.body.appendChild(notification);
       setTimeout(() => notification.remove(), 3000);
     }
