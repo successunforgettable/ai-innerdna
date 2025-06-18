@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-// import useWebSocket from '../hooks/useWebSocket';
+import useWebSocket from '../hooks/useWebSocket';
 import notificationSounds from '../utils/notificationSounds';
 
 const NotificationContext = createContext();
@@ -17,10 +17,42 @@ export const NotificationProvider = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotificationCenter, setShowNotificationCenter] = useState(false);
 
-  // WebSocket connection temporarily disabled
-  // const { connectionStatus, lastMessage } = useWebSocket();
-  const connectionStatus = 'Connected';
-  const lastMessage = null;
+  // WebSocket connection
+  const { connectionStatus, lastMessage } = useWebSocket();
+
+  // Listen for real-time notifications
+  useEffect(() => {
+    if (lastMessage && lastMessage.data) {
+      try {
+        const messageData = lastMessage.data;
+        
+        if (messageData.type === 'new_notification' && messageData.data) {
+          console.log('🔔 Real-time notification received:', messageData.data);
+          
+          // Add new notification to existing list
+          setNotifications(prev => [messageData.data, ...prev]);
+          
+          // Increment unread count
+          setUnreadCount(prev => prev + 1);
+          
+          // Play notification sound based on priority
+          const soundType = messageData.data.priority === 'high' ? 'high' : 'default';
+          notificationSounds.playNotificationSound(soundType);
+          
+          // Optional: Show browser notification if permission granted
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification(messageData.data.title, {
+              body: messageData.data.message,
+              icon: '/favicon.ico',
+              tag: messageData.data.id // Prevent duplicate notifications
+            });
+          }
+        }
+      } catch (error) {
+        console.log('Error parsing notification message:', error);
+      }
+    }
+  }, [lastMessage]);
 
   // Request notification permission on load
   useEffect(() => {

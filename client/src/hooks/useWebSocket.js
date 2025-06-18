@@ -1,4 +1,4 @@
-// Polling-based notification hook (replaces WebSocket)
+// Polling-based notification system
 import { useState, useEffect, useRef } from 'react';
 
 const useWebSocket = (url) => {
@@ -7,7 +7,7 @@ const useWebSocket = (url) => {
   const intervalRef = useRef(null);
   const lastTimestampRef = useRef(0);
 
-  // Polling function to check for new notifications
+  // Poll for new notifications
   const pollNotifications = async () => {
     try {
       const response = await fetch(`/api/notifications/recent?since=${lastTimestampRef.current}`);
@@ -16,14 +16,15 @@ const useWebSocket = (url) => {
         setConnectionStatus('Live');
         
         if (data.notifications && data.notifications.length > 0) {
-          // Send the most recent notification as lastMessage
+          // Send newest notification as message
+          const newestNotification = data.notifications[0];
           setLastMessage({
-            data: JSON.stringify({
+            data: {
               type: 'new_notification',
-              data: data.notifications[0]
-            })
+              data: newestNotification
+            }
           });
-          lastTimestampRef.current = data.timestamp;
+          lastTimestampRef.current = data.timestamp || Date.now();
         }
       } else {
         setConnectionStatus('Error');
@@ -35,10 +36,10 @@ const useWebSocket = (url) => {
   };
 
   useEffect(() => {
-    // Start polling every 2 seconds
-    setConnectionStatus('Connecting...');
-    pollNotifications(); // Initial poll
+    // Initial poll
+    pollNotifications();
     
+    // Poll every 2 seconds
     intervalRef.current = setInterval(pollNotifications, 2000);
 
     return () => {
@@ -46,10 +47,10 @@ const useWebSocket = (url) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [url]);
+  }, []);
 
   const sendMessage = (message) => {
-    console.log('Sending message via polling:', message);
+    console.log('Sending message:', message);
   };
 
   return {
