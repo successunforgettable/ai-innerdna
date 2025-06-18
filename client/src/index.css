@@ -1160,6 +1160,43 @@ body {
   .results-header {
     margin-bottom: 2rem !important;
   }
+  
+  /* Fix subtype overlapping on mobile */
+  .subtype-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  .subtype-grid > div {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+    padding: 1rem !important;
+  }
+  
+  .subtype-grid h4 {
+    font-size: 1rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .subtype-grid p {
+    font-size: 0.85rem !important;
+    line-height: 1.3;
+    margin-top: 0.5rem;
+  }
+  
+  .subtype-grid .flex {
+    align-items: flex-start !important;
+    flex-wrap: nowrap;
+  }
+  
+  .subtype-grid .text-2xl {
+    font-size: 1.5rem !important;
+    margin-right: 0.5rem !important;
+    flex-shrink: 0;
+  }
 }
 
 @media (max-width: 480px) and (orientation: portrait) {

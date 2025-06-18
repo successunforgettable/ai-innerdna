@@ -285,7 +285,7 @@ const Results = () => {
                 <h3 className="text-2xl font-bold text-yellow-400 mb-6">
                   Your Subtype Focus
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 subtype-grid">
                   {(() => {
                     // Calculate actual subtype percentages from detail token distribution according to spec
                     if (!detailData || detailData.length === 0) {
