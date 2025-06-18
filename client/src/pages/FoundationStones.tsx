@@ -157,7 +157,7 @@ export default function FoundationStones() {
             <p style={{
               fontSize: '16px',
               fontWeight: 500,
-              color: '#64748b',
+              color: '#ffffff',
               marginBottom: '8px',
               textAlign: 'center'
             }}>
