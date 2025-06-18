@@ -1,14 +1,44 @@
 {
-  "totalNotifications": 1,
-  "totalSent": 1,
+  "totalNotifications": 7,
+  "totalSent": 7,
   "totalOpened": 0,
   "globalOpenRate": "0.0",
-  "lastUpdated": "2025-06-18T20:38:24.005Z",
+  "lastUpdated": "2025-06-18T20:39:04.685Z",
   "interactions": [
     {
       "notificationId": "notif_1750279104003",
       "action": "sent",
       "timestamp": "2025-06-18T20:38:24.005Z"
+    },
+    {
+      "notificationId": "notif_1750279139446",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:38:59.448Z"
+    },
+    {
+      "notificationId": "notif_1750279140491",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:39:00.491Z"
+    },
+    {
+      "notificationId": "notif_1750279141533",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:39:01.534Z"
+    },
+    {
+      "notificationId": "notif_1750279142575",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:39:02.575Z"
+    },
+    {
+      "notificationId": "notif_1750279143618",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:39:03.619Z"
+    },
+    {
+      "notificationId": "notif_1750279144685",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:39:04.685Z"
     }
   ]
 }
