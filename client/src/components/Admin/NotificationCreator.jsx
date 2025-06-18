@@ -57,6 +57,9 @@ const NotificationCreator = () => {
       if (response.ok) {
         console.log('✅ Notification sent successfully:', result);
         
+        // Update historical analytics when notification is sent
+        updateHistoricalAnalytics(result.notification);
+        
         // Show success message
         showSuccessMessage(`Notification "${formData.title}" sent successfully to all connected users!`);
         
@@ -121,6 +124,36 @@ const NotificationCreator = () => {
     notification.textContent = message;
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 4000);
+  };
+
+  const updateHistoricalAnalytics = (notification) => {
+    try {
+      // Get existing historical analytics
+      const historicalAnalytics = JSON.parse(localStorage.getItem('notification_historical_analytics') || '{}');
+      
+      // Update counts
+      const updatedAnalytics = {
+        totalNotificationsSent: (historicalAnalytics.totalNotificationsSent || 0) + 1,
+        totalNotificationsOpened: historicalAnalytics.totalNotificationsOpened || 0,
+        countedNotificationIds: historicalAnalytics.countedNotificationIds || [],
+        typeBreakdown: {
+          ...historicalAnalytics.typeBreakdown,
+          [notification.type]: (historicalAnalytics.typeBreakdown?.[notification.type] || 0) + 1
+        },
+        audienceBreakdown: {
+          ...historicalAnalytics.audienceBreakdown,
+          [notification.targetAudience]: (historicalAnalytics.audienceBreakdown?.[notification.targetAudience] || 0) + 1
+        },
+        lastUpdated: new Date().toISOString()
+      };
+      
+      // Save updated analytics
+      localStorage.setItem('notification_historical_analytics', JSON.stringify(updatedAnalytics));
+      
+      console.log('📊 Historical analytics updated:', updatedAnalytics);
+    } catch (error) {
+      console.error('Error updating historical analytics:', error);
+    }
   };
 
   const initializeNotificationAnalytics = (notification) => {

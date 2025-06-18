@@ -160,10 +160,32 @@ export const NotificationProvider = ({ children }) => {
 
   const trackNotificationOpen = (notificationId) => {
     try {
-      // Get existing global analytics
-      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
+      // Mark as read first
+      const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+      if (!readNotifications.includes(notificationId)) {
+        readNotifications.push(notificationId);
+        localStorage.setItem('read_notifications', JSON.stringify(readNotifications));
+        
+        // Update historical analytics (persistent admin data)
+        const historicalAnalytics = JSON.parse(localStorage.getItem('notification_historical_analytics') || '{}');
+        const countedIds = historicalAnalytics.countedNotificationIds || [];
+        
+        // Only count this open if it hasn't been counted before
+        if (!countedIds.includes(notificationId)) {
+          const updatedHistoricalAnalytics = {
+            ...historicalAnalytics,
+            totalNotificationsOpened: (historicalAnalytics.totalNotificationsOpened || 0) + 1,
+            countedNotificationIds: [...countedIds, notificationId],
+            lastUpdated: new Date().toISOString()
+          };
+          
+          localStorage.setItem('notification_historical_analytics', JSON.stringify(updatedHistoricalAnalytics));
+          console.log(`📊 Historical analytics updated - notification opened: ${notificationId}`);
+        }
+      }
       
-      // Update global analytics
+      // Update legacy analytics for backwards compatibility
+      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
       const updatedGlobalAnalytics = {
         totalNotifications: globalAnalytics.totalNotifications || 1,
         totalSent: globalAnalytics.totalSent || 1,
@@ -172,9 +194,7 @@ export const NotificationProvider = ({ children }) => {
         lastUpdated: new Date().toISOString()
       };
       
-      // Calculate open rate
       updatedGlobalAnalytics.globalOpenRate = (updatedGlobalAnalytics.totalOpened / updatedGlobalAnalytics.totalSent * 100).toFixed(1);
-      
       localStorage.setItem('notification_global_analytics', JSON.stringify(updatedGlobalAnalytics));
       
       // Track individual notification analytics
@@ -214,20 +234,15 @@ export const NotificationProvider = ({ children }) => {
       console.error('Failed to clear server notifications:', error);
     }
     
-    // Clear all notification-related localStorage data
+    // Only clear user-facing notification data, preserve admin analytics
     localStorage.removeItem('active_notifications');
     localStorage.removeItem('read_notifications');
-    localStorage.removeItem('notification_global_analytics');
     
-    // Clear individual notification analytics
-    const allKeys = Object.keys(localStorage);
-    allKeys.forEach(key => {
-      if (key.startsWith('notification_')) {
-        localStorage.removeItem(key);
-      }
-    });
+    // DO NOT clear admin analytics data:
+    // - notification_global_analytics (needed for admin dashboard)
+    // - individual notification_* analytics (needed for tracking)
     
-    // Reset state
+    // Reset user-facing state only
     setNotifications([]);
     setUnreadCount(0);
     
@@ -236,7 +251,7 @@ export const NotificationProvider = ({ children }) => {
       loadNotifications();
     }, 100);
     
-    console.log('📭 All notifications cleared completely');
+    console.log('📭 User notifications cleared (admin analytics preserved)');
   };
 
   const value = {

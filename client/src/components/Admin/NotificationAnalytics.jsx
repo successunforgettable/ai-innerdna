@@ -17,39 +17,43 @@ const NotificationAnalytics = () => {
 
   const loadAnalytics = async () => {
     try {
-      // Load real analytics from localStorage
-      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
+      // Load persistent historical analytics (survives user clearing)
+      const historicalAnalytics = JSON.parse(localStorage.getItem('notification_historical_analytics') || '{}');
       
-      // Load only admin-created notifications from localStorage
+      // Load current active notifications
       const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
-      const allNotifications = activeNotifications;
       
-      // Calculate real metrics from actual data
-      const totalNotifications = allNotifications.length;
-      const totalSent = totalNotifications;
-      
-      // Count unique notifications that have been opened (not total clicks)
-      let totalOpened = 0;
+      // Load read status
       const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
       
-      allNotifications.forEach(notif => {
-        if (readNotifications.includes(notif.id)) {
-          totalOpened++;
-        }
-      });
+      // Use historical data if available, otherwise calculate from current data
+      let totalNotifications = historicalAnalytics.totalNotificationsSent || activeNotifications.length;
+      let totalSent = totalNotifications;
+      let totalOpened = historicalAnalytics.totalNotificationsOpened || 0;
       
-      // Calculate realistic open rate (max 100%)
+      // If we have active notifications, add any new reads to the historical count
+      if (activeNotifications.length > 0) {
+        activeNotifications.forEach(notif => {
+          if (readNotifications.includes(notif.id)) {
+            // Check if this notification open was already counted
+            const wasAlreadyCounted = historicalAnalytics.countedNotificationIds && 
+                                    historicalAnalytics.countedNotificationIds.includes(notif.id);
+            if (!wasAlreadyCounted) {
+              totalOpened++;
+            }
+          }
+        });
+      }
+      
+      // Calculate realistic open rate
       const globalOpenRate = totalSent > 0 ? ((totalOpened / totalSent) * 100).toFixed(1) : 0;
       
-      // Type breakdown
-      const typeBreakdown = {};
-      allNotifications.forEach(notif => {
-        typeBreakdown[notif.type] = (typeBreakdown[notif.type] || 0) + 1;
-      });
+      // Type and audience breakdown from historical + current data
+      const typeBreakdown = { ...historicalAnalytics.typeBreakdown };
+      const audienceBreakdown = { ...historicalAnalytics.audienceBreakdown };
       
-      // Audience breakdown
-      const audienceBreakdown = {};
-      allNotifications.forEach(notif => {
+      activeNotifications.forEach(notif => {
+        typeBreakdown[notif.type] = (typeBreakdown[notif.type] || 0) + 1;
         audienceBreakdown[notif.targetAudience] = (audienceBreakdown[notif.targetAudience] || 0) + 1;
       });
       
@@ -59,7 +63,7 @@ const NotificationAnalytics = () => {
         totalOpened,
         globalOpenRate,
         globalEngagementRate: globalOpenRate,
-        recentNotifications: allNotifications.slice(-5),
+        recentNotifications: activeNotifications.slice(-5),
         typeBreakdown,
         audienceBreakdown
       });
