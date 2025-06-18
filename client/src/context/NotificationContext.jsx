@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import useWebSocket from '../hooks/useWebSocket';
 
 const NotificationContext = createContext();
 
@@ -14,6 +15,39 @@ export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotificationCenter, setShowNotificationCenter] = useState(false);
+
+  // Add WebSocket connection
+  const { connectionStatus, lastMessage } = useWebSocket();
+
+  // Listen for real-time notifications
+  useEffect(() => {
+    if (lastMessage && lastMessage.type === 'new_notification') {
+      console.log('🔔 Real-time notification received:', lastMessage.data);
+      
+      // Add new notification to existing list
+      setNotifications(prev => [lastMessage.data, ...prev]);
+      
+      // Increment unread count
+      setUnreadCount(prev => prev + 1);
+      
+      // Optional: Show browser notification if permission granted
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(lastMessage.data.title, {
+          body: lastMessage.data.message,
+          icon: '/favicon.ico'
+        });
+      }
+    }
+  }, [lastMessage]);
+
+  // Request notification permission on load
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission().then(permission => {
+        console.log('Notification permission:', permission);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     loadNotifications();
@@ -142,6 +176,7 @@ export const NotificationProvider = ({ children }) => {
     notifications,
     unreadCount,
     showNotificationCenter,
+    connectionStatus, // Add this line
     markAsRead,
     toggleNotificationCenter,
     loadNotifications

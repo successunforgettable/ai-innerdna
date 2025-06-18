@@ -1,0 +1,156 @@
+# **WebSocket Step 2: Create WebSocket Client Connection**
+
+## **🚨 CRITICAL INSTRUCTIONS FOR REPLIT AI:**
+
+**DO NOT TOUCH ANY EXISTING CODE OR SYSTEMS:**
+- ❌ DO NOT modify existing React components except where explicitly specified
+- ❌ DO NOT change existing context providers or hooks
+- ❌ DO NOT alter existing CSS or styling systems
+- ❌ DO NOT modify the Inner DNA assessment functionality
+- ❌ DO NOT change user authentication or database systems
+- ❌ DO NOT make assumptions or creative additions
+- ❌ DO NOT use free will - ONLY follow this exact prompt
+
+**✅ ONLY CREATE the new files and make the specific additions mentioned below**
+
+## **Micro Prompt for Replit AI:**
+
+Create a WebSocket client connection in React to receive real-time notifications.
+
+**STEP 2A: Create WebSocket Hook**
+
+Create a new file at `src/hooks/useWebSocket.js` with this exact content:
+
+```javascript
+import { useEffect, useRef, useState } from 'react';
+
+const useWebSocket = (url) => {
+  const [connectionStatus, setConnectionStatus] = useState('Connecting');
+  const [lastMessage, setLastMessage] = useState(null);
+  const ws = useRef(null);
+
+  useEffect(() => {
+    // Create WebSocket connection
+    const wsUrl = url || `ws://localhost:3000`;
+    ws.current = new WebSocket(wsUrl);
+
+    ws.current.onopen = () => {
+      console.log('🔗 WebSocket connected');
+      setConnectionStatus('Connected');
+    };
+
+    ws.current.onmessage = (event) => {
+      try {
+        const message = JSON.parse(event.data);
+        console.log('📨 WebSocket message received:', message);
+        setLastMessage(message);
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+      }
+    };
+
+    ws.current.onclose = () => {
+      console.log('❌ WebSocket disconnected');
+      setConnectionStatus('Disconnected');
+    };
+
+    ws.current.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      setConnectionStatus('Error');
+    };
+
+    // Cleanup on unmount
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
+  }, [url]);
+
+  const sendMessage = (message) => {
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send(JSON.stringify(message));
+    } else {
+      console.warn('WebSocket not connected, cannot send message');
+    }
+  };
+
+  return {
+    connectionStatus,
+    lastMessage,
+    sendMessage
+  };
+};
+
+export default useWebSocket;
+```
+
+**STEP 2B: Update Notification Context**
+
+Update your existing `src/context/NotificationContext.jsx` file. Add this import at the top:
+
+```jsx
+import useWebSocket from '../hooks/useWebSocket';
+```
+
+**Then update the NotificationProvider component by adding this code inside the component (after the existing useState declarations):**
+
+```jsx
+// Add WebSocket connection
+const { connectionStatus, lastMessage } = useWebSocket();
+
+// Listen for real-time notifications
+useEffect(() => {
+  if (lastMessage && lastMessage.type === 'new_notification') {
+    console.log('🔔 Real-time notification received:', lastMessage.data);
+    
+    // Add new notification to existing list
+    setNotifications(prev => [lastMessage.data, ...prev]);
+    
+    // Increment unread count
+    setUnreadCount(prev => prev + 1);
+    
+    // Optional: Show browser notification if permission granted
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(lastMessage.data.title, {
+        body: lastMessage.data.message,
+        icon: '/favicon.ico'
+      });
+    }
+  }
+}, [lastMessage]);
+
+// Request notification permission on load
+useEffect(() => {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().then(permission => {
+      console.log('Notification permission:', permission);
+    });
+  }
+}, []);
+```
+
+**STEP 2C: Add Connection Status to Context Value**
+
+Update the `value` object in your NotificationProvider to include the connection status:
+
+```jsx
+const value = {
+  notifications,
+  unreadCount,
+  showNotificationCenter,
+  connectionStatus, // Add this line
+  markAsRead,
+  toggleNotificationCenter,
+  loadNotifications
+};
+```
+
+## **Instructions:**
+1. Create the new folder `src/hooks/` if it doesn't exist
+2. Create the file `useWebSocket.js` with the hook code
+3. Update your existing `NotificationContext.jsx` file with the WebSocket integration
+4. Add the import, useEffect hooks, and connectionStatus to the context value
+5. Save all files
+
+**Expected Result:** React app connects to WebSocket server and is ready to receive real-time notifications.

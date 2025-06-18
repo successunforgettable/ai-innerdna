@@ -1,0 +1,224 @@
+# **WebSocket Step 3: Add Connection Status Indicator**
+
+## **🚨 CRITICAL INSTRUCTIONS FOR REPLIT AI:**
+
+**DO NOT TOUCH ANY EXISTING CODE OR SYSTEMS:**
+- ❌ DO NOT modify existing header styling or layout
+- ❌ DO NOT change existing React component logic
+- ❌ DO NOT alter existing CSS classes or design system
+- ❌ DO NOT modify the Inner DNA assessment system
+- ❌ DO NOT change notification components created in previous steps
+- ❌ DO NOT make assumptions about file locations or names
+- ❌ DO NOT use creative freedom - ONLY follow this exact prompt
+
+**✅ ONLY CREATE the new files and add the specific components mentioned below**
+
+## **Micro Prompt for Replit AI:**
+
+Add a visual indicator to show WebSocket connection status to users.
+
+**STEP 3A: Create Connection Status Component**
+
+Create a new file at `src/components/Common/ConnectionStatus.jsx` with this exact content:
+
+```jsx
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useNotifications } from '../../context/NotificationContext';
+import styles from './connection.module.css';
+
+const ConnectionStatus = () => {
+  const { connectionStatus } = useNotifications();
+
+  const getStatusConfig = () => {
+    switch (connectionStatus) {
+      case 'Connected':
+        return {
+          color: '#10b981',
+          icon: '🟢',
+          text: 'Live',
+          pulse: false
+        };
+      case 'Connecting':
+        return {
+          color: '#f59e0b',
+          icon: '🟡',
+          text: 'Connecting',
+          pulse: true
+        };
+      case 'Disconnected':
+        return {
+          color: '#ef4444',
+          icon: '🔴',
+          text: 'Offline',
+          pulse: false
+        };
+      case 'Error':
+        return {
+          color: '#ef4444',
+          icon: '⚠️',
+          text: 'Error',
+          pulse: false
+        };
+      default:
+        return {
+          color: '#6b7280',
+          icon: '⚪',
+          text: 'Unknown',
+          pulse: false
+        };
+    }
+  };
+
+  const statusConfig = getStatusConfig();
+
+  return (
+    <motion.div
+      className={styles.connectionStatus}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.div
+        className={styles.statusIndicator}
+        animate={statusConfig.pulse ? { scale: [1, 1.2, 1] } : {}}
+        transition={statusConfig.pulse ? { repeat: Infinity, duration: 1.5 } : {}}
+      >
+        <span className={styles.statusIcon}>{statusConfig.icon}</span>
+        <span 
+          className={styles.statusText}
+          style={{ color: statusConfig.color }}
+        >
+          {statusConfig.text}
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+export default ConnectionStatus;
+```
+
+**STEP 3B: Create Connection Status CSS**
+
+Create a new file at `src/components/Common/connection.module.css` with this exact content:
+
+```css
+.connectionStatus {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statusIcon {
+  font-size: 8px;
+  line-height: 1;
+}
+
+.statusText {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Connection status variations */
+.connectionStatus[data-status="Connected"] {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.connectionStatus[data-status="Connecting"] {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.connectionStatus[data-status="Disconnected"],
+.connectionStatus[data-status="Error"] {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Optional: Position for header placement */
+.headerConnectionStatus {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 100;
+}
+
+/* Optional: Position for bottom corner */
+.bottomConnectionStatus {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+```
+
+**STEP 3C: Add Connection Status to Header**
+
+Update your header component (or App.jsx if header is there) to include the connection status.
+
+**Add this import:**
+```jsx
+import ConnectionStatus from '../Common/ConnectionStatus'; // Adjust path as needed
+```
+
+**Add the component to your header JSX:**
+```jsx
+<header className="app-header">
+  <div className="header-left">
+    <h1>Inner DNA</h1>
+  </div>
+  <div className="header-right">
+    <ConnectionStatus />
+    <NotificationBell />
+    {/* other header items */}
+  </div>
+</header>
+```
+
+**STEP 3D: Update Notification Bell with Connection Status**
+
+Update your existing `src/components/Common/NotificationBell.jsx` to show connection status in the bell tooltip.
+
+**Add this to the NotificationBell component (inside the return statement):**
+
+```jsx
+const { unreadCount, toggleNotificationCenter, connectionStatus } = useNotifications();
+
+return (
+  <div className={styles.notificationBell}>
+    <motion.button
+      className={styles.bellButton}
+      onClick={toggleNotificationCenter}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      title={`Notifications (${connectionStatus})`} // Add this line
+    >
+      {/* existing bell SVG and badge code */}
+    </motion.button>
+  </div>
+);
+```
+
+## **Instructions:**
+1. Create the ConnectionStatus component in `src/components/Common/ConnectionStatus.jsx`
+2. Create the connection CSS file `src/components/Common/connection.module.css`
+3. Add ConnectionStatus to your header component
+4. Update NotificationBell to show connection status in tooltip
+5. Test that the status indicator appears and changes based on WebSocket connection
+
+**Expected Result:** Small status indicator appears in header showing "Live" (green), "Connecting" (yellow), or "Offline" (red) based on WebSocket connection status.
