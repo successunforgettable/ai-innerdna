@@ -2,6 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { createServer } from "http";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
@@ -40,6 +46,71 @@ app.use((req, res, next) => {
 // Store recent notifications for polling
 let recentNotifications: any[] = [];
 
+// Analytics file path
+const ANALYTICS_FILE = path.join(__dirname, 'analytics.json');
+
+// Load analytics from file
+function loadAnalytics() {
+  try {
+    if (fs.existsSync(ANALYTICS_FILE)) {
+      const data = fs.readFileSync(ANALYTICS_FILE, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('Error loading analytics:', error);
+  }
+  return {
+    totalNotifications: 0,
+    totalSent: 0,
+    totalOpened: 0,
+    globalOpenRate: 0,
+    lastUpdated: new Date().toISOString(),
+    interactions: []
+  };
+}
+
+// Save analytics to file
+function saveAnalytics(analytics: any) {
+  try {
+    fs.writeFileSync(ANALYTICS_FILE, JSON.stringify(analytics, null, 2));
+  } catch (error) {
+    console.error('Error saving analytics:', error);
+  }
+}
+
+// Track notification interaction
+function trackNotificationInteraction(notificationId: string, action: string) {
+  const analytics = loadAnalytics();
+  
+  if (action === 'sent') {
+    analytics.totalSent += 1;
+    analytics.totalNotifications += 1;
+  } else if (action === 'opened') {
+    analytics.totalOpened += 1;
+  }
+  
+  analytics.globalOpenRate = analytics.totalSent > 0 
+    ? ((analytics.totalOpened / analytics.totalSent) * 100).toFixed(1)
+    : 0;
+  
+  analytics.lastUpdated = new Date().toISOString();
+  
+  // Add to interactions log
+  analytics.interactions.push({
+    notificationId,
+    action,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Keep only last 100 interactions
+  if (analytics.interactions.length > 100) {
+    analytics.interactions = analytics.interactions.slice(-100);
+  }
+  
+  saveAnalytics(analytics);
+  return analytics;
+}
+
 // Function to add notifications to recent list
 function addRecentNotification(notification: any) {
   recentNotifications.unshift(notification);
@@ -48,6 +119,9 @@ function addRecentNotification(notification: any) {
     recentNotifications = recentNotifications.slice(0, 10);
   }
   console.log(`📢 Added notification to recent list: ${notification.title}`);
+  
+  // Track analytics
+  trackNotificationInteraction(notification.id, 'sent');
 }
 
 // Make function available globally
@@ -118,12 +192,40 @@ function addRecentNotification(notification: any) {
     }
   });
 
+  // API endpoint to track notification opens
+  app.post('/api/notifications/track', (req, res) => {
+    try {
+      const { notificationId, action } = req.body;
+      
+      if (!notificationId || !action) {
+        return res.status(400).json({ 
+          error: 'Notification ID and action are required' 
+        });
+      }
+
+      const analytics = trackNotificationInteraction(notificationId, action);
+      
+      res.json({
+        success: true,
+        analytics,
+        message: `Tracked ${action} for notification ${notificationId}`
+      });
+    } catch (error) {
+      console.error('Error tracking notification:', error);
+      res.status(500).json({ 
+        error: 'Failed to track notification' 
+      });
+    }
+  });
+
   // API endpoint to get notification stats
   app.get('/api/notifications/stats', (req, res) => {
+    const analytics = loadAnalytics();
     res.json({
       recentNotifications: recentNotifications.length,
       serverStatus: 'running',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      ...analytics
     });
   });
 

@@ -1,0 +1,14 @@
+{
+  "totalNotifications": 1,
+  "totalSent": 1,
+  "totalOpened": 0,
+  "globalOpenRate": "0.0",
+  "lastUpdated": "2025-06-18T20:38:24.005Z",
+  "interactions": [
+    {
+      "notificationId": "notif_1750279104003",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:38:24.005Z"
+    }
+  ]
+}

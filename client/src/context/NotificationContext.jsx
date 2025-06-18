@@ -163,56 +163,25 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
-  const trackNotificationOpen = (notificationId) => {
+  const trackNotificationOpen = async (notificationId) => {
     try {
-      // Mark as read first
-      const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
-      if (!readNotifications.includes(notificationId)) {
-        readNotifications.push(notificationId);
-        localStorage.setItem('read_notifications', JSON.stringify(readNotifications));
-        
-        // Update historical analytics (persistent admin data)
-        const historicalAnalytics = JSON.parse(localStorage.getItem('notification_historical_analytics') || '{}');
-        const countedIds = historicalAnalytics.countedNotificationIds || [];
-        
-        // Only count this open if it hasn't been counted before
-        if (!countedIds.includes(notificationId)) {
-          const updatedHistoricalAnalytics = {
-            ...historicalAnalytics,
-            totalNotificationsOpened: (historicalAnalytics.totalNotificationsOpened || 0) + 1,
-            countedNotificationIds: [...countedIds, notificationId],
-            lastUpdated: new Date().toISOString()
-          };
-          
-          localStorage.setItem('notification_historical_analytics', JSON.stringify(updatedHistoricalAnalytics));
-          console.log(`📊 Historical analytics updated - notification opened: ${notificationId}`);
-        }
+      // Track on server for persistent analytics that survive restarts
+      const response = await fetch('/api/notifications/track', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          notificationId,
+          action: 'opened'
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log(`Tracked notification open: ${notificationId}`, result.analytics);
       }
       
-      // Update legacy analytics for backwards compatibility
-      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
-      const updatedGlobalAnalytics = {
-        totalNotifications: globalAnalytics.totalNotifications || 1,
-        totalSent: globalAnalytics.totalSent || 1,
-        totalOpened: (globalAnalytics.totalOpened || 0) + 1,
-        globalOpenRate: 0,
-        lastUpdated: new Date().toISOString()
-      };
-      
-      updatedGlobalAnalytics.globalOpenRate = (updatedGlobalAnalytics.totalOpened / updatedGlobalAnalytics.totalSent * 100).toFixed(1);
-      localStorage.setItem('notification_global_analytics', JSON.stringify(updatedGlobalAnalytics));
-      
-      // Track individual notification analytics
-      const notificationAnalytics = JSON.parse(localStorage.getItem(`notification_${notificationId}`) || '{}');
-      const updatedNotificationAnalytics = {
-        ...notificationAnalytics,
-        opens: (notificationAnalytics.opens || 0) + 1,
-        lastOpened: new Date().toISOString()
-      };
-      
-      localStorage.setItem(`notification_${notificationId}`, JSON.stringify(updatedNotificationAnalytics));
-      
-      console.log(`Tracked notification open: ${notificationId}`, updatedGlobalAnalytics);
     } catch (error) {
       console.error('Error tracking notification open:', error);
     }
