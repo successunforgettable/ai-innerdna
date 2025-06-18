@@ -22,26 +22,36 @@ export const NotificationProvider = ({ children }) => {
 
   // Listen for real-time notifications
   useEffect(() => {
-    if (lastMessage && lastMessage.type === 'new_notification') {
-      console.log('🔔 Real-time notification received:', lastMessage.data);
-      
-      // Add new notification to existing list
-      setNotifications(prev => [lastMessage.data, ...prev]);
-      
-      // Increment unread count
-      setUnreadCount(prev => prev + 1);
-      
-      // Play notification sound based on priority
-      const soundType = lastMessage.data.priority === 'high' ? 'high' : 'default';
-      notificationSounds.playNotificationSound(soundType);
-      
-      // Optional: Show browser notification if permission granted
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification(lastMessage.data.title, {
-          body: lastMessage.data.message,
-          icon: '/favicon.ico',
-          tag: lastMessage.data.id // Prevent duplicate notifications
-        });
+    if (lastMessage && lastMessage.data) {
+      try {
+        const messageData = typeof lastMessage.data === 'string' 
+          ? JSON.parse(lastMessage.data) 
+          : lastMessage.data;
+        
+        if (messageData.type === 'new_notification' && messageData.data) {
+          console.log('🔔 Real-time notification received:', messageData.data);
+          
+          // Add new notification to existing list
+          setNotifications(prev => [messageData.data, ...prev]);
+          
+          // Increment unread count
+          setUnreadCount(prev => prev + 1);
+          
+          // Play notification sound based on priority
+          const soundType = messageData.data.priority === 'high' ? 'high' : 'default';
+          notificationSounds.playNotificationSound(soundType);
+          
+          // Optional: Show browser notification if permission granted
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification(messageData.data.title, {
+              body: messageData.data.message,
+              icon: '/favicon.ico',
+              tag: messageData.data.id // Prevent duplicate notifications
+            });
+          }
+        }
+      } catch (error) {
+        console.log('Error parsing notification message:', error);
       }
     }
   }, [lastMessage]);

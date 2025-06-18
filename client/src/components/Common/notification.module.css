@@ -1,9 +1,7 @@
 /* Notification Bell */
 .notificationBell {
   position: relative;
-  display: inline-flex;
-  gap: 4px;
-  align-items: center;
+  display: inline-block;
 }
 
 .bellButton {
@@ -13,13 +11,13 @@
   padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
-  color: var(--text-secondary);
+  color: #64748b;
   position: relative;
 }
 
 .bellButton:hover {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
+  background-color: #f8fafc;
+  color: #1e293b;
 }
 
 .badge {
@@ -44,8 +42,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   display: flex;
   align-items: flex-start;
@@ -54,14 +51,12 @@
 }
 
 .notificationCenter {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
-  border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(20px);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 420px;
-  max-height: 520px;
+  max-width: 400px;
+  max-height: 500px;
   overflow: hidden;
 }
 
@@ -69,68 +64,49 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  color: white;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
 }
 
 .centerHeader h3 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: #1e293b;
 }
 
 .closeButton {
-  background: rgba(255, 255, 255, 0.2);
+  background: none;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
-  color: white;
-  padding: 6px;
-  width: 32px;
-  height: 32px;
+  color: #64748b;
+  padding: 0;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.closeButton:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
 }
 
 .notificationList {
-  max-height: 420px;
+  max-height: 400px;
   overflow-y: auto;
-  background: rgba(248, 250, 252, 0.5);
 }
 
 .emptyState {
-  padding: 60px 24px;
+  padding: 40px 20px;
   text-align: center;
   color: #64748b;
-  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
 }
 
 .notificationItem {
-  padding: 18px 24px;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
   position: relative;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-}
-
-.notificationItem:hover {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(147, 197, 253, 0.05));
-  transform: translateX(4px);
-  border-left: 3px solid #3b82f6;
 }
 
 .notificationItem:last-child {
@@ -138,177 +114,20 @@
 }
 
 .notificationContent h4 {
-  margin: 0 0 6px 0;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #1e293b;
-  background: linear-gradient(135deg, #1e293b, #3b82f6);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.notificationContent p {
-  margin: 0 0 10px 0;
-  font-size: 0.875rem;
-  color: #475569;
-  line-height: 1.5;
-}
-
-.timestamp {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  background: rgba(59, 130, 246, 0.1);
-  padding: 2px 8px;
-  border-radius: 12px;
-  display: inline-block;
-}
-
-/* Login Notification */
-.loginNotification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #10b981;
-}
-
-.loginContent {
-  display: flex;
-  align-items: center;
-  padding: 16px 20px;
-  gap: 12px;
-}
-
-.welcomeIcon {
-  font-size: 24px;
-}
-
-.welcomeText h4 {
   margin: 0 0 4px 0;
   font-size: 1rem;
   font-weight: 600;
   color: #1e293b;
 }
 
-.welcomeText p {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #64748b;
-}
-
-.closeNotification {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #64748b;
-  padding: 0;
-  margin-left: auto;
-}
-
-.soundButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-size: 14px;
-  opacity: 0.7;
-}
-
-.soundButton:hover {
-  background-color: var(--bg-secondary);
-  opacity: 1;
-}
-
-.notificationHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.priorityBadge {
-  background: #ef4444;
-  color: white;
-  font-size: 0.625rem;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.highPriority {
-  border-left: 4px solid #ef4444;
-  background: linear-gradient(to right, rgba(239, 68, 68, 0.05), transparent);
-}
-
-.lowPriority {
-  opacity: 0.8;
-}
-
-.highPriority .notificationContent h4 {
-  color: #dc2626;
-}
-
-.notificationToast {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 1001;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-  border: 1px solid #e2e8f0;
-  max-width: 350px;
-  min-width: 300px;
-}
-
-.toastContent {
-  padding: 16px;
-}
-
-.toastHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-
-.toastHeader h4 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.toastHeader button {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #64748b;
-  padding: 0;
-  line-height: 1;
-}
-
-.toastContent p {
+.notificationContent p {
   margin: 0 0 8px 0;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: #64748b;
   line-height: 1.4;
 }
 
-.toastPriority {
+.timestamp {
   font-size: 0.75rem;
-  color: #ef4444;
-  font-weight: 600;
-  text-transform: uppercase;
+  color: #64748b;
 }

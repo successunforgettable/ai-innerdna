@@ -1,90 +1,55 @@
-import { useEffect, useRef, useState } from 'react';
+// Polling-based notification hook (replaces WebSocket)
+import { useState, useEffect, useRef } from 'react';
 
 const useWebSocket = (url) => {
-  const [connectionStatus, setConnectionStatus] = useState('Connecting');
+  const [connectionStatus, setConnectionStatus] = useState('Connecting...');
   const [lastMessage, setLastMessage] = useState(null);
-  const ws = useRef(null);
-  const reconnectTimeoutRef = useRef(null);
-  const reconnectAttemptsRef = useRef(0);
-  const isConnectingRef = useRef(false);
+  const intervalRef = useRef(null);
+  const lastTimestampRef = useRef(0);
 
-  const connect = () => {
-    if (isConnectingRef.current) return;
-    
+  // Polling function to check for new notifications
+  const pollNotifications = async () => {
     try {
-      isConnectingRef.current = true;
-      const wsUrl = url || `ws://localhost:5000`;
-      ws.current = new WebSocket(wsUrl);
-
-      ws.current.onopen = () => {
-        console.log('🔗 WebSocket connected');
-        setConnectionStatus('Connected');
-        reconnectAttemptsRef.current = 0;
-        isConnectingRef.current = false;
-      };
-
-      ws.current.onmessage = (event) => {
-        try {
-          const message = JSON.parse(event.data);
-          console.log('📨 WebSocket message received:', message);
-          setLastMessage(message);
-        } catch (error) {
-          console.error('Error parsing WebSocket message:', error);
-        }
-      };
-
-      ws.current.onclose = () => {
-        console.log('❌ WebSocket disconnected');
-        setConnectionStatus('Disconnected');
-        isConnectingRef.current = false;
+      const response = await fetch(`/api/notifications/recent?since=${lastTimestampRef.current}`);
+      if (response.ok) {
+        const data = await response.json();
+        setConnectionStatus('Live');
         
-        // Attempt to reconnect with exponential backoff
-        if (reconnectAttemptsRef.current < 3) {
-          const delay = Math.min(2000 * Math.pow(2, reconnectAttemptsRef.current), 8000);
-          console.log(`🔄 Attempting to reconnect in ${delay}ms...`);
-          reconnectTimeoutRef.current = setTimeout(() => {
-            reconnectAttemptsRef.current++;
-            setConnectionStatus('Connecting');
-            connect();
-          }, delay);
-        } else {
-          setConnectionStatus('Error');
-          console.error('❌ Max reconnection attempts reached');
+        if (data.notifications && data.notifications.length > 0) {
+          // Send the most recent notification as lastMessage
+          setLastMessage({
+            data: JSON.stringify({
+              type: 'new_notification',
+              data: data.notifications[0]
+            })
+          });
+          lastTimestampRef.current = data.timestamp;
         }
-      };
-
-      ws.current.onerror = (error) => {
-        console.error('WebSocket error:', error);
+      } else {
         setConnectionStatus('Error');
-        isConnectingRef.current = false;
-      };
+      }
     } catch (error) {
-      console.error('Failed to create WebSocket connection:', error);
+      console.error('Polling error:', error);
       setConnectionStatus('Error');
-      isConnectingRef.current = false;
     }
   };
 
   useEffect(() => {
-    connect();
+    // Start polling every 2 seconds
+    setConnectionStatus('Connecting...');
+    pollNotifications(); // Initial poll
+    
+    intervalRef.current = setInterval(pollNotifications, 2000);
 
     return () => {
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
       }
-      if (ws.current) {
-        ws.current.close();
-      }
-      isConnectingRef.current = false;
     };
   }, [url]);
 
   const sendMessage = (message) => {
-    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      ws.current.send(JSON.stringify(message));
-    } else {
-      console.warn('WebSocket not connected, cannot send message');
-    }
+    console.log('Sending message via polling:', message);
   };
 
   return {

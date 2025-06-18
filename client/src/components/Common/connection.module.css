@@ -26,36 +26,3 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-
-/* Connection status variations */
-.connectionStatus[data-status="Connected"] {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.3);
-}
-
-.connectionStatus[data-status="Connecting"] {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
-.connectionStatus[data-status="Disconnected"],
-.connectionStatus[data-status="Error"] {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-/* Optional: Position for header placement */
-.headerConnectionStatus {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 100;
-}
-
-/* Optional: Position for bottom corner */
-.bottomConnectionStatus {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
