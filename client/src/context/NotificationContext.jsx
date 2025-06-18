@@ -99,13 +99,17 @@ export const NotificationProvider = ({ children }) => {
       // Load read status from localStorage
       const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
       
-      // Filter out read notifications and count unread
-      const unreadNotifications = allNotifications.filter(notif => 
-        !readNotifications.includes(notif.id)
-      );
+      // Mark notifications as read/unread based on localStorage
+      const notificationsWithReadStatus = allNotifications.map(notif => ({
+        ...notif,
+        isRead: readNotifications.includes(notif.id)
+      }));
       
-      setNotifications(allNotifications);
-      setUnreadCount(unreadNotifications.length);
+      // Count unread notifications
+      const unreadCount = notificationsWithReadStatus.filter(notif => !notif.isRead).length;
+      
+      setNotifications(notificationsWithReadStatus);
+      setUnreadCount(unreadCount);
       
       console.log(`✅ Loaded ${allNotifications.length} notifications successfully`);
       
@@ -122,7 +126,8 @@ export const NotificationProvider = ({ children }) => {
           createdAt: new Date().toISOString(),
           isActive: true,
           targetAudience: 'all',
-          priority: 'normal'
+          priority: 'normal',
+          isRead: false
         }
       ];
       
@@ -145,6 +150,15 @@ export const NotificationProvider = ({ children }) => {
       readNotifications.push(notificationId);
       localStorage.setItem('read_notifications', JSON.stringify(readNotifications));
     }
+    
+    // Update notification state to mark as read
+    setNotifications(prev => 
+      prev.map(notif => 
+        notif.id === notificationId 
+          ? { ...notif, isRead: true }
+          : notif
+      )
+    );
     
     setUnreadCount(prev => Math.max(0, prev - 1));
     
