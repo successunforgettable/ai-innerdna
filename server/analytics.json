@@ -1,9 +1,9 @@
 {
-  "totalNotifications": 8,
-  "totalSent": 8,
+  "totalNotifications": 15,
+  "totalSent": 15,
   "totalOpened": 6,
-  "globalOpenRate": "75.0",
-  "lastUpdated": "2025-06-18T20:39:48.532Z",
+  "globalOpenRate": "40.0",
+  "lastUpdated": "2025-06-18T20:42:19.859Z",
   "interactions": [
     {
       "notificationId": "notif_1750279104003",
@@ -74,6 +74,41 @@
       "notificationId": "notif_1750279104003",
       "action": "opened",
       "timestamp": "2025-06-18T20:39:48.532Z"
+    },
+    {
+      "notificationId": "notif_1750279336616",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:16.618Z"
+    },
+    {
+      "notificationId": "notif_1750279337155",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:17.155Z"
+    },
+    {
+      "notificationId": "notif_1750279337695",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:17.695Z"
+    },
+    {
+      "notificationId": "notif_1750279338233",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:18.234Z"
+    },
+    {
+      "notificationId": "notif_1750279338773",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:18.774Z"
+    },
+    {
+      "notificationId": "notif_1750279339312",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:19.313Z"
+    },
+    {
+      "notificationId": "notif_1750279339855",
+      "action": "sent",
+      "timestamp": "2025-06-18T20:42:19.859Z"
     }
   ]
 }
