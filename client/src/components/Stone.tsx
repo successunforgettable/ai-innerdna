@@ -17,6 +17,11 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
       : '0 4px 12px rgba(0, 0, 0, 0.2)'
   };
 
+  // Split content: "When making decisions, I think • statement 1 • statement 2"
+  const parts = content[0].split(' • ');
+  const contextPhrase = parts[0]; // "When making decisions, I think"
+  const actionStatements = parts.slice(1); // ["statement 1", "statement 2"]
+
   return (
     <motion.div
       className="foundation-stone"
@@ -42,14 +47,15 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         hyphens: 'none',
         whiteSpace: 'normal'
       }}>
-        {/* Force browser refresh - updated structure */}
-        {content[0].split(' • ').map((statement, index) => (
-          <div key={index} style={{
-            display: 'block',
-            marginBottom: index < content[0].split(' • ').length - 1 ? '8px' : '0',
-            textAlign: 'center'
+        <div style={{ marginBottom: '6px', fontWeight: 700 }}>
+          {contextPhrase}
+        </div>
+        {actionStatements.map((statement, index) => (
+          <div key={`bullet-${index}`} style={{ 
+            marginBottom: '4px',
+            fontSize: '12px'
           }}>
-            {index === 0 ? statement : `• ${statement}`}
+            • {statement.trim()}
           </div>
         ))}
       </div>
