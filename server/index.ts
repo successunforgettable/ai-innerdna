@@ -64,10 +64,10 @@ function broadcastNotification(notification: any) {
   const server = await registerRoutes(app);
   
   // Create WebSocket server
-  const wss = new WebSocket.Server({ server });
+  const wss = new WebSocketServer({ server });
 
   // WebSocket connection handling
-  wss.on('connection', (ws) => {
+  wss.on('connection', (ws: any) => {
     console.log('🔗 New WebSocket client connected');
     clients.add(ws);
 
@@ -84,7 +84,7 @@ function broadcastNotification(notification: any) {
     });
 
     // Handle errors
-    ws.on('error', (error) => {
+    ws.on('error', (error: any) => {
       console.error('WebSocket error:', error);
       clients.delete(ws);
     });
