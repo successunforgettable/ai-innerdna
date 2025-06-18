@@ -84,7 +84,8 @@ export default function FoundationStones() {
     newFoundationStones[currentStoneSet] = {
       setIndex: currentStoneSet,
       stoneIndex: stoneIndex,
-      content: selectedStoneData.content,
+      context: selectedStoneData.context,
+      statements: selectedStoneData.statements,
       gradient: selectedStoneData.gradient
     };
     
@@ -110,7 +111,8 @@ export default function FoundationStones() {
       const foundationStoneSelections = stoneSelections.map((selection, setIndex) => ({
         setIndex,
         stoneIndex: selection,
-        content: stoneSets[setIndex].stones[selection].content,
+        context: stoneSets[setIndex].stones[selection].context,
+        statements: stoneSets[setIndex].stones[selection].statements,
         gradient: stoneSets[setIndex].stones[selection].gradient
       }));
       

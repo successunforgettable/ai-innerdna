@@ -160,51 +160,125 @@ export const stoneSets: StoneSet[] = [
     ]
   },
   {
-    title: "Social Approach",
-    stones: [
-      { content: ["In social situations, I prefer smaller groups • I need meaningful conversations • I value independence and space"], gradient: "linear-gradient(135deg, #64748b, #475569)" },
-      { content: ["In social situations, I seek close connections • I want intimacy and bonding • I build strong personal relationships"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
-      { content: ["In social situations, I maintain my autonomy • I stay self-reliant • I don't depend on others too much"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
-    ]
-  },
-  {
-    title: "Processing Style",
-    stones: [
-      { content: ["I process information through thinking • I analyze systems and concepts • I focus on ideas and frameworks"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
-      { content: ["I process information through feelings • I pay attention to emotions and moods • I trust what resonates emotionally"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" },
-      { content: ["I process information practically • I focus on what works • I want efficient, useful results"], gradient: "linear-gradient(135deg, #059669, #047857)" }
-    ]
-  },
-  {
     title: "Stress Reaction",
     stones: [
-      { content: ["When stressed, I become more cautious • I analyze potential problems • I prepare for what could go wrong"], gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)" },
-      { content: ["When stressed, I focus on recognition • I worry about my image and identity • I need to feel special and valued"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
-      { content: ["When stressed, I take charge • I assert my authority and control • I become more directive and demanding"], gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)" }
+      { 
+        context: "When stressed,",
+        statements: [
+          "I become more cautious",
+          "I analyze potential problems",
+          "I prepare for what could go wrong"
+        ],
+        gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)" 
+      },
+      { 
+        context: "When stressed,",
+        statements: [
+          "I focus on recognition",
+          "I worry about my image and identity",
+          "I need to feel special and valued"
+        ],
+        gradient: "linear-gradient(135deg, #ef4444, #dc2626)" 
+      },
+      { 
+        context: "When stressed,",
+        statements: [
+          "I take charge",
+          "I assert my authority and control",
+          "I become more directive and demanding"
+        ],
+        gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)" 
+      }
     ]
   },
   {
     title: "Conflict Style",
     stones: [
-      { content: ["In conflict, I seek peace and harmony • I prefer mediation and compromise • I try to calm things down"], gradient: "linear-gradient(135deg, #22c55e, #16a34a)" },
-      { content: ["In conflict, I offer support and flexibility • I adapt to help resolve things • I try to meet everyone's needs"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" },
-      { content: ["In conflict, I address issues directly • I challenge when necessary • I speak honestly and straightforwardly"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" }
+      { 
+        context: "In conflict,",
+        statements: [
+          "I seek peace and harmony",
+          "I prefer mediation and compromise",
+          "I try to calm things down"
+        ],
+        gradient: "linear-gradient(135deg, #22c55e, #16a34a)" 
+      },
+      { 
+        context: "In conflict,",
+        statements: [
+          "I offer support and flexibility",
+          "I adapt to help resolve things",
+          "I try to meet everyone's needs"
+        ],
+        gradient: "linear-gradient(135deg, #84cc16, #65a30d)" 
+      },
+      { 
+        context: "In conflict,",
+        statements: [
+          "I address issues directly",
+          "I challenge when necessary",
+          "I speak honestly and straightforwardly"
+        ],
+        gradient: "linear-gradient(135deg, #f97316, #ea580c)" 
+      }
     ]
   },
   {
     title: "Success Definition",
     stones: [
-      { content: ["I define success by high standards • I measure by principles and accuracy • I focus on improvement and doing things right"], gradient: "linear-gradient(135deg, #3b82f6, #2563eb)" },
-      { content: ["I define success by relationships • I measure by connection and acknowledgment • I value appreciation from others"], gradient: "linear-gradient(135deg, #10b981, #059669)" },
-      { content: ["I define success by mastery • I measure by achievement and capability • I value competence and expertise"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
+      { 
+        context: "I define success by high standards",
+        statements: [
+          "I measure by principles and accuracy",
+          "I focus on improvement and doing things right"
+        ],
+        gradient: "linear-gradient(135deg, #3b82f6, #2563eb)" 
+      },
+      { 
+        context: "I define success by relationships",
+        statements: [
+          "I measure by connection and acknowledgment",
+          "I value appreciation from others"
+        ],
+        gradient: "linear-gradient(135deg, #10b981, #059669)" 
+      },
+      { 
+        context: "I define success by mastery",
+        statements: [
+          "I measure by achievement and capability",
+          "I value competence and expertise"
+        ],
+        gradient: "linear-gradient(135deg, #f59e0b, #d97706)" 
+      }
     ]
   },
   {
     title: "Relationship Priority",
     stones: [
-      { content: ["In relationships, I prioritize independence • I need personal space and self-sufficiency • I value my autonomy"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
-      { content: ["In relationships, I prioritize mutuality • I want sharing and give-and-take • I value reciprocity and balance"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
-      { content: ["In relationships, I provide leadership • I naturally give direction and guidance • I take responsibility for others"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" }
+      { 
+        context: "In relationships, I prioritize independence",
+        statements: [
+          "I need personal space and self-sufficiency",
+          "I value my autonomy"
+        ],
+        gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" 
+      },
+      { 
+        context: "In relationships, I prioritize mutuality",
+        statements: [
+          "I want sharing and give-and-take",
+          "I value reciprocity and balance"
+        ],
+        gradient: "linear-gradient(135deg, #ec4899, #db2777)" 
+      },
+      { 
+        context: "In relationships, I provide leadership",
+        statements: [
+          "I naturally give direction and guidance",
+          "I take responsibility for others"
+        ],
+        gradient: "linear-gradient(135deg, #ef4444, #dc2626)" 
+      }
     ]
   }
 ];

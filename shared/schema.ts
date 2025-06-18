@@ -43,7 +43,8 @@ export type InsertSession = z.infer<typeof insertSessionSchema>;
 export type FoundationStoneSelection = {
   setIndex: number;
   stoneIndex: number;
-  content: string[];
+  context: string;
+  statements: string[];
   gradient: string;
 };
 
