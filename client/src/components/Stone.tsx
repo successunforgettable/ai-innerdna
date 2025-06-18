@@ -48,7 +48,7 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
             marginBottom: index < content[0].split(' • ').length - 1 ? '8px' : '0',
             textAlign: 'center'
           }}>
-            • {statement}
+            {index === 0 ? statement : `• ${statement}`}
           </div>
         ))}
       </div>
