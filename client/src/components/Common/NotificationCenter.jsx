@@ -65,14 +65,27 @@ const NotificationItem = ({ notification, onRead }) => {
     onRead(notification.id);
   };
 
+  const getPriorityClass = () => {
+    switch (notification.priority) {
+      case 'high': return styles.highPriority;
+      case 'low': return styles.lowPriority;
+      default: return '';
+    }
+  };
+
   return (
     <motion.div
-      className={styles.notificationItem}
+      className={`${styles.notificationItem} ${getPriorityClass()}`}
       whileHover={{ backgroundColor: '#f8fafc' }}
       onClick={handleClick}
     >
       <div className={styles.notificationContent}>
-        <h4>{notification.title}</h4>
+        <div className={styles.notificationHeader}>
+          <h4>{notification.title}</h4>
+          {notification.priority === 'high' && (
+            <span className={styles.priorityBadge}>HIGH</span>
+          )}
+        </div>
         <p>{notification.message}</p>
         <span className={styles.timestamp}>
           {new Date(notification.createdAt).toLocaleDateString()}

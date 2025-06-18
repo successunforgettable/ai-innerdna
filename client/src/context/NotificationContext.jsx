@@ -31,11 +31,16 @@ export const NotificationProvider = ({ children }) => {
       // Increment unread count
       setUnreadCount(prev => prev + 1);
       
+      // Play notification sound based on priority
+      const soundType = lastMessage.data.priority === 'high' ? 'high' : 'default';
+      notificationSounds.playNotificationSound(soundType);
+      
       // Optional: Show browser notification if permission granted
       if ('Notification' in window && Notification.permission === 'granted') {
         new Notification(lastMessage.data.title, {
           body: lastMessage.data.message,
-          icon: '/favicon.ico'
+          icon: '/favicon.ico',
+          tag: lastMessage.data.id // Prevent duplicate notifications
         });
       }
     }
