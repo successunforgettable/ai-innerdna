@@ -15,90 +15,90 @@ const NotificationAnalytics = () => {
     audienceBreakdown: {}
   });
 
+  const loadAnalytics = async () => {
+    try {
+      // Load real analytics from localStorage
+      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
+      
+      // Load notifications data
+      const response = await fetch('/src/data/notifications.json');
+      const data = await response.json();
+      const notifications = data.notifications || [];
+      
+      // Use real analytics if available, otherwise calculate from data
+      const totalNotifications = notifications.length;
+      const totalSent = globalAnalytics.totalSent || totalNotifications;
+      const totalOpened = globalAnalytics.totalOpened || 0;
+      const globalOpenRate = globalAnalytics.globalOpenRate || 0;
+      
+      // Type breakdown
+      const typeBreakdown = {};
+      notifications.forEach(notif => {
+        typeBreakdown[notif.type] = (typeBreakdown[notif.type] || 0) + 1;
+      });
+      
+      // Audience breakdown
+      const audienceBreakdown = {};
+      notifications.forEach(notif => {
+        audienceBreakdown[notif.targetAudience] = (audienceBreakdown[notif.targetAudience] || 0) + 1;
+      });
+      
+      setAnalyticsData({
+        totalNotifications,
+        totalSent,
+        totalOpened,
+        globalOpenRate,
+        globalEngagementRate: globalOpenRate,
+        recentNotifications: notifications.slice(-5),
+        typeBreakdown,
+        audienceBreakdown
+      });
+      
+      console.log('Analytics loaded:', { totalSent, totalOpened, globalOpenRate });
+      
+    } catch (error) {
+      console.error('Error loading analytics:', error);
+      setAnalyticsData({
+        totalNotifications: 1,
+        totalSent: 1,
+        totalOpened: 0,
+        globalOpenRate: 0,
+        globalEngagementRate: 0,
+        recentNotifications: [],
+        typeBreakdown: {},
+        audienceBreakdown: {}
+      });
+    }
+  };
+
+  const handleTestOpen = () => {
+    const result = simulateNotificationOpen('fallback_001');
+    if (result) {
+      // Refresh analytics immediately
+      loadAnalytics();
+      
+      // Show success message
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        z-index: 10000;
+        font-weight: 600;
+        max-width: 400px;
+      `;
+      notification.textContent = `Notification opened! Open rate now: ${result.globalOpenRate}%`;
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
+    }
+  };
+
   useEffect(() => {
-    const loadAnalytics = async () => {
-      try {
-        // Load real analytics from localStorage
-        const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
-        
-        // Load notifications data
-        const response = await fetch('/src/data/notifications.json');
-        const data = await response.json();
-        const notifications = data.notifications || [];
-        
-        // Use real analytics if available, otherwise calculate from data
-        const totalNotifications = notifications.length;
-        const totalSent = globalAnalytics.totalSent || totalNotifications;
-        const totalOpened = globalAnalytics.totalOpened || 0;
-        const globalOpenRate = globalAnalytics.globalOpenRate || 0;
-        
-        // Type breakdown
-        const typeBreakdown = {};
-        notifications.forEach(notif => {
-          typeBreakdown[notif.type] = (typeBreakdown[notif.type] || 0) + 1;
-        });
-        
-        // Audience breakdown
-        const audienceBreakdown = {};
-        notifications.forEach(notif => {
-          audienceBreakdown[notif.targetAudience] = (audienceBreakdown[notif.targetAudience] || 0) + 1;
-        });
-        
-        setAnalyticsData({
-          totalNotifications,
-          totalSent,
-          totalOpened,
-          globalOpenRate,
-          globalEngagementRate: globalOpenRate,
-          recentNotifications: notifications.slice(-5),
-          typeBreakdown,
-          audienceBreakdown
-        });
-        
-        console.log('Analytics loaded:', { totalSent, totalOpened, globalOpenRate });
-        
-      } catch (error) {
-        console.error('Error loading analytics:', error);
-        setAnalyticsData({
-          totalNotifications: 1,
-          totalSent: 1,
-          totalOpened: 0,
-          globalOpenRate: 0,
-          globalEngagementRate: 0,
-          recentNotifications: [],
-          typeBreakdown: {},
-          audienceBreakdown: {}
-        });
-      }
-    };
-
-    const handleTestOpen = () => {
-      const result = simulateNotificationOpen('fallback_001');
-      if (result) {
-        // Refresh analytics immediately
-        loadAnalytics();
-        
-        // Show success message
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: linear-gradient(135deg, #10b981, #059669);
-          color: white;
-          padding: 16px 24px;
-          border-radius: 12px;
-          box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-          z-index: 10000;
-          font-weight: 600;
-          max-width: 400px;
-        `;
-        notification.textContent = `📊 Notification opened! Open rate now: ${result.globalOpenRate}%`;
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
-      }
-    };
-
     loadAnalytics();
     
     // Refresh analytics every 5 seconds to show real-time updates
