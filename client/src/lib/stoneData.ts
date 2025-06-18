@@ -1,7 +1,7 @@
 export interface StoneSet {
-  title: string;
+  context: string;
   stones: {
-    context: string;
+    id: string;
     statements: string[];
     gradient: string;
   }[];
@@ -9,275 +9,290 @@ export interface StoneSet {
 
 export const stoneSets: StoneSet[] = [
   {
-    title: "Decision-Making Center",
+    context: "When making decisions,",
     stones: [
-      { 
-        context: "When making decisions,",
+      {
+        id: 'A',
         statements: [
           "I think things through",
           "I analyze the options", 
           "I gather information first"
         ],
-        gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)" 
+        gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)"
       },
-      { 
-        context: "When making decisions,",
+      {
+        id: 'B', 
         statements: [
           "I consider how people feel",
           "I think about relationships",
           "I focus on what matters emotionally"
         ],
-        gradient: "linear-gradient(135deg, #10b981, #047857)" 
+        gradient: "linear-gradient(135deg, #10b981, #047857)"
       },
-      { 
-        context: "When making decisions,",
+      {
+        id: 'C',
         statements: [
           "I trust my gut",
           "I go with what feels right", 
           "I act on my instincts"
         ],
-        gradient: "linear-gradient(135deg, #f59e0b, #d97706)" 
+        gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
       }
     ]
   },
   {
-    title: "Core Motivation",
+    context: "What motivates me is",
     stones: [
-      { 
-        context: "What motivates me is staying safe",
+      {
+        id: 'A',
         statements: [
+          "staying safe",
           "I need security and preparation",
           "I want to avoid danger"
         ],
-        gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" 
+        gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)"
       },
-      { 
-        context: "What motivates me is being authentic",
+      {
+        id: 'B',
         statements: [
+          "being authentic", 
           "I need to express my true self",
           "I want to be special and meaningful"
         ],
-        gradient: "linear-gradient(135deg, #ef4444, #dc2626)" 
+        gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
       },
-      { 
-        context: "What motivates me is doing what's right",
+      {
+        id: 'C',
         statements: [
+          "doing what's right",
           "I need to be strong and in control",
           "I want justice and fairness"
         ],
-        gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" 
+        gradient: "linear-gradient(135deg, #06b6d4, #0891b2)"
       }
     ]
   },
   {
-    title: "Energy Direction",
+    context: "I direct my energy",
     stones: [
-      { 
-        context: "I direct my energy inward",
+      {
+        id: 'A',
         statements: [
+          "inward",
           "I prefer reflection and depth",
           "I need quiet time to recharge"
         ],
-        gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" 
+        gradient: "linear-gradient(135deg, #6366f1, #4f46e5)"
       },
-      { 
-        context: "I direct my energy outward",
+      {
+        id: 'B',
         statements: [
-          "I push for impact and results",
+          "outward",
+          "I push for impact and results", 
           "I assert myself confidently"
         ],
-        gradient: "linear-gradient(135deg, #f97316, #ea580c)" 
+        gradient: "linear-gradient(135deg, #f97316, #ea580c)"
       },
-      { 
-        context: "I direct my energy toward cooperation",
+      {
+        id: 'C',
         statements: [
+          "toward cooperation",
           "I work well with others",
           "I support and maintain harmony"
         ],
-        gradient: "linear-gradient(135deg, #84cc16, #65a30d)" 
+        gradient: "linear-gradient(135deg, #84cc16, #65a30d)"
       }
     ]
   },
   {
-    title: "Social Approach",
+    context: "In social situations, I",
     stones: [
-      { 
-        context: "In social situations,",
+      {
+        id: 'A',
         statements: [
-          "I prefer smaller groups",
+          "prefer smaller groups",
           "I need meaningful conversations",
           "I value independence and space"
         ],
-        gradient: "linear-gradient(135deg, #64748b, #475569)" 
+        gradient: "linear-gradient(135deg, #64748b, #475569)"
       },
-      { 
-        context: "In social situations,",
+      {
+        id: 'B',
         statements: [
-          "I seek close connections",
+          "seek close connections",
           "I want intimacy and bonding",
           "I build strong personal relationships"
         ],
-        gradient: "linear-gradient(135deg, #ec4899, #db2777)" 
+        gradient: "linear-gradient(135deg, #ec4899, #db2777)"
       },
-      { 
-        context: "In social situations,",
+      {
+        id: 'C',
         statements: [
-          "I maintain my autonomy",
+          "maintain my autonomy",
           "I stay self-reliant",
           "I don't depend on others too much"
         ],
-        gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" 
+        gradient: "linear-gradient(135deg, #06b6d4, #0891b2)"
       }
     ]
   },
   {
-    title: "Processing Style",
+    context: "I process information by",
     stones: [
-      { 
-        context: "I process information through thinking",
+      {
+        id: 'A',
         statements: [
-          "I analyze systems and concepts",
+          "thinking",
+          "I analyze systems and concepts", 
           "I focus on ideas and frameworks"
         ],
-        gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" 
+        gradient: "linear-gradient(135deg, #6366f1, #4f46e5)"
       },
-      { 
-        context: "I process information through feelings",
+      {
+        id: 'B',
         statements: [
+          "feeling",
           "I pay attention to emotions and moods",
           "I trust what resonates emotionally"
         ],
-        gradient: "linear-gradient(135deg, #f59e0b, #d97706)" 
+        gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
       },
-      { 
-        context: "I process information practically",
+      {
+        id: 'C',
         statements: [
+          "being practical",
           "I focus on what works",
           "I want efficient, useful results"
         ],
-        gradient: "linear-gradient(135deg, #059669, #047857)" 
+        gradient: "linear-gradient(135deg, #059669, #047857)"
       }
     ]
   },
   {
-    title: "Stress Reaction",
+    context: "When stressed, I",
     stones: [
-      { 
-        context: "When stressed,",
+      {
+        id: 'A',
         statements: [
-          "I become more cautious",
+          "become more cautious",
           "I analyze potential problems",
           "I prepare for what could go wrong"
         ],
-        gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)" 
+        gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)"
       },
-      { 
-        context: "When stressed,",
+      {
+        id: 'B',
         statements: [
-          "I focus on recognition",
+          "focus on recognition",
           "I worry about my image and identity",
           "I need to feel special and valued"
         ],
-        gradient: "linear-gradient(135deg, #ef4444, #dc2626)" 
+        gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
       },
-      { 
-        context: "When stressed,",
+      {
+        id: 'C',
         statements: [
-          "I take charge",
-          "I assert my authority and control",
+          "take charge",
+          "I assert my authority and control", 
           "I become more directive and demanding"
         ],
-        gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)" 
+        gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)"
       }
     ]
   },
   {
-    title: "Conflict Style",
+    context: "In conflict, I",
     stones: [
-      { 
-        context: "In conflict,",
+      {
+        id: 'A',
         statements: [
-          "I seek peace and harmony",
+          "seek peace and harmony",
           "I prefer mediation and compromise",
           "I try to calm things down"
         ],
-        gradient: "linear-gradient(135deg, #22c55e, #16a34a)" 
+        gradient: "linear-gradient(135deg, #22c55e, #16a34a)"
       },
-      { 
-        context: "In conflict,",
+      {
+        id: 'B',
         statements: [
-          "I offer support and flexibility",
+          "offer support and flexibility",
           "I adapt to help resolve things",
           "I try to meet everyone's needs"
         ],
-        gradient: "linear-gradient(135deg, #84cc16, #65a30d)" 
+        gradient: "linear-gradient(135deg, #84cc16, #65a30d)"
       },
-      { 
-        context: "In conflict,",
+      {
+        id: 'C',
         statements: [
-          "I address issues directly",
+          "address issues directly",
           "I challenge when necessary",
           "I speak honestly and straightforwardly"
         ],
-        gradient: "linear-gradient(135deg, #f97316, #ea580c)" 
+        gradient: "linear-gradient(135deg, #f97316, #ea580c)"
       }
     ]
   },
   {
-    title: "Success Definition",
+    context: "I define success by",
     stones: [
-      { 
-        context: "I define success by high standards",
+      {
+        id: 'A',
         statements: [
+          "high standards",
           "I measure by principles and accuracy",
           "I focus on improvement and doing things right"
         ],
-        gradient: "linear-gradient(135deg, #3b82f6, #2563eb)" 
+        gradient: "linear-gradient(135deg, #3b82f6, #2563eb)"
       },
-      { 
-        context: "I define success by relationships",
+      {
+        id: 'B',
         statements: [
-          "I measure by connection and acknowledgment",
+          "relationships",
+          "I measure by connection and acknowledgment", 
           "I value appreciation from others"
         ],
-        gradient: "linear-gradient(135deg, #10b981, #059669)" 
+        gradient: "linear-gradient(135deg, #10b981, #059669)"
       },
-      { 
-        context: "I define success by mastery",
+      {
+        id: 'C',
         statements: [
+          "mastery",
           "I measure by achievement and capability",
           "I value competence and expertise"
         ],
-        gradient: "linear-gradient(135deg, #f59e0b, #d97706)" 
+        gradient: "linear-gradient(135deg, #f59e0b, #d97706)"
       }
     ]
   },
   {
-    title: "Relationship Priority",
+    context: "In relationships, I prioritize",
     stones: [
-      { 
-        context: "In relationships, I prioritize independence",
+      {
+        id: 'A',
         statements: [
+          "independence",
           "I need personal space and self-sufficiency",
           "I value my autonomy"
         ],
-        gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" 
+        gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)"
       },
-      { 
-        context: "In relationships, I prioritize mutuality",
+      {
+        id: 'B',
         statements: [
+          "mutuality",
           "I want sharing and give-and-take",
           "I value reciprocity and balance"
         ],
-        gradient: "linear-gradient(135deg, #ec4899, #db2777)" 
+        gradient: "linear-gradient(135deg, #ec4899, #db2777)"
       },
-      { 
-        context: "In relationships, I provide leadership",
+      {
+        id: 'C',
         statements: [
+          "leadership",
           "I naturally give direction and guidance",
           "I take responsibility for others"
         ],
-        gradient: "linear-gradient(135deg, #ef4444, #dc2626)" 
+        gradient: "linear-gradient(135deg, #ef4444, #dc2626)"
       }
     ]
   }

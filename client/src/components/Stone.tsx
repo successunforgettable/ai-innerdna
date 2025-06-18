@@ -2,16 +2,19 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
 interface StoneProps {
+  stone: {
+    id: string;
+    statements: string[];
+    gradient: string;
+  };
   context: string;
-  statements: string[];
-  gradient: string;
   isSelected: boolean;
   onSelect: () => void;
 }
 
-export function Stone({ context, statements, gradient, isSelected, onSelect }: StoneProps) {
+export function Stone({ stone, context, isSelected, onSelect }: StoneProps) {
   const stoneStyle = {
-    background: gradient,
+    background: stone.gradient,
     border: isSelected ? '3px solid #3b82f6' : '3px solid transparent',
     boxShadow: isSelected 
       ? '0 8px 25px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(59, 130, 246, 0.5)'
@@ -27,25 +30,37 @@ export function Stone({ context, statements, gradient, isSelected, onSelect }: S
       onClick={onSelect}
     >
       <div className="stone-content" style={{
+        textAlign: 'center',
         fontSize: '13px',
         lineHeight: '1.2',
-        padding: '10px',
-        textAlign: 'center',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        color: 'white',
-        fontWeight: 600,
-        textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
         wordBreak: 'keep-all',
         hyphens: 'none',
-        whiteSpace: 'normal'
+        color: 'white',
+        textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+        padding: '12px'
       }}>
-        <div className="context-line" style={{ marginBottom: '8px' }}>{context}</div>
-        {statements.map((statement, index) => (
-          <div key={index} className="statement-line" style={{ marginBottom: '4px' }}>• {statement}</div>
+        {/* Context line - no bullet, slightly bold */}
+        <div className="context-line" style={{
+          fontWeight: '500',
+          marginBottom: '8px',
+          fontSize: '14px'
+        }}>
+          {context}
+        </div>
+        
+        {/* Statement lines - with bullets */}
+        {stone.statements.map((statement, index) => (
+          <div key={index} className="statement-line" style={{
+            fontWeight: '400',
+            marginBottom: index === stone.statements.length - 1 ? '0' : '6px',
+            fontSize: '12px'
+          }}>
+            • {statement}
+          </div>
         ))}
       </div>
       {isSelected && (

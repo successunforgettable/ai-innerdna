@@ -1,0 +1,363 @@
+// EXACT CODE STRUCTURE FOR STONE CONTENT
+
+// 1. DATA STRUCTURE - Replace your stone content with this:
+const stoneContent = [
+  {
+    // Set 1: Decision-Making Center
+    context: "When making decisions,",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "I think things through",
+          "I analyze the options", 
+          "I gather information first"
+        ]
+      },
+      {
+        id: 'B', 
+        statements: [
+          "I consider how people feel",
+          "I think about relationships",
+          "I focus on what matters emotionally"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "I trust my gut",
+          "I go with what feels right", 
+          "I act on my instincts"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 2: Core Motivation
+    context: "What motivates me is",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "staying safe",
+          "I need security and preparation",
+          "I want to avoid danger"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "being authentic", 
+          "I need to express my true self",
+          "I want to be special and meaningful"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "doing what's right",
+          "I need to be strong and in control",
+          "I want justice and fairness"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 3: Energy Direction
+    context: "I direct my energy",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "inward",
+          "I prefer reflection and depth",
+          "I need quiet time to recharge"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "outward",
+          "I push for impact and results", 
+          "I assert myself confidently"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "toward cooperation",
+          "I work well with others",
+          "I support and maintain harmony"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 4: Social Approach
+    context: "In social situations, I",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "prefer smaller groups",
+          "I need meaningful conversations",
+          "I value independence and space"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "seek close connections",
+          "I want intimacy and bonding",
+          "I build strong personal relationships"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "maintain my autonomy",
+          "I stay self-reliant",
+          "I don't depend on others too much"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 5: Processing Style
+    context: "I process information by",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "thinking",
+          "I analyze systems and concepts", 
+          "I focus on ideas and frameworks"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "feeling",
+          "I pay attention to emotions and moods",
+          "I trust what resonates emotionally"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "being practical",
+          "I focus on what works",
+          "I want efficient, useful results"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 6: Stress Reaction
+    context: "When stressed, I",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "become more cautious",
+          "I analyze potential problems",
+          "I prepare for what could go wrong"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "focus on recognition",
+          "I worry about my image and identity",
+          "I need to feel special and valued"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "take charge",
+          "I assert my authority and control", 
+          "I become more directive and demanding"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 7: Conflict Style
+    context: "In conflict, I",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "seek peace and harmony",
+          "I prefer mediation and compromise",
+          "I try to calm things down"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "offer support and flexibility",
+          "I adapt to help resolve things",
+          "I try to meet everyone's needs"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "address issues directly",
+          "I challenge when necessary",
+          "I speak honestly and straightforwardly"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 8: Success Definition
+    context: "I define success by",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "high standards",
+          "I measure by principles and accuracy",
+          "I focus on improvement and doing things right"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "relationships",
+          "I measure by connection and acknowledgment", 
+          "I value appreciation from others"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "mastery",
+          "I measure by achievement and capability",
+          "I value competence and expertise"
+        ]
+      }
+    ]
+  },
+  {
+    // Set 9: Relationship Priority
+    context: "In relationships, I prioritize",
+    stones: [
+      {
+        id: 'A',
+        statements: [
+          "independence",
+          "I need personal space and self-sufficiency",
+          "I value my autonomy"
+        ]
+      },
+      {
+        id: 'B',
+        statements: [
+          "mutuality",
+          "I want sharing and give-and-take",
+          "I value reciprocity and balance"
+        ]
+      },
+      {
+        id: 'C',
+        statements: [
+          "leadership",
+          "I naturally give direction and guidance",
+          "I take responsibility for others"
+        ]
+      }
+    ]
+  }
+];
+
+// 2. COMPONENT RENDERING - Use this exact JSX structure:
+const StoneComponent = ({ stone, context, isSelected, onSelect }) => {
+  return (
+    <div 
+      className={`stone ${isSelected ? 'selected' : ''}`}
+      onClick={onSelect}
+    >
+      <div className="stone-content">
+        {/* Context line - no bullet, slightly bold */}
+        <div className="context-line">
+          {context}
+        </div>
+        
+        {/* Statement lines - with bullets */}
+        {stone.statements.map((statement, index) => (
+          <div key={index} className="statement-line">
+            • {statement}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// 3. CSS STYLING - Add this exact CSS:
+const stoneStyles = `
+.stone {
+  width: 180px;
+  height: 180px;
+  border-radius: 50px 40px 45px 35px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stone-content {
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  word-break: keep-all;
+  hyphens: none;
+}
+
+.context-line {
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.statement-line {
+  font-weight: 400;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.statement-line:last-child {
+  margin-bottom: 0;
+}
+`;
+
+// 4. USAGE EXAMPLE:
+// In your FoundationStones component:
+const currentSet = stoneContent[currentSetIndex];
+
+return (
+  <div className="foundation-stones">
+    <h2>{currentSet.context}</h2>
+    <div className="stones-container">
+      {currentSet.stones.map((stone, index) => (
+        <StoneComponent
+          key={stone.id}
+          stone={stone}
+          context={currentSet.context}
+          isSelected={selectedStone === index}
+          onSelect={() => handleStoneSelect(index)}
+        />
+      ))}
+    </div>
+  </div>
+);

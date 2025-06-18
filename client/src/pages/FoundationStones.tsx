@@ -84,7 +84,7 @@ export default function FoundationStones() {
     newFoundationStones[currentStoneSet] = {
       setIndex: currentStoneSet,
       stoneIndex: stoneIndex,
-      context: selectedStoneData.context,
+      context: currentSet.context,
       statements: selectedStoneData.statements,
       gradient: selectedStoneData.gradient
     };
@@ -111,7 +111,7 @@ export default function FoundationStones() {
       const foundationStoneSelections = stoneSelections.map((selection, setIndex) => ({
         setIndex,
         stoneIndex: selection,
-        context: stoneSets[setIndex].stones[selection].context,
+        context: stoneSets[setIndex].context,
         statements: stoneSets[setIndex].stones[selection].statements,
         gradient: stoneSets[setIndex].stones[selection].gradient
       }));
@@ -163,7 +163,7 @@ export default function FoundationStones() {
             }}>
               {setQuestions[currentStoneSet]}
             </p>
-            <h2 className="title-primary">{currentSet.title}</h2>
+            <h2 className="title-primary">{currentSet.context}</h2>
             <p className="section-description">Choose the foundation stone that resonates most with you</p>
           </motion.div>
 
@@ -175,10 +175,9 @@ export default function FoundationStones() {
           >
             {currentSet.stones.map((stone, index) => (
               <Stone
-                key={index}
-                context={stone.context}
-                statements={stone.statements}
-                gradient={stone.gradient}
+                key={stone.id}
+                stone={stone}
+                context={currentSet.context}
                 isSelected={selectedStone === index}
                 onSelect={() => handleStoneSelect(index)}
               />
