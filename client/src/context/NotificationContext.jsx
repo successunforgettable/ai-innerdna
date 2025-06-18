@@ -136,26 +136,31 @@ export const NotificationProvider = ({ children }) => {
   };
 
   const markAsRead = (notificationId) => {
-    // Add to read notifications list
+    // Check if notification is already read
     const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
-    if (!readNotifications.includes(notificationId)) {
+    const isAlreadyRead = readNotifications.includes(notificationId);
+    
+    // Only process if not already read
+    if (!isAlreadyRead) {
+      // Mark as read in localStorage
       readNotifications.push(notificationId);
       localStorage.setItem('read_notifications', JSON.stringify(readNotifications));
+      
+      // Update notification state to mark as read
+      setNotifications(prev => 
+        prev.map(notif => 
+          notif.id === notificationId 
+            ? { ...notif, isRead: true }
+            : notif
+        )
+      );
+      
+      // Only decrease unread count if it wasn't already read
+      setUnreadCount(prev => Math.max(0, prev - 1));
+      
+      // Track analytics - increment open count only once per notification
+      trackNotificationOpen(notificationId);
     }
-    
-    // Update notification state to mark as read
-    setNotifications(prev => 
-      prev.map(notif => 
-        notif.id === notificationId 
-          ? { ...notif, isRead: true }
-          : notif
-      )
-    );
-    
-    setUnreadCount(prev => Math.max(0, prev - 1));
-    
-    // Track analytics - increment open count
-    trackNotificationOpen(notificationId);
   };
 
   const trackNotificationOpen = (notificationId) => {
