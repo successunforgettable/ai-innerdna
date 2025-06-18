@@ -38,17 +38,17 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         color: 'white',
         fontWeight: 600,
         textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-        wordBreak: 'break-word',
-        wordWrap: 'break-word',
-        hyphens: 'auto'
+        wordBreak: 'keep-all',
+        hyphens: 'none',
+        whiteSpace: 'normal'
       }}>
         {content[0].split(' • ').map((statement, index) => (
           <div key={index} style={{
             display: 'block',
-            marginBottom: index < content[0].split(' • ').length - 1 ? '4px' : '0',
+            marginBottom: index < content[0].split(' • ').length - 1 ? '8px' : '0',
             textAlign: 'center'
           }}>
-            {statement}
+            • {statement}
           </div>
         ))}
       </div>
