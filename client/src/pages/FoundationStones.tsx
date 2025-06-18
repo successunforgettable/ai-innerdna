@@ -174,7 +174,8 @@ export default function FoundationStones() {
             {currentSet.stones.map((stone, index) => (
               <Stone
                 key={index}
-                content={stone.content}
+                context={stone.context}
+                statements={stone.statements}
                 gradient={stone.gradient}
                 isSelected={selectedStone === index}
                 onSelect={() => handleStoneSelect(index)}

@@ -1,7 +1,8 @@
 export interface StoneSet {
   title: string;
   stones: {
-    content: string[];
+    context: string;
+    statements: string[];
     gradient: string;
   }[];
 }
@@ -10,25 +11,152 @@ export const stoneSets: StoneSet[] = [
   {
     title: "Decision-Making Center",
     stones: [
-      { content: ["When making decisions, I think things through • I analyze the options • I gather information first"], gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)" },
-      { content: ["When making decisions, I consider how people feel • I think about relationships • I focus on what matters emotionally"], gradient: "linear-gradient(135deg, #10b981, #047857)" },
-      { content: ["When making decisions, I trust my gut • I go with what feels right • I act on my instincts"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
+      { 
+        context: "When making decisions,",
+        statements: [
+          "I think things through",
+          "I analyze the options", 
+          "I gather information first"
+        ],
+        gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)" 
+      },
+      { 
+        context: "When making decisions,",
+        statements: [
+          "I consider how people feel",
+          "I think about relationships",
+          "I focus on what matters emotionally"
+        ],
+        gradient: "linear-gradient(135deg, #10b981, #047857)" 
+      },
+      { 
+        context: "When making decisions,",
+        statements: [
+          "I trust my gut",
+          "I go with what feels right", 
+          "I act on my instincts"
+        ],
+        gradient: "linear-gradient(135deg, #f59e0b, #d97706)" 
+      }
     ]
   },
   {
     title: "Core Motivation",
     stones: [
-      { content: ["What motivates me is staying safe • I need security and preparation • I want to avoid danger"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
-      { content: ["What motivates me is being authentic • I need to express my true self • I want to be special and meaningful"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
-      { content: ["What motivates me is doing what's right • I need to be strong and in control • I want justice and fairness"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
+      { 
+        context: "What motivates me is staying safe",
+        statements: [
+          "I need security and preparation",
+          "I want to avoid danger"
+        ],
+        gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" 
+      },
+      { 
+        context: "What motivates me is being authentic",
+        statements: [
+          "I need to express my true self",
+          "I want to be special and meaningful"
+        ],
+        gradient: "linear-gradient(135deg, #ef4444, #dc2626)" 
+      },
+      { 
+        context: "What motivates me is doing what's right",
+        statements: [
+          "I need to be strong and in control",
+          "I want justice and fairness"
+        ],
+        gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" 
+      }
     ]
   },
   {
     title: "Energy Direction",
     stones: [
-      { content: ["I direct my energy inward • I prefer reflection and depth • I need quiet time to recharge"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
-      { content: ["I direct my energy outward • I push for impact and results • I assert myself confidently"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" },
-      { content: ["I direct my energy toward cooperation • I work well with others • I support and maintain harmony"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" }
+      { 
+        context: "I direct my energy inward",
+        statements: [
+          "I prefer reflection and depth",
+          "I need quiet time to recharge"
+        ],
+        gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" 
+      },
+      { 
+        context: "I direct my energy outward",
+        statements: [
+          "I push for impact and results",
+          "I assert myself confidently"
+        ],
+        gradient: "linear-gradient(135deg, #f97316, #ea580c)" 
+      },
+      { 
+        context: "I direct my energy toward cooperation",
+        statements: [
+          "I work well with others",
+          "I support and maintain harmony"
+        ],
+        gradient: "linear-gradient(135deg, #84cc16, #65a30d)" 
+      }
+    ]
+  },
+  {
+    title: "Social Approach",
+    stones: [
+      { 
+        context: "In social situations,",
+        statements: [
+          "I prefer smaller groups",
+          "I need meaningful conversations",
+          "I value independence and space"
+        ],
+        gradient: "linear-gradient(135deg, #64748b, #475569)" 
+      },
+      { 
+        context: "In social situations,",
+        statements: [
+          "I seek close connections",
+          "I want intimacy and bonding",
+          "I build strong personal relationships"
+        ],
+        gradient: "linear-gradient(135deg, #ec4899, #db2777)" 
+      },
+      { 
+        context: "In social situations,",
+        statements: [
+          "I maintain my autonomy",
+          "I stay self-reliant",
+          "I don't depend on others too much"
+        ],
+        gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" 
+      }
+    ]
+  },
+  {
+    title: "Processing Style",
+    stones: [
+      { 
+        context: "I process information through thinking",
+        statements: [
+          "I analyze systems and concepts",
+          "I focus on ideas and frameworks"
+        ],
+        gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" 
+      },
+      { 
+        context: "I process information through feelings",
+        statements: [
+          "I pay attention to emotions and moods",
+          "I trust what resonates emotionally"
+        ],
+        gradient: "linear-gradient(135deg, #f59e0b, #d97706)" 
+      },
+      { 
+        context: "I process information practically",
+        statements: [
+          "I focus on what works",
+          "I want efficient, useful results"
+        ],
+        gradient: "linear-gradient(135deg, #059669, #047857)" 
+      }
     ]
   },
   {

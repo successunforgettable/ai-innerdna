@@ -2,13 +2,14 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
 interface StoneProps {
-  content: string[];
+  context: string;
+  statements: string[];
   gradient: string;
   isSelected: boolean;
   onSelect: () => void;
 }
 
-export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
+export function Stone({ context, statements, gradient, isSelected, onSelect }: StoneProps) {
   const stoneStyle = {
     background: gradient,
     border: isSelected ? '3px solid #3b82f6' : '3px solid transparent',
@@ -25,7 +26,7 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
       whileTap={{ scale: 0.95 }}
       onClick={onSelect}
     >
-      <div style={{
+      <div className="stone-content" style={{
         fontSize: '13px',
         lineHeight: '1.2',
         padding: '10px',
@@ -42,7 +43,10 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         hyphens: 'none',
         whiteSpace: 'normal'
       }}>
-        {content[0]}
+        <div className="context-line" style={{ marginBottom: '8px' }}>{context}</div>
+        {statements.map((statement, index) => (
+          <div key={index} className="statement-line" style={{ marginBottom: '4px' }}>• {statement}</div>
+        ))}
       </div>
       {isSelected && (
         <Check 
