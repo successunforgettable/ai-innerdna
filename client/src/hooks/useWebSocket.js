@@ -13,7 +13,7 @@ const useWebSocket = (url) => {
       const response = await fetch(`/api/notifications/recent?since=${lastTimestampRef.current}`);
       if (response.ok) {
         const data = await response.json();
-        setConnectionStatus('Live');
+        setConnectionStatus('Connected');
         
         if (data.notifications && data.notifications.length > 0) {
           // Send newest notification as message
