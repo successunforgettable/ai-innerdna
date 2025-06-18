@@ -65,13 +65,16 @@ const NotificationCreator = () => {
       // Initialize analytics for this notification
       initializeNotificationAnalytics(newNotification);
       
+      // Add notification to the live system
+      await addNotificationToSystem(newNotification);
+      
       // Show success message with better styling
       if (formData.scheduledFor) {
-        showSuccessMessage(`📅 Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
+        showSuccessMessage(`Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
       } else if (isBulkNotification) {
-        showSuccessMessage(`📢 Bulk notification created for personality types: ${formData.personalityTypes.join(', ')}!`);
+        showSuccessMessage(`Bulk notification created for personality types: ${formData.personalityTypes.join(', ')}!`);
       } else {
-        showSuccessMessage('🎉 Notification created and sent successfully!');
+        showSuccessMessage('Notification created and sent successfully!');
       }
       
       // Reset form
@@ -175,6 +178,28 @@ const NotificationCreator = () => {
       console.log(`Initialized analytics for notification: ${notification.id}`, updatedGlobalAnalytics);
     } catch (error) {
       console.error('Error initializing notification analytics:', error);
+    }
+  };
+
+  const addNotificationToSystem = async (notification) => {
+    try {
+      // Add to active notifications list in localStorage
+      const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
+      activeNotifications.push({
+        ...notification,
+        isRead: false,
+        receivedAt: new Date().toISOString()
+      });
+      localStorage.setItem('active_notifications', JSON.stringify(activeNotifications));
+      
+      // Trigger notification context update
+      if (window.refreshNotifications) {
+        window.refreshNotifications();
+      }
+      
+      console.log(`Added notification to system: ${notification.id}`);
+    } catch (error) {
+      console.error('Error adding notification to system:', error);
     }
   };
 
