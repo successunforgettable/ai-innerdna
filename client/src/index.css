@@ -161,6 +161,25 @@ body {
   margin: 0 auto;
 }
 
+/* Mobile responsive foundation stones */
+@media (max-width: 768px) {
+  .foundation-stone {
+    width: 140px;
+    height: 140px;
+    border-radius: 40px 30px 35px 25px;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .foundation-stone {
+    width: 120px;
+    height: 120px;
+    border-radius: 30px 25px 30px 20px;
+    padding: 0.5rem;
+  }
+}
+
 .stones-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -168,6 +187,25 @@ body {
   max-width: 600px;
   margin: 2rem auto;
   margin-right: 20px;
+}
+
+/* Mobile responsive stones grid */
+@media (max-width: 768px) {
+  .stones-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 1rem auto;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .stones-grid {
+    max-width: 300px;
+    gap: 0.75rem;
+    margin: 0.5rem auto;
+  }
 }
 
 /* Tower Visualization Styles - EXACT from user specification */
@@ -202,6 +240,23 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile responsive foundation base */
+@media (max-width: 768px) {
+  .foundation-base {
+    width: 220px;
+    height: 220px;
+    border: 3px solid #94a3b8;
+  }
+}
+
+@media (max-width: 480px) {
+  .foundation-base {
+    width: 180px;
+    height: 180px;
+    border: 2px solid #94a3b8;
+  }
 }
 
 .foundation-center {
@@ -643,6 +698,22 @@ body {
   overflow-y: auto;
 }
 
+/* Mobile responsive welcome screen */
+@media (max-width: 768px) {
+  .welcome-screen {
+    padding: 1rem;
+    justify-content: flex-start;
+    padding-top: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-screen {
+    padding: 0.5rem;
+    padding-top: 1rem;
+  }
+}
+
 /* Foundation Phase Layout - EXACT from user specification */
 .foundation-phase {
   min-height: 100vh;
@@ -658,6 +729,23 @@ body {
   grid-template-columns: 1fr 400px;
   gap: 3rem;
   align-items: start;
+}
+
+/* Mobile responsive layout */
+@media (max-width: 1024px) {
+  .foundation-content {
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .foundation-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
 }
 
 .stone-selection-area,
@@ -806,6 +894,23 @@ body {
     border-radius: 12px;
     transition: all var(--duration-normal) var(--ease-spring);
     cursor: pointer;
+  }
+
+  /* Mobile responsive building blocks */
+  @media (max-width: 768px) {
+    .building-block {
+      width: 140px;
+      height: 80px;
+      border-radius: 8px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .building-block {
+      width: 120px;
+      height: 70px;
+      border-radius: 6px;
+    }
   }
   
   .building-block:hover {
