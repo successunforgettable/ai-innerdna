@@ -21,6 +21,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotSuccess, setForgotSuccess] = useState("");
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
@@ -48,6 +51,32 @@ export default function Login() {
     },
     onError: (error: any) => {
       setError(error.message || "Login failed. Please check your credentials.");
+    },
+  });
+
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async (email: string) => {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to send recovery email");
+      }
+      
+      return await response.json();
+    },
+    onSuccess: (data) => {
+      setForgotSuccess(data.message);
+      setForgotEmail("");
+    },
+    onError: (error: any) => {
+      setError(error.message || "Failed to send recovery email");
     },
   });
 
