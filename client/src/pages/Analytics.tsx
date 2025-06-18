@@ -136,10 +136,19 @@ const Analytics = () => {
                 <div className="bg-white/5 rounded-lg p-6 border border-white/10">
                   <h3 className="text-xl font-semibold text-white mb-2">Most Common Type</h3>
                   <p className="text-3xl font-bold text-purple-400">
-                    {Object.keys(stats.typeDistribution).length > 0 
-                      ? Object.entries(stats.typeDistribution).reduce((a, b) => stats.typeDistribution[a[0]] > stats.typeDistribution[b[0]] ? a : b)[0]
-                      : 'N/A'
-                    }
+                    {(() => {
+                      const entries = Object.entries(stats.typeDistribution);
+                      if (entries.length === 0) return 'N/A';
+                      
+                      // Find the maximum count
+                      const maxCount = Math.max(...entries.map(([_, count]) => count));
+                      
+                      // Find all types with the maximum count
+                      const maxTypes = entries.filter(([_, count]) => count === maxCount);
+                      
+                      // If there's a tie, show "N/A", otherwise show the single winner
+                      return maxTypes.length > 1 ? 'N/A' : maxTypes[0][0];
+                    })()}
                   </p>
                 </div>
               </div>
