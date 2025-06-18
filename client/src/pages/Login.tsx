@@ -74,6 +74,10 @@ export default function Login() {
     onSuccess: (data) => {
       setForgotSuccess(data.message);
       setForgotEmail("");
+      // Auto-close modal after 4 seconds
+      setTimeout(() => {
+        closeForgotModal();
+      }, 4000);
     },
     onError: (error: any) => {
       setError(error.message || "Failed to send recovery email");
@@ -280,8 +284,13 @@ export default function Login() {
                 )}
 
                 {forgotSuccess && (
-                  <div className="mb-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300 text-sm">
-                    {forgotSuccess}
+                  <div className="mb-4 p-4 bg-yellow-400/20 border border-yellow-400/40 rounded-lg text-yellow-200 text-sm font-medium leading-relaxed">
+                    <div className="flex items-start gap-2">
+                      <div className="w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-black text-xs font-bold">✓</span>
+                      </div>
+                      <div>{forgotSuccess}</div>
+                    </div>
                   </div>
                 )}
 
