@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import useWebSocket from '../hooks/useWebSocket';
+// import useWebSocket from '../hooks/useWebSocket';
 import notificationSounds from '../utils/notificationSounds';
 
 const NotificationContext = createContext();
@@ -17,10 +17,13 @@ export const NotificationProvider = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotificationCenter, setShowNotificationCenter] = useState(false);
 
-  // Add WebSocket connection
-  const { connectionStatus, lastMessage } = useWebSocket();
+  // WebSocket connection temporarily disabled
+  // const { connectionStatus, lastMessage } = useWebSocket();
+  const connectionStatus = 'Disconnected';
+  const lastMessage = null;
 
-  // Listen for real-time notifications
+  // Listen for real-time notifications - temporarily disabled
+  /*
   useEffect(() => {
     if (lastMessage && lastMessage.data) {
       try {
@@ -55,6 +58,7 @@ export const NotificationProvider = ({ children }) => {
       }
     }
   }, [lastMessage]);
+  */
 
   // Request notification permission on load
   useEffect(() => {
