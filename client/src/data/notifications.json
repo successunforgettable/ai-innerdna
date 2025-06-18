@@ -1,39 +1,9 @@
 {
-  "notifications": [
-    {
-      "id": "notif_001",
-      "title": "Welcome to Inner DNA",
-      "message": "Discover your unique personality profile through our assessment.",
-      "type": "welcome",
-      "createdAt": "2024-12-01T10:00:00Z",
-      "isActive": true,
-      "targetAudience": "all",
-      "priority": "normal",
-      "scheduledFor": null,
-      "personalityTypes": [],
-      "isBulk": false,
-      "analytics": {
-        "totalSent": 1,
-        "totalOpened": 0,
-        "openRate": 0,
-        "engagementRate": 0,
-        "lastUpdated": "2024-12-01T10:00:00Z"
-      }
-    }
-  ],
-  "userNotifications": [
-    {
-      "userId": "user_001",
-      "notificationId": "notif_001",
-      "isRead": false,
-      "receivedAt": "2024-12-01T10:00:00Z",
-      "openedAt": null,
-      "engagedAt": null
-    }
-  ],
+  "notifications": [],
+  "userNotifications": [],
   "analytics": {
-    "totalNotifications": 1,
-    "totalUsers": 1,
+    "totalNotifications": 0,
+    "totalUsers": 0,
     "globalOpenRate": 0,
     "globalEngagementRate": 0,
     "lastUpdated": "2024-12-01T10:00:00Z"

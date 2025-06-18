@@ -20,21 +20,9 @@ const NotificationAnalytics = () => {
       // Load real analytics from localStorage
       const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
       
-      // Load notifications from both JSON and localStorage
-      let baseNotifications = [];
-      try {
-        const response = await fetch('/src/data/notifications.json');
-        if (response.ok) {
-          const data = await response.json();
-          baseNotifications = data.notifications || [];
-        }
-      } catch (e) {
-        console.log('JSON notifications not available');
-      }
-      
-      // Load admin-created notifications
+      // Load only admin-created notifications from localStorage
       const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
-      const allNotifications = [...baseNotifications, ...activeNotifications];
+      const allNotifications = activeNotifications;
       
       // Calculate real metrics from actual data
       const totalNotifications = allNotifications.length;
