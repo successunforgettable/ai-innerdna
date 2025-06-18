@@ -135,6 +135,31 @@ const NotificationAnalytics = () => {
         <div className={styles.metricCard}>
           <div className={styles.metricValue}>{analyticsData.globalOpenRate}%</div>
           <div className={styles.metricLabel}>Open Rate</div>
+          <button 
+            onClick={handleTestOpen}
+            style={{
+              marginTop: '12px',
+              padding: '8px 16px',
+              background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-1px)';
+              e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = 'none';
+            }}
+          >
+            Test Open Rate
+          </button>
         </div>
       </div>
 
