@@ -63,8 +63,9 @@ function broadcastNotification(notification: any) {
 (async () => {
   const server = await registerRoutes(app);
   
-  // Create WebSocket server
-  const wss = new WebSocketServer({ server });
+  // Create separate WebSocket server to avoid Vite HMR conflicts
+  const wsServer = createServer();
+  const wss = new WebSocketServer({ server: wsServer });
 
   // WebSocket connection handling
   wss.on('connection', (ws: any) => {
@@ -88,6 +89,12 @@ function broadcastNotification(notification: any) {
       console.error('WebSocket error:', error);
       clients.delete(ws);
     });
+  });
+
+  // Start WebSocket server on separate port
+  const wsPort = 3001;
+  wsServer.listen(wsPort, () => {
+    console.log(`🔗 WebSocket server listening on port ${wsPort}`);
   });
 
   // API endpoint to create and broadcast notifications

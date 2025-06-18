@@ -6,8 +6,8 @@ const useWebSocket = (url) => {
   const ws = useRef(null);
 
   useEffect(() => {
-    // Create WebSocket connection
-    const wsUrl = url || `ws://localhost:3000`;
+    // Create WebSocket connection on separate port to avoid Vite HMR conflicts
+    const wsUrl = url || `ws://localhost:3001`;
     ws.current = new WebSocket(wsUrl);
 
     ws.current.onopen = () => {

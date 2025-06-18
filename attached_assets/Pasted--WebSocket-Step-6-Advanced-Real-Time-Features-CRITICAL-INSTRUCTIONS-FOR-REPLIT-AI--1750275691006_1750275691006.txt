@@ -1,0 +1,421 @@
+# **WebSocket Step 6: Advanced Real-Time Features**
+
+## **🚨 CRITICAL INSTRUCTIONS FOR REPLIT AI:**
+
+**DO NOT TOUCH ANY EXISTING CODE OR SYSTEMS:**
+- ❌ DO NOT modify existing notification components beyond what's specified
+- ❌ DO NOT change existing CSS classes or design system
+- ❌ DO NOT alter existing WebSocket functionality from previous steps
+- ❌ DO NOT modify the Inner DNA assessment system
+- ❌ DO NOT change existing React context or hooks beyond specified additions
+- ❌ DO NOT make assumptions about browser support or user preferences
+- ❌ DO NOT use creative freedom - ONLY follow this exact prompt
+
+**✅ ONLY ADD the specific files and updates mentioned below**
+
+## **Micro Prompt for Replit AI:**
+
+Add advanced features to enhance the real-time notification system.
+
+**STEP 6A: Notification Sound Effects**
+
+Create a new file at `src/utils/notificationSounds.js` with this exact content:
+
+```javascript
+// Notification sound effects
+class NotificationSounds {
+  constructor() {
+    this.audioContext = null;
+    this.soundEnabled = true;
+    this.initAudio();
+  }
+
+  initAudio() {
+    try {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (error) {
+      console.warn('Audio context not supported');
+    }
+  }
+
+  // Generate notification sound using Web Audio API
+  playNotificationSound(type = 'default') {
+    if (!this.soundEnabled || !this.audioContext) return;
+
+    const sounds = {
+      default: { frequency: 800, duration: 0.2 },
+      high: { frequency: 1000, duration: 0.3 },
+      low: { frequency: 400, duration: 0.2 },
+      success: { frequency: 600, duration: 0.15 }
+    };
+
+    const sound = sounds[type] || sounds.default;
+    
+    try {
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+
+      oscillator.frequency.setValueAtTime(sound.frequency, this.audioContext.currentTime);
+      gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + sound.duration);
+
+      oscillator.start(this.audioContext.currentTime);
+      oscillator.stop(this.audioContext.currentTime + sound.duration);
+    } catch (error) {
+      console.warn('Could not play notification sound:', error);
+    }
+  }
+
+  toggleSound() {
+    this.soundEnabled = !this.soundEnabled;
+    localStorage.setItem('notificationSounds', this.soundEnabled);
+    return this.soundEnabled;
+  }
+
+  getSoundEnabled() {
+    return this.soundEnabled;
+  }
+}
+
+export default new NotificationSounds();
+```
+
+**STEP 6B: Add Sound Controls to Notification Bell**
+
+Update your existing `src/components/Common/NotificationBell.jsx` to include sound controls:
+
+```jsx
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useNotifications } from '../../context/NotificationContext';
+import notificationSounds from '../../utils/notificationSounds';
+import styles from './notification.module.css';
+
+const NotificationBell = () => {
+  const { unreadCount, toggleNotificationCenter, connectionStatus } = useNotifications();
+  const [soundEnabled, setSoundEnabled] = useState(notificationSounds.getSoundEnabled());
+
+  const toggleSound = () => {
+    const newSoundState = notificationSounds.toggleSound();
+    setSoundEnabled(newSoundState);
+  };
+
+  return (
+    <div className={styles.notificationBell}>
+      <motion.button
+        className={styles.bellButton}
+        onClick={toggleNotificationCenter}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        title={`Notifications (${connectionStatus})`}
+      >
+        <svg 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2"
+        >
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        
+        {unreadCount > 0 && (
+          <motion.span
+            className={styles.badge}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 500, damping: 15 }}
+          >
+            {unreadCount > 99 ? '99+' : unreadCount}
+          </motion.span>
+        )}
+      </motion.button>
+
+      {/* Sound Toggle Button */}
+      <motion.button
+        className={styles.soundButton}
+        onClick={toggleSound}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        title={soundEnabled ? 'Disable notification sounds' : 'Enable notification sounds'}
+      >
+        {soundEnabled ? '🔊' : '🔇'}
+      </motion.button>
+    </div>
+  );
+};
+
+**STEP 6C: Add Sound Button CSS**
+
+Add this CSS to your existing `src/components/Common/notification.module.css` file (at the bottom):
+
+```css
+.notificationBell {
+  position: relative;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.soundButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.soundButton:hover {
+  background-color: var(--bg-secondary);
+  opacity: 1;
+}
+```
+
+**STEP 6D: Update Notification Context with Sound**
+
+Update your existing `src/context/NotificationContext.jsx` to play sounds when notifications arrive. Add this import at the top:
+
+```jsx
+import notificationSounds from '../utils/notificationSounds';
+```
+
+Then update the WebSocket message handling effect to include sound:
+
+```jsx
+// Listen for real-time notifications
+useEffect(() => {
+  if (lastMessage && lastMessage.type === 'new_notification') {
+    console.log('🔔 Real-time notification received:', lastMessage.data);
+    
+    // Add new notification to existing list
+    setNotifications(prev => [lastMessage.data, ...prev]);
+    
+    // Increment unread count
+    setUnreadCount(prev => prev + 1);
+    
+    // Play notification sound based on priority
+    const soundType = lastMessage.data.priority === 'high' ? 'high' : 'default';
+    notificationSounds.playNotificationSound(soundType);
+    
+    // Optional: Show browser notification if permission granted
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(lastMessage.data.title, {
+        body: lastMessage.data.message,
+        icon: '/favicon.ico',
+        tag: lastMessage.data.id // Prevent duplicate notifications
+      });
+    }
+  }
+}, [lastMessage]);
+```
+
+**STEP 6E: Priority-Based Notification Styling**
+
+Update your existing `src/components/Common/NotificationCenter.jsx` to show priority-based styling:
+
+```jsx
+const NotificationItem = ({ notification, onRead }) => {
+  const handleClick = () => {
+    onRead(notification.id);
+  };
+
+  const getPriorityClass = () => {
+    switch (notification.priority) {
+      case 'high': return styles.highPriority;
+      case 'low': return styles.lowPriority;
+      default: return '';
+    }
+  };
+
+  return (
+    <motion.div
+      className={`${styles.notificationItem} ${getPriorityClass()}`}
+      whileHover={{ backgroundColor: '#f8fafc' }}
+      onClick={handleClick}
+    >
+      <div className={styles.notificationContent}>
+        <div className={styles.notificationHeader}>
+          <h4>{notification.title}</h4>
+          {notification.priority === 'high' && (
+            <span className={styles.priorityBadge}>HIGH</span>
+          )}
+        </div>
+        <p>{notification.message}</p>
+        <span className={styles.timestamp}>
+          {new Date(notification.createdAt).toLocaleDateString()}
+        </span>
+      </div>
+    </motion.div>
+  );
+};
+```
+
+**STEP 6F: Add Priority Styling CSS**
+
+Add this CSS to your existing `src/components/Common/notification.module.css` file:
+
+```css
+.notificationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.priorityBadge {
+  background: #ef4444;
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.highPriority {
+  border-left: 4px solid #ef4444;
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.05), transparent);
+}
+
+.lowPriority {
+  opacity: 0.8;
+}
+
+.highPriority .notificationContent h4 {
+  color: #dc2626;
+}
+```
+
+**STEP 6G: Add Notification Animation Effects**
+
+Create a new file at `src/components/Common/NotificationToast.jsx` for popup notifications:
+
+```jsx
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import styles from './notification.module.css';
+
+const NotificationToast = ({ notification, onClose }) => {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(false);
+      setTimeout(onClose, 300); // Wait for exit animation
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  if (!visible) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className={styles.notificationToast}
+        initial={{ opacity: 0, x: 300, scale: 0.8 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        exit={{ opacity: 0, x: 300, scale: 0.8 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      >
+        <div className={styles.toastContent}>
+          <div className={styles.toastHeader}>
+            <h4>{notification.title}</h4>
+            <button onClick={() => setVisible(false)}>×</button>
+          </div>
+          <p>{notification.message}</p>
+          {notification.priority === 'high' && (
+            <div className={styles.toastPriority}>High Priority</div>
+          )}
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+export default NotificationToast;
+```
+
+**STEP 6H: Add Toast Notification CSS**
+
+Add this CSS to your existing `src/components/Common/notification.module.css`:
+
+```css
+.notificationToast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1001;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e2e8f0;
+  max-width: 350px;
+  min-width: 300px;
+}
+
+.toastContent {
+  padding: 16px;
+}
+
+.toastHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.toastHeader h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.toastHeader button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0;
+  line-height: 1;
+}
+
+.toastContent p {
+  margin: 0 0 8px 0;
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.toastPriority {
+  font-size: 0.75rem;
+  color: #ef4444;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+```
+
+## **Instructions:**
+1. Create the notification sounds utility file
+2. Update NotificationBell component with sound toggle
+3. Add sound button CSS styles
+4. Update NotificationContext to play sounds
+5. Update NotificationCenter with priority styling
+6. Add priority CSS styles
+7. Create NotificationToast component
+8. Add toast notification CSS
+9. Test all new features
+
+**Expected Result:** Enhanced real-time notification system with sound effects, priority styling, sound controls, and animated toast notifications.
