@@ -26,9 +26,9 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
       onClick={onSelect}
     >
       <div style={{
-        fontSize: '12px',
-        lineHeight: '1.2',
-        padding: '12px',
+        fontSize: '11px',
+        lineHeight: '1.1',
+        padding: '10px',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
@@ -39,6 +39,7 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         fontWeight: 600,
         textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
         wordBreak: 'break-word',
+        wordWrap: 'break-word',
         hyphens: 'auto'
       }}>
         {content[0]}
