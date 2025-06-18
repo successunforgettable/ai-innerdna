@@ -17,31 +17,44 @@ export const NotificationProvider = ({ children }) => {
 
   useEffect(() => {
     loadNotifications();
+    
+    // Set up global refresh function for admin notifications
+    window.refreshNotifications = loadNotifications;
+    
+    return () => {
+      window.refreshNotifications = null;
+    };
   }, []);
 
   const loadNotifications = async () => {
     try {
-      // Try to load from JSON file
+      // Load from both JSON file and localStorage (for admin-created notifications)
       const response = await fetch('/src/data/notifications.json');
+      let baseNotifications = [];
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.ok) {
+        const data = await response.json();
+        baseNotifications = data.notifications || [];
       }
       
-      const data = await response.json();
+      // Load admin-created notifications from localStorage
+      const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
       
-      // Validate data structure
-      if (!data || typeof data !== 'object') {
-        throw new Error('Invalid data format');
-      }
+      // Combine all notifications
+      const allNotifications = [...baseNotifications, ...activeNotifications];
       
-      const notifications = data.notifications || [];
-      const userNotifications = data.userNotifications || [];
+      // Load read status from localStorage
+      const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
       
-      setNotifications(notifications);
-      calculateUnreadCount(userNotifications);
+      // Filter out read notifications and count unread
+      const unreadNotifications = allNotifications.filter(notif => 
+        !readNotifications.includes(notif.id)
+      );
       
-      console.log(`✅ Loaded ${notifications.length} notifications successfully`);
+      setNotifications(allNotifications);
+      setUnreadCount(unreadNotifications.length);
+      
+      console.log(`✅ Loaded ${allNotifications.length} notifications successfully`);
       
     } catch (error) {
       console.error('❌ Error loading notifications:', error.message);
@@ -51,7 +64,7 @@ export const NotificationProvider = ({ children }) => {
         {
           id: 'fallback_001',
           title: 'System Notification',
-          message: 'Notification system is working! (Using fallback data)',
+          message: 'Notification system is working!',
           type: 'system',
           createdAt: new Date().toISOString(),
           isActive: true,
@@ -73,6 +86,13 @@ export const NotificationProvider = ({ children }) => {
   };
 
   const markAsRead = (notificationId) => {
+    // Add to read notifications list
+    const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+    if (!readNotifications.includes(notificationId)) {
+      readNotifications.push(notificationId);
+      localStorage.setItem('read_notifications', JSON.stringify(readNotifications));
+    }
+    
     setUnreadCount(prev => Math.max(0, prev - 1));
     
     // Track analytics - increment open count
