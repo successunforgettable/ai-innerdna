@@ -758,6 +758,23 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
+/* Mobile responsive glass containers */
+@media (max-width: 768px) {
+  .stone-selection-area,
+  .tower-visualization-area {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stone-selection-area,
+  .tower-visualization-area {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+}
+
 .tower-visualization-area {
   position: sticky;
   top: 2rem;
@@ -951,6 +968,23 @@ body {
     transition: all var(--duration-fast) ease;
     cursor: pointer;
   }
+
+  /* Mobile responsive detail tokens */
+  @media (max-width: 768px) {
+    .detail-token {
+      width: 100px;
+      height: 50px;
+      border-radius: 25px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .detail-token {
+      width: 80px;
+      height: 40px;
+      border-radius: 20px;
+    }
+  }
   
   .detail-token:hover {
     transform: scale(1.05);
@@ -988,6 +1022,25 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     z-index: 10;
+  }
+
+  /* Mobile responsive back button */
+  @media (max-width: 768px) {
+    .back-button-small {
+      top: 15px;
+      left: 15px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .back-button-small {
+      top: 10px;
+      left: 10px;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+    }
   }
 
   .back-button-small:hover {
@@ -1044,5 +1097,60 @@ body {
   }
   50% { 
     transform: scale(1.05); 
+  }
+}
+
+/* Global mobile responsive adjustments */
+@media (max-width: 768px) {
+  .title-primary {
+    font-size: 1.5rem !important;
+  }
+  
+  .section-description {
+    font-size: 0.875rem !important;
+  }
+  
+  .foundation-phase {
+    padding: 1rem 0.5rem;
+  }
+  
+  .tower-visualization-area {
+    position: static;
+  }
+  
+  .page-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .glass-container {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-primary {
+    font-size: 1.25rem !important;
+  }
+  
+  .section-description {
+    font-size: 0.8rem !important;
+  }
+  
+  .foundation-phase {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .tower-container {
+    height: 250px;
+  }
+  
+  .page-container {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .glass-container {
+    padding: 1rem;
+    border-radius: 12px;
   }
 }
