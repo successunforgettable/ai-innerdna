@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './admin.module.css';
+import NotificationAnalytics from './NotificationAnalytics';
 
 const NotificationCreator = () => {
   const [formData, setFormData] = useState({
