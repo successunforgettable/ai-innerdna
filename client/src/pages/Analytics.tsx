@@ -129,74 +129,74 @@ const Analytics = () => {
                 </div>
               </div>
 
-          {/* Type Distribution */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-yellow-400 mb-4">Type Distribution</h3>
-            <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
-              {[1,2,3,4,5,6,7,8,9].map(type => (
-                <div key={type} className="bg-white/5 rounded-lg p-4 border border-white/10 text-center">
-                  <div className="text-lg font-bold text-white">Type {type}</div>
-                  <div className="text-2xl font-bold text-blue-400">
-                    {stats.typeDistribution[type] || 0}
+              {/* Type Distribution */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-4">Type Distribution</h3>
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
+                  {[1,2,3,4,5,6,7,8,9].map(type => (
+                    <div key={type} className="bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+                      <div className="text-lg font-bold text-white">Type {type}</div>
+                      <div className="text-2xl font-bold text-blue-400">
+                        {stats.typeDistribution[type] || 0}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Recent Assessments */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-yellow-400 mb-4">Recent Assessments</h3>
+                <div className="bg-white/5 rounded-lg border border-white/10 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-white/10">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-white font-semibold">Name</th>
+                          <th className="px-4 py-3 text-left text-white font-semibold">Email</th>
+                          <th className="px-4 py-3 text-left text-white font-semibold">Type</th>
+                          <th className="px-4 py-3 text-left text-white font-semibold">Completed</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {assessments.slice(0, 10).map((assessment, index) => (
+                          <tr key={assessment.id} className={index % 2 === 0 ? 'bg-white/5' : ''}>
+                            <td className="px-4 py-3 text-white/90">
+                              {assessment.firstName} {assessment.lastName}
+                            </td>
+                            <td className="px-4 py-3 text-white/90">
+                              {assessment.email}
+                            </td>
+                            <td className="px-4 py-3 text-white/90">
+                              {(() => {
+                                // Multiple fallback strategies for personality type extraction
+                                const type = assessment.primaryType || 
+                                           assessment.result?.primaryType || 
+                                           assessment.personalityType ||
+                                           assessment.assessmentData?.result?.primaryType;
+                                
+                                const typeName = assessment.typeName || 
+                                               assessment.result?.typeName || 
+                                               assessment.personalityName ||
+                                               assessment.assessmentData?.result?.typeName;
+                                
+                                if (type) {
+                                  return `Type ${type}${typeName ? ` - ${typeName}` : ''}`;
+                                } else {
+                                  return 'Type - (Data Missing)';
+                                }
+                              })()}
+                            </td>
+                            <td className="px-4 py-3 text-white/90">
+                              {new Date(assessment.completedAt).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Assessments */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold text-yellow-400 mb-4">Recent Assessments</h3>
-            <div className="bg-white/5 rounded-lg border border-white/10 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-white/10">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-white font-semibold">Name</th>
-                      <th className="px-4 py-3 text-left text-white font-semibold">Email</th>
-                      <th className="px-4 py-3 text-left text-white font-semibold">Type</th>
-                      <th className="px-4 py-3 text-left text-white font-semibold">Completed</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {assessments.slice(0, 10).map((assessment, index) => (
-                      <tr key={assessment.id} className={index % 2 === 0 ? 'bg-white/5' : ''}>
-                        <td className="px-4 py-3 text-white/90">
-                          {assessment.firstName} {assessment.lastName}
-                        </td>
-                        <td className="px-4 py-3 text-white/90">
-                          {assessment.email}
-                        </td>
-                        <td className="px-4 py-3 text-white/90">
-                          {(() => {
-                            // Multiple fallback strategies for personality type extraction
-                            const type = assessment.primaryType || 
-                                       assessment.result?.primaryType || 
-                                       assessment.personalityType ||
-                                       assessment.assessmentData?.result?.primaryType;
-                            
-                            const typeName = assessment.typeName || 
-                                           assessment.result?.typeName || 
-                                           assessment.personalityName ||
-                                           assessment.assessmentData?.result?.typeName;
-                            
-                            if (type) {
-                              return `Type ${type}${typeName ? ` - ${typeName}` : ''}`;
-                            } else {
-                              return 'Type - (Data Missing)';
-                            }
-                          })()}
-                        </td>
-                        <td className="px-4 py-3 text-white/90">
-                          {new Date(assessment.completedAt).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
-            </div>
-          </div>
             </>
           )}
 
