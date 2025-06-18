@@ -31,12 +31,12 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   }
 }
 
-export async function sendPasswordRecoveryEmail(email: string, password: string): Promise<boolean> {
+export async function sendPasswordRecoveryEmail(email: string, message: string): Promise<boolean> {
   const emailParams: EmailParams = {
     to: email,
-    from: 'noreply@innerdna.com', // You may need to verify this domain with SendGrid
+    from: 'test@example.com', // Using a test sender until domain is verified
     subject: 'Inner DNA Assessment - Password Recovery',
-    text: `Your Inner DNA Assessment password is: ${password}`,
+    text: `Password Recovery Request\n\n${message}\n\nIf you need assistance accessing your account, please contact our support team.`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: linear-gradient(135deg, #1e3a8a, #7c3aed, #3730a3); padding: 30px; border-radius: 10px; margin-bottom: 20px;">
@@ -44,30 +44,29 @@ export async function sendPasswordRecoveryEmail(email: string, password: string)
         </div>
         
         <div style="background: #f8f9fa; padding: 30px; border-radius: 10px; border: 1px solid #e9ecef;">
-          <h2 style="color: #1e3a8a; margin-top: 0;">Password Recovery</h2>
+          <h2 style="color: #1e3a8a; margin-top: 0;">Password Recovery Request</h2>
           
           <p style="color: #495057; font-size: 16px; line-height: 1.6;">
-            You requested your password for accessing your Inner DNA Assessment report.
+            We received a request to help you access your Inner DNA Assessment account.
           </p>
           
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 2px solid #fbbf24; margin: 20px 0;">
-            <p style="color: #1e3a8a; font-size: 14px; margin: 0 0 10px 0; font-weight: bold;">Your Password:</p>
-            <p style="color: #000; font-size: 18px; font-weight: bold; margin: 0; letter-spacing: 1px;">${password}</p>
+          <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border: 2px solid #fbbf24; margin: 20px 0;">
+            <p style="color: #856404; font-size: 16px; margin: 0; line-height: 1.5;">${message}</p>
           </div>
           
           <p style="color: #495057; font-size: 16px; line-height: 1.6;">
-            Use this password to log in and access your personality assessment report.
+            For security assistance, please contact our support team with your registered email address.
           </p>
           
           <div style="text-align: center; margin: 30px 0;">
             <a href="${process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000'}/login" 
                style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
-              Access Your Report
+              Return to Login
             </a>
           </div>
           
           <p style="color: #6c757d; font-size: 14px; line-height: 1.5; margin-top: 30px;">
-            For security reasons, we recommend logging in immediately and keeping your password secure.
+            If you didn't request this, please ignore this email. Your account remains secure.
           </p>
         </div>
         
