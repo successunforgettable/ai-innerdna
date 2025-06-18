@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { getStoredAssessments } from '@/lib/assessmentStorage';
 import DataExport from '@/components/DataExport';
 import { useAuth } from '@/contexts/AuthContext';
 import NotificationCreator from '@/components/Admin/NotificationCreator';
@@ -22,39 +21,53 @@ const Analytics = () => {
   };
 
   useEffect(() => {
-    const assessments = getStoredAssessments();
-    setAssessments(assessments);
-    
-    // Calculate statistics per Section 9.3
-    const totalCompletions = assessments.length;
-    
-    // Type distribution calculation with multiple fallback strategies
-    const typeDistribution: Record<string, number> = {};
-    assessments.forEach((assessment: any) => {
-      // Try multiple ways to extract personality type
-      const type = assessment.primaryType || 
-                   assessment.result?.primaryType || 
-                   assessment.personalityType ||
-                   assessment.assessmentData?.result?.primaryType ||
-                   null;
-      
-      if (type) {
-        typeDistribution[type] = (typeDistribution[type] || 0) + 1;
+    const fetchDatabaseAssessments = async () => {
+      try {
+        // Fetch assessments from database instead of localStorage
+        const response = await fetch('/api/assessments/all');
+        const databaseAssessments = response.ok ? await response.json() : [];
+        setAssessments(databaseAssessments);
+        
+        // Calculate statistics from database data
+        const totalCompletions = databaseAssessments.length;
+        
+        // Type distribution calculation
+        const typeDistribution: Record<string, number> = {};
+        databaseAssessments.forEach((assessment: any) => {
+          const type = assessment.primaryType || 
+                       assessment.result?.primaryType || 
+                       assessment.personalityType ||
+                       assessment.assessmentData?.result?.primaryType ||
+                       null;
+          
+          if (type) {
+            typeDistribution[type] = (typeDistribution[type] || 0) + 1;
+          }
+        });
+
+        // Recent completions (last 7 days)
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const recentCompletions = databaseAssessments.filter(
+          (assessment: any) => new Date(assessment.completedAt) > sevenDaysAgo
+        ).length;
+
+        setStats({
+          totalCompletions,
+          typeDistribution,
+          recentCompletions
+        });
+      } catch (error) {
+        console.error('Error fetching assessments:', error);
+        setStats({
+          totalCompletions: 0,
+          typeDistribution: {},
+          recentCompletions: 0
+        });
       }
-    });
+    };
 
-    // Recent completions (last 7 days)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const recentCompletions = assessments.filter(
-      (assessment: any) => new Date(assessment.completedAt) > sevenDaysAgo
-    ).length;
-
-    setStats({
-      totalCompletions,
-      typeDistribution,
-      recentCompletions
-    });
+    fetchDatabaseAssessments();
   }, []);
 
   if (!stats) return <div>Loading analytics...</div>;
