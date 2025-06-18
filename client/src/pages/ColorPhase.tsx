@@ -294,7 +294,7 @@ export default function ColorPhase() {
         >
           <div className="glass-container">
             <h3 className="section-title" style={{ color: '#fbbf24' }}>State Selection</h3>
-            <p className="section-description">Choose two states from the five below that you most resonate with. Be honest ... Your life depends on it.</p>
+            <p className="section-description">Choose ONLY two states from the five below that you feel are running in the back of your mind . be honest</p>
             
             <div className="color-states-grid">
               {enhancedStateOptions.map((state, index) => (
