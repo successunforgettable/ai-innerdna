@@ -34,13 +34,15 @@ const Analytics = () => {
         // Type distribution calculation
         const typeDistribution: Record<string, number> = {};
         databaseAssessments.forEach((assessment: any) => {
-          const type = assessment.primaryType || 
-                       assessment.result?.primaryType || 
-                       assessment.personalityType ||
-                       assessment.assessmentData?.result?.primaryType ||
-                       null;
+          const rawType = assessment.primaryType || 
+                         assessment.result?.primaryType || 
+                         assessment.personalityType ||
+                         assessment.assessmentData?.result?.primaryType ||
+                         null;
           
-          if (type) {
+          if (rawType) {
+            // Normalize type to string for consistent counting
+            const type = String(rawType);
             typeDistribution[type] = (typeDistribution[type] || 0) + 1;
           }
         });
