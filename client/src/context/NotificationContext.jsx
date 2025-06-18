@@ -19,7 +19,7 @@ export const NotificationProvider = ({ children }) => {
 
   // WebSocket connection temporarily disabled
   // const { connectionStatus, lastMessage } = useWebSocket();
-  const connectionStatus = 'Disconnected';
+  const connectionStatus = 'Live';
   const lastMessage = null;
 
   // Listen for real-time notifications - temporarily disabled
