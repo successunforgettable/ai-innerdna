@@ -5,6 +5,7 @@ import { useAssessment } from '@/context/AssessmentContext';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { TowerVisualization } from '@/components/TowerVisualization';
+import NotificationBell from '../components/Common/NotificationBell';
 import styles from './Welcome.module.css';
 
 export default function Welcome() {
@@ -274,40 +275,61 @@ export default function Welcome() {
             Discover Your Unique Inner DNA
           </motion.div>
           
-          {/* Login Button - Top Right */}
-          <motion.button
-            onClick={() => setLocation('/login')}
-            variants={itemVariants}
-            whileHover={{
-              scale: 1.02,
-              opacity: 0.9
-            }}
-            whileTap={{
-              scale: 0.98
-            }}
-            transition={{
-              duration: 0.2,
-              ease: [0.4, 0, 0.2, 1]
-            }}
-            style={{
-              position: 'fixed',
-              top: '20px',
-              right: '20px',
-              padding: '8px 16px',
+          {/* Top Right Header Actions */}
+          <div style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            zIndex: 1000
+          }}>
+            {/* Notification Bell */}
+            <div style={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '8px',
-              color: 'white',
-              fontSize: '14px',
-              fontWeight: '500',
-              cursor: 'pointer',
+              padding: '8px',
               backdropFilter: 'blur(10px)',
-              textDecoration: 'none',
-              zIndex: 1000
-            }}
-          >
-            Login
-          </motion.button>
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <NotificationBell />
+            </div>
+            
+            {/* Login Button */}
+            <motion.button
+              onClick={() => setLocation('/login')}
+              variants={itemVariants}
+              whileHover={{
+                scale: 1.02,
+                opacity: 0.9
+              }}
+              whileTap={{
+                scale: 0.98
+              }}
+              transition={{
+                duration: 0.2,
+                ease: [0.4, 0, 0.2, 1]
+              }}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '8px',
+                color: 'white',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                backdropFilter: 'blur(10px)',
+                textDecoration: 'none'
+              }}
+            >
+              Login
+            </motion.button>
+          </div>
         </motion.header>
         
         {/* HeroSection - exact from spec */}
