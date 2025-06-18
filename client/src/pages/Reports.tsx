@@ -102,9 +102,9 @@ export default function Reports() {
             className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 shadow-2xl results-container"
           >
             {/* Results Header */}
-            <div className="text-center mb-8 results-header">
+            <div className="text-center mb-12 results-header">
               <h2 className="text-6xl font-bold text-yellow-400 mb-4 results-title">
-                Type {assessmentData?.result?.primaryType || "Unknown"}
+                The Challenger
               </h2>
               <p className="text-xl text-white/90 mb-2 results-influence">
                 Your primary personality influence
@@ -114,113 +114,114 @@ export default function Reports() {
               </p>
             </div>
 
-            {/* Assessment Summary */}
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
+            {/* Core Description */}
+            <div className="mb-12">
               <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-yellow-400 mb-4">Assessment Summary</h3>
-                <div className="space-y-3 text-white/80">
-                  <div className="flex justify-between">
-                    <span>Completed:</span>
-                    <span>{new Date(userReport.completedAt!).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Foundation Stones:</span>
-                    <span>{assessmentData?.foundationStones?.length || 0}/9</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Building Blocks:</span>
-                    <span>{assessmentData?.buildingBlocks?.length || 0}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Color States:</span>
-                    <span>{assessmentData?.colorStates?.length || 0}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Detail Tokens:</span>
-                    <span>{assessmentData?.detailTokens?.length || 0}</span>
+                <p className="text-lg text-white/90 leading-relaxed">
+                  Powerful, dominating type. Self-confident, decisive, willful, and confrontational. 
+                  Can be egoistic and dominating at their worst. At their best: self-mastering, 
+                  they use their strength to improve others' lives, becoming heroic, magnanimous, and inspiring.
+                </p>
+              </div>
+            </div>
+
+            {/* Mood States */}
+            <div className="mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-xl font-semibold text-green-400 mb-4">
+                    When you're in a good mood
+                  </h4>
+                  <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4">
+                    <ul className="space-y-2 text-white/90">
+                      <li>• Magnanimous and generous</li>
+                      <li>• Protective and championing</li>
+                      <li>• Self-restraining and merciful</li>
+                      <li>• Heroic and inspiring</li>
+                    </ul>
                   </div>
                 </div>
-              </div>
-
-              <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-yellow-400 mb-4">Contact Information</h3>
-                <div className="space-y-3 text-white/80">
-                  <div>
-                    <span className="text-white/60">Email:</span>
-                    <div>{userReport.email}</div>
-                  </div>
-                  <div>
-                    <span className="text-white/60">Phone:</span>
-                    <div>{userReport.phoneNumber}</div>
-                  </div>
-                  <div>
-                    <span className="text-white/60">Name:</span>
-                    <div>{userReport.firstName} {userReport.lastName}</div>
+                <div>
+                  <h4 className="text-xl font-semibold text-red-400 mb-4">
+                    When you're in a bad mood
+                  </h4>
+                  <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4">
+                    <ul className="space-y-2 text-white/90">
+                      <li>• Vindictive and ruthless</li>
+                      <li>• Dictatorial and tyrannical</li>
+                      <li>• Destructive and megalomaniacal</li>
+                      <li>• Violent and antisocial</li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Color States */}
-            {assessmentData?.colorStates && assessmentData.colorStates.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">Your Selected States</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {assessmentData.colorStates.map((state: any, index: number) => (
-                    <div
-                      key={index}
-                      className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4"
-                    >
-                      <h4 className="font-semibold text-white mb-2">{state.title}</h4>
-                      <p className="text-white/70 text-sm">{state.state}</p>
-                    </div>
-                  ))}
-                </div>
+            {/* Influence Description */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                Your Influence: 9
+              </h3>
+              <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
+                <p className="text-lg text-white/90 leading-relaxed">
+                  The 9 influence brings a peaceful, harmonizing quality to your assertive nature. 
+                  You approach challenges through steady, measured means rather than pure force. This influence 
+                  helps you maintain relationships while still standing firm in your convictions.
+                </p>
               </div>
-            )}
+            </div>
 
-            {/* Building Blocks */}
-            {assessmentData?.buildingBlocks && assessmentData.buildingBlocks.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">Your Building Blocks</h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  {assessmentData.buildingBlocks.map((block: any, index: number) => (
-                    <div
-                      key={index}
-                      className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center"
-                    >
-                      <div className="text-2xl font-bold text-yellow-400 mb-2">
-                        Type {block.type}
-                      </div>
-                      <div className="text-white font-medium mb-1">{block.name}</div>
-                      {block.wing && (
-                        <div className="text-white/70 text-sm">Wing {block.wing}</div>
-                      )}
+            {/* State Analysis */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                Your Current State Distribution
+              </h3>
+              <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                  {assessmentData?.colorStates?.map((state: any, index: number) => (
+                    <div key={index}>
+                      <h4 className="text-lg font-semibold text-white mb-2">
+                        {index === 0 ? 'Primary' : 'Secondary'} State
+                      </h4>
+                      <p className="text-white/80">{state.title}</p>
                     </div>
                   ))}
                 </div>
+                <p className="text-white/90">
+                  You tend to operate from a strong state, showing consistency in your emotional patterns 
+                  while maintaining access to focused energy when needed.
+                </p>
               </div>
-            )}
+            </div>
 
-            {/* All Scores */}
-            {assessmentData?.result?.allScores && (
-              <div>
-                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">Complete Type Scores</h3>
-                <div className="grid md:grid-cols-3 gap-3">
-                  {Object.entries(assessmentData.result.allScores)
-                    .sort(([,a]: [string, any], [,b]: [string, any]) => b - a)
-                    .map(([type, score]: [string, any]) => (
-                    <div
-                      key={type}
-                      className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-3 flex justify-between items-center"
-                    >
-                      <span className="text-white font-medium">Type {type}</span>
-                      <span className="text-yellow-400 font-bold">{Math.round(score * 100) / 100}</span>
-                    </div>
-                  ))}
+            {/* Subtype Analysis */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                Your Subtype Focus
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                  <h4 className="text-lg font-semibold text-white mb-2">Self-Preservation</h4>
+                  <p className="text-2xl font-bold text-yellow-400">30%</p>
+                </div>
+                <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                  <h4 className="text-lg font-semibold text-white mb-2">Social</h4>
+                  <p className="text-2xl font-bold text-yellow-400">30%</p>
+                </div>
+                <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+                  <h4 className="text-lg font-semibold text-white mb-2">Sexual</h4>
+                  <p className="text-2xl font-bold text-yellow-400">40%</p>
                 </div>
               </div>
-            )}
+              <div className="mt-6 backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
+                <p className="text-white/90 leading-relaxed">
+                  Your Sexual subtype focus means you're drawn to intensity, passion, and one-on-one connections. 
+                  You seek powerful experiences and aren't afraid of conflict or challenge. This subtype brings 
+                  magnetic energy and the desire to make a significant impact on others.
+                </p>
+              </div>
+            </div>
+
           </motion.div>
         ) : (
           <motion.div
