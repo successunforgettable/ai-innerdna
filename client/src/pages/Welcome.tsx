@@ -275,17 +275,13 @@ export default function Welcome() {
             Discover Your Unique Inner DNA
           </motion.div>
           
-          {/* Top Right Header Actions */}
+          {/* Notification Bell - Top Left */}
           <div style={{
             position: 'fixed',
             top: '20px',
-            right: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
+            left: '20px',
             zIndex: 1000
           }}>
-            {/* Notification Bell */}
             <div style={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -298,38 +294,42 @@ export default function Welcome() {
             }}>
               <NotificationBell />
             </div>
-            
-            {/* Login Button */}
-            <motion.button
-              onClick={() => setLocation('/login')}
-              variants={itemVariants}
-              whileHover={{
-                scale: 1.02,
-                opacity: 0.9
-              }}
-              whileTap={{
-                scale: 0.98
-              }}
-              transition={{
-                duration: 0.2,
-                ease: [0.4, 0, 0.2, 1]
-              }}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '8px',
-                color: 'white',
-                fontSize: '14px',
-                fontWeight: '500',
-                cursor: 'pointer',
-                backdropFilter: 'blur(10px)',
-                textDecoration: 'none'
-              }}
-            >
-              Login
-            </motion.button>
           </div>
+          
+          {/* Login Button - Top Right */}
+          <motion.button
+            onClick={() => setLocation('/login')}
+            variants={itemVariants}
+            whileHover={{
+              scale: 1.02,
+              opacity: 0.9
+            }}
+            whileTap={{
+              scale: 0.98
+            }}
+            transition={{
+              duration: 0.2,
+              ease: [0.4, 0, 0.2, 1]
+            }}
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '20px',
+              padding: '8px 16px',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              backdropFilter: 'blur(10px)',
+              textDecoration: 'none',
+              zIndex: 1000
+            }}
+          >
+            Login
+          </motion.button>
         </motion.header>
         
         {/* HeroSection - exact from spec */}
