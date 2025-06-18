@@ -10,73 +10,73 @@ export const stoneSets: StoneSet[] = [
   {
     title: "Decision-Making Center",
     stones: [
-      { content: ["ANALYSIS • LOGIC • THINKING"], gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)" },
-      { content: ["CONNECTION • EMPATHY • FEELING"], gradient: "linear-gradient(135deg, #10b981, #047857)" },
-      { content: ["ACTION • INSTINCT • MOVEMENT"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
+      { content: ["When making decisions, I think things through • I analyze the options • I gather information first"], gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)" },
+      { content: ["When making decisions, I consider how people feel • I think about relationships • I focus on what matters emotionally"], gradient: "linear-gradient(135deg, #10b981, #047857)" },
+      { content: ["When making decisions, I trust my gut • I go with what feels right • I act on my instincts"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
     ]
   },
   {
     title: "Core Motivation",
     stones: [
-      { content: ["SECURITY • PREPARATION • CAUTION"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
-      { content: ["AUTHENTICITY • IMAGE • MEANING"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
-      { content: ["JUSTICE • CONTROL • STRENGTH"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
+      { content: ["What motivates me is staying safe • I need security and preparation • I want to avoid danger"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+      { content: ["What motivates me is being authentic • I need to express my true self • I want to be special and meaningful"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
+      { content: ["What motivates me is doing what's right • I need to be strong and in control • I want justice and fairness"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
     ]
   },
   {
     title: "Energy Direction",
     stones: [
-      { content: ["REFLECTION • DEPTH • PRIVACY"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
-      { content: ["ACHIEVEMENT • INFLUENCE • IMPACT"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" },
-      { content: ["STRUCTURE • SUPPORT • HARMONY"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" }
+      { content: ["I direct my energy inward • I prefer reflection and depth • I need quiet time to recharge"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
+      { content: ["I direct my energy outward • I push for impact and results • I assert myself confidently"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" },
+      { content: ["I direct my energy toward cooperation • I work well with others • I support and maintain harmony"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" }
     ]
   },
   {
     title: "Social Approach",
     stones: [
-      { content: ["OBJECTIVITY • PERSPECTIVE • SPACE"], gradient: "linear-gradient(135deg, #64748b, #475569)" },
-      { content: ["CLOSENESS • INTIMACY • BONDING"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
-      { content: ["INDEPENDENCE • SELF-RELIANCE • FREEDOM"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
+      { content: ["In social situations, I prefer smaller groups • I need meaningful conversations • I value independence and space"], gradient: "linear-gradient(135deg, #64748b, #475569)" },
+      { content: ["In social situations, I seek close connections • I want intimacy and bonding • I build strong personal relationships"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
+      { content: ["In social situations, I maintain my autonomy • I stay self-reliant • I don't depend on others too much"], gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" }
     ]
   },
   {
     title: "Processing Style",
     stones: [
-      { content: ["SYSTEMS • CONCEPTS • IDEAS"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
-      { content: ["EXPRESSION • MOOD • FEELING"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" },
-      { content: ["RESULTS • EFFICIENCY • UTILITY"], gradient: "linear-gradient(135deg, #059669, #047857)" }
+      { content: ["I process information through thinking • I analyze systems and concepts • I focus on ideas and frameworks"], gradient: "linear-gradient(135deg, #6366f1, #4f46e5)" },
+      { content: ["I process information through feelings • I pay attention to emotions and moods • I trust what resonates emotionally"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" },
+      { content: ["I process information practically • I focus on what works • I want efficient, useful results"], gradient: "linear-gradient(135deg, #059669, #047857)" }
     ]
   },
   {
     title: "Stress Reaction",
     stones: [
-      { content: ["VIGILANCE • ANALYSIS • FORESIGHT"], gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)" },
-      { content: ["RECOGNITION • IDENTITY • UNIQUENESS"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
-      { content: ["AUTHORITY • POWER • DIRECTION"], gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)" }
+      { content: ["When stressed, I become more cautious • I analyze potential problems • I prepare for what could go wrong"], gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)" },
+      { content: ["When stressed, I focus on recognition • I worry about my image and identity • I need to feel special and valued"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
+      { content: ["When stressed, I take charge • I assert my authority and control • I become more directive and demanding"], gradient: "linear-gradient(135deg, #0ea5e9, #0284c7)" }
     ]
   },
   {
     title: "Conflict Style",
     stones: [
-      { content: ["PEACE • MEDIATION • COMPROMISE"], gradient: "linear-gradient(135deg, #22c55e, #16a34a)" },
-      { content: ["SUPPORT • FLEXIBILITY • ADAPTATION"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" },
-      { content: ["DIRECTNESS • CHALLENGE • HONESTY"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" }
+      { content: ["In conflict, I seek peace and harmony • I prefer mediation and compromise • I try to calm things down"], gradient: "linear-gradient(135deg, #22c55e, #16a34a)" },
+      { content: ["In conflict, I offer support and flexibility • I adapt to help resolve things • I try to meet everyone's needs"], gradient: "linear-gradient(135deg, #84cc16, #65a30d)" },
+      { content: ["In conflict, I address issues directly • I challenge when necessary • I speak honestly and straightforwardly"], gradient: "linear-gradient(135deg, #f97316, #ea580c)" }
     ]
   },
   {
     title: "Success Definition",
     stones: [
-      { content: ["ACCURACY • PRINCIPLES • IMPROVEMENT"], gradient: "linear-gradient(135deg, #3b82f6, #2563eb)" },
-      { content: ["CONNECTION • ACKNOWLEDGMENT • APPRECIATION"], gradient: "linear-gradient(135deg, #10b981, #059669)" },
-      { content: ["MASTERY • ACHIEVEMENT • CAPABILITY"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
+      { content: ["I define success by high standards • I measure by principles and accuracy • I focus on improvement and doing things right"], gradient: "linear-gradient(135deg, #3b82f6, #2563eb)" },
+      { content: ["I define success by relationships • I measure by connection and acknowledgment • I value appreciation from others"], gradient: "linear-gradient(135deg, #10b981, #059669)" },
+      { content: ["I define success by mastery • I measure by achievement and capability • I value competence and expertise"], gradient: "linear-gradient(135deg, #f59e0b, #d97706)" }
     ]
   },
   {
     title: "Relationship Priority",
     stones: [
-      { content: ["AUTONOMY • SELF-SUFFICIENCY • SPACE"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
-      { content: ["MUTUALITY • SHARING • RECIPROCITY"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
-      { content: ["LEADERSHIP • MENTORSHIP • DIRECTION"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" }
+      { content: ["In relationships, I prioritize independence • I need personal space and self-sufficiency • I value my autonomy"], gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+      { content: ["In relationships, I prioritize mutuality • I want sharing and give-and-take • I value reciprocity and balance"], gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
+      { content: ["In relationships, I provide leadership • I naturally give direction and guidance • I take responsibility for others"], gradient: "linear-gradient(135deg, #ef4444, #dc2626)" }
     ]
   }
 ];

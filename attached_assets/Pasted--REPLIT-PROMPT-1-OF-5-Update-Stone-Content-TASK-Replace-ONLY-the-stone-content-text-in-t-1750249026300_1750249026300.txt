@@ -1,0 +1,61 @@
+# REPLIT PROMPT 1 OF 5 - Update Stone Content
+
+## **TASK:**
+Replace ONLY the stone content text in the FoundationStones.tsx file. Do NOT change any other code, CSS, or component structure.
+
+## **LOCATION:**
+Find the stone content data structure (likely an array or object containing the 9 sets of stones).
+
+## **REPLACE WITH EXACTLY THIS CONTENT:**
+
+### **Set 1: Decision-Making Center**
+**Stone A:** "When making decisions, I think things through • I analyze the options • I gather information first"
+**Stone B:** "When making decisions, I consider how people feel • I think about relationships • I focus on what matters emotionally"  
+**Stone C:** "When making decisions, I trust my gut • I go with what feels right • I act on my instincts"
+
+### **Set 2: Core Motivation**
+**Stone A:** "What motivates me is staying safe • I need security and preparation • I want to avoid danger"
+**Stone B:** "What motivates me is being authentic • I need to express my true self • I want to be special and meaningful"
+**Stone C:** "What motivates me is doing what's right • I need to be strong and in control • I want justice and fairness"
+
+### **Set 3: Energy Direction**
+**Stone A:** "I direct my energy inward • I prefer reflection and depth • I need quiet time to recharge"
+**Stone B:** "I direct my energy outward • I push for impact and results • I assert myself confidently"
+**Stone C:** "I direct my energy toward cooperation • I work well with others • I support and maintain harmony"
+
+### **Set 4: Social Approach**
+**Stone A:** "In social situations, I prefer smaller groups • I need meaningful conversations • I value independence and space"
+**Stone B:** "In social situations, I seek close connections • I want intimacy and bonding • I build strong personal relationships"
+**Stone C:** "In social situations, I maintain my autonomy • I stay self-reliant • I don't depend on others too much"
+
+### **Set 5: Processing Style**
+**Stone A:** "I process information through thinking • I analyze systems and concepts • I focus on ideas and frameworks"
+**Stone B:** "I process information through feelings • I pay attention to emotions and moods • I trust what resonates emotionally"
+**Stone C:** "I process information practically • I focus on what works • I want efficient, useful results"
+
+### **Set 6: Stress Reaction**
+**Stone A:** "When stressed, I become more cautious • I analyze potential problems • I prepare for what could go wrong"
+**Stone B:** "When stressed, I focus on recognition • I worry about my image and identity • I need to feel special and valued"
+**Stone C:** "When stressed, I take charge • I assert my authority and control • I become more directive and demanding"
+
+### **Set 7: Conflict Style**
+**Stone A:** "In conflict, I seek peace and harmony • I prefer mediation and compromise • I try to calm things down"
+**Stone B:** "In conflict, I offer support and flexibility • I adapt to help resolve things • I try to meet everyone's needs"
+**Stone C:** "In conflict, I address issues directly • I challenge when necessary • I speak honestly and straightforwardly"
+
+### **Set 8: Success Definition**
+**Stone A:** "I define success by high standards • I measure by principles and accuracy • I focus on improvement and doing things right"
+**Stone B:** "I define success by relationships • I measure by connection and acknowledgment • I value appreciation from others"
+**Stone C:** "I define success by mastery • I measure by achievement and capability • I value competence and expertise"
+
+### **Set 9: Relationship Priority**
+**Stone A:** "In relationships, I prioritize independence • I need personal space and self-sufficiency • I value my autonomy"
+**Stone B:** "In relationships, I prioritize mutuality • I want sharing and give-and-take • I value reciprocity and balance"
+**Stone C:** "In relationships, I provide leadership • I naturally give direction and guidance • I take responsibility for others"
+
+## **CRITICAL:**
+- Replace ONLY the text content
+- Keep the same data structure format
+- Do NOT change variable names, component structure, or any other code
+- Do NOT modify CSS or styling
+- Confirm the update is complete before waiting for Prompt 2 of 5
