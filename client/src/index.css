@@ -167,7 +167,23 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 45px 35px 40px 30px;
-    padding: 0.8rem;
+    padding: 0.5rem;
+  }
+  
+  .foundation-stone .stone-content {
+    padding: 8px !important;
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+  }
+  
+  .foundation-stone .context-line {
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .foundation-stone .statement {
+    font-size: 10px !important;
+    margin-bottom: 2px !important;
   }
 }
 
@@ -176,7 +192,23 @@ body {
     width: 130px;
     height: 130px;
     border-radius: 35px 25px 30px 20px;
-    padding: 0.6rem;
+    padding: 0.4rem;
+  }
+  
+  .foundation-stone .stone-content {
+    padding: 6px !important;
+    font-size: 10px !important;
+    line-height: 1.05 !important;
+  }
+  
+  .foundation-stone .context-line {
+    font-size: 11px !important;
+    margin-bottom: 3px !important;
+  }
+  
+  .foundation-stone .statement {
+    font-size: 9px !important;
+    margin-bottom: 1px !important;
   }
 }
 
