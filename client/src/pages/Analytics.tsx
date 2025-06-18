@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getStoredAssessments } from '@/lib/assessmentStorage';
 import DataExport from '@/components/DataExport';
 import { useAuth } from '@/contexts/AuthContext';
+import NotificationCreator from '@/components/Admin/NotificationCreator';
 
 interface AnalyticsStats {
   totalCompletions: number;
@@ -13,6 +14,7 @@ const Analytics = () => {
   const { logout } = useAuth();
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
   const [assessments, setAssessments] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<'analytics' | 'notifications'>('analytics');
 
   const handleLogout = () => {
     logout();
@@ -64,7 +66,7 @@ const Analytics = () => {
           
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-4xl font-bold text-yellow-400">
-              Assessment Analytics
+              Admin Dashboard
             </h1>
             <button
               onClick={handleLogout}
@@ -74,31 +76,58 @@ const Analytics = () => {
             </button>
           </div>
 
-          {/* Data Export */}
-          <DataExport />
-
-          {/* Summary Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-              <h3 className="text-xl font-semibold text-white mb-2">Total Completions</h3>
-              <p className="text-3xl font-bold text-green-400">{stats.totalCompletions}</p>
-            </div>
-            
-            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-              <h3 className="text-xl font-semibold text-white mb-2">Recent (7 days)</h3>
-              <p className="text-3xl font-bold text-blue-400">{stats.recentCompletions}</p>
-            </div>
-            
-            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-              <h3 className="text-xl font-semibold text-white mb-2">Most Common Type</h3>
-              <p className="text-3xl font-bold text-purple-400">
-                {Object.keys(stats.typeDistribution).length > 0 
-                  ? Object.entries(stats.typeDistribution).reduce((a, b) => stats.typeDistribution[a[0]] > stats.typeDistribution[b[0]] ? a : b)[0]
-                  : 'N/A'
-                }
-              </p>
-            </div>
+          {/* Tab Navigation */}
+          <div className="flex space-x-4 mb-8">
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                activeTab === 'analytics'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+              }`}
+            >
+              Analytics
+            </button>
+            <button
+              onClick={() => setActiveTab('notifications')}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                activeTab === 'notifications'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+              }`}
+            >
+              Notifications
+            </button>
           </div>
+
+          {/* Analytics Tab */}
+          {activeTab === 'analytics' && (
+            <>
+              {/* Data Export */}
+              <DataExport />
+
+              {/* Summary Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white mb-2">Total Completions</h3>
+                  <p className="text-3xl font-bold text-green-400">{stats.totalCompletions}</p>
+                </div>
+                
+                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white mb-2">Recent (7 days)</h3>
+                  <p className="text-3xl font-bold text-blue-400">{stats.recentCompletions}</p>
+                </div>
+                
+                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white mb-2">Most Common Type</h3>
+                  <p className="text-3xl font-bold text-purple-400">
+                    {Object.keys(stats.typeDistribution).length > 0 
+                      ? Object.entries(stats.typeDistribution).reduce((a, b) => stats.typeDistribution[a[0]] > stats.typeDistribution[b[0]] ? a : b)[0]
+                      : 'N/A'
+                    }
+                  </p>
+                </div>
+              </div>
 
           {/* Type Distribution */}
           <div className="mb-8">
@@ -168,6 +197,15 @@ const Analytics = () => {
               </div>
             </div>
           </div>
+            </>
+          )}
+
+          {/* Notifications Tab */}
+          {activeTab === 'notifications' && (
+            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+              <NotificationCreator />
+            </div>
+          )}
 
         </div>
       </div>
