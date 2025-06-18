@@ -39,6 +39,11 @@ const Results = () => {
     confidence
   });
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Add this useEffect after the existing data extraction:
   useEffect(() => {
     // Save assessment data when results are displayed
