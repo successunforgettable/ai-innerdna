@@ -62,6 +62,9 @@ const NotificationCreator = () => {
       
       console.log('✅ New notification created:', newNotification);
       
+      // Initialize analytics for this notification
+      initializeNotificationAnalytics(newNotification);
+      
       // Show success message with better styling
       if (formData.scheduledFor) {
         showSuccessMessage(`📅 Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
@@ -131,6 +134,48 @@ const NotificationCreator = () => {
     notification.textContent = message;
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 4000);
+  };
+
+  const initializeNotificationAnalytics = (notification) => {
+    try {
+      // Get or create global analytics
+      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
+      
+      // Update global analytics
+      const updatedGlobalAnalytics = {
+        totalNotifications: (globalAnalytics.totalNotifications || 0) + 1,
+        totalSent: (globalAnalytics.totalSent || 0) + 1,
+        totalOpened: globalAnalytics.totalOpened || 0,
+        globalOpenRate: 0,
+        lastUpdated: new Date().toISOString()
+      };
+      
+      // Calculate open rate
+      if (updatedGlobalAnalytics.totalSent > 0) {
+        updatedGlobalAnalytics.globalOpenRate = (updatedGlobalAnalytics.totalOpened / updatedGlobalAnalytics.totalSent * 100).toFixed(1);
+      }
+      
+      localStorage.setItem('notification_global_analytics', JSON.stringify(updatedGlobalAnalytics));
+      
+      // Initialize individual notification analytics
+      const notificationAnalytics = {
+        id: notification.id,
+        title: notification.title,
+        type: notification.type,
+        targetAudience: notification.targetAudience,
+        sent: true,
+        sentAt: new Date().toISOString(),
+        opens: 0,
+        openRate: 0,
+        lastOpened: null
+      };
+      
+      localStorage.setItem(`notification_${notification.id}`, JSON.stringify(notificationAnalytics));
+      
+      console.log(`Initialized analytics for notification: ${notification.id}`, updatedGlobalAnalytics);
+    } catch (error) {
+      console.error('Error initializing notification analytics:', error);
+    }
   };
 
   return (

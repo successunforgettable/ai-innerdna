@@ -74,6 +74,44 @@ export const NotificationProvider = ({ children }) => {
 
   const markAsRead = (notificationId) => {
     setUnreadCount(prev => Math.max(0, prev - 1));
+    
+    // Track analytics - increment open count
+    trackNotificationOpen(notificationId);
+  };
+
+  const trackNotificationOpen = (notificationId) => {
+    try {
+      // Get existing global analytics
+      const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
+      
+      // Update global analytics
+      const updatedGlobalAnalytics = {
+        totalNotifications: globalAnalytics.totalNotifications || 1,
+        totalSent: globalAnalytics.totalSent || 1,
+        totalOpened: (globalAnalytics.totalOpened || 0) + 1,
+        globalOpenRate: 0,
+        lastUpdated: new Date().toISOString()
+      };
+      
+      // Calculate open rate
+      updatedGlobalAnalytics.globalOpenRate = (updatedGlobalAnalytics.totalOpened / updatedGlobalAnalytics.totalSent * 100).toFixed(1);
+      
+      localStorage.setItem('notification_global_analytics', JSON.stringify(updatedGlobalAnalytics));
+      
+      // Track individual notification analytics
+      const notificationAnalytics = JSON.parse(localStorage.getItem(`notification_${notificationId}`) || '{}');
+      const updatedNotificationAnalytics = {
+        ...notificationAnalytics,
+        opens: (notificationAnalytics.opens || 0) + 1,
+        lastOpened: new Date().toISOString()
+      };
+      
+      localStorage.setItem(`notification_${notificationId}`, JSON.stringify(updatedNotificationAnalytics));
+      
+      console.log(`Tracked notification open: ${notificationId}`, updatedGlobalAnalytics);
+    } catch (error) {
+      console.error('Error tracking notification open:', error);
+    }
   };
 
   const toggleNotificationCenter = () => {

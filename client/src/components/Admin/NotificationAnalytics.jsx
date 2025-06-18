@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './admin.module.css';
+import { simulateNotificationOpen } from '@/utils/testNotificationAnalytics';
 
 const NotificationAnalytics = () => {
   const [analyticsData, setAnalyticsData] = useState({
@@ -15,20 +16,21 @@ const NotificationAnalytics = () => {
   });
 
   useEffect(() => {
-    // Load analytics data from notifications.json
     const loadAnalytics = async () => {
       try {
+        // Load real analytics from localStorage
+        const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
+        
+        // Load notifications data
         const response = await fetch('/src/data/notifications.json');
         const data = await response.json();
-        
         const notifications = data.notifications || [];
-        const userNotifications = data.userNotifications || [];
         
-        // Calculate analytics
+        // Use real analytics if available, otherwise calculate from data
         const totalNotifications = notifications.length;
-        const totalSent = userNotifications.length;
-        const totalOpened = userNotifications.filter(un => un.openedAt).length;
-        const globalOpenRate = totalSent > 0 ? ((totalOpened / totalSent) * 100).toFixed(1) : 0;
+        const totalSent = globalAnalytics.totalSent || totalNotifications;
+        const totalOpened = globalAnalytics.totalOpened || 0;
+        const globalOpenRate = globalAnalytics.globalOpenRate || 0;
         
         // Type breakdown
         const typeBreakdown = {};
@@ -47,34 +49,61 @@ const NotificationAnalytics = () => {
           totalSent,
           totalOpened,
           globalOpenRate,
-          globalEngagementRate: globalOpenRate, // Simplified for demo
+          globalEngagementRate: globalOpenRate,
           recentNotifications: notifications.slice(-5),
           typeBreakdown,
           audienceBreakdown
         });
+        
+        console.log('Analytics loaded:', { totalSent, totalOpened, globalOpenRate });
+        
       } catch (error) {
         console.error('Error loading analytics:', error);
-        // Set fallback analytics data
         setAnalyticsData({
           totalNotifications: 1,
           totalSent: 1,
           totalOpened: 0,
           globalOpenRate: 0,
           globalEngagementRate: 0,
-          recentNotifications: [{
-            id: 'demo',
-            title: 'Welcome to Inner DNA',
-            type: 'welcome',
-            targetAudience: 'all',
-            createdAt: new Date().toISOString()
-          }],
-          typeBreakdown: { welcome: 1 },
-          audienceBreakdown: { all: 1 }
+          recentNotifications: [],
+          typeBreakdown: {},
+          audienceBreakdown: {}
         });
       }
     };
 
+    const handleTestOpen = () => {
+      const result = simulateNotificationOpen('fallback_001');
+      if (result) {
+        // Refresh analytics immediately
+        loadAnalytics();
+        
+        // Show success message
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white;
+          padding: 16px 24px;
+          border-radius: 12px;
+          box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+          z-index: 10000;
+          font-weight: 600;
+          max-width: 400px;
+        `;
+        notification.textContent = `📊 Notification opened! Open rate now: ${result.globalOpenRate}%`;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+      }
+    };
+
     loadAnalytics();
+    
+    // Refresh analytics every 5 seconds to show real-time updates
+    const interval = setInterval(loadAnalytics, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
