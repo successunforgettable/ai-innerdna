@@ -29,16 +29,29 @@ export const NotificationProvider = ({ children }) => {
         if (messageData.type === 'new_notification' && messageData.data) {
           console.log('🔔 Real-time notification received:', messageData.data);
           
-          // Add new notification to existing list
-          setNotifications(prev => [messageData.data, ...prev]);
+          // Check if this notification already exists to prevent duplicates
+          setNotifications(prev => {
+            const exists = prev.some(notif => notif.id === messageData.data.id);
+            if (exists) return prev;
+            
+            const newNotificationWithReadStatus = {
+              ...messageData.data,
+              isRead: false
+            };
+            
+            return [newNotificationWithReadStatus, ...prev];
+          });
           
-          // Save to localStorage for persistence
+          // Save to localStorage for persistence (check for duplicates)
           const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
-          activeNotifications.unshift(messageData.data);
-          localStorage.setItem('active_notifications', JSON.stringify(activeNotifications));
-          
-          // Increment unread count
-          setUnreadCount(prev => prev + 1);
+          const exists = activeNotifications.some(notif => notif.id === messageData.data.id);
+          if (!exists) {
+            activeNotifications.unshift(messageData.data);
+            localStorage.setItem('active_notifications', JSON.stringify(activeNotifications));
+            
+            // Only increment unread count for new notifications
+            setUnreadCount(prev => prev + 1);
+          }
           
           // Play notification sound based on priority
           const soundType = messageData.data.priority === 'high' ? 'high' : 'default';
@@ -81,26 +94,19 @@ export const NotificationProvider = ({ children }) => {
 
   const loadNotifications = async () => {
     try {
-      // Load from both JSON file and localStorage (for admin-created notifications)
-      const response = await fetch('/src/data/notifications.json');
-      let baseNotifications = [];
-      
-      if (response.ok) {
-        const data = await response.json();
-        baseNotifications = data.notifications || [];
-      }
-      
-      // Load admin-created notifications from localStorage
+      // Only load admin-created notifications from localStorage to avoid duplicates
       const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
-      
-      // Combine all notifications
-      const allNotifications = [...baseNotifications, ...activeNotifications];
       
       // Load read status from localStorage
       const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
       
+      // Remove duplicates based on ID
+      const uniqueNotifications = activeNotifications.filter((notif, index, self) => 
+        index === self.findIndex(n => n.id === notif.id)
+      );
+      
       // Mark notifications as read/unread based on localStorage
-      const notificationsWithReadStatus = allNotifications.map(notif => ({
+      const notificationsWithReadStatus = uniqueNotifications.map(notif => ({
         ...notif,
         isRead: readNotifications.includes(notif.id)
       }));
@@ -111,30 +117,16 @@ export const NotificationProvider = ({ children }) => {
       setNotifications(notificationsWithReadStatus);
       setUnreadCount(unreadCount);
       
-      console.log(`✅ Loaded ${allNotifications.length} notifications successfully`);
+      console.log(`✅ Loaded ${uniqueNotifications.length} notifications successfully`);
       
     } catch (error) {
       console.error('❌ Error loading notifications:', error.message);
       
-      // Set fallback data
-      const fallbackNotifications = [
-        {
-          id: 'fallback_001',
-          title: 'System Notification',
-          message: 'Notification system is working!',
-          type: 'system',
-          createdAt: new Date().toISOString(),
-          isActive: true,
-          targetAudience: 'all',
-          priority: 'normal',
-          isRead: false
-        }
-      ];
+      // Reset to empty state on error
+      setNotifications([]);
+      setUnreadCount(0);
       
-      setNotifications(fallbackNotifications);
-      setUnreadCount(1);
-      
-      console.log('🔄 Using fallback notification data');
+      console.log('🔄 Reset to empty notification state');
     }
   };
 
@@ -205,14 +197,27 @@ export const NotificationProvider = ({ children }) => {
     setShowNotificationCenter(prev => !prev);
   };
 
+  const clearAllNotifications = () => {
+    // Clear all notifications from localStorage
+    localStorage.removeItem('active_notifications');
+    localStorage.removeItem('read_notifications');
+    
+    // Reset state
+    setNotifications([]);
+    setUnreadCount(0);
+    
+    console.log('📭 All notifications cleared');
+  };
+
   const value = {
     notifications,
     unreadCount,
     showNotificationCenter,
-    connectionStatus, // Add this line
+    connectionStatus,
     markAsRead,
     toggleNotificationCenter,
-    loadNotifications
+    loadNotifications,
+    clearAllNotifications
   };
 
   return (

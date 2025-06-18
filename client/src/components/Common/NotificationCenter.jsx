@@ -8,7 +8,8 @@ const NotificationCenter = () => {
     notifications, 
     showNotificationCenter, 
     toggleNotificationCenter,
-    markAsRead 
+    markAsRead,
+    clearAllNotifications
   } = useNotifications();
 
   if (!showNotificationCenter) return null;
@@ -31,12 +32,23 @@ const NotificationCenter = () => {
         >
           <div className={styles.centerHeader}>
             <h3>Notifications</h3>
-            <button 
-              className={styles.closeButton}
-              onClick={toggleNotificationCenter}
-            >
-              ×
-            </button>
+            <div className={styles.headerButtons}>
+              {notifications.length > 0 && (
+                <button 
+                  className={styles.clearButton}
+                  onClick={clearAllNotifications}
+                  title="Clear all notifications"
+                >
+                  Clear All
+                </button>
+              )}
+              <button 
+                className={styles.closeButton}
+                onClick={toggleNotificationCenter}
+              >
+                ×
+              </button>
+            </div>
           </div>
           
           <div className={styles.notificationList}>

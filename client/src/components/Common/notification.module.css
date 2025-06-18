@@ -76,6 +76,27 @@
   color: #1e293b;
 }
 
+.headerButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clearButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clearButton:hover {
+  background: #dc2626;
+}
+
 .closeButton {
   background: none;
   border: none;
