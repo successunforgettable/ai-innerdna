@@ -38,25 +38,19 @@ const NotificationAnalytics = () => {
       
       // Calculate real metrics from actual data
       const totalNotifications = allNotifications.length;
-      let totalSent = totalNotifications;
-      let totalOpened = 0;
+      const totalSent = totalNotifications;
       
-      // Count actual opens from localStorage tracking
+      // Count unique notifications that have been opened (not total clicks)
+      let totalOpened = 0;
+      const readNotifications = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+      
       allNotifications.forEach(notif => {
-        const notifAnalytics = JSON.parse(localStorage.getItem(`notification_${notif.id}`) || '{}');
-        if (notifAnalytics.opens) {
-          totalOpened += notifAnalytics.opens;
+        if (readNotifications.includes(notif.id)) {
+          totalOpened++;
         }
       });
       
-      // Use global analytics if it has more accurate data
-      if (globalAnalytics.totalSent) {
-        totalSent = Math.max(totalSent, globalAnalytics.totalSent);
-      }
-      if (globalAnalytics.totalOpened) {
-        totalOpened = Math.max(totalOpened, globalAnalytics.totalOpened);
-      }
-      
+      // Calculate realistic open rate (max 100%)
       const globalOpenRate = totalSent > 0 ? ((totalOpened / totalSent) * 100).toFixed(1) : 0;
       
       // Type breakdown
