@@ -124,6 +124,50 @@ export default function Reports() {
     };
   };
 
+  // Get wing influence information
+  const getWingInfluence = (primaryType: string, wingType: string) => {
+    const wingDescriptions = {
+      '1': {
+        '9': 'The 9 influence brings a peaceful, harmonizing quality to your principled nature. You seek improvement through gentle persuasion rather than harsh criticism.',
+        '2': 'The 2 influence adds warmth and interpersonal focus to your principled nature. You improve things through helping and supporting others.'
+      },
+      '2': {
+        '1': 'The 1 influence adds structure and high standards to your helping nature. You serve others with precision and integrity.',
+        '3': 'The 3 influence brings goal-orientation and efficiency to your helping nature. You excel at organizing and achieving for others.'
+      },
+      '3': {
+        '2': 'The 2 influence adds warmth and interpersonal connection to your achievement drive. You succeed through building relationships.',
+        '4': 'The 4 influence brings depth and authenticity to your achievement drive. You strive for success that reflects your true self and deeper values.'
+      },
+      '4': {
+        '3': 'The 3 influence adds practical achievement to your emotional depth. You channel your creativity into tangible, successful outcomes.',
+        '5': 'The 5 influence brings intellectual depth and independence to your emotional nature. You seek understanding of your inner world.'
+      },
+      '5': {
+        '4': 'The 4 influence adds emotional depth and creativity to your analytical nature. You bring personal meaning to your investigations.',
+        '6': 'The 6 influence brings loyalty and security focus to your independent nature. You use your knowledge to serve and protect.'
+      },
+      '6': {
+        '5': 'The 5 influence adds analytical depth to your security-seeking nature. You prepare thoroughly through research and understanding.',
+        '7': 'The 7 influence brings optimism and versatility to your security-seeking nature. You find safety through multiple options and positive thinking.'
+      },
+      '7': {
+        '6': 'The 6 influence adds loyalty and responsibility to your adventurous nature. You include others in your plans and consider consequences.',
+        '8': 'The 8 influence brings power and directness to your enthusiastic nature. You pursue your interests with confidence and determination.'
+      },
+      '8': {
+        '7': 'The 7 influence adds enthusiasm and versatility to your powerful nature. You approach challenges with optimism and multiple strategies.',
+        '9': 'The 9 influence brings patience and harmony to your powerful nature. You lead through consensus and steady determination.'
+      },
+      '9': {
+        '8': 'The 8 influence adds strength and directness to your peaceful nature. You stand firm for what matters while maintaining harmony.',
+        '1': 'The 1 influence brings structure and improvement focus to your peaceful nature. You create positive change through patient, principled action.'
+      }
+    };
+    
+    return wingDescriptions[primaryType]?.[wingType] || `The ${wingType} influence adds complementary qualities to your ${primaryType} nature.`;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
@@ -143,8 +187,30 @@ export default function Reports() {
   const hasCompletedAssessment = userReport.completedAt && userReport.assessmentData;
   const assessmentData = userReport.assessmentData;
   const primaryType = assessmentData?.result?.primaryType || '1';
+  const buildingBlocks = assessmentData?.buildingBlocks || [];
+  const wingType = buildingBlocks[0]?.wing || '1';
   const personalityInfo = getPersonalityInfo(primaryType);
   const moodStates = getMoodStates(primaryType);
+  const wingInfluence = getWingInfluence(primaryType, wingType);
+  
+  // Get subtype distribution from detail tokens
+  const detailTokens = assessmentData?.detailTokens || [];
+  const getSubtypeDistribution = () => {
+    const total = detailTokens.reduce((sum: number, token: any) => {
+      const tokenCount = parseInt(token.token.split(' ')[0]) || 0;
+      return sum + tokenCount;
+    }, 0);
+    
+    return detailTokens.map((token: any) => {
+      const tokenCount = parseInt(token.token.split(' ')[0]) || 0;
+      const percentage = total > 0 ? Math.round((tokenCount / total) * 100) : 0;
+      return {
+        category: token.category,
+        percentage,
+        tokens: tokenCount
+      };
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
@@ -248,13 +314,11 @@ export default function Reports() {
             {/* Influence Description */}
             <div className="mb-12">
               <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                Your Influence: 9
+                Your Influence: {wingType}
               </h3>
               <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
                 <p className="text-lg text-white/90 leading-relaxed">
-                  The 9 influence brings a peaceful, harmonizing quality to your assertive nature. 
-                  You approach challenges through steady, measured means rather than pure force. This influence 
-                  helps you maintain relationships while still standing firm in your convictions.
+                  {wingInfluence}
                 </p>
               </div>
             </div>
@@ -276,8 +340,7 @@ export default function Reports() {
                   ))}
                 </div>
                 <p className="text-white/90">
-                  You tend to operate from a strong state, showing consistency in your emotional patterns 
-                  while maintaining access to focused energy when needed.
+                  Your selected states reflect your current emotional patterns and how you navigate life's challenges.
                 </p>
               </div>
             </div>
@@ -288,39 +351,37 @@ export default function Reports() {
                 Your Subtype Focus
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
-                  <div className="flex items-center mb-2">
-                    <span className="text-2xl mr-2">🛡️</span>
-                    <h4 className="text-lg font-semibold text-blue-400">Self-Preservation</h4>
-                  </div>
-                  <p className="text-sm text-white/80">
-                    30% - Focus on personal security and routines
-                  </p>
-                </div>
-                
-                <div className="bg-red-500/20 rounded-lg p-4 border border-red-400/30">
-                  <div className="flex items-center mb-2">
-                    <span className="text-2xl mr-2">🔥</span>
-                    <h4 className="text-lg font-semibold text-red-400">Sexual</h4>
-                  </div>
-                  <p className="text-sm text-white/80">
-                    40% - Focus on intense personal connections
-                  </p>
-                </div>
-                
-                <div className="bg-green-500/20 rounded-lg p-4 border border-green-400/30">
-                  <div className="flex items-center mb-2">
-                    <span className="text-2xl mr-2">🧱</span>
-                    <h4 className="text-lg font-semibold text-green-400">Social</h4>
-                  </div>
-                  <p className="text-sm text-white/80">
-                    30% - Focus on group dynamics and community
-                  </p>
-                </div>
+                {getSubtypeDistribution().map((subtype, index) => {
+                  const colors = [
+                    { bg: 'bg-blue-500/20', border: 'border-blue-400/30', text: 'text-blue-400', emoji: '🛡️' },
+                    { bg: 'bg-red-500/20', border: 'border-red-400/30', text: 'text-red-400', emoji: '🔥' },
+                    { bg: 'bg-green-500/20', border: 'border-green-400/30', text: 'text-green-400', emoji: '🌱' }
+                  ];
+                  const color = colors[index] || colors[0];
+                  const categoryMap = {
+                    'Self-Preservation': 'Focus on personal security and routines',
+                    'One-to-One': 'Focus on intense personal connections',
+                    'Social': 'Focus on group dynamics and community'
+                  };
+                  
+                  return (
+                    <div key={subtype.category} className={`${color.bg} rounded-lg p-4 border ${color.border}`}>
+                      <div className="flex items-center mb-2">
+                        <span className="text-2xl mr-2">{color.emoji}</span>
+                        <h4 className={`text-lg font-semibold ${color.text}`}>
+                          {subtype.category === 'One-to-One' ? 'Sexual' : subtype.category}
+                        </h4>
+                      </div>
+                      <p className="text-sm text-white/80">
+                        {subtype.percentage}% - {categoryMap[subtype.category as keyof typeof categoryMap] || 'Focus area'}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
               <div className="mt-4">
                 <p className="text-white/90">
-                  Your energy is primarily focused on sexual subtype, showing how you naturally prioritize and direct your attention toward intense personal connections.
+                  Your energy distribution shows how you naturally prioritize and direct your attention across different life areas.
                 </p>
               </div>
             </div>
