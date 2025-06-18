@@ -17,11 +17,6 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
       : '0 4px 12px rgba(0, 0, 0, 0.2)'
   };
 
-  // Split content: "When making decisions, I think • statement 1 • statement 2"
-  const parts = content[0].split(' • ');
-  const contextPhrase = parts[0]; // "When making decisions, I think"
-  const actionStatements = parts.slice(1); // ["statement 1", "statement 2"]
-
   return (
     <motion.div
       className="foundation-stone"
@@ -47,25 +42,7 @@ export function Stone({ content, gradient, isSelected, onSelect }: StoneProps) {
         hyphens: 'none',
         whiteSpace: 'normal'
       }}>
-        <div style={{ 
-          marginBottom: '8px', 
-          fontWeight: 700,
-          color: '#ffffff',
-          fontSize: '13px'
-        }}>
-          {contextPhrase}
-        </div>
-        {actionStatements.map((statement, index) => (
-          <div key={`action-${index}-${Date.now()}`} style={{ 
-            marginBottom: '6px',
-            fontSize: '12px',
-            color: '#ffffff',
-            textAlign: 'center'
-          }}>
-            <span style={{ marginRight: '4px' }}>•</span>
-            {statement.trim()}
-          </div>
-        ))}
+        {content[0]}
       </div>
       {isSelected && (
         <Check 
