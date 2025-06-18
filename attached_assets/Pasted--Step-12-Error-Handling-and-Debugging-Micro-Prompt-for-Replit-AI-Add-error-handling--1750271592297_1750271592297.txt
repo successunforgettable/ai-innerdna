@@ -1,0 +1,234 @@
+# **Step 12: Error Handling and Debugging**
+
+## **Micro Prompt for Replit AI:**
+
+Add error handling and debugging tools to make the notification system more robust.
+
+**STEP 12A: Update NotificationContext with Better Error Handling**
+
+Update your existing `src/context/NotificationContext.jsx` file. Replace the `loadNotifications` function with this improved version:
+
+```jsx
+const loadNotifications = async () => {
+  try {
+    // Try to load from JSON file
+    const response = await fetch('/src/data/notifications.json');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    // Validate data structure
+    if (!data || typeof data !== 'object') {
+      throw new Error('Invalid data format');
+    }
+    
+    const notifications = data.notifications || [];
+    const userNotifications = data.userNotifications || [];
+    
+    setNotifications(notifications);
+    calculateUnreadCount(userNotifications);
+    
+    console.log(`✅ Loaded ${notifications.length} notifications successfully`);
+    
+  } catch (error) {
+    console.error('❌ Error loading notifications:', error.message);
+    
+    // Set fallback data
+    const fallbackNotifications = [
+      {
+        id: 'fallback_001',
+        title: 'System Notification',
+        message: 'Notification system is working! (Using fallback data)',
+        type: 'system',
+        createdAt: new Date().toISOString(),
+        isActive: true,
+        targetAudience: 'all',
+        priority: 'normal'
+      }
+    ];
+    
+    setNotifications(fallbackNotifications);
+    setUnreadCount(1);
+    
+    console.log('🔄 Using fallback notification data');
+  }
+};
+```
+
+**STEP 12B: Add Debug Component**
+
+Create a new file at `src/components/Common/NotificationDebug.jsx` with this exact content:
+
+```jsx
+import React, { useState } from 'react';
+import { useNotifications } from '../../context/NotificationContext';
+
+const NotificationDebug = () => {
+  const [showDebug, setShowDebug] = useState(false);
+  const { notifications, unreadCount } = useNotifications();
+
+  if (!showDebug) {
+    return (
+      <div style={{ 
+        position: 'fixed', 
+        bottom: '20px', 
+        left: '20px', 
+        zIndex: 1000 
+      }}>
+        <button
+          onClick={() => setShowDebug(true)}
+          style={{
+            background: '#6b7280',
+            color: 'white',
+            border: 'none',
+            padding: '8px 12px',
+            borderRadius: '6px',
+            fontSize: '12px',
+            cursor: 'pointer'
+          }}
+        >
+          Debug Notifications
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: '20px',
+      left: '20px',
+      background: 'white',
+      border: '1px solid #e2e8f0',
+      borderRadius: '8px',
+      padding: '16px',
+      maxWidth: '300px',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+      zIndex: 1000,
+      fontSize: '12px'
+    }}>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        marginBottom: '12px'
+      }}>
+        <h4 style={{ margin: 0, fontSize: '14px' }}>Notification Debug</h4>
+        <button
+          onClick={() => setShowDebug(false)}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '16px',
+            cursor: 'pointer',
+            color: '#6b7280'
+          }}
+        >
+          ×
+        </button>
+      </div>
+      
+      <div style={{ marginBottom: '8px' }}>
+        <strong>Unread Count:</strong> {unreadCount}
+      </div>
+      
+      <div style={{ marginBottom: '8px' }}>
+        <strong>Total Notifications:</strong> {notifications.length}
+      </div>
+      
+      <div style={{ marginBottom: '12px' }}>
+        <strong>Notifications:</strong>
+        {notifications.length === 0 ? (
+          <div style={{ color: '#ef4444', marginTop: '4px' }}>
+            ❌ No notifications loaded
+          </div>
+        ) : (
+          <div style={{ marginTop: '4px' }}>
+            {notifications.map((notif, index) => (
+              <div key={notif.id} style={{ 
+                padding: '4px',
+                background: '#f8fafc',
+                marginBottom: '4px',
+                borderRadius: '4px'
+              }}>
+                {index + 1}. {notif.title}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      
+      <button
+        onClick={() => {
+          console.log('🔍 Notification System Debug Info:');
+          console.log('Notifications:', notifications);
+          console.log('Unread Count:', unreadCount);
+          console.log('Current URL:', window.location.href);
+        }}
+        style={{
+          background: '#3b82f6',
+          color: 'white',
+          border: 'none',
+          padding: '6px 12px',
+          borderRadius: '4px',
+          fontSize: '12px',
+          cursor: 'pointer',
+          width: '100%'
+        }}
+      >
+        Log to Console
+      </button>
+    </div>
+  );
+};
+
+export default NotificationDebug;
+```
+
+**STEP 12C: Add Debug Component to App**
+
+Update your `src/App.jsx` file to include the debug component. Add this import:
+
+```jsx
+import NotificationDebug from './components/Common/NotificationDebug';
+```
+
+Then add the component to your JSX (inside the NotificationProvider):
+
+```jsx
+<NotificationProvider>
+  <div className="app">
+    {/* your existing content */}
+    <NotificationCenter />
+    <LoginNotification user={null} />
+    <NotificationDebug />
+  </div>
+</NotificationProvider>
+```
+
+**STEP 12D: Console Error Monitoring**
+
+Add this to your browser console to monitor notification system errors:
+
+```javascript
+// Monitor notification system
+window.addEventListener('error', function(e) {
+  if (e.message.includes('notification') || e.message.includes('Notification')) {
+    console.error('🚨 Notification System Error:', e.message);
+  }
+});
+
+console.log('🔍 Notification Error Monitoring Active');
+```
+
+## **Instructions:**
+1. Update the NotificationContext.jsx file with the improved loadNotifications function
+2. Create the NotificationDebug.jsx component
+3. Add the debug component to App.jsx
+4. Run your app and test the debug panel
+5. Use the debug tools to troubleshoot any issues
+
+**Expected Result:** Debug button appears in bottom-left corner, showing notification system status and helpful debugging information.
