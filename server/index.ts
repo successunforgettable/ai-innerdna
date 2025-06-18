@@ -127,6 +127,26 @@ function addRecentNotification(notification: any) {
     });
   });
 
+  // API endpoint to clear all notifications
+  app.delete('/api/notifications/clear', (req, res) => {
+    try {
+      // Clear server-side notification cache
+      recentNotifications = [];
+      console.log('🧹 Server notification cache cleared');
+      
+      res.json({
+        success: true,
+        message: 'All notifications cleared from server',
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Error clearing notifications:', error);
+      res.status(500).json({ 
+        error: 'Failed to clear notifications' 
+      });
+    }
+  });
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";

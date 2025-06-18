@@ -197,16 +197,46 @@ export const NotificationProvider = ({ children }) => {
     setShowNotificationCenter(prev => !prev);
   };
 
-  const clearAllNotifications = () => {
-    // Clear all notifications from localStorage
+  const clearAllNotifications = async () => {
+    try {
+      // Clear server-side notifications first
+      const response = await fetch('/api/notifications/clear', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        console.log('🧹 Server notifications cleared');
+      }
+    } catch (error) {
+      console.error('Failed to clear server notifications:', error);
+    }
+    
+    // Clear all notification-related localStorage data
     localStorage.removeItem('active_notifications');
     localStorage.removeItem('read_notifications');
+    localStorage.removeItem('notification_global_analytics');
+    
+    // Clear individual notification analytics
+    const allKeys = Object.keys(localStorage);
+    allKeys.forEach(key => {
+      if (key.startsWith('notification_')) {
+        localStorage.removeItem(key);
+      }
+    });
     
     // Reset state
     setNotifications([]);
     setUnreadCount(0);
     
-    console.log('📭 All notifications cleared');
+    // Force reload notifications to ensure clean state
+    setTimeout(() => {
+      loadNotifications();
+    }, 100);
+    
+    console.log('📭 All notifications cleared completely');
   };
 
   const value = {
