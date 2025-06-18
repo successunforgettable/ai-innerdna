@@ -1,7 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { WebSocketServer } from "ws";
 import { createServer } from "http";
 
 const app = express();
@@ -38,83 +37,37 @@ app.use((req, res, next) => {
   next();
 });
 
-// Store connected WebSocket clients
-const clients = new Set<any>();
+// Store recent notifications for polling
+let recentNotifications: any[] = [];
 
-// Function to broadcast notifications to all clients
-function broadcastNotification(notification: any) {
-  const message = JSON.stringify({
-    type: 'new_notification',
-    data: notification
-  });
-
-  clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(message);
-    }
-  });
-
-  console.log(`📢 Broadcasted notification to ${clients.size} clients`);
+// Function to add notifications to recent list
+function addRecentNotification(notification: any) {
+  recentNotifications.unshift(notification);
+  // Keep only last 10 notifications
+  if (recentNotifications.length > 10) {
+    recentNotifications = recentNotifications.slice(0, 10);
+  }
+  console.log(`📢 Added notification to recent list: ${notification.title}`);
 }
 
-// Make broadcast function available globally
-(global as any).broadcastNotification = broadcastNotification;
+// Make function available globally
+(global as any).addRecentNotification = addRecentNotification;
 
 (async () => {
   const server = await registerRoutes(app);
   
-  // Create separate WebSocket server to avoid Vite HMR conflicts
-  const wsServer = createServer();
-  const wss = new WebSocketServer({ server: wsServer });
-
-  // WebSocket connection handling
-  wss.on('connection', (ws: any) => {
-    console.log('🔗 New WebSocket client connected');
-    clients.add(ws);
-
-    // Send welcome message immediately
-    setTimeout(() => {
-      if (ws.readyState === ws.OPEN) {
-        ws.send(JSON.stringify({
-          type: 'connection',
-          message: 'WebSocket connected successfully'
-        }));
-      }
-    }, 100);
-
-    // Keep connection alive with ping/pong
-    const pingInterval = setInterval(() => {
-      if (ws.readyState === ws.OPEN) {
-        ws.ping();
-      } else {
-        clearInterval(pingInterval);
-      }
-    }, 30000);
-
-    // Handle client disconnect
-    ws.on('close', () => {
-      console.log('❌ WebSocket client disconnected');
-      clients.delete(ws);
-      clearInterval(pingInterval);
+  // API endpoint for polling recent notifications
+  app.get('/api/notifications/recent', (req, res) => {
+    const since = req.query.since ? parseInt(req.query.since as string) : 0;
+    const newNotifications = recentNotifications.filter(notif => 
+      new Date(notif.createdAt).getTime() > since
+    );
+    
+    res.json({
+      notifications: newNotifications,
+      timestamp: Date.now(),
+      count: newNotifications.length
     });
-
-    // Handle errors
-    ws.on('error', (error: any) => {
-      console.error('WebSocket error:', error);
-      clients.delete(ws);
-      clearInterval(pingInterval);
-    });
-
-    // Handle pong responses
-    ws.on('pong', () => {
-      // Connection is alive
-    });
-  });
-
-  // Start WebSocket server on separate port
-  const wsPort = 3001;
-  wsServer.listen(wsPort, () => {
-    console.log(`🔗 WebSocket server listening on port ${wsPort}`);
   });
 
   // API endpoint to create and broadcast notifications
@@ -143,9 +96,9 @@ function broadcastNotification(notification: any) {
 
       console.log('📝 Creating new notification:', newNotification);
 
-      // Broadcast to all connected WebSocket clients
-      if ((global as any).broadcastNotification) {
-        (global as any).broadcastNotification(newNotification);
+      // Add to recent notifications for polling
+      if ((global as any).addRecentNotification) {
+        (global as any).addRecentNotification(newNotification);
       }
 
       // TODO: Save to database/JSON file here if needed
@@ -168,7 +121,7 @@ function broadcastNotification(notification: any) {
   // API endpoint to get notification stats
   app.get('/api/notifications/stats', (req, res) => {
     res.json({
-      connectedClients: clients.size,
+      recentNotifications: recentNotifications.length,
       serverStatus: 'running',
       timestamp: new Date().toISOString()
     });

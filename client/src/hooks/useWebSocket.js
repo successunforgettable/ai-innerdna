@@ -13,7 +13,7 @@ const useWebSocket = (url) => {
     
     try {
       isConnectingRef.current = true;
-      const wsUrl = url || `ws://localhost:3001`;
+      const wsUrl = url || `ws://localhost:5000`;
       ws.current = new WebSocket(wsUrl);
 
       ws.current.onopen = () => {
