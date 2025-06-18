@@ -23,6 +23,11 @@ function AppContent() {
   const [location] = useLocation();
 
   useEffect(() => {
+    // Scroll to top on every route change
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
     // Update screen based on URL
     const urlToScreen = {
       '/': 'welcome',
