@@ -168,6 +168,63 @@ export default function Reports() {
     return wingDescriptions[primaryType]?.[wingType] || `The ${wingType} influence adds complementary qualities to your ${primaryType} nature.`;
   };
 
+  // Get growth recommendations based on type
+  const getGrowthRecommendations = (type: string) => {
+    const recommendations = {
+      '1': {
+        personal: 'Practice self-compassion and accept that progress, not perfection, is the goal. Allow yourself to make mistakes without harsh self-judgment.',
+        relationships: 'Express appreciation for others even when they don\'t meet your standards. Practice patience and remember that others have different ways of doing things.',
+        work: 'Delegate tasks and trust others\' capabilities. Focus on the bigger picture rather than getting lost in details that only you notice.'
+      },
+      '2': {
+        personal: 'Take time to identify and express your own needs without feeling selfish. Practice saying no when you need to recharge.',
+        relationships: 'Allow others to give to you without always reciprocating immediately. Express your needs directly rather than hoping others will notice.',
+        work: 'Set clear boundaries around your availability. Focus on your own tasks and achievements, not just supporting others.'
+      },
+      '3': {
+        personal: 'Practice slowing down and connecting with your authentic feelings. Value your worth beyond achievements and external recognition.',
+        relationships: 'Share your struggles and vulnerabilities, not just your successes. Listen actively to others without thinking about your next achievement.',
+        work: 'Focus on meaningful goals that align with your values, not just what looks impressive. Collaborate genuinely rather than competing.'
+      },
+      '4': {
+        personal: 'Practice gratitude for what you have rather than focusing on what\'s missing. Engage with the ordinary aspects of life.',
+        relationships: 'Communicate your needs clearly rather than expecting others to intuitively understand your emotional states.',
+        work: 'Focus on consistent daily progress rather than waiting for inspiration. Complete projects even when they feel mundane.'
+      },
+      '5': {
+        personal: 'Practice engaging with the world even when you don\'t feel fully prepared. Share your knowledge and insights with others.',
+        relationships: 'Communicate your need for space while also making efforts to connect. Express your care through words, not just actions.',
+        work: 'Collaborate more actively and share your expertise. Take on leadership roles that utilize your deep knowledge.'
+      },
+      '6': {
+        personal: 'Practice trusting your own judgment and inner wisdom. Take calculated risks without seeking excessive reassurance from others.',
+        relationships: 'Express your loyalty and commitment directly. Work on trusting others\' intentions rather than assuming the worst.',
+        work: 'Take initiative on projects you believe in. Trust your competence and make decisions without endless consultation.'
+      },
+      '7': {
+        personal: 'Practice staying present with difficult emotions rather than immediately seeking distraction. Commit to finishing important projects.',
+        relationships: 'Listen deeply to others\' concerns without immediately trying to reframe them positively. Be present during difficult conversations.',
+        work: 'Focus on depth over breadth. Complete existing projects before starting new ones. Develop expertise in key areas.'
+      },
+      '8': {
+        personal: 'Practice vulnerability and emotional openness. Allow others to support you without seeing it as weakness.',
+        relationships: 'Express your softer emotions and needs. Practice listening without immediately moving to action or solutions.',
+        work: 'Delegate more and trust others\' capabilities. Practice collaborative decision-making and empower others rather than controlling outcomes.'
+      },
+      '9': {
+        personal: 'Practice identifying and expressing your own priorities and opinions. Take action on what matters to you without waiting for external pressure.',
+        relationships: 'Express disagreement when necessary rather than always keeping the peace. Share your own needs and preferences.',
+        work: 'Take initiative on projects that interest you. Express your ideas and opinions in meetings. Set and communicate your own priorities.'
+      }
+    };
+    
+    return recommendations[type] || {
+      personal: 'Focus on self-awareness and personal growth.',
+      relationships: 'Practice open and honest communication.',
+      work: 'Develop your strengths while working on growth areas.'
+    };
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
@@ -192,6 +249,7 @@ export default function Reports() {
   const personalityInfo = getPersonalityInfo(primaryType);
   const moodStates = getMoodStates(primaryType);
   const wingInfluence = getWingInfluence(primaryType, wingType);
+  const growthRecommendations = getGrowthRecommendations(primaryType);
   
   // Get subtype distribution from detail tokens
   const detailTokens = assessmentData?.detailTokens || [];
@@ -396,24 +454,21 @@ export default function Reports() {
                   <div>
                     <h4 className="text-lg font-semibold text-purple-400 mb-2">For Personal Development:</h4>
                     <p className="text-white/90">
-                      Practice vulnerability and emotional openness. Allow others to support you without 
-                      seeing it as weakness. Develop patience with those who process differently than you.
+                      {growthRecommendations.personal}
                     </p>
                   </div>
                   
                   <div>
                     <h4 className="text-lg font-semibold text-purple-400 mb-2">In Relationships:</h4>
                     <p className="text-white/90">
-                      Work on expressing your softer emotions and needs. Practice listening without 
-                      immediately moving to action or solutions. Show appreciation for others' contributions.
+                      {growthRecommendations.relationships}
                     </p>
                   </div>
                   
                   <div>
                     <h4 className="text-lg font-semibold text-purple-400 mb-2">At Work:</h4>
                     <p className="text-white/90">
-                      Delegate more and trust others' capabilities. Practice collaborative decision-making. 
-                      Use your natural leadership to empower others rather than controlling outcomes.
+                      {growthRecommendations.work}
                     </p>
                   </div>
                 </div>
