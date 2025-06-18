@@ -1,7 +1,9 @@
 /* Notification Bell */
 .notificationBell {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
 }
 
 .bellButton {
@@ -206,4 +208,107 @@
   color: #64748b;
   padding: 0;
   margin-left: auto;
+}
+
+.soundButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.soundButton:hover {
+  background-color: var(--bg-secondary);
+  opacity: 1;
+}
+
+.notificationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.priorityBadge {
+  background: #ef4444;
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.highPriority {
+  border-left: 4px solid #ef4444;
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.05), transparent);
+}
+
+.lowPriority {
+  opacity: 0.8;
+}
+
+.highPriority .notificationContent h4 {
+  color: #dc2626;
+}
+
+.notificationToast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1001;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e2e8f0;
+  max-width: 350px;
+  min-width: 300px;
+}
+
+.toastContent {
+  padding: 16px;
+}
+
+.toastHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.toastHeader h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.toastHeader button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0;
+  line-height: 1;
+}
+
+.toastContent p {
+  margin: 0 0 8px 0;
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.toastPriority {
+  font-size: 0.75rem;
+  color: #ef4444;
+  font-weight: 600;
+  text-transform: uppercase;
 }

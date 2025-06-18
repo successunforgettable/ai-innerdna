@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNotifications } from '../../context/NotificationContext';
+import notificationSounds from '../../utils/notificationSounds';
 import styles from './notification.module.css';
 
 const NotificationBell = () => {
   const { unreadCount, toggleNotificationCenter, connectionStatus } = useNotifications();
+  const [soundEnabled, setSoundEnabled] = useState(notificationSounds.getSoundEnabled());
+
+  const toggleSound = () => {
+    const newSoundState = notificationSounds.toggleSound();
+    setSoundEnabled(newSoundState);
+  };
 
   return (
     <div className={styles.notificationBell}>
@@ -37,6 +44,17 @@ const NotificationBell = () => {
             {unreadCount > 99 ? '99+' : unreadCount}
           </motion.span>
         )}
+      </motion.button>
+
+      {/* Sound Toggle Button */}
+      <motion.button
+        className={styles.soundButton}
+        onClick={toggleSound}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        title={soundEnabled ? 'Disable notification sounds' : 'Enable notification sounds'}
+      >
+        {soundEnabled ? '🔊' : '🔇'}
       </motion.button>
     </div>
   );
