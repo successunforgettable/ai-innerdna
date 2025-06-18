@@ -238,11 +238,11 @@ const Results = () => {
                         return (
                           <>
                             <div>
-                              <h4 className="text-lg font-semibold text-white mb-2">Primary State</h4>
+                              <h4 className="text-lg font-semibold text-yellow-400 mb-2">Primary State</h4>
                               <p className="text-white/80">{colorData[0]?.title}: {primaryStatePercent}%</p>
                             </div>
                             <div>
-                              <h4 className="text-lg font-semibold text-white mb-2">Secondary State</h4>
+                              <h4 className="text-lg font-semibold text-yellow-400 mb-2">Secondary State</h4>
                               <p className="text-white/80">{colorData[1]?.title}: {secondaryStatePercent}%</p>
                             </div>
                           </>
