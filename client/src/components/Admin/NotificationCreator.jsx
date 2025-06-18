@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './admin.module.css';
 import NotificationAnalytics from './NotificationAnalytics';
@@ -43,55 +43,39 @@ const NotificationCreator = () => {
     setIsSubmitting(true);
 
     try {
-      const newNotification = {
-        ...formData,
-        id: `notif_${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        analytics: {
-          totalSent: 0,
-          totalOpened: 0,
-          openRate: 0,
-          engagementRate: 0,
-          lastUpdated: new Date().toISOString()
-        }
-      };
-
-      // Determine if this is a bulk notification
-      const isBulkNotification = formData.targetAudience === 'personality_types' && formData.personalityTypes.length > 0;
-      newNotification.isBulk = isBulkNotification;
-      
-      console.log('✅ New notification created:', newNotification);
-      
-      // Initialize analytics for this notification
-      initializeNotificationAnalytics(newNotification);
-      
-      // Add notification to the live system
-      await addNotificationToSystem(newNotification);
-      
-      // Show success message with better styling
-      if (formData.scheduledFor) {
-        showSuccessMessage(`Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
-      } else if (isBulkNotification) {
-        showSuccessMessage(`Bulk notification created for personality types: ${formData.personalityTypes.join(', ')}!`);
-      } else {
-        showSuccessMessage('Notification created and sent successfully!');
-      }
-      
-      // Reset form
-      setFormData({
-        title: '',
-        message: '',
-        type: 'general',
-        priority: 'normal',
-        targetAudience: 'all',
-        personalityTypes: [],
-        scheduledFor: '',
-        isBulk: false,
-        isActive: true
+      // Send notification via API
+      const response = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('✅ Notification sent successfully:', result);
+        
+        // Show success message
+        alert(`Notification "${formData.title}" sent successfully to all connected users!`);
+        
+        // Reset form
+        setFormData({
+          title: '',
+          message: '',
+          type: 'general',
+          priority: 'normal',
+          targetAudience: 'all',
+          isActive: true
+        });
+      } else {
+        throw new Error(result.error || 'Failed to send notification');
+      }
+
     } catch (error) {
-      console.error('❌ Error creating notification:', error);
-      showErrorMessage('Failed to create notification. Please try again.');
+      console.error('❌ Error sending notification:', error);
+      alert(`Error sending notification: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -201,6 +185,52 @@ const NotificationCreator = () => {
     } catch (error) {
       console.error('Error adding notification to system:', error);
     }
+  };
+
+  // Add this component inside NotificationCreator, after the form
+  const AdminStats = () => {
+    const [stats, setStats] = useState(null);
+
+    useEffect(() => {
+      const fetchStats = async () => {
+        try {
+          const response = await fetch('/api/notifications/stats');
+          const data = await response.json();
+          setStats(data);
+        } catch (error) {
+          console.error('Error fetching stats:', error);
+        }
+      };
+
+      fetchStats();
+      // Refresh stats every 10 seconds
+      const interval = setInterval(fetchStats, 10000);
+      return () => clearInterval(interval);
+    }, []);
+
+    if (!stats) return null;
+
+    return (
+      <div className={styles.adminStats}>
+        <h3>Real-Time Stats</h3>
+        <div className={styles.statsGrid}>
+          <div className={styles.statItem}>
+            <span className={styles.statLabel}>Connected Users:</span>
+            <span className={styles.statValue}>{stats.connectedClients}</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statLabel}>Server Status:</span>
+            <span className={styles.statValue}>{stats.serverStatus}</span>
+          </div>
+          <div className={styles.statItem}>
+            <span className={styles.statLabel}>Last Updated:</span>
+            <span className={styles.statValue}>
+              {new Date(stats.timestamp).toLocaleTimeString()}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -344,6 +374,9 @@ const NotificationCreator = () => {
           {isSubmitting ? 'Creating...' : 'Create Notification'}
         </motion.button>
       </motion.form>
+
+      {/* Real-Time Stats */}
+      <AdminStats />
 
       {/* Analytics Dashboard */}
       <NotificationAnalytics />

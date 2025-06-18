@@ -287,3 +287,42 @@
   background: rgba(156, 163, 175, 0.1);
   color: #6b7280;
 }
+
+.adminStats {
+  margin-top: 32px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.adminStats h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+}

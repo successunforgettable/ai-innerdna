@@ -1,7 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import WebSocket from "ws";
+import { WebSocketServer } from "ws";
 import { createServer } from "http";
 
 const app = express();
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 // Store connected WebSocket clients
-const clients = new Set<WebSocket>();
+const clients = new Set<any>();
 
 // Function to broadcast notifications to all clients
 function broadcastNotification(notification: any) {
@@ -87,6 +87,63 @@ function broadcastNotification(notification: any) {
     ws.on('error', (error) => {
       console.error('WebSocket error:', error);
       clients.delete(ws);
+    });
+  });
+
+  // API endpoint to create and broadcast notifications
+  app.post('/api/notifications', (req, res) => {
+    try {
+      const { title, message, type, priority, targetAudience, isActive } = req.body;
+
+      // Validate required fields
+      if (!title || !message) {
+        return res.status(400).json({ 
+          error: 'Title and message are required' 
+        });
+      }
+
+      // Create new notification object
+      const newNotification = {
+        id: `notif_${Date.now()}`,
+        title,
+        message,
+        type: type || 'general',
+        priority: priority || 'normal',
+        targetAudience: targetAudience || 'all',
+        isActive: isActive !== undefined ? isActive : true,
+        createdAt: new Date().toISOString()
+      };
+
+      console.log('📝 Creating new notification:', newNotification);
+
+      // Broadcast to all connected WebSocket clients
+      if ((global as any).broadcastNotification) {
+        (global as any).broadcastNotification(newNotification);
+      }
+
+      // TODO: Save to database/JSON file here if needed
+      // For now, we're just broadcasting the notification
+
+      res.status(201).json({
+        success: true,
+        notification: newNotification,
+        message: 'Notification created and broadcast successfully'
+      });
+
+    } catch (error) {
+      console.error('Error creating notification:', error);
+      res.status(500).json({ 
+        error: 'Failed to create notification' 
+      });
+    }
+  });
+
+  // API endpoint to get notification stats
+  app.get('/api/notifications/stats', (req, res) => {
+    res.json({
+      connectedClients: clients.size,
+      serverStatus: 'running',
+      timestamp: new Date().toISOString()
     });
   });
 
