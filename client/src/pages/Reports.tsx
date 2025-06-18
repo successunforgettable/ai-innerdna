@@ -226,10 +226,9 @@ export default function Reports() {
                     When you're in a good mood
                   </h4>
                   <ul className="space-y-2 text-white/90">
-                    <li>• Magnanimous and generous</li>
-                    <li>• Protective and championing</li>
-                    <li>• Self-restraining and merciful</li>
-                    <li>• Heroic and inspiring</li>
+                    {moodStates.good.map((trait, index) => (
+                      <li key={index}>• {trait}</li>
+                    ))}
                   </ul>
                 </div>
                 
@@ -238,10 +237,9 @@ export default function Reports() {
                     When you're in a bad mood
                   </h4>
                   <ul className="space-y-2 text-white/90">
-                    <li>• Vindictive and ruthless</li>
-                    <li>• Dictatorial and tyrannical</li>
-                    <li>• Destructive and megalomaniacal</li>
-                    <li>• Violent and antisocial</li>
+                    {moodStates.bad.map((trait, index) => (
+                      <li key={index}>• {trait}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
