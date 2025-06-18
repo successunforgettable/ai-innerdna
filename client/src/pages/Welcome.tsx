@@ -43,6 +43,7 @@ export default function Welcome() {
           `${countryCode}${phoneNumber.trim()}`;
           
         const userInfo = {
+          userId: result.user?.id,
           email: email.trim(),
           firstName: firstName.trim() || result.user?.firstName || 'User',
           lastName: lastName.trim() || result.user?.lastName || '',
@@ -71,6 +72,7 @@ export default function Welcome() {
     onSuccess: () => {
       // Store user info for later use in assessment
       const userInfo = {
+        userId: null, // Will be set after successful verification
         email: email.trim(),
         firstName: firstName.trim(),
         lastName: lastName.trim(),

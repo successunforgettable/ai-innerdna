@@ -50,10 +50,9 @@ const Results = () => {
     }, 10);
   }, []);
 
-  // Add this useEffect after the existing data extraction:
+  // Save assessment data when results are displayed
   useEffect(() => {
-    // Save assessment data when results are displayed
-    if (foundationData && buildingData && colorData && detailData) {
+    if (foundationData && buildingData && colorData && detailData && primaryType) {
       const storedUserInfo = localStorage.getItem('current-user-info');
       const userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : {};
 
@@ -85,15 +84,51 @@ const Results = () => {
         version: 'v1.0'
       };
       
+      // Save to localStorage
       const assessmentId = saveAssessmentData(completeAssessment);
       if (assessmentId) {
         console.log('Assessment saved with ID:', assessmentId);
       }
       
+      // Save to database if user is registered
+      if (userInfo.email && userInfo.userId) {
+        updateUserAssessmentInDatabase(userInfo.userId, {
+          foundationStones: foundationData,
+          buildingBlocks: buildingData,
+          colorStates: colorData,
+          detailTokens: detailData,
+          result: personalityResult
+        });
+      }
+      
       // Clear user info after saving assessment
       localStorage.removeItem('current-user-info');
     }
-  }, [foundationData, buildingData, colorData, detailData, primaryType, personalityName, influenceNumber, confidence]);
+  }, [foundationData, buildingData, colorData, detailData, primaryType, personalityName, influenceNumber, confidence, personalityResult]);
+
+  // Function to update user assessment in database
+  const updateUserAssessmentInDatabase = async (userId: number, assessmentData: any) => {
+    try {
+      const response = await fetch(`/api/users/${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          assessmentData: assessmentData,
+          completedAt: new Date().toISOString()
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Assessment saved to database successfully');
+      } else {
+        console.error('Failed to save assessment to database');
+      }
+    } catch (error) {
+      console.error('Error saving assessment to database:', error);
+    }
+  };
 
   // Check if assessment is complete
   const hasValidData = primaryType && personalityName && confidence;
