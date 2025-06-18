@@ -161,13 +161,22 @@ body {
   margin: 0 auto;
 }
 
-/* Mobile responsive foundation stones - only for very small screens */
+/* Mobile responsive foundation stones - for actual mobile devices */
+@media (max-width: 768px) and (max-height: 1024px) {
+  .foundation-stone {
+    width: 150px;
+    height: 150px;
+    border-radius: 45px 35px 40px 30px;
+    padding: 0.8rem;
+  }
+}
+
 @media (max-width: 480px) {
   .foundation-stone {
-    width: 140px;
-    height: 140px;
-    border-radius: 40px 30px 35px 25px;
-    padding: 0.75rem;
+    width: 130px;
+    height: 130px;
+    border-radius: 35px 25px 30px 20px;
+    padding: 0.6rem;
   }
 }
 
@@ -180,13 +189,23 @@ body {
   margin-right: 20px;
 }
 
-/* Mobile responsive stones grid - only for small screens */
-@media (max-width: 480px) {
+/* Mobile responsive stones grid - only for actual mobile devices */
+@media (max-width: 768px) and (max-height: 1024px) {
   .stones-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
-    max-width: 300px;
+    max-width: 400px;
     margin: 1rem auto;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .stones-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    max-width: 320px;
+    margin: 0.75rem auto;
     margin-right: 0;
   }
 }
@@ -225,12 +244,20 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Mobile responsive foundation base - only for very small screens */
+/* Mobile responsive foundation base - for actual mobile devices */
+@media (max-width: 768px) and (max-height: 1024px) {
+  .foundation-base {
+    width: 240px;
+    height: 240px;
+    border: 3px solid #94a3b8;
+  }
+}
+
 @media (max-width: 480px) {
   .foundation-base {
-    width: 220px;
-    height: 220px;
-    border: 3px solid #94a3b8;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #94a3b8;
   }
 }
 
@@ -698,12 +725,17 @@ body {
   align-items: start;
 }
 
-/* Mobile responsive layout - preserve desktop perfection */
-@media (max-width: 768px) {
+/* Mobile responsive layout - only for actual mobile devices */
+@media (max-width: 768px) and (max-height: 1024px) {
   .foundation-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     padding: 0 0.5rem;
+  }
+  
+  .tower-visualization-area {
+    position: static;
+    margin-top: 1rem;
   }
 }
 
@@ -717,12 +749,20 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Mobile responsive glass containers - minimal changes only */
-@media (max-width: 480px) {
+/* Mobile responsive glass containers - for actual mobile devices */
+@media (max-width: 768px) and (max-height: 1024px) {
   .stone-selection-area,
   .tower-visualization-area {
     padding: 1.5rem;
     border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stone-selection-area,
+  .tower-visualization-area {
+    padding: 1rem;
+    border-radius: 12px;
   }
 }
 
@@ -864,11 +904,19 @@ body {
     cursor: pointer;
   }
 
-  /* Mobile responsive building blocks - minimal changes only */
+  /* Mobile responsive building blocks - for actual mobile devices */
+  @media (max-width: 768px) and (max-height: 1024px) {
+    .building-block {
+      width: 150px;
+      height: 85px;
+      border-radius: 10px;
+    }
+  }
+
   @media (max-width: 480px) {
     .building-block {
-      width: 140px;
-      height: 80px;
+      width: 130px;
+      height: 75px;
       border-radius: 8px;
     }
   }
@@ -1023,6 +1071,60 @@ body {
   }
   50% { 
     transform: scale(1.05); 
+  }
+}
+
+/* Comprehensive mobile responsiveness for actual mobile devices */
+@media (max-width: 768px) and (max-height: 1024px) {
+  .foundation-phase {
+    padding: 1rem 0.5rem;
+  }
+  
+  .title-primary {
+    font-size: 1.5rem !important;
+  }
+  
+  .section-description {
+    font-size: 0.9rem !important;
+  }
+  
+  .page-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .tower-container {
+    height: 300px;
+  }
+  
+  .glass-container {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .foundation-phase {
+    padding: 0.75rem 0.25rem;
+  }
+  
+  .title-primary {
+    font-size: 1.25rem !important;
+  }
+  
+  .section-description {
+    font-size: 0.8rem !important;
+  }
+  
+  .page-container {
+    padding: 0.75rem 0.25rem;
+  }
+  
+  .tower-container {
+    height: 250px;
+  }
+  
+  .welcome-screen {
+    padding: 1rem 0.5rem;
+    padding-top: 1rem;
   }
 }
 
