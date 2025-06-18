@@ -1,0 +1,55 @@
+# **Step 10: Testing the Notification System**
+
+## **Micro Prompt for Replit AI:**
+
+Test the notification system to ensure all components are working correctly.
+
+**TESTING CHECKLIST:**
+
+**Test 1: Check Notification Bell**
+1. Run your Replit app
+2. Look for the bell icon in your header
+3. The bell should show a red badge with "1" (because we have 1 notification in the JSON)
+4. Click the bell - it should open the notification center
+
+**Test 2: Check Notification Center**
+1. Click the notification bell
+2. A modal should appear with "Notifications" header
+3. You should see one notification: "Welcome to Inner DNA"
+4. Click the X button or outside the modal to close it
+
+**Test 3: Check Login Notification**
+1. The login notification should not appear yet (user is null)
+2. We'll test this after adding proper user login
+
+**DEBUGGING STEPS if something doesn't work:**
+
+**If bell doesn't appear:**
+1. Check browser console for errors
+2. Verify all import statements in App.jsx are correct
+3. Ensure NotificationBell is added to your header component
+
+**If clicking bell doesn't work:**
+1. Check that NotificationCenter component is added to App.jsx
+2. Verify the context provider wraps your entire app
+3. Check browser console for JavaScript errors
+
+**If no notifications show:**
+1. Verify notifications.json file exists in src/data/
+2. Check browser Network tab - should see request to notifications.json
+3. Open browser console and type: `fetch('/src/data/notifications.json').then(r => r.json()).then(console.log)`
+
+**Test the CSS:**
+1. Bell should have hover effect (background changes)
+2. Badge should be orange/amber color
+3. Modal should have smooth animations
+4. Modal should center on screen with dark overlay
+
+## **Instructions:**
+1. Run your Replit app
+2. Go through each test above
+3. Note any issues you encounter
+4. Check browser console for any error messages
+5. If everything works, the notification system is ready!
+
+**Expected Result:** Bell icon appears with "1" badge, clicking opens modal with welcome notification.
