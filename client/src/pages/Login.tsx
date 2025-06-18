@@ -133,6 +133,15 @@ export default function Login() {
                 placeholder="Enter your password"
                 required
               />
+              <div className="mt-2 text-right">
+                <button
+                  type="button"
+                  onClick={() => alert('Please contact support for password reset assistance.')}
+                  className="text-yellow-400 hover:text-yellow-300 transition-colors duration-300 text-sm underline"
+                >
+                  Forgot Password?
+                </button>
+              </div>
             </motion.div>
 
             {error && (
