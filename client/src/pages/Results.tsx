@@ -100,7 +100,7 @@ const Results = () => {
 
   return (
     <motion.div 
-      className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4"
+      className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4 results-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
@@ -110,7 +110,7 @@ const Results = () => {
       {/* Main Content */}
       <div className="max-w-6xl mx-auto">
         <motion.div 
-          className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 shadow-2xl"
+          className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 shadow-2xl results-container"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -119,14 +119,14 @@ const Results = () => {
           {hasValidData ? (
             <>
               {/* Header */}
-              <div className="text-center mb-12">
-                <h1 className="text-6xl font-bold text-yellow-400 mb-4">
+              <div className="text-center mb-12 results-header">
+                <h1 className="text-6xl font-bold text-yellow-400 mb-4 results-title">
                   The {personalityName}
                 </h1>
-                <p className="text-xl text-white/80 mb-4">
+                <p className="text-xl text-white/80 mb-4 results-influence">
                   Your influence: {influenceNumber}
                 </p>
-                <div className="text-lg text-green-400">
+                <div className="text-lg text-green-400 results-confidence">
                   High Confidence ({Math.round((confidence || 0) * 100)}%)
                 </div>
                 <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-6"></div>
