@@ -193,7 +193,7 @@ export default function Welcome() {
     }
   };
 
-  if (showVerification) {
+  if (false) { // Always show main welcome screen
     return (
       <div className={styles.welcomeScreen}>
         <motion.div 
