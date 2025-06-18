@@ -15,6 +15,8 @@ import Results from "@/pages/Results";
 import Analytics from "@/pages/Analytics";
 import AdminLogin from "@/pages/AdminLogin";
 import AlgorithmTest from "@/pages/AlgorithmTest";
+import Login from "@/pages/Login";
+import Reports from "@/pages/Reports";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 
@@ -95,6 +97,8 @@ function Router() {
       <Route path="/analytics" component={AppContent} />
       <Route path="/admin-login" component={AppContent} />
       <Route path="/algorithm-test" component={AppContent} />
+      <Route path="/login" component={Login} />
+      <Route path="/reports" component={Reports} />
       <Route component={NotFound} />
     </Switch>
   );
