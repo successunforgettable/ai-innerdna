@@ -288,9 +288,9 @@ export default function Welcome() {
               ease: [0.4, 0, 0.2, 1]
             }}
             style={{
-              position: 'absolute',
-              top: '0',
-              right: '-20px',
+              position: 'fixed',
+              top: '20px',
+              right: '20px',
               padding: '8px 16px',
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -300,7 +300,8 @@ export default function Welcome() {
               fontWeight: '500',
               cursor: 'pointer',
               backdropFilter: 'blur(10px)',
-              textDecoration: 'none'
+              textDecoration: 'none',
+              zIndex: 1000
             }}
           >
             Login
