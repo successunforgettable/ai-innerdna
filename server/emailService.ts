@@ -17,24 +17,28 @@ interface EmailParams {
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
-    await mailService.send({
+    console.log('Attempting to send email via SendGrid...');
+    const result = await mailService.send({
       to: params.to,
       from: params.from,
       subject: params.subject,
       text: params.text,
       html: params.html,
     });
+    console.log('SendGrid email sent successfully:', result[0].statusCode);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('SendGrid email error:', error);
+    console.error('Error details:', error.response?.body || error.message);
     return false;
   }
 }
 
 export async function sendPasswordRecoveryEmail(email: string, message: string): Promise<boolean> {
+  // Use a verified SendGrid sender email
   const emailParams: EmailParams = {
     to: email,
-    from: 'test@example.com', // Using a test sender until domain is verified
+    from: 'test@example.com', // Using a basic sender - requires SendGrid verification
     subject: 'Inner DNA Assessment - Password Recovery',
     text: `Password Recovery Request\n\n${message}\n\nIf you need assistance accessing your account, please contact our support team.`,
     html: `

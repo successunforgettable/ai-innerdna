@@ -152,11 +152,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.json({ message: "If this email is registered, you will receive a password recovery email shortly." });
       }
 
-      // For now, provide a helpful message since SendGrid requires domain verification
-      // In production, you would send an actual recovery email
-      res.json({ 
-        message: "Password recovery request received. For immediate assistance, please contact support with your registered email address. We'll help you regain access to your account within 24 hours." 
-      });
+      // Since we're storing hashed passwords, we'll send a recovery message with instructions
+      // In a production system, you would generate a secure reset token
+      const recoveryMessage = `We received a password recovery request for your account. Since passwords are securely encrypted, we cannot retrieve your original password. Please contact our support team at support@innerdna.com with your registered email address (${email}) and we'll help you reset your password within 24 hours.`;
+      
+      const emailSent = await sendPasswordRecoveryEmail(email, recoveryMessage);
+      
+      if (emailSent) {
+        res.json({ message: "Password recovery email sent successfully. Please check your inbox and spam folder." });
+      } else {
+        res.json({ message: "Password recovery request received. If this email is registered, you will receive instructions shortly." });
+      }
     } catch (error: any) {
       console.error("Password recovery error:", error);
       res.status(500).json({ error: "Failed to process password recovery request" });
