@@ -22,44 +22,6 @@ export const NotificationProvider = ({ children }) => {
   const connectionStatus = 'Connected';
   const lastMessage = null;
 
-  // Listen for real-time notifications - temporarily disabled
-  /*
-  useEffect(() => {
-    if (lastMessage && lastMessage.data) {
-      try {
-        const messageData = typeof lastMessage.data === 'string' 
-          ? JSON.parse(lastMessage.data) 
-          : lastMessage.data;
-        
-        if (messageData.type === 'new_notification' && messageData.data) {
-          console.log('🔔 Real-time notification received:', messageData.data);
-          
-          // Add new notification to existing list
-          setNotifications(prev => [messageData.data, ...prev]);
-          
-          // Increment unread count
-          setUnreadCount(prev => prev + 1);
-          
-          // Play notification sound based on priority
-          const soundType = messageData.data.priority === 'high' ? 'high' : 'default';
-          notificationSounds.playNotificationSound(soundType);
-          
-          // Optional: Show browser notification if permission granted
-          if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification(messageData.data.title, {
-              body: messageData.data.message,
-              icon: '/favicon.ico',
-              tag: messageData.data.id // Prevent duplicate notifications
-            });
-          }
-        }
-      } catch (error) {
-        console.log('Error parsing notification message:', error);
-      }
-    }
-  }, [lastMessage]);
-  */
-
   // Request notification permission on load
   useEffect(() => {
     if ('Notification' in window && Notification.permission === 'default') {
