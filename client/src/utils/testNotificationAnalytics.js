@@ -68,7 +68,7 @@ export const initializeTestAnalytics = () => {
   return baselineAnalytics;
 };
 
-// Auto-initialize on import in development
-if (import.meta.env.DEV) {
-  initializeTestAnalytics();
-}
+// Auto-initialize disabled to prevent conflicts with real analytics
+// if (import.meta.env.DEV) {
+//   initializeTestAnalytics();
+// }

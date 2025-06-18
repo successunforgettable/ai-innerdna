@@ -20,26 +20,54 @@ const NotificationAnalytics = () => {
       // Load real analytics from localStorage
       const globalAnalytics = JSON.parse(localStorage.getItem('notification_global_analytics') || '{}');
       
-      // Load notifications data
-      const response = await fetch('/src/data/notifications.json');
-      const data = await response.json();
-      const notifications = data.notifications || [];
+      // Load notifications from both JSON and localStorage
+      let baseNotifications = [];
+      try {
+        const response = await fetch('/src/data/notifications.json');
+        if (response.ok) {
+          const data = await response.json();
+          baseNotifications = data.notifications || [];
+        }
+      } catch (e) {
+        console.log('JSON notifications not available');
+      }
       
-      // Use real analytics if available, otherwise calculate from data
-      const totalNotifications = notifications.length;
-      const totalSent = globalAnalytics.totalSent || totalNotifications;
-      const totalOpened = globalAnalytics.totalOpened || 0;
-      const globalOpenRate = globalAnalytics.globalOpenRate || 0;
+      // Load admin-created notifications
+      const activeNotifications = JSON.parse(localStorage.getItem('active_notifications') || '[]');
+      const allNotifications = [...baseNotifications, ...activeNotifications];
+      
+      // Calculate real metrics from actual data
+      const totalNotifications = allNotifications.length;
+      let totalSent = totalNotifications;
+      let totalOpened = 0;
+      
+      // Count actual opens from localStorage tracking
+      allNotifications.forEach(notif => {
+        const notifAnalytics = JSON.parse(localStorage.getItem(`notification_${notif.id}`) || '{}');
+        if (notifAnalytics.opens) {
+          totalOpened += notifAnalytics.opens;
+        }
+      });
+      
+      // Use global analytics if it has more accurate data
+      if (globalAnalytics.totalSent) {
+        totalSent = Math.max(totalSent, globalAnalytics.totalSent);
+      }
+      if (globalAnalytics.totalOpened) {
+        totalOpened = Math.max(totalOpened, globalAnalytics.totalOpened);
+      }
+      
+      const globalOpenRate = totalSent > 0 ? ((totalOpened / totalSent) * 100).toFixed(1) : 0;
       
       // Type breakdown
       const typeBreakdown = {};
-      notifications.forEach(notif => {
+      allNotifications.forEach(notif => {
         typeBreakdown[notif.type] = (typeBreakdown[notif.type] || 0) + 1;
       });
       
       // Audience breakdown
       const audienceBreakdown = {};
-      notifications.forEach(notif => {
+      allNotifications.forEach(notif => {
         audienceBreakdown[notif.targetAudience] = (audienceBreakdown[notif.targetAudience] || 0) + 1;
       });
       
@@ -49,18 +77,18 @@ const NotificationAnalytics = () => {
         totalOpened,
         globalOpenRate,
         globalEngagementRate: globalOpenRate,
-        recentNotifications: notifications.slice(-5),
+        recentNotifications: allNotifications.slice(-5),
         typeBreakdown,
         audienceBreakdown
       });
       
-      console.log('Analytics loaded:', { totalSent, totalOpened, globalOpenRate });
+      console.log('Analytics loaded:', { totalNotifications, totalSent, totalOpened, globalOpenRate });
       
     } catch (error) {
       console.error('Error loading analytics:', error);
       setAnalyticsData({
-        totalNotifications: 1,
-        totalSent: 1,
+        totalNotifications: 0,
+        totalSent: 0,
         totalOpened: 0,
         globalOpenRate: 0,
         globalEngagementRate: 0,
