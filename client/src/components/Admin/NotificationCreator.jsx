@@ -9,8 +9,13 @@ const NotificationCreator = () => {
     type: 'general',
     priority: 'normal',
     targetAudience: 'all',
+    personalityTypes: [],
+    scheduledFor: '',
+    isBulk: false,
     isActive: true
   });
+
+  const [analytics, setAnalytics] = useState(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,20 +27,47 @@ const NotificationCreator = () => {
     }));
   };
 
+  const handlePersonalityTypeChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      personalityTypes: checked 
+        ? [...prev.personalityTypes, value]
+        : prev.personalityTypes.filter(type => type !== value)
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // For now, just log the notification data
       const newNotification = {
         ...formData,
         id: `notif_${Date.now()}`,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        analytics: {
+          totalSent: 0,
+          totalOpened: 0,
+          openRate: 0,
+          engagementRate: 0,
+          lastUpdated: new Date().toISOString()
+        }
       };
+
+      // Determine if this is a bulk notification
+      const isBulkNotification = formData.targetAudience === 'personality_types' && formData.personalityTypes.length > 0;
+      newNotification.isBulk = isBulkNotification;
       
       console.log('New notification created:', newNotification);
-      alert('Notification created successfully! (Check console for details)');
+      
+      if (formData.scheduledFor) {
+        alert(`Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
+      } else if (isBulkNotification) {
+        alert(`Bulk notification created for personality types: ${formData.personalityTypes.join(', ')}!`);
+      } else {
+        alert('Notification created successfully!');
+      }
       
       // Reset form
       setFormData({
@@ -44,6 +76,9 @@ const NotificationCreator = () => {
         type: 'general',
         priority: 'normal',
         targetAudience: 'all',
+        personalityTypes: [],
+        scheduledFor: '',
+        isBulk: false,
         isActive: true
       });
     } catch (error) {
@@ -135,7 +170,42 @@ const NotificationCreator = () => {
             <option value="new">New Users</option>
             <option value="returning">Returning Users</option>
             <option value="completed">Completed Assessment</option>
+            <option value="personality_types">Specific Personality Types</option>
           </select>
+        </div>
+
+        {/* Personality Types Selection (Bulk Notifications) */}
+        {formData.targetAudience === 'personality_types' && (
+          <div className={styles.formGroup}>
+            <label>Select Personality Types (Bulk Notification)</label>
+            <div className={styles.personalityTypeGrid}>
+              {[1,2,3,4,5,6,7,8,9].map(type => (
+                <label key={type} className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    value={type}
+                    checked={formData.personalityTypes.includes(type.toString())}
+                    onChange={handlePersonalityTypeChange}
+                  />
+                  <span>Type {type}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Scheduled Notifications */}
+        <div className={styles.formGroup}>
+          <label htmlFor="scheduledFor">Schedule For (Optional)</label>
+          <input
+            type="datetime-local"
+            id="scheduledFor"
+            name="scheduledFor"
+            value={formData.scheduledFor}
+            onChange={handleInputChange}
+            min={new Date().toISOString().slice(0, 16)}
+          />
+          <small>Leave empty to send immediately</small>
         </div>
 
         <div className={styles.checkboxGroup}>
@@ -160,6 +230,9 @@ const NotificationCreator = () => {
           {isSubmitting ? 'Creating...' : 'Create Notification'}
         </motion.button>
       </motion.form>
+
+      {/* Analytics Dashboard */}
+      <NotificationAnalytics />
     </div>
   );
 };
