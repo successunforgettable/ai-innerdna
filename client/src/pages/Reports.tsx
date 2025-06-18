@@ -114,8 +114,11 @@ export default function Reports() {
               </p>
             </div>
 
-            {/* Core Description */}
+            {/* Personality Description */}
             <div className="mb-12">
+              <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                Your Inner DNA: The Challenger
+              </h3>
               <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
                 <p className="text-lg text-white/90 leading-relaxed">
                   Powerful, dominating type. Self-confident, decisive, willful, and confrontational. 
@@ -127,32 +130,33 @@ export default function Reports() {
 
             {/* Mood States */}
             <div className="mb-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-xl font-semibold text-green-400 mb-4">
+              <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                Your Mood States
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-green-500/20 rounded-lg p-6 border border-green-400/30 backdrop-blur-sm">
+                  <h4 className="text-xl font-semibold text-green-400 mb-3">
                     When you're in a good mood
                   </h4>
-                  <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4">
-                    <ul className="space-y-2 text-white/90">
-                      <li>• Magnanimous and generous</li>
-                      <li>• Protective and championing</li>
-                      <li>• Self-restraining and merciful</li>
-                      <li>• Heroic and inspiring</li>
-                    </ul>
-                  </div>
+                  <ul className="space-y-2 text-white/90">
+                    <li>• Magnanimous and generous</li>
+                    <li>• Protective and championing</li>
+                    <li>• Self-restraining and merciful</li>
+                    <li>• Heroic and inspiring</li>
+                  </ul>
                 </div>
-                <div>
-                  <h4 className="text-xl font-semibold text-red-400 mb-4">
+                
+                <div className="bg-red-500/20 rounded-lg p-6 border border-red-400/30 backdrop-blur-sm">
+                  <h4 className="text-xl font-semibold text-red-400 mb-3">
                     When you're in a bad mood
                   </h4>
-                  <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4">
-                    <ul className="space-y-2 text-white/90">
-                      <li>• Vindictive and ruthless</li>
-                      <li>• Dictatorial and tyrannical</li>
-                      <li>• Destructive and megalomaniacal</li>
-                      <li>• Violent and antisocial</li>
-                    </ul>
-                  </div>
+                  <ul className="space-y-2 text-white/90">
+                    <li>• Vindictive and ruthless</li>
+                    <li>• Dictatorial and tyrannical</li>
+                    <li>• Destructive and megalomaniacal</li>
+                    <li>• Violent and antisocial</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -200,25 +204,74 @@ export default function Reports() {
                 Your Subtype Focus
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                  <h4 className="text-lg font-semibold text-white mb-2">Self-Preservation</h4>
-                  <p className="text-2xl font-bold text-yellow-400">30%</p>
+                <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-2">🛡️</span>
+                    <h4 className="text-lg font-semibold text-blue-400">Self-Preservation</h4>
+                  </div>
+                  <p className="text-sm text-white/80">
+                    30% - Focus on personal security and routines
+                  </p>
                 </div>
-                <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                  <h4 className="text-lg font-semibold text-white mb-2">Social</h4>
-                  <p className="text-2xl font-bold text-yellow-400">30%</p>
+                
+                <div className="bg-red-500/20 rounded-lg p-4 border border-red-400/30">
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-2">🔥</span>
+                    <h4 className="text-lg font-semibold text-red-400">Sexual</h4>
+                  </div>
+                  <p className="text-sm text-white/80">
+                    40% - Focus on intense personal connections
+                  </p>
                 </div>
-                <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                  <h4 className="text-lg font-semibold text-white mb-2">Sexual</h4>
-                  <p className="text-2xl font-bold text-yellow-400">40%</p>
+                
+                <div className="bg-green-500/20 rounded-lg p-4 border border-green-400/30">
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-2">🧱</span>
+                    <h4 className="text-lg font-semibold text-green-400">Social</h4>
+                  </div>
+                  <p className="text-sm text-white/80">
+                    30% - Focus on group dynamics and community
+                  </p>
                 </div>
               </div>
-              <div className="mt-6 backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-6">
-                <p className="text-white/90 leading-relaxed">
-                  Your Sexual subtype focus means you're drawn to intensity, passion, and one-on-one connections. 
-                  You seek powerful experiences and aren't afraid of conflict or challenge. This subtype brings 
-                  magnetic energy and the desire to make a significant impact on others.
+              <div className="mt-4">
+                <p className="text-white/90">
+                  Your energy is primarily focused on sexual subtype, showing how you naturally prioritize and direct your attention toward intense personal connections.
                 </p>
+              </div>
+            </div>
+
+            {/* Growth Recommendations */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-yellow-400 mb-6">
+                Growth Recommendations
+              </h3>
+              <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-6 border border-purple-400/30">
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="text-lg font-semibold text-purple-400 mb-2">For Personal Development:</h4>
+                    <p className="text-white/90">
+                      Practice vulnerability and emotional openness. Allow others to support you without 
+                      seeing it as weakness. Develop patience with those who process differently than you.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-semibold text-purple-400 mb-2">In Relationships:</h4>
+                    <p className="text-white/90">
+                      Work on expressing your softer emotions and needs. Practice listening without 
+                      immediately moving to action or solutions. Show appreciation for others' contributions.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-lg font-semibold text-purple-400 mb-2">At Work:</h4>
+                    <p className="text-white/90">
+                      Delegate more and trust others' capabilities. Practice collaborative decision-making. 
+                      Use your natural leadership to empower others rather than controlling outcomes.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
