@@ -373,6 +373,32 @@
   }
 }
 
+/* Toggle Mode and Button Styles */
+.toggleMode {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all var(--duration-normal) var(--ease-spring);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.toggleButton:hover {
+  color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
 /* Animation Keyframes */
 @keyframes fadeInUp {
   from {
