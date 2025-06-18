@@ -58,7 +58,7 @@ const NotificationCreator = () => {
         console.log('✅ Notification sent successfully:', result);
         
         // Show success message
-        alert(`Notification "${formData.title}" sent successfully to all connected users!`);
+        showSuccessMessage(`Notification "${formData.title}" sent successfully to all connected users!`);
         
         // Reset form
         setFormData({
@@ -75,7 +75,7 @@ const NotificationCreator = () => {
 
     } catch (error) {
       console.error('❌ Error sending notification:', error);
-      alert(`Error sending notification: ${error.message}`);
+      showErrorMessage(`Error sending notification: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
