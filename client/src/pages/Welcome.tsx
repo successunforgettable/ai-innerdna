@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { TowerVisualization } from '@/components/TowerVisualization';
 import NotificationBell from '../components/Common/NotificationBell';
+import ConnectionStatus from '../components/Common/ConnectionStatus';
 import styles from './Welcome.module.css';
 
 export default function Welcome() {
@@ -290,9 +291,11 @@ export default function Welcome() {
               backdropFilter: 'blur(10px)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              gap: '8px'
             }}>
               <NotificationBell />
+              <ConnectionStatus />
             </div>
           </div>
           

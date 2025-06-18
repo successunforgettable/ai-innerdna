@@ -4,7 +4,7 @@ import { useNotifications } from '../../context/NotificationContext';
 import styles from './notification.module.css';
 
 const NotificationBell = () => {
-  const { unreadCount, toggleNotificationCenter } = useNotifications();
+  const { unreadCount, toggleNotificationCenter, connectionStatus } = useNotifications();
 
   return (
     <div className={styles.notificationBell}>
@@ -13,6 +13,7 @@ const NotificationBell = () => {
         onClick={toggleNotificationCenter}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        title={`Notifications (${connectionStatus})`}
       >
         <svg 
           width="24" 
