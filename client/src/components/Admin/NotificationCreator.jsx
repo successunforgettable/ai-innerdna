@@ -60,14 +60,15 @@ const NotificationCreator = () => {
       const isBulkNotification = formData.targetAudience === 'personality_types' && formData.personalityTypes.length > 0;
       newNotification.isBulk = isBulkNotification;
       
-      console.log('New notification created:', newNotification);
+      console.log('✅ New notification created:', newNotification);
       
+      // Show success message with better styling
       if (formData.scheduledFor) {
-        alert(`Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
+        showSuccessMessage(`📅 Notification scheduled for ${new Date(formData.scheduledFor).toLocaleString()}!`);
       } else if (isBulkNotification) {
-        alert(`Bulk notification created for personality types: ${formData.personalityTypes.join(', ')}!`);
+        showSuccessMessage(`📢 Bulk notification created for personality types: ${formData.personalityTypes.join(', ')}!`);
       } else {
-        alert('Notification created successfully!');
+        showSuccessMessage('🎉 Notification created and sent successfully!');
       }
       
       // Reset form
@@ -83,11 +84,53 @@ const NotificationCreator = () => {
         isActive: true
       });
     } catch (error) {
-      console.error('Error creating notification:', error);
-      alert('Error creating notification');
+      console.error('❌ Error creating notification:', error);
+      showErrorMessage('Failed to create notification. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const showSuccessMessage = (message) => {
+    // Create a styled success notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      z-index: 10000;
+      font-weight: 600;
+      max-width: 400px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 4000);
+  };
+
+  const showErrorMessage = (message) => {
+    // Create a styled error notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+      z-index: 10000;
+      font-weight: 600;
+      max-width: 400px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 4000);
   };
 
   return (
