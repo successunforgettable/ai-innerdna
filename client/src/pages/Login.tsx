@@ -96,6 +96,26 @@ export default function Login() {
     setLocation("/");
   };
 
+  const handleForgotPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setForgotSuccess("");
+    
+    if (!forgotEmail) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    forgotPasswordMutation.mutate(forgotEmail);
+  };
+
+  const closeForgotModal = () => {
+    setShowForgotModal(false);
+    setForgotEmail("");
+    setForgotSuccess("");
+    setError("");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
       <motion.div
@@ -165,7 +185,7 @@ export default function Login() {
               <div className="mt-2 text-right">
                 <button
                   type="button"
-                  onClick={() => alert('Please contact support for password reset assistance.')}
+                  onClick={() => setShowForgotModal(true)}
                   className="text-yellow-400 hover:text-yellow-300 transition-colors duration-300 text-sm underline"
                 >
                   Forgot Password?
@@ -219,6 +239,73 @@ export default function Login() {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Forgot Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="w-full max-w-md"
+          >
+            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-yellow-400 mb-2">Password Recovery</h2>
+                <p className="text-white/70 text-sm">
+                  Enter your email address and we'll send you password recovery assistance.
+                </p>
+              </div>
+
+              <form onSubmit={handleForgotPassword}>
+                <div className="mb-4">
+                  <label htmlFor="forgotEmail" className="block text-white/90 text-sm font-medium mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="forgotEmail"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent backdrop-blur-sm"
+                    placeholder="Enter your email address"
+                    required
+                  />
+                </div>
+
+                {error && (
+                  <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
+                    {error}
+                  </div>
+                )}
+
+                {forgotSuccess && (
+                  <div className="mb-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300 text-sm">
+                    {forgotSuccess}
+                  </div>
+                )}
+
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={closeForgotModal}
+                    className="flex-1 py-3 px-4 bg-white/10 border border-white/20 text-white rounded-lg hover:bg-white/20 transition-all duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={forgotPasswordMutation.isPending}
+                    className="flex-1 py-3 px-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold rounded-lg hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {forgotPasswordMutation.isPending ? "Sending..." : "Send Recovery Email"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
