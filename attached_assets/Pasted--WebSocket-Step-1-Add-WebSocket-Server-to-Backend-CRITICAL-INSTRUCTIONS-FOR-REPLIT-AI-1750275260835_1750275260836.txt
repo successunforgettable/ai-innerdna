@@ -1,0 +1,125 @@
+# **WebSocket Step 1: Add WebSocket Server to Backend**
+
+## **🚨 CRITICAL INSTRUCTIONS FOR REPLIT AI:**
+
+**DO NOT TOUCH ANY EXISTING CODE OR SYSTEMS:**
+- ❌ DO NOT modify existing Express routes or middleware
+- ❌ DO NOT change existing database connections or queries  
+- ❌ DO NOT alter existing React components or CSS
+- ❌ DO NOT modify the Inner DNA assessment system
+- ❌ DO NOT change user authentication or data storage
+- ❌ DO NOT make assumptions or add creative modifications
+- ❌ DO NOT use your own ideas - ONLY follow this exact prompt
+
+**✅ ONLY ADD the WebSocket code exactly as specified below**
+
+## **Micro Prompt for Replit AI:**
+
+Add WebSocket support to your existing Express.js server for real-time notifications.
+
+**STEP 1A: Install WebSocket Package**
+
+Add this to your `package.json` dependencies (or install via Replit package manager):
+
+```json
+{
+  "dependencies": {
+    "ws": "^8.14.2"
+  }
+}
+```
+
+**STEP 1B: Update Your Server File**
+
+Find your main server file (likely `server.js`, `index.js`, or `app.js`) and add this WebSocket code.
+
+**Add these imports at the top:**
+```javascript
+const WebSocket = require('ws');
+const http = require('http');
+```
+
+**Replace your existing server setup with this enhanced version:**
+
+```javascript
+const express = require('express');
+const WebSocket = require('ws');
+const http = require('http');
+
+const app = express();
+const server = http.createServer(app);
+
+// Create WebSocket server
+const wss = new WebSocket.Server({ server });
+
+// Store connected clients
+const clients = new Set();
+
+// WebSocket connection handling
+wss.on('connection', (ws) => {
+  console.log('🔗 New WebSocket client connected');
+  clients.add(ws);
+
+  // Send welcome message
+  ws.send(JSON.stringify({
+    type: 'connection',
+    message: 'WebSocket connected successfully'
+  }));
+
+  // Handle client disconnect
+  ws.on('close', () => {
+    console.log('❌ WebSocket client disconnected');
+    clients.delete(ws);
+  });
+
+  // Handle errors
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+    clients.delete(ws);
+  });
+});
+
+// Function to broadcast notifications to all clients
+function broadcastNotification(notification) {
+  const message = JSON.stringify({
+    type: 'new_notification',
+    data: notification
+  });
+
+  clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+
+  console.log(`📢 Broadcasted notification to ${clients.size} clients`);
+}
+
+// Make broadcast function available globally
+global.broadcastNotification = broadcastNotification;
+
+// Your existing Express middleware and routes go here
+app.use(express.json());
+
+// Example: Existing routes
+app.get('/', (req, res) => {
+  res.send('Server with WebSocket support running!');
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🔌 WebSocket server ready for connections`);
+});
+```
+
+## **Instructions:**
+1. Find your main server file (server.js, index.js, or app.js)
+2. Install the `ws` package if not already installed
+3. Add the WebSocket imports at the top
+4. Replace your server setup with the enhanced version above
+5. Keep all your existing routes and middleware
+6. Save and restart your server
+
+**Expected Result:** Server starts with WebSocket support, ready to accept connections and broadcast notifications.
