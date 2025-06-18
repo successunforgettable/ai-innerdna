@@ -26,6 +26,19 @@ export default function FoundationStones() {
 
   const currentSet = stoneSets[currentStoneSet];
 
+  // Contextual questions for each set
+  const setQuestions = [
+    "How do you typically make important decisions?",
+    "What drives you most deeply?",
+    "Where do you naturally focus your energy?",
+    "How do you prefer to interact with people?",
+    "How do you naturally process information and experiences?",
+    "How do you typically respond when under pressure?",
+    "How do you handle disagreements and conflicts?",
+    "How do you measure success and achievement?",
+    "What do you value most in your relationships with others?"
+  ];
+
   useEffect(() => {
     // Reset selection when stone set changes
     setSelectedStone(stoneSelections[currentStoneSet] ?? null);
@@ -139,6 +152,15 @@ export default function FoundationStones() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
+            <p style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              color: '#64748b',
+              marginBottom: '8px',
+              textAlign: 'center'
+            }}>
+              {setQuestions[currentStoneSet]}
+            </p>
             <h2 className="title-primary">{currentSet.title}</h2>
             <p className="section-description">Choose the foundation stone that resonates most with you</p>
           </motion.div>
