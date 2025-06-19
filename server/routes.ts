@@ -152,17 +152,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.json({ message: "If this email is registered, you will receive a password recovery email shortly." });
       }
 
-      // Since we're storing hashed passwords, we'll send a recovery message with instructions
-      // In a production system, you would generate a secure reset token
-      const recoveryMessage = `We received a password recovery request for your account. Since passwords are securely encrypted, we cannot retrieve your original password. Please contact our support team at support@innerdna.com with your registered email address (${email}) and we'll help you reset your password within 24 hours.`;
+      // Generate a recovery code for immediate use
+      const recoveryCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const recoveryExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
       
-      const emailSent = await sendPasswordRecoveryEmail(email, recoveryMessage);
+      console.log(`Recovery code for ${email}: ${recoveryCode} (expires: ${recoveryExpiry})`);
+
+      const recoveryMessage = `Password Recovery - Inner DNA Assessment
       
-      if (emailSent) {
-        res.json({ message: "Password recovery email sent successfully. Please check your inbox and spam folder." });
-      } else {
-        res.json({ message: "Password recovery request received. If this email is registered, you will receive instructions shortly." });
-      }
+Recovery Code: ${recoveryCode}
+Valid until: ${recoveryExpiry.toLocaleString()}
+
+To reset your password:
+1. Contact support@innerdna.com
+2. Provide your email: ${email}
+3. Provide recovery code: ${recoveryCode}
+
+Response time: Within 24 hours`;
+      
+      // Try to send email, but provide recovery code regardless
+      await sendPasswordRecoveryEmail(email, recoveryMessage);
+      
+      res.json({ 
+        message: `Recovery code generated: ${recoveryCode}. Save this code and contact support@innerdna.com for password reset assistance.`,
+        recoveryCode: recoveryCode,
+        supportEmail: "support@innerdna.com",
+        expiresAt: recoveryExpiry.toISOString()
+      });
     } catch (error: any) {
       console.error("Password recovery error:", error);
       res.status(500).json({ error: "Failed to process password recovery request" });
