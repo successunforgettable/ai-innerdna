@@ -284,12 +284,16 @@ export default function Login() {
                 )}
 
                 {forgotSuccess && (
-                  <div className="mb-4 p-4 bg-yellow-400/20 border border-yellow-400/40 rounded-lg text-yellow-200 text-sm font-medium leading-relaxed">
+                  <div className="mb-4 p-4 bg-green-400/20 border border-green-400/40 rounded-lg text-green-200 text-sm font-medium leading-relaxed">
                     <div className="flex items-start gap-2">
-                      <div className="w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <span className="text-black text-xs font-bold">✓</span>
                       </div>
-                      <div>{forgotSuccess}</div>
+                      <div>
+                        <div className="font-semibold mb-1">New Password Generated!</div>
+                        <div>{forgotSuccess}</div>
+                        <div className="mt-2 text-green-300 text-xs">Check your email for the temporary password and log in immediately.</div>
+                      </div>
                     </div>
                   </div>
                 )}
