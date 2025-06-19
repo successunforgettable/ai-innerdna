@@ -11,6 +11,8 @@ export default function ResetPassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRequestingNewPassword, setIsRequestingNewPassword] = useState(false);
+  const [showPasswordRequest, setShowPasswordRequest] = useState(false);
 
   // Get email from URL params if available
   useEffect(() => {
@@ -85,6 +87,41 @@ export default function ResetPassword() {
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleRequestNewPassword = async () => {
+    if (!email) {
+      setError('Please enter your email address first');
+      return;
+    }
+
+    setIsRequestingNewPassword(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess('New temporary password sent to your email. Please check your inbox.');
+        setShowPasswordRequest(false);
+        setCurrentPassword(''); // Clear the current password field
+      } else {
+        setError(data.error || 'Failed to send new temporary password');
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+    } finally {
+      setIsRequestingNewPassword(false);
     }
   };
 
@@ -179,6 +216,21 @@ export default function ResetPassword() {
               className="bg-red-500/20 border border-red-400/50 rounded-lg p-3"
             >
               <p className="text-red-400 text-sm">{error}</p>
+              {error.includes('Invalid current password') && (
+                <div className="mt-3 pt-3 border-t border-red-400/30">
+                  <p className="text-white/60 text-xs mb-2">
+                    Temporary password not working? Request a new one:
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleRequestNewPassword}
+                    disabled={isRequestingNewPassword}
+                    className="text-yellow-400 hover:text-yellow-300 text-sm underline transition-colors duration-300 disabled:opacity-50"
+                  >
+                    {isRequestingNewPassword ? 'Sending...' : 'Get New Temporary Password'}
+                  </button>
+                </div>
+              )}
             </motion.div>
           )}
 
@@ -211,9 +263,45 @@ export default function ResetPassword() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-white/60 text-sm">
-            Having trouble? Contact support for assistance.
-          </p>
+          <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+            <p className="text-white/60 text-sm mb-3">
+              Don't have a temporary password yet?
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowPasswordRequest(!showPasswordRequest)}
+              className="text-yellow-400 hover:text-yellow-300 text-sm underline transition-colors duration-300"
+            >
+              Request Temporary Password
+            </button>
+            
+            {showPasswordRequest && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-4 pt-4 border-t border-white/10"
+              >
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded text-white placeholder-white/50 text-sm focus:outline-none focus:border-yellow-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleRequestNewPassword}
+                    disabled={isRequestingNewPassword || !email}
+                    className="px-4 py-2 bg-yellow-400 text-black font-medium rounded hover:bg-yellow-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  >
+                    {isRequestingNewPassword ? 'Sending...' : 'Send'}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </div>
         </div>
       </motion.div>
     </div>
