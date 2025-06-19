@@ -159,10 +159,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Hash the new password using existing auth function
       const newPasswordHash = await hashPassword(tempPassword);
       
-      // Get the correct domain from request headers
-      const host = req.get('host') || process.env.REPLIT_DOMAINS || 'localhost:5000';
-      const protocol = req.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https');
-      const loginUrl = `${protocol}://${host}/login`;
+      // Use the current Replit domain directly
+      const loginUrl = `https://6dd548b7-3d3e-4c18-8bb5-95e660a6693d-00-2gtlnmuy5su03.riker.replit.dev/login`;
       
       // Update user's password in database
       await storage.updateUserPassword(user.id, newPasswordHash);

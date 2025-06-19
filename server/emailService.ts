@@ -63,7 +63,7 @@ export async function sendPasswordRecoveryEmail(email: string, message: string):
           </p>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000'}/login" 
+            <a href="https://6dd548b7-3d3e-4c18-8bb5-95e660a6693d-00-2gtlnmuy5su03.riker.replit.dev/login" 
                style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
               Return to Login
             </a>
