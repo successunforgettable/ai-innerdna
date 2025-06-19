@@ -183,6 +183,8 @@ export default function ResetPassword() {
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
               placeholder="Enter your temporary password"
               required
+              autoComplete="current-password"
+              spellCheck={false}
             />
           </div>
 
@@ -273,6 +275,9 @@ export default function ResetPassword() {
 
         <div className="mt-6 text-center">
           <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+            <p className="text-white/60 text-sm mb-3">
+              TEST: Latest temp password for arfeen@arfeenkhan.com: c0so6515TIHC!
+            </p>
             <p className="text-white/60 text-sm mb-3">
               Don't have a temporary password yet?
             </p>
