@@ -35,10 +35,10 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
 }
 
 export async function sendPasswordRecoveryEmail(email: string, message: string): Promise<boolean> {
-  // Use a verified SendGrid sender email
+  // Use the verified SendGrid sender email from environment variable
   const emailParams: EmailParams = {
     to: email,
-    from: 'test@example.com', // Using a basic sender - requires SendGrid verification
+    from: process.env.VERIFIED_SENDER_EMAIL!,
     subject: 'Inner DNA Assessment - Password Recovery',
     text: `Password Recovery Request\n\n${message}\n\nIf you need assistance accessing your account, please contact our support team.`,
     html: `
