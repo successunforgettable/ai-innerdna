@@ -208,6 +208,13 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     try {
       const { email, currentPassword, newPassword } = req.body;
       
+      console.log('Reset password request received:', {
+        email,
+        hasCurrentPassword: !!currentPassword,
+        hasNewPassword: !!newPassword,
+        currentPasswordLength: currentPassword?.length
+      });
+      
       if (!email || !currentPassword || !newPassword) {
         return res.status(400).json({ error: "Email, current password, and new password are required" });
       }
@@ -215,12 +222,24 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       // Get user by email
       const user = await storage.getUserByEmail(email);
       if (!user) {
+        console.log('User not found for email:', email);
         return res.status(400).json({ error: "Invalid email or password" });
       }
 
+      console.log('User found:', {
+        userId: user.id,
+        email: user.email,
+        hasPasswordHash: !!user.passwordHash,
+        passwordHashLength: user.passwordHash?.length
+      });
+
       // Verify current password
+      console.log('Verifying password for user:', email);
       const isValidPassword = await verifyPassword(currentPassword, user.passwordHash || '');
+      console.log('Password verification result:', isValidPassword);
+      
       if (!isValidPassword) {
+        console.log('Password verification failed for user:', email);
         return res.status(400).json({ error: "Invalid current password" });
       }
 

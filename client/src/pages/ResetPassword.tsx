@@ -55,19 +55,26 @@ export default function ResetPassword() {
     }
 
     try {
+      console.log('Sending password reset request:', { 
+        email: email.trim(), 
+        currentPassword: currentPassword.trim(),
+        newPassword: newPassword.trim()
+      });
+
       const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
-          currentPassword,
-          newPassword
+          email: email.trim(),
+          currentPassword: currentPassword.trim(),
+          newPassword: newPassword.trim()
         }),
       });
 
       const data = await response.json();
+      console.log('Password reset response:', data);
 
       if (response.ok) {
         setSuccess('Password updated successfully! You can now login with your new password.');
@@ -81,9 +88,11 @@ export default function ResetPassword() {
           setLocation('/login');
         }, 3000);
       } else {
+        console.error('Password reset failed:', data);
         setError(data.error || 'Failed to reset password');
       }
     } catch (error) {
+      console.error('Network error during password reset:', error);
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
