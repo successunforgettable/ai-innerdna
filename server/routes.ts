@@ -163,10 +163,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const loginUrl = `https://6dd548b7-3d3e-4c18-8bb5-95e660a6693d-00-2gtlnmuy5su03.riker.replit.dev/login`;
       
       // Update user's password in database
-      await storage.updateUserPassword(user.id, newPasswordHash);
+      const updatedUser = await storage.updateUserPassword(user.id, newPasswordHash);
       
       console.log(`Temporary password generated for ${email}: ${tempPassword}`);
       console.log(`Login URL generated: ${loginUrl}`);
+      console.log(`Password hash updated for user ID ${user.id}:`, updatedUser ? 'Success' : 'Failed');
 
       const recoveryMessage = `Password Reset - Inner DNA Assessment
 
