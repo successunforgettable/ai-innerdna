@@ -30,17 +30,23 @@ const useWebSocket = (url) => {
         setConnectionStatus('Error');
       }
     } catch (error) {
-      console.error('Polling error:', error);
+      // Silently handle polling errors to prevent runtime error overlay
       setConnectionStatus('Error');
     }
   };
 
   useEffect(() => {
-    // Initial poll
-    pollNotifications();
+    // Initial poll with error handling
+    pollNotifications().catch(() => {
+      // Silently handle initial poll errors
+    });
     
     // Poll every 2 seconds
-    intervalRef.current = setInterval(pollNotifications, 2000);
+    intervalRef.current = setInterval(() => {
+      pollNotifications().catch(() => {
+        // Silently handle interval poll errors
+      });
+    }, 2000);
 
     return () => {
       if (intervalRef.current) {
