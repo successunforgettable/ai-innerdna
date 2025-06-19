@@ -23,7 +23,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import NotificationBell from './components/Common/NotificationBell';
 import NotificationCenter from './components/Common/NotificationCenter';
 import LoginNotification from './components/Common/LoginNotification';
-import NotificationDebug from './components/Common/NotificationDebug';
+
 
 function AppContent() {
   const { currentScreen, setCurrentScreen } = useAssessment();
@@ -120,7 +120,7 @@ function App() {
               <Router />
               <NotificationCenter />
               <LoginNotification user={null} />
-              <NotificationDebug />
+
             </NotificationProvider>
           </AssessmentProvider>
         </AuthProvider>
