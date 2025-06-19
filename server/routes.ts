@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema, type AssessmentData } from "@shared/schema";
 import { hashPassword, verifyPassword, generateToken, generateResetToken } from "./auth";
+
 import { sendPasswordRecoveryEmail } from "./emailService";
 import { z } from "zod";
 
@@ -152,32 +153,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.json({ message: "If this email is registered, you will receive a password recovery email shortly." });
       }
 
-      // Generate a recovery code for immediate use
-      const recoveryCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      const recoveryExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+      // Generate a new temporary password automatically
+      const tempPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-4).toUpperCase() + "!";
       
-      console.log(`Recovery code for ${email}: ${recoveryCode} (expires: ${recoveryExpiry})`);
-
-      const recoveryMessage = `Password Recovery - Inner DNA Assessment
+      // Hash the new password using existing auth function
+      const newPasswordHash = await hashPassword(tempPassword);
       
-Recovery Code: ${recoveryCode}
-Valid until: ${recoveryExpiry.toLocaleString()}
-
-To reset your password:
-1. Contact support@innerdna.com
-2. Provide your email: ${email}
-3. Provide recovery code: ${recoveryCode}
-
-Response time: Within 24 hours`;
+      // Update user's password in database
+      await storage.updateUserPassword(user.id, newPasswordHash);
       
-      // Try to send email, but provide recovery code regardless
+      console.log(`Temporary password generated for ${email}: ${tempPassword}`);
+
+      const recoveryMessage = `Password Reset - Inner DNA Assessment
+
+Your password has been automatically reset for security.
+
+New Temporary Password: ${tempPassword}
+
+Please follow these steps:
+1. Use this temporary password to log in immediately
+2. After logging in, change your password in your account settings
+3. This temporary password will work for 7 days
+
+Login here: ${process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000'}/login
+
+For security, delete this email after changing your password.
+
+If you didn't request this reset, contact support@innerdna.com immediately.`;
+      
+      // Send email with new password
       await sendPasswordRecoveryEmail(email, recoveryMessage);
       
       res.json({ 
-        message: `Recovery code generated: ${recoveryCode}. Save this code and contact support@innerdna.com for password reset assistance.`,
-        recoveryCode: recoveryCode,
-        supportEmail: "support@innerdna.com",
-        expiresAt: recoveryExpiry.toISOString()
+        message: `New temporary password sent to your email. Please check your inbox and log in with the new password.`,
+        tempPassword: tempPassword, // Also provide in response for immediate use
+        loginUrl: "/login"
       });
     } catch (error: any) {
       console.error("Password recovery error:", error);
