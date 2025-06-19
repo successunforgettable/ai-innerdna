@@ -55,12 +55,6 @@ export default function ResetPassword() {
     }
 
     try {
-      console.log('Sending password reset request:', { 
-        email: email.trim(), 
-        currentPassword: currentPassword.trim(),
-        newPassword: newPassword.trim()
-      });
-
       const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: {
@@ -74,7 +68,6 @@ export default function ResetPassword() {
       });
 
       const data = await response.json();
-      console.log('Password reset response:', data);
 
       if (response.ok) {
         setSuccess('Password updated successfully! You can now login with your new password.');
@@ -88,11 +81,9 @@ export default function ResetPassword() {
           setLocation('/login');
         }, 3000);
       } else {
-        console.error('Password reset failed:', data);
         setError(data.error || 'Failed to reset password');
       }
     } catch (error) {
-      console.error('Network error during password reset:', error);
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
@@ -275,9 +266,6 @@ export default function ResetPassword() {
 
         <div className="mt-6 text-center">
           <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-            <p className="text-white/60 text-sm mb-3">
-              TEST: Latest temp password for arfeen@arfeenkhan.com: c0so6515TIHC!
-            </p>
             <p className="text-white/60 text-sm mb-3">
               Don't have a temporary password yet?
             </p>
