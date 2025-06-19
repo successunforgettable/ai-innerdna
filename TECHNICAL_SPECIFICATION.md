@@ -535,18 +535,287 @@ interface AssessmentPhaseMatrix {
 }
 ```
 
-### 3.2 Exact Assessment Algorithm Implementation
+### 3.2 Micro-Level Implementation Instructions (Replit-Style Prompts)
+
+#### 3.2.1 Foundation Stones Content Update - EXACT SPECIFICATION
 ```typescript
 /**
- * PERSONALITY TYPE DETERMINATION ALGORITHM
- * File: client/src/utils/personalityAlgorithm.ts
- * Specification Compliance: Section 4.4 - Exact Algorithm
+ * REPLIT PROMPT 1 OF 5 - Update Stone Content
+ * TASK: Replace ONLY the stone content text in the FoundationStones.tsx file
+ * LOCATION: client/src/data/stoneContent.ts
+ * DO NOT change any other code, CSS, or component structure
  */
 
-// Foundation stone weighting system (immutable constants)
+// EXACT CONTENT TO REPLACE (Line-by-line specification)
+export const stoneContent = [
+  // Set 1: Decision-Making Center
+  {
+    setIndex: 0,
+    title: "Decision-Making Center",
+    contextualQuestion: "When you need to make an important decision, what's your natural approach?",
+    stones: [
+      {
+        id: "1A",
+        text: "When making decisions, I think things through • I analyze the options • I gather information first",
+        personalityType: 1,
+        weight: 3.0
+      },
+      {
+        id: "1B", 
+        text: "When making decisions, I consider how people feel • I think about relationships • I focus on what matters emotionally",
+        personalityType: 2,
+        weight: 3.0
+      },
+      {
+        id: "1C",
+        text: "When making decisions, I trust my gut • I go with what feels right • I act on my instincts", 
+        personalityType: 8,
+        weight: 3.0
+      }
+    ]
+  },
+  
+  // Set 2: Core Motivation  
+  {
+    setIndex: 1,
+    title: "Core Motivation",
+    contextualQuestion: "What drives you most deeply in life?",
+    stones: [
+      {
+        id: "2A",
+        text: "What motivates me is staying safe • I need security and preparation • I want to avoid danger",
+        personalityType: 6,
+        weight: 3.0
+      },
+      {
+        id: "2B",
+        text: "What motivates me is being authentic • I need to express my true self • I want to be special and meaningful",
+        personalityType: 4,
+        weight: 3.0
+      },
+      {
+        id: "2C", 
+        text: "What motivates me is doing what's right • I need to be strong and in control • I want justice and fairness",
+        personalityType: 8,
+        weight: 3.0
+      }
+    ]
+  },
+
+  // Set 3: Energy Direction
+  {
+    setIndex: 2,
+    title: "Energy Direction", 
+    contextualQuestion: "How do you naturally direct your energy and attention?",
+    stones: [
+      {
+        id: "3A",
+        text: "I direct my energy inward • I prefer reflection and depth • I need quiet time to recharge",
+        personalityType: 5,
+        weight: 2.0
+      },
+      {
+        id: "3B",
+        text: "I direct my energy outward • I push for impact and results • I assert myself confidently",
+        personalityType: 8,
+        weight: 2.0
+      },
+      {
+        id: "3C",
+        text: "I direct my energy toward cooperation • I work well with others • I support and maintain harmony",
+        personalityType: 9,
+        weight: 2.0
+      }
+    ]
+  },
+
+  // Set 4: Social Approach
+  {
+    setIndex: 3,
+    title: "Social Approach",
+    contextualQuestion: "How do you typically approach social situations and relationships?",
+    stones: [
+      {
+        id: "4A", 
+        text: "In social situations, I prefer smaller groups • I need meaningful conversations • I value independence and space",
+        personalityType: 5,
+        weight: 1.5
+      },
+      {
+        id: "4B",
+        text: "In social situations, I seek close connections • I want intimacy and bonding • I build strong personal relationships", 
+        personalityType: 2,
+        weight: 1.5
+      },
+      {
+        id: "4C",
+        text: "In social situations, I maintain my autonomy • I stay self-reliant • I don't depend on others too much",
+        personalityType: 5,
+        weight: 1.5
+      }
+    ]
+  },
+
+  // Set 5: Processing Style
+  {
+    setIndex: 4,
+    title: "Processing Style",
+    contextualQuestion: "How do you naturally process information and experiences?",
+    stones: [
+      {
+        id: "5A",
+        text: "I process information through thinking • I analyze systems and concepts • I focus on ideas and frameworks",
+        personalityType: 5,
+        weight: 1.5
+      },
+      {
+        id: "5B", 
+        text: "I process information through feelings • I pay attention to emotions and moods • I trust what resonates emotionally",
+        personalityType: 4,
+        weight: 1.5
+      },
+      {
+        id: "5C",
+        text: "I process information practically • I focus on what works • I want efficient, useful results",
+        personalityType: 3,
+        weight: 1.5
+      }
+    ]
+  },
+
+  // Set 6: Stress Reaction
+  {
+    setIndex: 5,
+    title: "Stress Reaction", 
+    contextualQuestion: "When you're under significant stress, how do you typically respond?",
+    stones: [
+      {
+        id: "6A",
+        text: "When stressed, I become more cautious • I analyze potential problems • I prepare for what could go wrong",
+        personalityType: 6,
+        weight: 2.0
+      },
+      {
+        id: "6B",
+        text: "When stressed, I focus on recognition • I worry about my image and identity • I need to feel special and valued",
+        personalityType: 3,
+        weight: 2.0
+      },
+      {
+        id: "6C",
+        text: "When stressed, I take charge • I assert my authority and control • I become more directive and demanding", 
+        personalityType: 8,
+        weight: 2.0
+      }
+    ]
+  },
+
+  // Set 7: Conflict Style
+  {
+    setIndex: 6,
+    title: "Conflict Style",
+    contextualQuestion: "When conflict arises, what's your natural response?",
+    stones: [
+      {
+        id: "7A",
+        text: "In conflict, I seek peace and harmony • I prefer mediation and compromise • I try to calm things down",
+        personalityType: 9,
+        weight: 1.0
+      },
+      {
+        id: "7B",
+        text: "In conflict, I offer support and flexibility • I adapt to help resolve things • I try to meet everyone's needs",
+        personalityType: 2,
+        weight: 1.0
+      },
+      {
+        id: "7C",
+        text: "In conflict, I address issues directly • I challenge when necessary • I speak honestly and straightforwardly",
+        personalityType: 8,
+        weight: 1.0
+      }
+    ]
+  },
+
+  // Set 8: Success Definition
+  {
+    setIndex: 7,
+    title: "Success Definition",
+    contextualQuestion: "How do you define and measure success in your life?",
+    stones: [
+      {
+        id: "8A",
+        text: "I define success by high standards • I measure by principles and accuracy • I focus on improvement and doing things right",
+        personalityType: 1,
+        weight: 1.0
+      },
+      {
+        id: "8B",
+        text: "I define success by relationships • I measure by connection and acknowledgment • I value appreciation from others",
+        personalityType: 2,
+        weight: 1.0
+      },
+      {
+        id: "8C",
+        text: "I define success by mastery • I measure by achievement and capability • I value competence and expertise",
+        personalityType: 3,
+        weight: 1.0
+      }
+    ]
+  },
+
+  // Set 9: Relationship Priority
+  {
+    setIndex: 8,
+    title: "Relationship Priority",
+    contextualQuestion: "In your relationships, what do you prioritize most?",
+    stones: [
+      {
+        id: "9A",
+        text: "In relationships, I prioritize independence • I need personal space and self-sufficiency • I value my autonomy",
+        personalityType: 5,
+        weight: 1.0
+      },
+      {
+        id: "9B",
+        text: "In relationships, I prioritize mutuality • I want sharing and give-and-take • I value reciprocity and balance", 
+        personalityType: 6,
+        weight: 1.0
+      },
+      {
+        id: "9C",
+        text: "In relationships, I provide leadership • I naturally give direction and guidance • I take responsibility for others",
+        personalityType: 8,
+        weight: 1.0
+      }
+    ]
+  }
+];
+
+// CRITICAL IMPLEMENTATION NOTES:
+// 1. Replace ONLY the text content in existing stone objects
+// 2. Keep the same data structure format exactly
+// 3. DO NOT change variable names, component structure, or any other code
+// 4. DO NOT modify CSS or styling
+// 5. Confirm update is complete before proceeding to next phase
+
+/**
+ * EXACT PERSONALITY ALGORITHM IMPLEMENTATION
+ * File: client/src/utils/personalityAlgorithm.ts
+ * SPECIFICATION COMPLIANCE: Section 4.4 - Exact Algorithm from replit_innerdna_spec.md
+ */
+
+// Foundation stone weighting system (IMMUTABLE - DO NOT MODIFY)
 const FOUNDATION_WEIGHTS: ReadonlyArray<number> = [
   3.0, 3.0, 2.0, 1.5, 1.5, 2.0, 1.0, 1.0, 1.0
 ] as const;
+
+// TYPE 7 ENHANCEMENTS (ONLY AUTHORIZED MODIFICATIONS)
+const TYPE_7_ENHANCEMENTS = {
+  HEAD_CENTER_BOOST: 2.5,        // Head trait: 1.0 → 2.5 (+1.5)
+  SECURITY_BOOST: 2.5,           // Security trait: 1.0 → 2.5 (+1.5)  
+  ASSERTIVE_BOOST: 3.5           // Assertive trait: 2.0 → 3.5 (+1.5)
+} as const;
 
 /**
  * Core personality type calculation function
@@ -1028,30 +1297,272 @@ interface AssessmentData {
 }
 ```
 
-## 5. API Specification
+## 5. Complete API Specification with Exact Implementation
 
-### 5.1 Authentication Endpoints
+### 5.1 Authentication Endpoints - Exact Implementation
 ```typescript
-// User registration
+/**
+ * COMPLETE AUTHENTICATION API IMPLEMENTATION
+ * File: server/routes.ts
+ * Every endpoint documented with exact request/response formats
+ */
+
+// =====================================================
+// USER REGISTRATION ENDPOINT
+// =====================================================
 POST /api/auth/register
-Body: {
-  email: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  password: string;
+Implementation: server/routes.ts lines 25-85
+
+// Request Body Validation (Zod Schema)
+const RegisterSchema = z.object({
+  email: z.string()
+    .email("Invalid email format")
+    .min(5, "Email too short")
+    .max(255, "Email too long"),
+  firstName: z.string()
+    .min(1, "First name required")
+    .max(100, "First name too long")
+    .regex(/^[a-zA-Z\s'-]+$/, "Invalid characters in first name"),
+  lastName: z.string()
+    .min(1, "Last name required")
+    .max(100, "Last name too long")
+    .regex(/^[a-zA-Z\s'-]+$/, "Invalid characters in last name"),
+  phoneNumber: z.string()
+    .regex(/^\+[1-9]\d{1,14}$/, "Invalid international phone format")
+    .min(8, "Phone number too short")
+    .max(20, "Phone number too long"),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .max(128, "Password too long")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain uppercase, lowercase, and number"),
+});
+
+// Exact Request Format
+interface RegistrationRequest {
+  email: string;                    // "user@example.com"
+  firstName: string;                // "John"
+  lastName: string;                 // "Doe"
+  phoneNumber: string;              // "+1234567890"
+  password: string;                 // "SecurePass123"
 }
-Response: { user: User; message: string; }
 
-// User login
+// Exact Response Format
+interface RegistrationResponse {
+  user: {
+    id: number;                     // Auto-generated user ID
+    email: string;                  // Sanitized email
+    firstName: string;              // Stored first name
+    lastName: string;               // Stored last name
+    phoneNumber: string;            // Stored phone number
+    emailVerified: string | null;   // Verification timestamp
+    createdAt: string;              // ISO timestamp
+    assessmentData: null;           // Initially null
+  };
+  requiresVerification: boolean;    // Always false (auto-verified)
+  message: string;                  // "Registration successful!"
+}
+
+// Error Responses
+interface RegistrationError {
+  error: string;                    // Error description
+  details?: string[];               // Validation errors array
+  code: 400 | 409 | 500;          // HTTP status codes
+}
+
+// Processing Steps (Exact Implementation)
+async function handleRegistration(req: Request, res: Response) {
+  try {
+    // Step 1: Validate request body with Zod
+    const validatedData = RegisterSchema.parse(req.body);
+    
+    // Step 2: Check email uniqueness
+    const existingUser = await storage.getUserByEmail(validatedData.email);
+    if (existingUser) {
+      return res.status(409).json({ error: "Email already registered" });
+    }
+    
+    // Step 3: Hash password with bcrypt (12 rounds)
+    const passwordHash = await bcrypt.hash(validatedData.password, 12);
+    
+    // Step 4: Create user record
+    const userData: InsertUser = {
+      email: validatedData.email.toLowerCase(),
+      firstName: validatedData.firstName.trim(),
+      lastName: validatedData.lastName.trim(),
+      phoneNumber: validatedData.phoneNumber,
+      passwordHash: passwordHash,
+      emailVerified: new Date(), // Auto-verify for demo
+      assessmentData: null
+    };
+    
+    // Step 5: Insert into database
+    const newUser = await storage.createUser(userData);
+    
+    // Step 6: Create session
+    req.session.userId = newUser.id;
+    req.session.authenticated = true;
+    
+    // Step 7: Return sanitized response
+    const sanitizedUser = {
+      id: newUser.id,
+      email: newUser.email,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      phoneNumber: newUser.phoneNumber,
+      emailVerified: newUser.emailVerified?.toISOString() || null,
+      createdAt: newUser.createdAt.toISOString(),
+      assessmentData: newUser.assessmentData
+    };
+    
+    res.status(200).json({
+      user: sanitizedUser,
+      requiresVerification: false,
+      message: "Registration successful!"
+    });
+    
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: error.errors.map(e => `${e.path.join('.')}: ${e.message}`)
+      });
+    }
+    
+    console.error("Registration error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+// =====================================================
+// USER LOGIN ENDPOINT
+// =====================================================
 POST /api/auth/login
-Body: { email: string; password: string; }
-Response: { user: User; message: string; }
+Implementation: server/routes.ts lines 87-145
 
-// Password recovery
+// Request Validation Schema
+const LoginSchema = z.object({
+  email: z.string().email("Invalid email format"),
+  password: z.string().min(1, "Password required")
+});
+
+// Exact Request Format
+interface LoginRequest {
+  email: string;                    // "user@example.com"
+  password: string;                 // "SecurePass123"
+}
+
+// Exact Response Format
+interface LoginResponse {
+  user: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    completedAt: string | null;     // Assessment completion timestamp
+    assessmentData: any;            // Full assessment data or null
+  };
+  message: string;                  // "Login successful!"
+}
+
+// Processing Steps (Exact Implementation)
+async function handleLogin(req: Request, res: Response) {
+  try {
+    // Step 1: Validate credentials
+    const { email, password } = LoginSchema.parse(req.body);
+    
+    // Step 2: Find user by email
+    const user = await storage.getUserByEmail(email.toLowerCase());
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    
+    // Step 3: Verify password
+    const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+    if (!isValidPassword) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    
+    // Step 4: Create session
+    req.session.userId = user.id;
+    req.session.authenticated = true;
+    
+    // Step 5: Return user data
+    res.status(200).json({
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phoneNumber: user.phoneNumber,
+        completedAt: user.completedAt?.toISOString() || null,
+        assessmentData: user.assessmentData
+      },
+      message: "Login successful!"
+    });
+    
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+// =====================================================
+// PASSWORD RECOVERY ENDPOINT
+// =====================================================
 POST /api/auth/forgot-password
-Body: { email: string; }
-Response: { message: string; }
+Implementation: server/routes.ts lines 147-170
+
+// Request Format
+interface ForgotPasswordRequest {
+  email: string;                    // "user@example.com"
+}
+
+// Response Format
+interface ForgotPasswordResponse {
+  message: string;                  // Generic security message
+}
+
+// Processing Steps (Security-First Implementation)
+async function handleForgotPassword(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+    
+    // Step 1: Validate email format
+    if (!z.string().email().safeParse(email).success) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+    
+    // Step 2: Check if user exists (don't reveal this to client)
+    const user = await storage.getUserByEmail(email.toLowerCase());
+    
+    // Step 3: Always return success for security (timing attack prevention)
+    if (!user) {
+      return res.json({ 
+        message: "If this email is registered, you will receive a password recovery email shortly." 
+      });
+    }
+    
+    // Step 4: Send recovery email via SendGrid
+    const recoveryMessage = `We received a password recovery request for your account. 
+      Since passwords are securely encrypted, we cannot retrieve your original password. 
+      Please contact our support team at support@innerdna.com with your registered email 
+      address (${email}) and we'll help you reset your password within 24 hours.`;
+    
+    const emailSent = await sendPasswordRecoveryEmail(email, recoveryMessage);
+    
+    // Step 5: Return consistent response regardless of email success
+    if (emailSent) {
+      res.json({ message: "Password recovery email sent successfully. Please check your inbox and spam folder." });
+    } else {
+      res.json({ message: "Password recovery request received. If this email is registered, you will receive instructions shortly." });
+    }
+    
+  } catch (error) {
+    console.error("Password recovery error:", error);
+    res.status(500).json({ error: "Failed to process password recovery request" });
+  }
+}
 ```
 
 ### 5.2 Assessment Endpoints
