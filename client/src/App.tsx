@@ -17,6 +17,7 @@ import AdminLogin from "@/pages/AdminLogin";
 import AlgorithmTest from "@/pages/AlgorithmTest";
 import Login from "@/pages/Login";
 import Reports from "@/pages/Reports";
+import ResetPassword from "@/pages/ResetPassword";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 import { NotificationProvider } from './context/NotificationContext';
@@ -104,6 +105,7 @@ function Router() {
       <Route path="/algorithm-test" component={AppContent} />
       <Route path="/login" component={Login} />
       <Route path="/reports" component={Reports} />
+      <Route path="/reset-password" component={ResetPassword} />
       <Route component={NotFound} />
     </Switch>
   );

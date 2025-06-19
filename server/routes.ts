@@ -169,20 +169,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log(`Login URL generated: ${loginUrl}`);
       console.log(`Password hash updated for user ID ${user.id}:`, updatedUser ? 'Success' : 'Failed');
 
+      const resetPasswordUrl = `https://6dd548b7-3d3e-4c18-8bb5-95e660a6693d-00-2gtlnmuy5su03.riker.replit.dev/reset-password?email=${encodeURIComponent(email)}`;
+      
       const recoveryMessage = `Password Reset - Inner DNA Assessment
 
 Your password has been automatically reset for security.
 
 New Temporary Password: ${tempPassword}
 
-Please follow these steps:
-1. Use this temporary password to log in immediately
-2. After logging in, change your password in your account settings
-3. This temporary password will work for 7 days
+Choose one of these options:
 
-Login here: ${loginUrl}
+OPTION 1 - Set Permanent Password (Recommended):
+${resetPasswordUrl}
 
-For security, delete this email after changing your password.
+OPTION 2 - Login with Temporary Password:
+${loginUrl}
+
+This temporary password will work for 7 days. For security, set a permanent password as soon as possible.
 
 If you didn't request this reset, contact support@innerdna.com immediately.`;
       
@@ -197,6 +200,57 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error: any) {
       console.error("Password recovery error:", error);
       res.status(500).json({ error: "Failed to process password recovery request" });
+    }
+  });
+
+  // Reset password endpoint (change temporary to permanent)
+  app.post("/api/auth/reset-password", async (req, res) => {
+    try {
+      const { email, currentPassword, newPassword } = req.body;
+      
+      if (!email || !currentPassword || !newPassword) {
+        return res.status(400).json({ error: "Email, current password, and new password are required" });
+      }
+
+      // Get user by email
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(400).json({ error: "Invalid email or password" });
+      }
+
+      // Verify current password
+      const isValidPassword = await verifyPassword(currentPassword, user.passwordHash || '');
+      if (!isValidPassword) {
+        return res.status(400).json({ error: "Invalid current password" });
+      }
+
+      // Validate new password
+      if (newPassword.length < 6) {
+        return res.status(400).json({ error: "New password must be at least 6 characters long" });
+      }
+
+      if (newPassword === currentPassword) {
+        return res.status(400).json({ error: "New password must be different from current password" });
+      }
+
+      // Hash new password
+      const newPasswordHash = await hashPassword(newPassword);
+      
+      // Update user's password in database
+      const updatedUser = await storage.updateUserPassword(user.id, newPasswordHash);
+      
+      if (!updatedUser) {
+        return res.status(500).json({ error: "Failed to update password" });
+      }
+
+      console.log(`Password successfully updated for user: ${email}`);
+      
+      res.json({
+        message: "Password updated successfully. You can now log in with your new password."
+      });
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      res.status(500).json({ error: "Failed to reset password" });
     }
   });
 
