@@ -175,7 +175,7 @@ Please follow these steps:
 2. After logging in, change your password in your account settings
 3. This temporary password will work for 7 days
 
-Login here: ${process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000'}/login
+Login here: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/login
 
 For security, delete this email after changing your password.
 
