@@ -162,7 +162,9 @@ const Results = () => {
                   Your influence: {influenceNumber}
                 </p>
                 <div className="text-lg text-green-400 results-confidence">
-                  High Confidence ({Math.round((confidence || 0) * 100)}%)
+                  High Confidence ({(confidence || 0) > 1 
+                    ? Math.round(confidence || 0) 
+                    : Math.round((confidence || 0) * 100)}%)
                 </div>
                 <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-6"></div>
               </div>

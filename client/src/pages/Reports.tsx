@@ -322,7 +322,9 @@ export default function Reports() {
                 Your primary personality influence
               </p>
               <p className="text-lg text-green-400 results-confidence">
-                Confidence: {Math.round((assessmentData?.result?.confidence || 0) * 100)}%
+                Confidence: {assessmentData?.result?.confidence > 1 
+                  ? Math.round(assessmentData.result.confidence) 
+                  : Math.round((assessmentData?.result?.confidence || 0) * 100)}%
               </p>
             </div>
 
