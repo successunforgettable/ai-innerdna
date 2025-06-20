@@ -7,7 +7,7 @@ import { hashPassword, verifyPassword, generateToken, generateResetToken } from 
 
 import { sendPasswordRecoveryEmail } from "./emailService";
 import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
-import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_fixed";
+// Custom report generator will be imported dynamically
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -414,9 +414,10 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         return res.status(400).json({ error: "Assessment data with primary type is required" });
       }
 
-      // Use assessment data directly since it's already in the correct format
-      const reportData = await generateCustomReport(assessmentData);
-      const htmlReport = generateCustomReportHTML(reportData);
+      // Use clean custom report generator
+      const { generateCustomReport: generateCleanReport, generateCustomReportHTML: generateCleanHTML } = require('./customReportGenerator_clean');
+      const reportData = await generateCleanReport(assessmentData);
+      const htmlReport = generateCleanHTML(reportData);
       
       res.setHeader('Content-Type', 'text/html');
       res.send(htmlReport);
