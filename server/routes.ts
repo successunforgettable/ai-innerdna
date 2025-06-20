@@ -7,7 +7,7 @@ import { hashPassword, verifyPassword, generateToken, generateResetToken } from 
 
 import { sendPasswordRecoveryEmail } from "./emailService";
 import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
-import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator";
+import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_fixed";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
