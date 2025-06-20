@@ -408,27 +408,52 @@ const Results = () => {
                   </p>
                   <button
                     onClick={async () => {
+                      const button = document.querySelector('[data-hero-report-btn]') as HTMLButtonElement;
+                      const originalText = button?.textContent || 'Generate Hero\'s Journey Report';
+                      
                       try {
+                        if (button) {
+                          button.textContent = 'Generating Report...';
+                          button.disabled = true;
+                        }
+                        
+                        console.log('Generating custom report with data:', assessmentData);
+                        
                         const response = await fetch('/api/generate-custom-report', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           body: JSON.stringify({ assessmentData })
                         });
                         
+                        console.log('Response status:', response.status);
+                        
                         if (response.ok) {
                           const htmlContent = await response.text();
+                          console.log('Report generated, length:', htmlContent.length);
+                          
                           const newWindow = window.open('', '_blank');
                           if (newWindow) {
                             newWindow.document.write(htmlContent);
                             newWindow.document.close();
+                            console.log('Report opened in new window');
+                          } else {
+                            alert('Please allow popups to view your personalized report');
                           }
                         } else {
-                          console.error('Failed to generate custom report');
+                          const errorText = await response.text();
+                          console.error('Failed to generate custom report:', errorText);
+                          alert(`Failed to generate report: ${errorText}`);
                         }
                       } catch (error) {
                         console.error('Error generating custom report:', error);
+                        alert(`Error generating report: ${error.message}`);
+                      } finally {
+                        if (button) {
+                          button.textContent = originalText;
+                          button.disabled = false;
+                        }
                       }
-                    }}
+                    }
                     className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-purple-900 font-bold text-lg rounded-full hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     <i className="fas fa-magic mr-3"></i>

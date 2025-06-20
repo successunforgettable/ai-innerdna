@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import path from "path";
 import { storage } from "./storage";
 import { insertUserSchema, type AssessmentData } from "@shared/schema";
 import { hashPassword, verifyPassword, generateToken, generateResetToken } from "./auth";
@@ -449,6 +450,11 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       console.error('Error generating custom report data:', error);
       res.status(500).json({ error: "Failed to generate custom report data" });
     }
+  });
+
+  // Serve static test files
+  app.get("/ai-report-test.html", (req, res) => {
+    res.sendFile(path.join(process.cwd(), "ai-report-test.html"));
   });
 
   const httpServer = createServer(app);
