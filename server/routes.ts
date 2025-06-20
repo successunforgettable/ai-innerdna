@@ -6,6 +6,7 @@ import { hashPassword, verifyPassword, generateToken, generateResetToken } from 
 
 import { sendPasswordRecoveryEmail } from "./emailService";
 import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
+import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -400,6 +401,42 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error) {
       console.error('Error generating quick insight:', error);
       res.status(500).json({ error: "Failed to generate insight" });
+    }
+  });
+
+  // Custom Hero's Journey Report endpoints
+  app.post("/api/generate-custom-report", async (req, res) => {
+    try {
+      const { assessmentData } = req.body;
+      
+      if (!assessmentData || !assessmentData.primaryType) {
+        return res.status(400).json({ error: "Assessment data with primary type is required" });
+      }
+
+      const reportData = await generateCustomReport(assessmentData);
+      const htmlReport = generateCustomReportHTML(reportData);
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlReport);
+    } catch (error) {
+      console.error('Error generating custom report:', error);
+      res.status(500).json({ error: "Failed to generate custom report" });
+    }
+  });
+
+  app.post("/api/generate-custom-report-data", async (req, res) => {
+    try {
+      const { assessmentData } = req.body;
+      
+      if (!assessmentData || !assessmentData.primaryType) {
+        return res.status(400).json({ error: "Assessment data with primary type is required" });
+      }
+
+      const reportData = await generateCustomReport(assessmentData);
+      res.json(reportData);
+    } catch (error) {
+      console.error('Error generating custom report data:', error);
+      res.status(500).json({ error: "Failed to generate custom report data" });
     }
   });
 

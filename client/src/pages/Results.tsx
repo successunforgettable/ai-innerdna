@@ -396,6 +396,47 @@ const Results = () => {
                 </div>
               </div>
 
+              {/* Hero's Journey Report Button */}
+              <div className="mb-12">
+                <div className="bg-gradient-to-r from-gold/20 to-cyan/20 rounded-lg p-6 border border-gold/30 text-center">
+                  <h3 className="text-2xl font-bold text-yellow-400 mb-4">
+                    Your Complete Transformation Journey
+                  </h3>
+                  <p className="text-white/90 mb-6 max-w-2xl mx-auto">
+                    Experience your personalized hero's journey report with stunning visuals, 
+                    interactive elements, and AI-powered insights based on your unique assessment results.
+                  </p>
+                  <button
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/generate-custom-report', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ assessmentData })
+                        });
+                        
+                        if (response.ok) {
+                          const htmlContent = await response.text();
+                          const newWindow = window.open('', '_blank');
+                          if (newWindow) {
+                            newWindow.document.write(htmlContent);
+                            newWindow.document.close();
+                          }
+                        } else {
+                          console.error('Failed to generate custom report');
+                        }
+                      } catch (error) {
+                        console.error('Error generating custom report:', error);
+                      }
+                    }}
+                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-purple-900 font-bold text-lg rounded-full hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    <i className="fas fa-magic mr-3"></i>
+                    Generate Hero's Journey Report
+                  </button>
+                </div>
+              </div>
+
               {/* AI-Powered Insights Section */}
               <AIReportSection assessmentData={assessmentData} />
             </>

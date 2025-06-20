@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Challenger 9 Transformation Journey - Your Hero's Path to Heart-Brain Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .journey-stage {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .stage-number {
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .stage-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--light-purple-text);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 4rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+        }
+
+        .neural-network {
+            width: 100%;
+            height: 300px;
+            margin: 3rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+        }
+
+        .wheel-of-life {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .life-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .before-section {
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--orange);
+        }
+
+        .after-section {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--cyan);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 4rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gold), var(--cyan));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-left: 60%;
+            width: 35%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 5%;
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-content {
+                margin-left: 10% !important;
+                width: 80% !important;
+            }
+        }
+
+        .brain-heart-visual {
+            width: 100%;
+            height: 400px;
+            margin: 3rem 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The Challenger 9<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Your Hero's Path to Heart-Brain Mastery</p>
+            <a href="#stage1" class="cta-button">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Stage 1: The Ordinary World -->
+    <section class="journey-stage" id="stage1">
+        <div class="container">
+            <div class="stage-number">01</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordinary World</h2>
+                <p class="stage-description">You are a <span class="highlight-text">Challenger 9</span> - wired for control, strength, and protection. You step forward when others step back. But this is your current reality...</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">60%</span>
+                        <span class="stat-label">Average State<br>Productive but Reactive</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">40%</span>
+                        <span class="stat-label">Below Average State<br>Frustrated & Exhausted</span>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-crown"></i></div>
+                        <h3 class="card-title">Taking Charge</h3>
+                        <p>You lead from the front, but secretly feel exhausted by the constant responsibility.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="card-title">Being the Strong One</h3>
+                        <p>Others rely on your strength, but you rarely feel supported or understood.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h3 class="card-title">Wanting Peace</h3>
+                        <p>Your 9 influence craves harmony, yet you seem to attract conflict everywhere.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <h3 class="card-title">Push and Pause</h3>
+                        <p>Inner tension between taking action and holding back has built walls around your heart.</p>
+                    </div>
+                </div>
+
+                <div class="wheel-of-life">
+                    <div class="life-area">
+                        <h4><i class="fas fa-briefcase" style="color: var(--gold);"></i> Career</h4>
+                        <p>You are respected but not fulfilled. People follow your strength, but you don't feel seen.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-dollar-sign" style="color: var(--gold);"></i> Finances</h4>
+                        <p>You're a self-reliant provider, but the pressure of money feels constant. You hoard or overspend as control responses.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 35%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-heart" style="color: var(--gold);"></i> Relationships</h4>
+                        <p>You lead, but you don't feel emotionally safe. Trust is rare. Intimacy feels threatening.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-brain" style="color: var(--gold);"></i> Mental State</h4>
+                        <p>Your mind is constantly alert — but tired. You rarely feel peace.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-dumbbell" style="color: var(--gold);"></i> Physical Health</h4>
+                        <p>Chronic tension, tightness, sleep issues. Power mode never turns off.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-users" style="color: var(--gold);"></i> Social Life</h4>
+                        <p>You connect selectively. Most relationships feel like burdens or transactions.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 35%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-home" style="color: var(--gold);"></i> Environment</h4>
+                        <p>You control your space, but it doesn't feel nourishing. There's order, not energy.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-seedling" style="color: var(--gold);"></i> Personal Growth</h4>
+                        <p>You read or listen — but rarely feel shifted. Insight doesn't lead to transformation.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
+        <div class="container">
+            <div class="stage-number">02</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Call to Adventure</h2>
+                <p class="stage-description">A critical discovery: Your emotional patterns suggest <span class="danger-indicator">low coherence</span> between your cognitive mind and the 40,000+ sensory neurons in your heart.</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Brain -->
+                        <g transform="translate(100, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#FF6B35" stroke-width="3" opacity="0.7"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.5"/>
+                            <circle cx="80" cy="80" r="30" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.3"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FF6B35" font-size="14" font-weight="bold">BRAIN</text>
+                            <!-- Disconnected signals -->
+                            <line x1="150" y1="80" x2="200" y2="80" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.5">
+                                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="150" y1="60" x2="200" y2="60" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.3">
+                                <animate attributeName="opacity" values="0.1;0.6;0.1" dur="2.5s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="150" y1="100" x2="200" y2="100" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.4">
+                                <animate attributeName="opacity" values="0.1;0.7;0.1" dur="1.8s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+                        
+                        <!-- Heart -->
+                        <g transform="translate(350, 150)">
+                            <path d="M80,60 C80,40 60,20 40,20 C20,20 0,40 0,60 C0,80 40,120 80,140 C120,120 160,80 160,60 C160,40 140,20 120,20 C100,20 80,40 80,60 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="3" opacity="0.7"/>
+                            <path d="M80,70 C80,55 65,40 50,40 C35,40 20,55 20,70 C20,85 50,115 80,130 C110,115 140,85 140,70 C140,55 125,40 110,40 C95,40 80,55 80,70 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="2" opacity="0.5"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">HEART</text>
+                        </g>
+                        
+                        <!-- Disconnect indicator -->
+                        <text x="300" y="200" text-anchor="middle" fill="#FF6B35" font-size="24" font-weight="bold" opacity="0.8">
+                            DISCONNECT DETECTED
+                            <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-exclamation-triangle" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Tense Relationships</h3>
+                        <p>Your defensive patterns create distance in the connections you crave most.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-battery-empty" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Low Emotional Bandwidth</h3>
+                        <p>You're running on empty, unable to access the full spectrum of your emotional intelligence.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-tornado" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Chronic Restlessness</h3>
+                        <p>Despite your achievements, you feel constantly unsettled and irritated.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gavel" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Control-Based Decisions</h3>
+                        <p>You make choices from power and control rather than intuition and wisdom.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"I realized I was leading from survival mode, not strength. My heart and brain were completely disconnected."</p>
+                    <p class="testimonial-author">- Sarah M., Challenger 9 Graduate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 3: Refusal of the Call -->
+    <section class="journey-stage" id="stage3">
+        <div class="container">
+            <div class="stage-number">03</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Refusal of the Call</h2>
+                <p class="stage-description">Your <span class="highlight-text">Self-Preservation</span> subtype makes you crave stability but fear vulnerability. This is why most Challengers stay stuck...</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-lock" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Mistrust of Help</h3>
+                        <p>You've learned to handle everything alone, making vulnerability feel like weakness.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-fire" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Quiet Burnout</h3>
+                        <p>You power through exhaustion, never admitting when you're running on empty.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-shield" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Survival Mode</h3>
+                        <p>Your nervous system is locked in protection, blocking heart-brain activation.</p>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-times-circle"></i> The Familiar Struggle</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Relying on power over connection</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Emphasizing control over flow</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Choosing conflict over resourcefulness</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Living in protect mode, not growth mode</li>
+                        </ul>
+                    </div>
+                    <div class="after-section">
+                        <h3><i class="fas fa-lightbulb"></i> The Invitation</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Trust inner calm over external control</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Receive help as power, not weakness</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Build relationships where you can just be</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Reconnect with your deepest feelings</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        <span class="danger-indicator">This is where most people stop.</span><br>
+                        Insight without integration leads to more frustration.
+                    </p>
+                    <p style="font-size: 1.3rem; color: var(--gold);">
+                        But you're different. You're ready for transformation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 4: Meeting the Mentor -->
+    <section class="journey-stage" id="stage4">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Meeting the Mentor</h2>
+                <p class="stage-description">Enter <span class="highlight-text">"The Incredible You"</span> - your guide to heart-brain reactivation and nervous system transformation.</p>
+                
+                <div style="text-align: center; margin: 4rem 0;">
+                    <div style="background: linear-gradient(45deg, var(--gold), var(--cyan)); border-radius: 50%; width: 200px; height: 200px; margin: 0 auto 2rem auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem;">The Incredible You</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text);">Your 10-Week Guided System for Complete Transformation</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-brain" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Heart-Brain Intelligence Activation</h3>
+                        <p>Reconnect the 40,000+ neurons in your heart with your cognitive mind for coherent decision-making.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Nervous System Balance</h3>
+                        <p>Shift from survival mode to thrival mode with evidence-based nervous system regulation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Life Coherence Building</h3>
+                        <p>Create alignment across all areas of your Wheel of Life for sustainable transformation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-infinity" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Permanent Pattern Change</h3>
+                        <p>Rewire your neural pathways for lasting transformation, not temporary fixes.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"The Incredible You didn't just give me tools - it gave me back my authentic power. I lead from presence now, not pressure."</p>
+                    <p class="testimonial-author">- Marcus T., CEO & Challenger 9 Graduate</p>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <a href="#stage5" class="cta-button">Accept the Mentorship</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 5: Crossing the Threshold -->
+    <section class="journey-stage" id="stage5">
+        <div class="container">
+            <div class="stage-number">05</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Crossing the Threshold</h2>
+                <p class="stage-description">The moment you commit to <span class="highlight-text">The Incredible You</span>, everything changes. You're no longer the same person who was stuck in survival mode.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Week 1: Foundation</h4>
+                            <p>Initial heart-brain coherence assessment and personalized activation protocol.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Week 2-3: Awareness</h4>
+                            <p>Recognize your patterns and begin nervous system regulation practices.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Week 4-5: Integration</h4>
+                            <p>Start applying new patterns in real-world leadership and relationship scenarios.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">10</span>
+                        <span class="stat-label">Weeks of Transformation</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">24/7</span>
+                        <span class="stat-label">Expert Support</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">∞</span>
+                        <span class="stat-label">Lifetime Benefits</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        "The journey of a thousand miles begins with a single step."
+                    </p>
+                    <a href="#stage6" class="cta-button">Take the First Step</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 6: Tests & Trials -->
+    <section class="journey-stage" id="stage6">
+        <div class="container">
+            <div class="stage-number">06</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Tests & Trials</h2>
+                <p class="stage-description">The 10-week journey will challenge you to break through old patterns and embrace your authentic power.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-mountain" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Week 6-7: The Challenge</h3>
+                        <p>Face your deepest leadership and relationship patterns. This is where most people want to quit - but you won't.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-compass" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Week 8: Navigation</h3>
+                        <p>Learn to navigate from heart-brain coherence instead of reactive control patterns.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-trophy" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Week 9: Mastery</h3>
+                        <p>Master the integration of your new patterns into daily leadership and life decisions.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"Week 6 was brutal - I wanted to quit. But my mentor reminded me that this was exactly where the breakthrough happens. They were right."</p>
+                    <p class="testimonial-author">- Jennifer L., Challenger 9 Graduate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 7: The Ordeal -->
+    <section class="journey-stage" id="stage7">
+        <div class="container">
+            <div class="stage-number">07</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordeal</h2>
+                <p class="stage-description">The deepest moment of transformation - facing the core of your <span class="danger-indicator">heart-brain disconnect</span> and choosing coherence over control.</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Transformation visualization -->
+                        <g transform="translate(100, 100)">
+                            <!-- Old pattern -->
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#FF6B35" stroke-width="3" opacity="0.3"/>
+                            <text x="80" y="180" text-anchor="middle" fill="#FF6B35" font-size="12">Old Pattern</text>
+                        </g>
+                        
+                        <!-- Breakthrough moment -->
+                        <g transform="translate(250, 50)">
+                            <circle cx="50" cy="50" r="40" fill="var(--gold)" opacity="0.8">
+                                <animate attributeName="r" values="40;60;40" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x="50" y="120" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">BREAKTHROUGH</text>
+                        </g>
+                        
+                        <!-- New pattern -->
+                        <g transform="translate(400, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.8"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.6"/>
+                            <text x="80" y="180" text-anchor="middle" fill="#00D4FF" font-size="12">New Pattern</text>
+                        </g>
+                        
+                        <!-- Connection lines -->
+                        <line x1="170" y1="180" x2="230" y2="120" stroke="var(--gold)" stroke-width="3" opacity="0.8"/>
+                        <line x1="320" y1="120" x2="380" y2="180" stroke="var(--gold)" stroke-width="3" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: rgba(255, 107, 53, 0.1); border-radius: 20px; border: 2px solid var(--orange);">
+                    <h3 style="color: var(--orange); font-size: 2rem; margin-bottom: 2rem;">The Critical Choice</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        In this moment, you must choose between the familiar patterns of control and the unknown territory of authentic power.
+                    </p>
+                    <p style="font-size: 1.1rem; color: var(--gold);">
+                        Most people turn back here. Champions push through.
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"I thought I'd lose my edge if I opened my heart. Instead, I found my true strength. My team has never been more motivated."</p>
+                    <p class="testimonial-author">- David R., VP Sales & Challenger 9 Graduate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 8: The Reward -->
+    <section class="journey-stage" id="stage8">
+        <div class="container">
+            <div class="stage-number">08</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Reward</h2>
+                <p class="stage-description">Heart-brain coherence achieved. You now lead from <span class="highlight-text">presence, not pressure</span>.</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Connected brain and heart -->
+                        <g transform="translate(150, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.8"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.6"/>
+                            <circle cx="80" cy="80" r="30" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.4"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#00D4FF" font-size="14" font-weight="bold">BRAIN</text>
+                        </g>
+                        
+                        <!-- Heart -->
+                        <g transform="translate(300, 150)">
+                            <path d="M80,60 C80,40 60,20 40,20 C20,20 0,40 0,60 C0,80 40,120 80,140 C120,120 160,80 160,60 C160,40 140,20 120,20 C100,20 80,40 80,60 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="3" opacity="0.8"/>
+                            <path d="M80,70 C80,55 65,40 50,40 C35,40 20,55 20,70 C20,85 50,115 80,130 C110,115 140,85 140,70 C140,55 125,40 110,40 C95,40 80,55 80,70 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">HEART</text>
+                        </g>
+                        
+                        <!-- Connection lines - flowing energy -->
+                        <g>
+                            <line x1="300" y1="180" x2="380" y2="230" stroke="var(--cyan)" stroke-width="4" opacity="0.8">
+                                <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="310" y1="175" x2="390" y2="225" stroke="var(--gold)" stroke-width="3" opacity="0.6">
+                                <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="290" y1="185" x2="370" y2="235" stroke="var(--cyan)" stroke-width="3" opacity="0.7">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+                        
+                        <!-- Coherence indicator -->
+                        <text x="300" y="350" text-anchor="middle" fill="#00D4FF" font-size="20" font-weight="bold" opacity="0.9">
+                            COHERENCE ACHIEVED
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="wheel-of-life">
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-briefcase" style="color: var(--cyan);"></i> Career</h4>
+                        <p>You no longer lead from force, but from presence. Influence expands effortlessly.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-dollar-sign" style="color: var(--cyan);"></i> Finances</h4>
+                        <p>Financial decisions feel clear. No more scarcity panic. You invest with calm, receive with gratitude.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-heart" style="color: var(--cyan);"></i> Relationships</h4>
+                        <p>You create safety, not control. Your energy invites love, not resistance.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-brain" style="color: var(--cyan);"></i> Mental State</h4>
+                        <p>Sharp clarity without pressure. Calm assertiveness replaces reactivity.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-dumbbell" style="color: var(--cyan);"></i> Physical Health</h4>
+                        <p>Sleep improves. Stress dissolves. Your body supports your mission.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-users" style="color: var(--cyan);"></i> Social Life</h4>
+                        <p>Your presence softens. People trust you more deeply. You attract quality.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 88%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-home" style="color: var(--cyan);"></i> Environment</h4>
+                        <p>Home becomes a sanctuary. Peace expands through space.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-seedling" style="color: var(--cyan);"></i> Personal Growth</h4>
+                        <p>You shift fast. Inner rewiring leads to outer results. You ARE the change.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"I didn't know I could feel this powerful and this peaceful at the same time. It's like I finally found my true self."</p>
+                    <p class="testimonial-author">- Maria S., Executive Director & Challenger 9 Graduate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 9: The Road Back -->
+    <section class="journey-stage" id="stage9">
+        <div class="container">
+            <div class="stage-number">09</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Road Back</h2>
+                <p class="stage-description">Week 10: Integrating your new patterns into everyday leadership and life decisions.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Integration Phase</h4>
+                            <p>Your new heart-brain coherence becomes your default operating system.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Real-World Application</h4>
+                            <p>Apply your transformation in high-stakes leadership situations.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Mastery Achievement</h4>
+                            <p>You now lead from authentic power, not reactive control.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        The person who began this journey 10 weeks ago no longer exists.
+                    </p>
+                    <p style="font-size: 1.3rem; color: var(--gold);">
+                        You are becoming <span class="highlight-text">The Incredible You</span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 10: Resurrection -->
+    <section class="journey-stage" id="stage10">
+        <div class="container">
+            <div class="stage-number">10</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Resurrection</h2>
+                <p class="stage-description">You have been <span class="highlight-text">completely transformed</span>. The Challenger 9 who was stuck in survival mode is gone. The Incredible You has emerged.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">100%</span>
+                        <span class="stat-label">Heart-Brain Coherence</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">∞</span>
+                        <span class="stat-label">Authentic Power</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">360°</span>
+                        <span class="stat-label">Life Transformation</span>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-skull"></i> The Old You (Dead)</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Led from survival and control</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Chronically exhausted and defensive</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Disconnected from heart wisdom</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Attracted conflict and resistance</li>
+                        </ul>
+                    </div>
+                    <div class="after-section">
+                        <h3><i class="fas fa-phoenix-alt"></i> The Incredible You (Reborn)</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> Leads from presence and wisdom</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> Energized and emotionally intelligent</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> Heart-brain system fully online</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> Attracts love and collaboration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"I am not the same person who started this program. My family, my team, my entire life has transformed. I finally understand what authentic leadership feels like."</p>
+                    <p class="testimonial-author">- Robert K., Fortune 500 CEO & Challenger 9 Graduate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 11: Return with Elixir -->
+    <section class="journey-stage" id="stage11">
+        <div class="container">
+            <div class="stage-number">11</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Return with Elixir</h2>
+                <p class="stage-description">You now return to your world with the <span class="highlight-text">gift of heart-brain mastery</span> - not just for yourself, but for everyone you lead and love.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-crown" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Authentic Leadership</h3>
+                        <p>You lead with presence, wisdom, and genuine strength that inspires rather than intimidates.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-heart" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Deep Relationships</h3>
+                        <p>You create safety and connection, attracting people who want to follow your vision.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Inner Peace</h3>
+                        <p>The constant inner tension is gone. You feel calm assertiveness instead of reactive control.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gift" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Gift to Others</h3>
+                        <p>Your transformation ripples out, helping others discover their own incredible potential.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 4rem; background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.2)); border-radius: 20px; border: 2px solid var(--gold);">
+                    <h3 style="color: var(--gold); font-size: 3rem; margin-bottom: 2rem;">Your Hero's Journey Awaits</h3>
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem;">
+                        You've seen where your life is today.<br>
+                        You've seen what's possible in just 10 weeks.<br>
+                        <span style="color: var(--gold); font-weight: 700;">Now decide.</span>
+                    </p>
+                    
+                    <div style="margin: 3rem 0;">
+                        <p style="font-size: 1.2rem; color: var(--orange); margin-bottom: 1rem;">⚠️ Warning: Most People Stop Here</p>
+                        <p style="font-size: 1.1rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                            Insight without integration leads to more frustration.<br>
+                            You now have insight. But transformation requires action.
+                        </p>
+                    </div>
+
+                    <a href="#begin-journey" class="cta-button" style="font-size: 1.5rem; padding: 25px 50px; margin: 20px;">
+                        Begin The Incredible You Journey
+                    </a>
+                    
+                    <p style="font-size: 1rem; color: var(--light-purple-text); margin-top: 2rem;">
+                        Join the thousands of Challenger 9s who have already transformed their lives.<br>
+                        <span style="color: var(--gold);">Your incredible future is waiting.</span>
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"The Incredible You didn't just change my leadership - it changed my legacy. My children see a different father, my team follows a different leader, and I live as a different man."</p>
+                    <p class="testimonial-author">- Michael D., Entrepreneur & Challenger 9 Graduate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                The Choice is Yours
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                You can continue living as the disconnected Challenger 9, leading from survival mode and feeling constantly exhausted...
+            </p>
+            <p style="font-size: 1.8rem; color: var(--gold); margin-bottom: 4rem; font-weight: 700;">
+                Or you can become The Incredible You.
+            </p>
+            
+            <div style="margin: 4rem 0;">
+                <a href="#contact" class="cta-button" style="font-size: 1.8rem; padding: 30px 60px; margin: 20px;">
+                    <i class="fas fa-rocket"></i> Start Your Transformation Today
+                </a>
+            </div>
+            
+            <p style="font-size: 1.2rem; color: var(--light-purple-text);">
+                The hero's journey begins with a single decision.<br>
+                Make yours now.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate progress bars when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressFill = entry.target.querySelector('.progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = progressFill.style.width;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.progress-bar').forEach(bar => {
+            observer.observe(bar);
+        });
+
+        // Add floating animation to elements
+        function createFloatingElements() {
+            const floatingContainer = document.querySelector('.floating-elements');
+            const colors = ['var(--gold)', 'var(--cyan)', 'var(--orange)'];
+            const symbols = ['✨', '⚡', '💫', '🌟', '💎', '🔥'];
+            
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                element.style.color = colors[Math.floor(Math.random() * colors.length)];
+                element.style.top = Math.random() * 100 + '%';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                element.style.animationDelay = '-' + Math.random() * 6 + 's';
+                element.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                floatingContainer.appendChild(element);
+            }
+        }
+
+        // Initialize floating elements
+        createFloatingElements();
+
+        // Add pulse animation to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.6s infinite';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+    </script>
+</body>
+</html>
