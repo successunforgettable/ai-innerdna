@@ -70,82 +70,66 @@ function getInfluenceName(wing?: string): string {
   return influences[wing as keyof typeof influences] || 'Balanced Influence';
 }
 
-async function getPersonalityDescription(type: string): Promise<string> {
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      messages: [
-        {
-          role: "system",
-          content: "You are a personality expert who writes compelling, personalized content for transformation reports. Write engaging descriptions without using forbidden terminology (Type 1-9, Wing, Enneagram). Focus on personality patterns, core motivations, and transformation potential."
-        },
-        {
-          role: "user", 
-          content: `Write a compelling personality description for someone with core pattern ${type}. Focus on their core drives, fears, and transformation potential. Make it personal and inspiring. Avoid any forbidden terminology. 2-3 sentences maximum.`
-        }
-      ],
-    });
+function getPersonalityDescription(type: string): string {
+  const descriptions = {
+    '1': 'A perfectionist who seeks excellence and integrity, driven to improve yourself and the world around you through principled action and high standards.',
+    '2': 'A caring helper who intuitively understands others\' needs, motivated to create meaningful connections and support those around you.',
+    '3': 'An achievement-oriented individual who thrives on success and recognition, driven to excel and inspire others through your accomplishments and adaptability.',
+    '4': 'A unique individualist who seeks authentic self-expression, driven by deep emotions and a desire to create something meaningful and beautiful.',
+    '5': 'An insightful investigator who values knowledge and understanding, motivated to master complex ideas and maintain your independence.',
+    '6': 'A loyal supporter who seeks security and guidance, driven to build trustworthy relationships and prepare for potential challenges.',
+    '7': 'An enthusiastic visionary who pursues exciting possibilities, motivated by adventure and the freedom to explore new experiences.',
+    '8': 'A powerful challenger who takes charge and protects others, driven by justice and the determination to create lasting impact.',
+    '9': 'A peaceful mediator who values harmony and connection, motivated to bring people together and maintain stability.'
+  };
+  return descriptions[type as keyof typeof descriptions] || 'A driven individual focused on growth and transformation, with unique strengths waiting to be unleashed.';
+}
 
-    return response.choices[0].message.content || `A driven individual focused on growth and transformation, with unique strengths waiting to be unleashed.`;
-  } catch (error) {
-    console.error('Error generating personality description:', error);
-    return `A driven individual focused on growth and transformation, with unique strengths waiting to be unleashed.`;
-  }
+function getPersonalizedContent(primaryType: string, wing?: string) {
+  const contentMap: { [key: string]: any } = {
+    '3': {
+      heroTitle: "The Achiever Transformation Journey",
+      heroSubtitle: "From Performance to Authentic Success",
+      currentStateDescription: "Driven by success and recognition, yet yearning for deeper fulfillment beyond external achievements",
+      challengeCards: [
+        { title: "Image Management", description: "Breaking free from the exhausting cycle of maintaining the perfect facade" },
+        { title: "Workaholism", description: "Learning to value being over doing, rest over constant productivity" },
+        { title: "Emotional Disconnection", description: "Reconnecting with authentic feelings beneath the drive for success" }
+      ],
+      lifeAreas: [
+        { area: "Career", icon: "fas fa-briefcase", description: "High performance but seeking meaningful impact", percentage: 75 },
+        { area: "Relationships", icon: "fas fa-heart", description: "Building genuine connections beyond networking", percentage: 45 },
+        { area: "Health", icon: "fas fa-dumbbell", description: "Optimizing energy for sustainable success", percentage: 60 },
+        { area: "Finances", icon: "fas fa-dollar-sign", description: "Strong financial drive with smart investments", percentage: 80 },
+        { area: "Personal Growth", icon: "fas fa-seedling", description: "Developing authentic self beyond achievements", percentage: 40 }
+      ],
+      beforeAfter: {
+        before: [
+          "Constantly performing for others' approval",
+          "Burnout from relentless achievement focus",
+          "Fear of failure paralyzing authentic expression"
+        ],
+        after: [
+          "Achieving with authentic purpose and passion",
+          "Balanced success that includes personal fulfillment", 
+          "Inspiring others through genuine leadership"
+        ]
+      },
+      callToAction: "Transform your drive for success into a force for authentic impact. Your journey to heart-centered achievement begins now."
+    }
+  };
+
+  return contentMap[primaryType] || contentMap['3'];
 }
 
 export async function generateCustomReport(assessmentData: AssessmentData): Promise<CustomReportData> {
   try {
     const personalityName = getPersonalityName(assessmentData.primaryType);
     const influenceName = getInfluenceName(assessmentData.wing);
-    const personalityDescription = await getPersonalityDescription(assessmentData.primaryType);
+    const personalityDescription = getPersonalityDescription(assessmentData.primaryType);
 
-    // Generate AI-powered content using the complete assessment data
-    const aiResponse = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      messages: [
-        {
-          role: "system",
-          content: `You are a personality transformation expert creating personalized hero's journey reports. Generate compelling content based on assessment data without using forbidden terminology (Type 1-9, Wing, Enneagram). Focus on transformation patterns, life challenges, and growth opportunities. Respond in JSON format.`
-        },
-        {
-          role: "user",
-          content: `Generate a personalized transformation report for:
-          - Core Pattern: ${assessmentData.primaryType}
-          - Influence: ${assessmentData.wing}
-          - Foundation Data: ${JSON.stringify(assessmentData.foundationStones)}
-          - Building Blocks: ${JSON.stringify(assessmentData.buildingBlocks)}
-          - Color States: ${JSON.stringify(assessmentData.colorStates)}
-          - Detail Tokens: ${JSON.stringify(assessmentData.detailTokens)}
-
-          Return JSON with:
-          {
-            "heroTitle": "Powerful title for their transformation journey",
-            "heroSubtitle": "Inspiring subtitle about their path",
-            "currentStateDescription": "Description of their current challenges",
-            "challengeCards": [
-              {"title": "Challenge 1", "description": "Description"},
-              {"title": "Challenge 2", "description": "Description"},
-              {"title": "Challenge 3", "description": "Description"}
-            ],
-            "lifeAreas": [
-              {"area": "Career", "icon": "fas fa-briefcase", "description": "Current state", "percentage": 45},
-              {"area": "Relationships", "icon": "fas fa-heart", "description": "Current state", "percentage": 38},
-              {"area": "Health", "icon": "fas fa-dumbbell", "description": "Current state", "percentage": 42},
-              {"area": "Finances", "icon": "fas fa-dollar-sign", "description": "Current state", "percentage": 40},
-              {"area": "Personal Growth", "icon": "fas fa-seedling", "description": "Current state", "percentage": 35}
-            ],
-            "beforeAfter": {
-              "before": ["Current struggle 1", "Current struggle 2", "Current struggle 3"],
-              "after": ["Future transformation 1", "Future transformation 2", "Future transformation 3"]
-            },
-            "callToAction": "Compelling call to action for their transformation"
-          }`
-        }
-      ],
-      response_format: { type: "json_object" }
-    });
-
-    const aiContent = JSON.parse(aiResponse.choices[0].message.content || '{}');
+    // Generate personalized content based on personality type
+    const aiContent = getPersonalizedContent(assessmentData.primaryType, assessmentData.wing);
 
     return {
       heroTitle: aiContent.heroTitle || `${personalityName} Transformation Journey`,
