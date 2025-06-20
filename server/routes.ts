@@ -5,6 +5,7 @@ import { insertUserSchema, type AssessmentData } from "@shared/schema";
 import { hashPassword, verifyPassword, generateToken, generateResetToken } from "./auth";
 
 import { sendPasswordRecoveryEmail } from "./emailService";
+import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -366,6 +367,39 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error) {
       console.error('Failed to fetch assessments:', error);
       res.status(500).json({ error: "Failed to fetch assessments" });
+    }
+  });
+
+  // AI Report Generation Routes
+  app.post("/api/generate-ai-report", async (req, res) => {
+    try {
+      const { assessmentData } = req.body;
+      
+      if (!assessmentData || !assessmentData.primaryType) {
+        return res.status(400).json({ error: "Assessment data with primary type is required" });
+      }
+
+      const aiReport = await generatePersonalizedReport(assessmentData);
+      res.json(aiReport);
+    } catch (error) {
+      console.error('Error generating AI report:', error);
+      res.status(500).json({ error: "Failed to generate AI report" });
+    }
+  });
+
+  app.post("/api/generate-quick-insight", async (req, res) => {
+    try {
+      const { assessmentData } = req.body;
+      
+      if (!assessmentData || !assessmentData.primaryType) {
+        return res.status(400).json({ error: "Assessment data with primary type is required" });
+      }
+
+      const insight = await generateQuickInsight(assessmentData);
+      res.json({ insight });
+    } catch (error) {
+      console.error('Error generating quick insight:', error);
+      res.status(500).json({ error: "Failed to generate insight" });
     }
   });
 
