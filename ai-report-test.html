@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Report Test - Live Generation</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: linear-gradient(135deg, #6B46C1, #9333EA, #A855F7);
+            color: white;
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 30px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .test-button { 
+            background: linear-gradient(45deg, #FFD700, #FF6B35); 
+            color: #333; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+        .loading { background: #666; cursor: not-allowed; }
+        .results { 
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin: 20px 0; 
+            border-left: 4px solid #FFD700;
+        }
+        .error { background: rgba(255, 0, 0, 0.2); border-left-color: #ff4444; }
+        .success { background: rgba(0, 255, 0, 0.2); border-left-color: #44ff44; }
+        h1, h2 { color: #FFD700; }
+        .highlight { color: #00D4FF; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Report Generation Test</h1>
+        
+        <div style="margin: 20px 0;">
+            <h2>Test Assessment Data</h2>
+            <div class="results">
+                <p><strong>Personality Type:</strong> <span class="highlight">The Challenger</span></p>
+                <p><strong>Confidence:</strong> 85%</p>
+                <p><strong>Foundation Patterns:</strong> Gut instincts, achievement drive, independence</p>
+                <p><strong>Building Blocks:</strong> Leadership, Independence, Analysis</p>
+                <p><strong>Color States:</strong> Achievement 45%, Security 55%</p>
+                <p><strong>Subtype Focus:</strong> Self-Preservation (4 tokens)</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button id="generateReport" class="test-button">
+                Generate AI Hero's Journey Report
+            </button>
+        </div>
+
+        <div id="output" class="results" style="display: none;">
+            <h3>Generation Results:</h3>
+            <div id="results-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const sampleAssessmentData = {
+            foundationStones: [
+                {
+                    setIndex: 0,
+                    stoneIndex: 2,
+                    context: "When making decisions,",
+                    statements: ["I trust my gut", "I go with what feels right", "I act on my instincts"]
+                },
+                {
+                    setIndex: 1,
+                    stoneIndex: 2,
+                    context: "What motivates me is",
+                    statements: ["doing what's right", "I need to be strong and in control", "I want justice and fairness"]
+                }
+            ],
+            buildingBlocks: [
+                {
+                    name: "Leadership",
+                    description: "Natural ability to guide and inspire others",
+                    wing: "9"
+                },
+                {
+                    name: "Independence", 
+                    description: "Strong preference for autonomy and self-reliance",
+                    wing: "9"
+                }
+            ],
+            colorStates: [
+                {
+                    state: "Achievement",
+                    percentage: 45,
+                    description: "Drive for success and accomplishment"
+                },
+                {
+                    state: "Security",
+                    percentage: 55,
+                    description: "Focus on stability and protection"  
+                }
+            ],
+            detailTokens: {
+                "Self-Preservation": { token: "4 tokens", description: "Focus on personal security and routines" },
+                "One-to-One": { token: "3 tokens", description: "Focus on intense personal connections" },
+                "Social": { token: "3 tokens", description: "Focus on group dynamics and community" }
+            },
+            result: {
+                primaryType: '8',
+                confidence: 85,
+                personalityName: 'The Challenger'
+            }
+        };
+
+        document.getElementById('generateReport').addEventListener('click', async function() {
+            const button = this;
+            const output = document.getElementById('output');
+            const content = document.getElementById('results-content');
+            
+            button.textContent = 'Generating Report...';
+            button.classList.add('loading');
+            button.disabled = true;
+            
+            output.style.display = 'block';
+            content.innerHTML = '<p>Contacting AI report generation service...</p>';
+            
+            try {
+                const response = await fetch('/api/generate-custom-report', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ assessmentData: sampleAssessmentData })
+                });
+                
+                if (response.ok) {
+                    const htmlContent = await response.text();
+                    
+                    // Open the generated report in a new window
+                    const newWindow = window.open('', '_blank');
+                    if (newWindow) {
+                        newWindow.document.write(htmlContent);
+                        newWindow.document.close();
+                        
+                        content.innerHTML = `
+                            <div class="success">
+                                <h4>Report Generated Successfully!</h4>
+                                <p><strong>Report Length:</strong> ${htmlContent.length.toLocaleString()} characters</p>
+                                <p><strong>Contains Hero Title:</strong> ${htmlContent.includes('Challenger') ? 'Yes' : 'No'}</p>
+                                <p><strong>Contains Life Areas:</strong> ${htmlContent.includes('Career') ? 'Yes' : 'No'}</p>
+                                <p><strong>Contains Animations:</strong> ${htmlContent.includes('animation') ? 'Yes' : 'No'}</p>
+                                <p><strong>Contains Playfair Font:</strong> ${htmlContent.includes('Playfair Display') ? 'Yes' : 'No'}</p>
+                                <p><strong>Status:</strong> Report opened in new window with complete challenger format</p>
+                            </div>
+                        `;
+                    } else {
+                        content.innerHTML = '<div class="error">Could not open new window. Please allow popups.</div>';
+                    }
+                } else {
+                    const errorText = await response.text();
+                    content.innerHTML = `
+                        <div class="error">
+                            <h4>Report Generation Failed</h4>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                            <p><strong>Error:</strong> ${errorText}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                content.innerHTML = `
+                    <div class="error">
+                        <h4>Network Error</h4>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>Please check if the server is running and try again.</p>
+                    </div>
+                `;
+            }
+            
+            button.textContent = 'Generate AI Hero\'s Journey Report';
+            button.classList.remove('loading');
+            button.disabled = false;
+        });
+
+        console.log('AI Report Test Page Loaded');
+        console.log('Sample Assessment Data:', sampleAssessmentData);
+    </script>
+</body>
+</html>
