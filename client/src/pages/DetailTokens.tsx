@@ -87,6 +87,19 @@ const DetailPhase: React.FC = () => {
     }
   };
 
+  const handleTokenRemove = (containerId: string) => {
+    setTokenDistribution(prev => {
+      const currentCount = prev[containerId as keyof TokenDistribution];
+      if (currentCount > 0) {
+        return {
+          ...prev,
+          [containerId]: currentCount - 1
+        };
+      }
+      return prev;
+    });
+  };
+
   const handleContinue = () => {
     if (isComplete) {
       // Update assessment data with token distribution
@@ -162,8 +175,9 @@ const DetailPhase: React.FC = () => {
                 {containers.map((container) => (
                   <div 
                     key={container.id}
-                    className="bg-white/10 backdrop-blur-md rounded-xl p-6 border-2 border-white/20 hover:border-orange-400/50 transition-all duration-300"
+                    className="bg-white/10 backdrop-blur-md rounded-xl p-6 border-2 border-white/20 hover:border-orange-400/50 transition-all duration-300 cursor-pointer"
                     data-container-id={container.id}
+                    onClick={() => handleTokenDrop(container.id)}
                   >
                     <div className="flex justify-between items-start mb-4">
                       <h4 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -182,7 +196,12 @@ const DetailPhase: React.FC = () => {
                       {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
                         <div
                           key={index}
-                          className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-2 border-orange-300/30"
+                          className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-2 border-orange-300/30 cursor-pointer hover:scale-110 transition-transform"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTokenRemove(container.id);
+                          }}
+                          title="Click to remove token"
                         />
                       ))}
                     </div>
