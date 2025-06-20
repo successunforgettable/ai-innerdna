@@ -2,6 +2,39 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// Helper functions to convert to approved terminology
+function getPersonalityName(primaryType: string): string {
+  const typeMap: { [key: string]: string } = {
+    "Type 1": "The Reformer",
+    "Type 2": "The Helper", 
+    "Type 3": "The Achiever",
+    "Type 4": "The Individualist",
+    "Type 5": "The Investigator",
+    "Type 6": "The Loyalist",
+    "Type 7": "The Enthusiast",
+    "Type 8": "The Challenger",
+    "Type 9": "The Peacemaker"
+  };
+  return typeMap[primaryType] || "The Achiever";
+}
+
+function getInfluenceName(wing?: string): string {
+  if (!wing) return "Balanced Influence";
+  
+  const wingMap: { [key: string]: string } = {
+    "1": "Reformer Influence",
+    "2": "Helper Influence",
+    "3": "Achiever Influence", 
+    "4": "Individualist Influence",
+    "5": "Investigator Influence",
+    "6": "Loyalist Influence",
+    "7": "Enthusiast Influence",
+    "8": "Challenger Influence",
+    "9": "Peacemaker Influence"
+  };
+  return wingMap[wing] || "Balanced Influence";
+}
+
 interface AssessmentData {
   primaryType: string;
   confidence: number;
@@ -16,7 +49,7 @@ interface CustomReportData {
   heroTitle: string;
   heroSubtitle: string;
   personalityType: string;
-  wingInfluence: string;
+  influencePattern: string;
   currentState: {
     average: number;
     belowAverage: number;
@@ -42,32 +75,30 @@ interface CustomReportData {
 export async function generateCustomReport(assessmentData: AssessmentData): Promise<CustomReportData> {
   try {
     // Generate AI content based on assessment data
+    const personalityName = getPersonalityName(assessmentData.primaryType);
+    const influenceName = getInfluenceName(assessmentData.wing);
+    
     const prompt = `Based on this personality assessment data, generate content for a transformational report:
 
-Primary Type: ${assessmentData.primaryType}
+Primary Pattern: ${personalityName}
 Confidence: ${assessmentData.confidence}%
-Wing Influence: ${assessmentData.wing || 'Not specified'}
+Influence Pattern: ${influenceName}
 Color States: ${assessmentData.colorStates.map(s => `${s.state}: ${s.percentage}%`).join(', ')}
 Detail Token Distribution: ${assessmentData.detailTokens.map(t => `${t.category}: ${t.token}`).join(', ')}
 
-Create content for a hero's journey transformation report with these specific sections:
+Create content for a hero's journey transformation report. Use these personality names only:
+- The Achiever, The Challenger, The Peacemaker, The Reformer, The Helper, The Individualist, The Investigator, The Loyalist, The Enthusiast
 
-1. Hero title (personalized based on their type and wing)
-2. Subtitle (their transformation path)
-3. Current state analysis (average and below-average percentages)
-4. 8 life areas with descriptions and improvement percentages
-5. 5 transformation stages with insights
-6. Before/after comparison (4 points each)
-7. Compelling call to action
+Never use "Type" or "Wing" terminology. Use "Influence" instead of "Wing".
 
-Format as JSON with specific fields. Make it inspiring, personal, and transformation-focused.
+Create inspiring, transformation-focused content for a hero's journey report. Focus on personal growth and development.
 
 Response format:
 {
-  "heroTitle": "The [Type] [Wing] Transformation Journey",
+  "heroTitle": "The [Personality Name] Transformation Journey",
   "heroSubtitle": "Your Hero's Path to [Specific Mastery]",
-  "personalityType": "[Type Name]",
-  "wingInfluence": "[Wing Description]",
+  "personalityType": "[Personality Name]",
+  "influencePattern": "[Influence Description]",
   "currentState": {
     "average": 60,
     "belowAverage": 40
@@ -117,14 +148,14 @@ Response format:
     console.error("Error generating custom report:", error);
     
     // Fallback content based on assessment data
-    const typeNum = assessmentData.primaryType.match(/\d+/)?.[0] || "1";
-    const wingNum = assessmentData.wing || "Unknown";
+    const personalityName = getPersonalityName(assessmentData.primaryType);
+    const influenceName = getInfluenceName(assessmentData.wing);
     
     return {
-      heroTitle: `The ${assessmentData.primaryType} Transformation Journey`,
+      heroTitle: `${personalityName} Transformation Journey`,
       heroSubtitle: `Your Hero's Path to Authentic Mastery`,
-      personalityType: assessmentData.primaryType,
-      wingInfluence: `Wing ${wingNum} Influence`,
+      personalityType: personalityName,
+      influencePattern: influenceName,
       currentState: {
         average: Math.max(20, assessmentData.confidence - 20),
         belowAverage: Math.min(80, 100 - assessmentData.confidence)
