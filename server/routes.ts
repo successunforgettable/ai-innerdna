@@ -7,7 +7,7 @@ import { hashPassword, verifyPassword, generateToken, generateResetToken } from 
 
 import { sendPasswordRecoveryEmail } from "./emailService";
 import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
-// Custom report generator will be imported dynamically
+import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_clean";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -415,9 +415,8 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       }
 
       // Use clean custom report generator
-      const { generateCustomReport: generateCleanReport, generateCustomReportHTML: generateCleanHTML } = require('./customReportGenerator_clean');
-      const reportData = await generateCleanReport(assessmentData);
-      const htmlReport = generateCleanHTML(reportData);
+      const reportData = await generateCustomReport(assessmentData);
+      const htmlReport = generateCustomReportHTML(reportData);
       
       res.setHeader('Content-Type', 'text/html');
       res.send(htmlReport);
