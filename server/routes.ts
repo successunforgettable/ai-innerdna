@@ -452,9 +452,38 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Serve static test files
-  app.get("/ai-report-test.html", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "ai-report-test.html"));
+  // Demo report endpoint
+  app.get("/demo-report", async (req, res) => {
+    try {
+      const sampleData = {
+        primaryType: '8',
+        confidence: 85,
+        wing: '9',
+        foundationStones: [
+          {
+            setIndex: 0,
+            stoneIndex: 2,
+            context: "When making decisions,",
+            statements: ["I trust my gut", "I go with what feels right", "I act on my instincts"]
+          }
+        ],
+        buildingBlocks: [{ name: "Leadership", wing: "9" }],
+        colorStates: [
+          { state: "Achievement", percentage: 45 },
+          { state: "Security", percentage: 55 }
+        ],
+        detailTokens: { "Self-Preservation": {"token": "4 tokens"} }
+      };
+
+      const reportData = await generateCustomReport(sampleData);
+      const htmlReport = generateCustomReportHTML(reportData);
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlReport);
+    } catch (error) {
+      console.error('Error generating demo report:', error);
+      res.status(500).send('Error generating demo report');
+    }
   });
 
   const httpServer = createServer(app);
