@@ -35,6 +35,98 @@ function getInfluenceName(wing?: string): string {
   return wingMap[wing] || "Balanced Influence";
 }
 
+function generateDefaultLifeAreas(assessmentData: AssessmentData, personalityName: string): Array<{area: string; icon: string; description: string; percentage: number}> {
+  const baseAreas = [
+    { area: "Career", icon: "fas fa-briefcase", description: "Professional growth and leadership development", percentage: 45 },
+    { area: "Relationships", icon: "fas fa-heart", description: "Emotional intelligence and connection", percentage: 55 },
+    { area: "Health", icon: "fas fa-heartbeat", description: "Physical and mental wellbeing", percentage: 40 },
+    { area: "Spirituality", icon: "fas fa-leaf", description: "Inner peace and purpose", percentage: 35 },
+    { area: "Personal Growth", icon: "fas fa-seedling", description: "Self-awareness and development", percentage: 60 },
+    { area: "Finances", icon: "fas fa-coins", description: "Financial stability and abundance", percentage: 50 },
+    { area: "Recreation", icon: "fas fa-smile", description: "Joy and life balance", percentage: 45 },
+    { area: "Contribution", icon: "fas fa-hands-helping", description: "Making a meaningful impact", percentage: 55 }
+  ];
+  
+  // Adjust percentages based on personality type and confidence
+  const confidenceBoost = Math.floor(assessmentData.confidence / 10);
+  return baseAreas.map(area => ({
+    ...area,
+    percentage: Math.min(95, area.percentage + confidenceBoost + Math.floor(Math.random() * 15))
+  }));
+}
+
+function generateDefaultStages(assessmentData: AssessmentData, personalityName: string): Array<{title: string; description: string; insights: string[]}> {
+  return [
+    {
+      title: "Awakening",
+      description: "Recognizing your current patterns and their limitations",
+      insights: [
+        `Understanding your ${personalityName.toLowerCase()} core motivations`,
+        "Identifying unconscious behavioral patterns",
+        "Recognizing growth opportunities"
+      ]
+    },
+    {
+      title: "Exploration", 
+      description: "Discovering new possibilities and perspectives",
+      insights: [
+        "Exploring beyond comfort zone boundaries",
+        "Developing emotional intelligence",
+        "Building self-awareness practices"
+      ]
+    },
+    {
+      title: "Integration",
+      description: "Combining insights with daily practice",
+      insights: [
+        "Implementing new behavioral patterns",
+        "Balancing strengths with growth areas",
+        "Creating sustainable change habits"
+      ]
+    },
+    {
+      title: "Mastery",
+      description: "Embodying your transformed self",
+      insights: [
+        "Living authentically from your core",
+        "Leading others through example",
+        "Creating positive ripple effects"
+      ]
+    },
+    {
+      title: "Service",
+      description: "Contributing your gifts to the world",
+      insights: [
+        "Mentoring others on their journey",
+        "Creating meaningful impact",
+        "Living your highest purpose"
+      ]
+    }
+  ];
+}
+
+function generateDefaultBeforeAfter(assessmentData: AssessmentData, personalityName: string): {before: string[]; after: string[]} {
+  const patterns: { [key: string]: {before: string[]; after: string[]} } = {
+    "The Challenger": {
+      before: ["Led from survival", "Chronically defensive", "Disconnected from vulnerability", "Attracted conflict"],
+      after: ["Leads with presence", "Emotionally intelligent", "Heart-brain connected", "Attracts collaboration"]
+    },
+    "The Achiever": {
+      before: ["Driven by external validation", "Image-focused", "Disconnected from feelings", "Burned out from overwork"],
+      after: ["Internally motivated", "Authentically confident", "Emotionally aware", "Balanced and sustainable"]
+    },
+    "The Helper": {
+      before: ["People-pleasing", "Neglecting own needs", "Manipulative giving", "Resentful and exhausted"],
+      after: ["Healthy boundaries", "Self-caring", "Genuine generosity", "Energized and fulfilled"]
+    }
+  };
+  
+  return patterns[personalityName] || {
+    before: ["Reactive patterns", "Limited self-awareness", "Stuck in comfort zone", "Unfulfilled potential"],
+    after: ["Conscious responses", "Deep self-knowledge", "Embracing growth", "Living authentically"]
+  };
+}
+
 interface AssessmentData {
   primaryType: string;
   confidence: number;
@@ -91,7 +183,17 @@ Create content for a hero's journey transformation report. Use these personality
 
 Never use "Type" or "Wing" terminology. Use "Influence" instead of "Wing".
 
-Create inspiring, transformation-focused content for a hero's journey report. Focus on personal growth and development.
+Analyze their specific combination of traits:
+- Foundation stones reveal core decision-making patterns
+- Building blocks show personality architecture  
+- Color states indicate current emotional/behavioral patterns
+- Detail tokens reveal subtype focus (self-preservation, one-to-one, social)
+
+Generate personalized content based on their unique trait combination. Focus on their specific growth path, challenges, and transformation potential.
+
+Create 8 life areas with specific percentages based on their assessment results.
+Create 5 transformation stages that reflect their personality's growth journey.
+Create before/after comparisons that are specific to their personality pattern and influence.
 
 Response format:
 {
@@ -130,7 +232,7 @@ Response format:
       messages: [
         {
           role: "system",
-          content: "You are an expert personality transformation coach. Generate personalized, inspiring content based on assessment results. Respond only with valid JSON."
+          content: "You are an expert personality transformation coach specializing in Inner DNA assessment analysis. Generate personalized, inspiring content based on specific assessment results. Analyze the unique combination of foundation stones, building blocks, color states, and detail tokens to create highly personalized transformation content. Respond only with valid JSON."
         },
         {
           role: "user",
@@ -138,11 +240,26 @@ Response format:
         }
       ],
       response_format: { type: "json_object" },
-      max_tokens: 2000
+      max_tokens: 2500
     });
 
     const aiContent = JSON.parse(response.choices[0].message.content || '{}');
-    return aiContent;
+    
+    // Ensure we have properly structured data with approved terminology
+    return {
+      heroTitle: aiContent.heroTitle || `${personalityName} Transformation Journey`,
+      heroSubtitle: aiContent.heroSubtitle || `Your Hero's Path to Authentic Mastery`,
+      personalityType: personalityName,
+      influencePattern: influenceName,
+      currentState: aiContent.currentState || {
+        average: Math.max(30, assessmentData.confidence - 15),
+        belowAverage: Math.min(70, 100 - assessmentData.confidence + 15)
+      },
+      lifeAreas: aiContent.lifeAreas || generateDefaultLifeAreas(assessmentData, personalityName),
+      transformationStages: aiContent.transformationStages || generateDefaultStages(assessmentData, personalityName),
+      beforeAfter: aiContent.beforeAfter || generateDefaultBeforeAfter(assessmentData, personalityName),
+      callToAction: aiContent.callToAction || `Begin your ${personalityName.toLowerCase()} transformation journey today and unlock your authentic potential.`
+    };
 
   } catch (error) {
     console.error("Error generating custom report:", error);
@@ -160,13 +277,23 @@ Response format:
         average: Math.max(20, assessmentData.confidence - 20),
         belowAverage: Math.min(80, 100 - assessmentData.confidence)
       },
-      lifeAreas: [
-        {
-          area: "Career",
-          icon: "fas fa-briefcase",
-          description: "You have leadership potential but may feel unfulfilled in your current path.",
-          percentage: 45
-        },
+      lifeAreas: generateDefaultLifeAreas(assessmentData, personalityName),
+      transformationStages: generateDefaultStages(assessmentData, personalityName),
+      beforeAfter: generateDefaultBeforeAfter(assessmentData, personalityName),
+      callToAction: `Begin your ${personalityName.toLowerCase()} transformation journey today and unlock your authentic potential.`
+    };
+  }
+}
+
+// Add the missing life areas for fallback
+function generateFallbackLifeAreas(): Array<{area: string; icon: string; description: string; percentage: number}> {
+  return [
+    {
+      area: "Career",
+      icon: "fas fa-briefcase",
+      description: "You have leadership potential but may feel unfulfilled in your current path.",
+      percentage: 45
+    },
         {
           area: "Relationships",
           icon: "fas fa-heart",
@@ -599,7 +726,7 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             <div class="stage-number">01</div>
             <div class="stage-content">
                 <h2 class="stage-title">Your Current Reality</h2>
-                <p class="stage-description">You are a <span class="highlight-text">${reportData.personalityType}</span> with <span class="highlight-text">${reportData.wingInfluence}</span>. This is your current state...</p>
+                <p class="stage-description">You are a <span class="highlight-text">${reportData.personalityType}</span> with <span class="highlight-text">${reportData.influencePattern}</span>. This is your current state...</p>
                 
                 <div class="stats-container">
                     <div class="stat-item">
