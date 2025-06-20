@@ -329,7 +329,7 @@ function getPersonalizedBeforeAfter(assessmentData: AssessmentData) {
   const personalityName = getPersonalityName(assessmentData.primaryType);
   const patterns: { [key: string]: {before: string[]; after: string[]} } = {
     "The Challenger": {
-      before: ["Led from survival", "Chronically defensive", "Disconnected from vulnerability", "Attracted conflict"],
+      before: ["Led from survival mode", "Chronically defensive", "Disconnected from vulnerability", "Attracted conflict"],
       after: ["Leads with presence", "Emotionally intelligent", "Heart-brain connected", "Attracts collaboration"]
     },
     "The Achiever": {
@@ -355,8 +355,9 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${reportData.heroTitle}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary-purple: #6B46C1;
@@ -366,6 +367,7 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             --cyan: #00D4FF;
             --orange: #FF6B35;
             --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
         }
 
         * {
@@ -382,6 +384,12 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             overflow-x: hidden;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -392,147 +400,190 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             overflow: hidden;
         }
 
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         .hero-content {
-            z-index: 10;
-            max-width: 800px;
-            padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
             background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shimmer 3s ease-in-out infinite;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
             font-weight: 300;
-            opacity: 0.9;
-            margin-bottom: 2rem;
         }
 
-        @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
 
-        .floating-element {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
         }
 
         .journey-stage {
-            padding: 4rem 2rem;
+            padding: 5rem 0;
             position: relative;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
         .stage-number {
-            font-size: 4rem;
-            font-weight: 800;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-size: 8rem;
+            font-weight: 900;
             background: linear-gradient(45deg, var(--gold), var(--orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            opacity: 0.1;
         }
 
         .stage-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--light-purple-text);
+            line-height: 1.8;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
         }
 
-        .stage-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
             margin-bottom: 1rem;
             color: var(--gold);
-        }
-
-        .stage-description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .highlight-text {
-            color: var(--gold);
-            font-weight: 600;
+            text-align: center;
         }
 
         .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 4rem 0;
+            flex-wrap: wrap;
         }
 
         .stat-item {
             text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
             display: block;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .danger-indicator {
-            color: #FF6B6B;
         }
 
         .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
         }
 
-        .life-areas-grid {
+        .wheel-of-life {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 2rem;
+            margin: 4rem 0;
         }
 
-        .life-area-card {
+        .life-area {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
             transition: transform 0.3s ease;
         }
 
-        .life-area-card:hover {
+        .life-area:hover {
             transform: translateY(-5px);
         }
 
@@ -549,7 +600,7 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
         }
 
         .area-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
@@ -562,37 +613,90 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
 
         .progress-bar {
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 0.5rem;
+            margin: 1rem 0;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--orange));
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
             border-radius: 10px;
-            transition: width 1s ease;
+            transition: width 2s ease-in-out;
         }
 
         .percentage-text {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--gold);
         }
 
-        .transformation-timeline {
-            margin: 2rem 0;
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
         }
 
-        .timeline-stage {
+        .before-section {
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--orange);
+        }
+
+        .after-section {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--cyan);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 4rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gold), var(--cyan));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .timeline-content {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            margin-left: 60%;
+            width: 35%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 5%;
         }
 
         .timeline-title {
@@ -628,121 +732,130 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             left: -1rem;
         }
 
-        .before-after-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 2rem 0;
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
-        .before-after-card {
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .testimonial {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .before-after-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .before-title {
-            color: #FF6B6B;
-        }
-
-        .after-title {
-            color: #4ECDC4;
-        }
-
-        .before-after-list {
-            list-style: none;
-        }
-
-        .before-after-list li {
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            opacity: 0.9;
-        }
-
-        .cta-section {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            margin: 2rem;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
         }
 
-        .cta-text {
-            font-size: 1.3rem;
-            font-weight: 600;
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
             color: var(--gold);
-            margin-bottom: 1rem;
         }
 
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(45deg, var(--gold), var(--orange));
-            color: #1a1a1a;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s ease;
-            margin-top: 1rem;
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
         }
 
-        .cta-button:hover {
-            transform: scale(1.05);
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
         @media (max-width: 768px) {
             .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
                 font-size: 2.5rem;
             }
             
-            .container {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .before-after-section {
+            .card-grid {
                 grid-template-columns: 1fr;
             }
             
-            .life-areas-grid {
+            .before-after {
                 grid-template-columns: 1fr;
+            }
+            
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-content {
+                margin-left: 10% !important;
+                width: 80% !important;
+            }
+
+            .stats-container {
+                gap: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-element" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
-    <div class="floating-element" style="top: 20%; right: 15%; animation-delay: 1s;"></div>
-    <div class="floating-element" style="bottom: 30%; left: 20%; animation-delay: 2s;"></div>
-    <div class="floating-element" style="bottom: 10%; right: 10%; animation-delay: 3s;"></div>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; width: 20px; height: 20px; background: rgba(255, 215, 0, 0.1); border-radius: 50%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="top: 20%; right: 15%; width: 15px; height: 15px; background: rgba(0, 212, 255, 0.1); border-radius: 50%; animation-delay: 1s;"></div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; width: 25px; height: 25px; background: rgba(255, 107, 53, 0.1); border-radius: 50%; animation-delay: 2s;"></div>
+        <div class="floating-element" style="bottom: 10%; right: 10%; width: 18px; height: 18px; background: rgba(255, 215, 0, 0.1); border-radius: 50%; animation-delay: 3s;"></div>
+    </div>
 
+    <!-- Hero Section -->
     <section class="hero-section">
+        <div class="hero-background"></div>
         <div class="hero-content">
             <h1 class="hero-title">${reportData.heroTitle}</h1>
             <p class="hero-subtitle">${reportData.heroSubtitle}</p>
+            <a href="#stage1" class="cta-button">Begin Your Journey</a>
         </div>
     </section>
 
-    <section class="journey-stage">
+    <!-- Stage 1: Ordinary World -->
+    <section class="journey-stage" id="stage1">
         <div class="container">
             <div class="stage-number">01</div>
             <div class="stage-content">
                 <h2 class="stage-title">Your Current Reality</h2>
-                <p class="stage-description">You are a <span class="highlight-text">${reportData.personalityType}</span> with <span class="highlight-text">${reportData.influencePattern}</span>. This assessment reveals your unique transformation path.</p>
+                <p class="stage-description">You are a <span class="highlight-text">${reportData.personalityType}</span> with <span class="highlight-text">${reportData.influencePattern}</span>. This assessment reveals your unique transformation path based on your specific choices and patterns.</p>
                 
                 <div class="stats-container">
                     <div class="stat-item">
@@ -758,16 +871,19 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
         </div>
     </section>
 
-    <section class="journey-stage">
+    <div class="section-divider"></div>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
         <div class="container">
             <div class="stage-number">02</div>
             <div class="stage-content">
-                <h2 class="stage-title">Life Areas Assessment</h2>
+                <h2 class="stage-title">Your Life Areas Assessment</h2>
                 <p class="stage-description">Based on your specific assessment results, here's how you're performing across key life areas and where you have the most potential for growth.</p>
                 
-                <div class="life-areas-grid">
+                <div class="wheel-of-life">
                     ${reportData.lifeAreas.map(area => `
-                        <div class="life-area-card">
+                        <div class="life-area">
                             <div class="area-header">
                                 <i class="${area.icon} area-icon"></i>
                                 <h3 class="area-title">${area.area}</h3>
@@ -780,25 +896,36 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
                         </div>
                     `).join('')}
                 </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">"I never realized how disconnected I was from my true potential until I saw my assessment results. It was a wake-up call."</p>
+                    <p class="testimonial-author">- Previous Participant</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="journey-stage">
+    <div class="section-divider"></div>
+
+    <!-- Stage 3: Meeting the Mentor -->
+    <section class="journey-stage" id="stage3">
         <div class="container">
             <div class="stage-number">03</div>
             <div class="stage-content">
                 <h2 class="stage-title">Your Transformation Journey</h2>
                 <p class="stage-description">This is your personalized roadmap based on your unique assessment profile to unlock your full potential and live your most authentic life.</p>
                 
-                <div class="transformation-timeline">
+                <div class="timeline">
                     ${reportData.transformationStages.map((stage, index) => `
-                        <div class="timeline-stage">
-                            <h3 class="timeline-title">Stage ${index + 1}: ${stage.title}</h3>
-                            <p class="timeline-description">${stage.description}</p>
-                            <ul class="insights-list">
-                                ${stage.insights.map(insight => `<li>${insight}</li>`).join('')}
-                            </ul>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h4 class="timeline-title">Stage ${index + 1}: ${stage.title}</h4>
+                                <p class="timeline-description">${stage.description}</p>
+                                <ul class="insights-list">
+                                    ${stage.insights.map(insight => `<li>${insight}</li>`).join('')}
+                                </ul>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -806,24 +933,35 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
         </div>
     </section>
 
-    <section class="journey-stage">
+    <div class="section-divider"></div>
+
+    <!-- Stage 4: Transformation -->
+    <section class="journey-stage" id="stage4">
         <div class="container">
             <div class="stage-number">04</div>
             <div class="stage-content">
                 <h2 class="stage-title">Your Transformation</h2>
                 <p class="stage-description">Based on your assessment patterns, here's what your life looks like before and after your transformation journey.</p>
                 
-                <div class="before-after-section">
-                    <div class="before-after-card">
-                        <h3 class="before-after-title before-title">Before Transformation</h3>
-                        <ul class="before-after-list">
-                            ${reportData.beforeAfter.before.map(item => `<li>${item}</li>`).join('')}
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-times-circle"></i> Before Transformation</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            ${reportData.beforeAfter.before.map(item => `
+                                <li style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                                    <i class="fas fa-arrow-right" style="color: var(--orange); margin-right: 0.5rem;"></i>${item}
+                                </li>
+                            `).join('')}
                         </ul>
                     </div>
-                    <div class="before-after-card">
-                        <h3 class="before-after-title after-title">After Transformation</h3>
-                        <ul class="before-after-list">
-                            ${reportData.beforeAfter.after.map(item => `<li>${item}</li>`).join('')}
+                    <div class="after-section">
+                        <h3><i class="fas fa-lightbulb"></i> After Transformation</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            ${reportData.beforeAfter.after.map(item => `
+                                <li style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                                    <i class="fas fa-arrow-right" style="color: var(--cyan); margin-right: 0.5rem;"></i>${item}
+                                </li>
+                            `).join('')}
                         </ul>
                     </div>
                 </div>
@@ -831,12 +969,21 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
         </div>
     </section>
 
-    <section class="cta-section">
-        <p class="cta-text">${reportData.callToAction}</p>
-        <a href="#" class="cta-button">Begin Your Transformation</a>
+    <div class="section-divider"></div>
+
+    <!-- Final CTA -->
+    <section class="journey-stage">
+        <div class="container">
+            <div style="text-align: center; padding: 3rem; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border-radius: 30px; border: 2px solid var(--gold);">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 1rem;">Ready to Transform?</h2>
+                <p style="font-size: 1.3rem; color: var(--light-purple-text); margin-bottom: 2rem;">${reportData.callToAction}</p>
+                <a href="#" class="cta-button">Begin Your Transformation</a>
+            </div>
+        </div>
     </section>
 
     <script>
+        // Progress bar animation on load
         window.addEventListener('load', function() {
             const progressBars = document.querySelectorAll('.progress-fill');
             progressBars.forEach(bar => {
@@ -848,20 +995,66 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             });
         });
 
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Create additional floating elements dynamically
         function createFloatingElement() {
             const element = document.createElement('div');
             element.className = 'floating-element';
-            element.style.top = Math.random() * 100 + '%';
-            element.style.left = Math.random() * 100 + '%';
-            element.style.animationDelay = Math.random() * 6 + 's';
-            document.body.appendChild(element);
+            element.style.cssText = \`
+                top: \${Math.random() * 100}%;
+                left: \${Math.random() * 100}%;
+                width: \${Math.random() * 15 + 10}px;
+                height: \${Math.random() * 15 + 10}px;
+                background: rgba(\${Math.random() > 0.5 ? '255, 215, 0' : '0, 212, 255'}, 0.1);
+                border-radius: 50%;
+                animation-delay: \${Math.random() * 6}s;
+            \`;
+            
+            document.querySelector('.floating-elements').appendChild(element);
             
             setTimeout(() => {
                 element.remove();
             }, 6000);
         }
 
+        // Add new floating elements periodically
         setInterval(createFloatingElement, 3000);
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all major sections
+        document.querySelectorAll('.journey-stage').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
     </script>
 </body>
 </html>`;
