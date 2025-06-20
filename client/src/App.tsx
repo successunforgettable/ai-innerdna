@@ -15,6 +15,7 @@ import Results from "@/pages/Results";
 import Analytics from "@/pages/Analytics";
 import AdminLogin from "@/pages/AdminLogin";
 import AlgorithmTest from "@/pages/AlgorithmTest";
+import AITestPage from "@/pages/AITestPage";
 import Login from "@/pages/Login";
 import Reports from "@/pages/Reports";
 import ResetPassword from "@/pages/ResetPassword";
@@ -103,6 +104,7 @@ function Router() {
       <Route path="/analytics" component={AppContent} />
       <Route path="/admin-login" component={AppContent} />
       <Route path="/algorithm-test" component={AppContent} />
+      <Route path="/ai-test" component={AITestPage} />
       <Route path="/login" component={Login} />
       <Route path="/reports" component={Reports} />
       <Route path="/reset-password" component={ResetPassword} />

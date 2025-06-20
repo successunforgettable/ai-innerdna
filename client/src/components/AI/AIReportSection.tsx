@@ -42,7 +42,7 @@ const AIReportSection: React.FC<AIReportSectionProps> = ({ assessmentData }) => 
         buildingBlocks: assessmentData.buildingBlocks
       };
 
-      const response = await apiRequest('/api/generate-ai-report', {
+      const response = await fetch('/api/generate-ai-report', {
         method: 'POST',
         body: JSON.stringify({ assessmentData: aiAssessmentData }),
         headers: {
@@ -50,7 +50,12 @@ const AIReportSection: React.FC<AIReportSectionProps> = ({ assessmentData }) => 
         }
       });
 
-      setAiReport(response);
+      if (!response.ok) {
+        throw new Error('Failed to generate AI report');
+      }
+
+      const data = await response.json();
+      setAiReport(data);
       setExpanded(true);
     } catch (err) {
       setError('Failed to generate AI insights. Please try again.');
