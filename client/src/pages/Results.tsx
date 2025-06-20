@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import ReportHeader from '@/components/Results/ReportHeader';
 import TypeDescription from '@/components/Results/TypeDescription';
 import MoodStates from '@/components/Results/MoodStates';
-import AIReportSection from '@/components/AI/AIReportSection';
+
 import { saveAssessmentData } from '@/lib/assessmentStorage';
 import '@/styles/design-system.css';
 
@@ -437,8 +437,7 @@ const Results = () => {
                 </div>
               </div>
 
-              {/* AI-Powered Insights Section */}
-              <AIReportSection assessmentData={assessmentData} />
+
             </>
           ) : (
             <div className="text-center">

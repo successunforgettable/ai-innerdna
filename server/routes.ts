@@ -409,11 +409,22 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     try {
       const { assessmentData } = req.body;
       
-      if (!assessmentData || !assessmentData.primaryType) {
-        return res.status(400).json({ error: "Assessment data with primary type is required" });
+      if (!assessmentData || !assessmentData.result?.primaryType) {
+        return res.status(400).json({ error: "Assessment data with personality result is required" });
       }
 
-      const reportData = await generateCustomReport(assessmentData);
+      // Transform assessment data to match expected format
+      const transformedData = {
+        primaryType: assessmentData.result.primaryType,
+        confidence: assessmentData.result.confidence,
+        wing: assessmentData.buildingBlocks?.[0]?.wing || '9',
+        foundationStones: assessmentData.foundationStones || [],
+        buildingBlocks: assessmentData.buildingBlocks || [],
+        colorStates: assessmentData.colorStates || [],
+        detailTokens: assessmentData.detailTokens || []
+      };
+
+      const reportData = await generateCustomReport(transformedData);
       const htmlReport = generateCustomReportHTML(reportData);
       
       res.setHeader('Content-Type', 'text/html');
