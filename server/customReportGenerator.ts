@@ -2,7 +2,6 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Helper functions to convert to approved terminology
 function getPersonalityName(primaryType: string): string {
   const typeMap: { [key: string]: string } = {
     "Type 1": "The Reformer",
@@ -35,96 +34,94 @@ function getInfluenceName(wing?: string): string {
   return wingMap[wing] || "Balanced Influence";
 }
 
-function generateDefaultLifeAreas(assessmentData: AssessmentData, personalityName: string): Array<{area: string; icon: string; description: string; percentage: number}> {
-  const baseAreas = [
-    { area: "Career", icon: "fas fa-briefcase", description: "Professional growth and leadership development", percentage: 45 },
-    { area: "Relationships", icon: "fas fa-heart", description: "Emotional intelligence and connection", percentage: 55 },
-    { area: "Health", icon: "fas fa-heartbeat", description: "Physical and mental wellbeing", percentage: 40 },
-    { area: "Spirituality", icon: "fas fa-leaf", description: "Inner peace and purpose", percentage: 35 },
-    { area: "Personal Growth", icon: "fas fa-seedling", description: "Self-awareness and development", percentage: 60 },
-    { area: "Finances", icon: "fas fa-coins", description: "Financial stability and abundance", percentage: 50 },
-    { area: "Recreation", icon: "fas fa-smile", description: "Joy and life balance", percentage: 45 },
-    { area: "Contribution", icon: "fas fa-hands-helping", description: "Making a meaningful impact", percentage: 55 }
-  ];
+function analyzeAssessmentData(assessmentData: AssessmentData): string {
+  const analyses = [];
   
-  // Adjust percentages based on personality type and confidence
-  const confidenceBoost = Math.floor(assessmentData.confidence / 10);
-  return baseAreas.map(area => ({
-    ...area,
-    percentage: Math.min(95, area.percentage + confidenceBoost + Math.floor(Math.random() * 15))
-  }));
+  // Foundation stones analysis
+  if (assessmentData.foundationStones && assessmentData.foundationStones.length > 0) {
+    const patterns = assessmentData.foundationStones.map((stone, index) => {
+      if (stone && stone.statements) {
+        return `Foundation Set ${index + 1}: "${stone.statements[0]}" - Shows ${getDecisionPattern(index, stone.stoneIndex)}`;
+      }
+      return `Foundation Set ${index + 1}: Decision pattern available`;
+    });
+    analyses.push("FOUNDATION ANALYSIS:\n" + patterns.join('\n'));
+  }
+  
+  // Building blocks analysis
+  if (assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0) {
+    const blocks = assessmentData.buildingBlocks.map(block => {
+      if (block && block.name) {
+        return `${block.name}: ${getBlockMeaning(block.name)}`;
+      }
+      return "Personality architecture component";
+    });
+    analyses.push("BUILDING BLOCKS:\n" + blocks.join('\n'));
+  }
+  
+  // Color states analysis
+  if (assessmentData.colorStates && assessmentData.colorStates.length > 0) {
+    const states = assessmentData.colorStates.map(state => {
+      const intensity = state.percentage > 60 ? "Dominant" : state.percentage > 40 ? "Moderate" : "Present";
+      return `${state.state} (${state.percentage}%): ${intensity} emotional/behavioral pattern`;
+    });
+    analyses.push("COLOR STATES:\n" + states.join('\n'));
+  }
+  
+  // Subtype analysis
+  if (assessmentData.detailTokens && assessmentData.detailTokens.length > 0) {
+    const categoryDistribution = assessmentData.detailTokens.reduce((acc, token) => {
+      acc[token.category] = (acc[token.category] || 0) + parseInt(token.token);
+      return acc;
+    }, {} as { [key: string]: number });
+    
+    const dominantSubtype = Object.entries(categoryDistribution)
+      .sort(([,a], [,b]) => b - a)[0];
+    
+    if (dominantSubtype) {
+      const [category, score] = dominantSubtype;
+      const subtypeDesc = category === "self" ? "Self-Preservation focus" : 
+                         category === "oneToOne" ? "One-to-One focus" : "Social focus";
+      analyses.push(`SUBTYPE FOCUS:\n${subtypeDesc} with ${score} tokens`);
+    }
+  }
+  
+  return analyses.join('\n\n');
 }
 
-function generateDefaultStages(assessmentData: AssessmentData, personalityName: string): Array<{title: string; description: string; insights: string[]}> {
-  return [
-    {
-      title: "Awakening",
-      description: "Recognizing your current patterns and their limitations",
-      insights: [
-        `Understanding your ${personalityName.toLowerCase()} core motivations`,
-        "Identifying unconscious behavioral patterns",
-        "Recognizing growth opportunities"
-      ]
-    },
-    {
-      title: "Exploration", 
-      description: "Discovering new possibilities and perspectives",
-      insights: [
-        "Exploring beyond comfort zone boundaries",
-        "Developing emotional intelligence",
-        "Building self-awareness practices"
-      ]
-    },
-    {
-      title: "Integration",
-      description: "Combining insights with daily practice",
-      insights: [
-        "Implementing new behavioral patterns",
-        "Balancing strengths with growth areas",
-        "Creating sustainable change habits"
-      ]
-    },
-    {
-      title: "Mastery",
-      description: "Embodying your transformed self",
-      insights: [
-        "Living authentically from your core",
-        "Leading others through example",
-        "Creating positive ripple effects"
-      ]
-    },
-    {
-      title: "Service",
-      description: "Contributing your gifts to the world",
-      insights: [
-        "Mentoring others on their journey",
-        "Creating meaningful impact",
-        "Living your highest purpose"
-      ]
-    }
+function getDecisionPattern(setIndex: number, stoneIndex: number): string {
+  const patterns = [
+    ["intuitive decision-making", "analytical approach", "gut-based choices"],
+    ["security motivation", "achievement drive", "justice orientation"],
+    ["inward energy", "outward expression", "balanced approach"],
+    ["group orientation", "individual focus", "selective connection"],
+    ["emotional processing", "practical analysis", "intuitive understanding"],
+    ["optimistic outlook", "realistic perspective", "cautious approach"],
+    ["collaborative style", "independent work", "leadership tendency"],
+    ["structured approach", "flexible adaptation", "spontaneous response"],
+    ["harmony seeking", "challenge acceptance", "balance maintenance"]
   ];
+  
+  if (setIndex < patterns.length && stoneIndex < patterns[setIndex].length) {
+    return patterns[setIndex][stoneIndex];
+  }
+  return "decision-making preference";
 }
 
-function generateDefaultBeforeAfter(assessmentData: AssessmentData, personalityName: string): {before: string[]; after: string[]} {
-  const patterns: { [key: string]: {before: string[]; after: string[]} } = {
-    "The Challenger": {
-      before: ["Led from survival", "Chronically defensive", "Disconnected from vulnerability", "Attracted conflict"],
-      after: ["Leads with presence", "Emotionally intelligent", "Heart-brain connected", "Attracts collaboration"]
-    },
-    "The Achiever": {
-      before: ["Driven by external validation", "Image-focused", "Disconnected from feelings", "Burned out from overwork"],
-      after: ["Internally motivated", "Authentically confident", "Emotionally aware", "Balanced and sustainable"]
-    },
-    "The Helper": {
-      before: ["People-pleasing", "Neglecting own needs", "Manipulative giving", "Resentful and exhausted"],
-      after: ["Healthy boundaries", "Self-caring", "Genuine generosity", "Energized and fulfilled"]
-    }
+function getBlockMeaning(blockName: string): string {
+  const meanings: { [key: string]: string } = {
+    "Leadership": "Natural ability to guide and influence others",
+    "Creativity": "Strong creative expression and innovative thinking",
+    "Analysis": "Deep analytical and problem-solving capabilities",
+    "Connection": "Emphasis on relationships and emotional bonds",
+    "Structure": "Preference for organization and systematic approaches",
+    "Adventure": "Desire for novelty and exciting experiences",
+    "Service": "Focus on helping and supporting others",
+    "Independence": "Value for autonomy and self-direction",
+    "Harmony": "Seeking balance and avoiding conflict"
   };
   
-  return patterns[personalityName] || {
-    before: ["Reactive patterns", "Limited self-awareness", "Stuck in comfort zone", "Unfulfilled potential"],
-    after: ["Conscious responses", "Deep self-knowledge", "Embracing growth", "Living authentically"]
-  };
+  return meanings[blockName] || "represents a core aspect of your personality architecture";
 }
 
 interface AssessmentData {
@@ -166,34 +163,34 @@ interface CustomReportData {
 
 export async function generateCustomReport(assessmentData: AssessmentData): Promise<CustomReportData> {
   try {
-    // Generate AI content based on assessment data
     const personalityName = getPersonalityName(assessmentData.primaryType);
     const influenceName = getInfluenceName(assessmentData.wing);
+    const assessmentAnalysis = analyzeAssessmentData(assessmentData);
     
-    const prompt = `Based on this personality assessment data, generate content for a transformational report:
+    const prompt = `Based on this comprehensive personality assessment data, generate highly personalized content for a transformational report:
 
-Primary Pattern: ${personalityName}
-Confidence: ${assessmentData.confidence}%
-Influence Pattern: ${influenceName}
-Color States: ${assessmentData.colorStates.map(s => `${s.state}: ${s.percentage}%`).join(', ')}
-Detail Token Distribution: ${assessmentData.detailTokens.map(t => `${t.category}: ${t.token}`).join(', ')}
+PRIMARY PATTERN: ${personalityName}
+CONFIDENCE LEVEL: ${assessmentData.confidence}%
+INFLUENCE PATTERN: ${influenceName}
 
-Create content for a hero's journey transformation report. Use these personality names only:
+DETAILED ASSESSMENT ANALYSIS:
+${assessmentAnalysis}
+
+Create a UNIQUE hero's journey transformation report based on their SPECIFIC combination of traits. Use these personality names only:
 - The Achiever, The Challenger, The Peacemaker, The Reformer, The Helper, The Individualist, The Investigator, The Loyalist, The Enthusiast
 
 Never use "Type" or "Wing" terminology. Use "Influence" instead of "Wing".
 
-Analyze their specific combination of traits:
-- Foundation stones reveal core decision-making patterns
-- Building blocks show personality architecture  
-- Color states indicate current emotional/behavioral patterns
-- Detail tokens reveal subtype focus (self-preservation, one-to-one, social)
+PERSONALIZATION REQUIREMENTS:
+1. Analyze their specific foundation stone choices to understand decision-making patterns
+2. Use their building block selections to identify personality architecture
+3. Incorporate their color state percentages to reflect current emotional/behavioral patterns
+4. Reference their subtype focus (self-preservation, one-to-one, or social) in growth recommendations
+5. Create life area percentages that reflect their actual assessment patterns
+6. Design transformation stages specific to their personality and influence combination
+7. Generate before/after comparisons that address their specific patterns and challenges
 
-Generate personalized content based on their unique trait combination. Focus on their specific growth path, challenges, and transformation potential.
-
-Create 8 life areas with specific percentages based on their assessment results.
-Create 5 transformation stages that reflect their personality's growth journey.
-Create before/after comparisons that are specific to their personality pattern and influence.
+Make every section reflect their unique assessment data - no generic content.
 
 Response format:
 {
@@ -202,33 +199,33 @@ Response format:
   "personalityType": "[Personality Name]",
   "influencePattern": "[Influence Description]",
   "currentState": {
-    "average": 60,
-    "belowAverage": 40
+    "average": 40,
+    "belowAverage": 60
   },
   "lifeAreas": [
     {
-      "area": "Career",
-      "icon": "fas fa-briefcase",
-      "description": "[Personalized description]",
+      "area": "Area Name",
+      "icon": "fas fa-icon",
+      "description": "[Personalized description based on their data]",
       "percentage": 40
     }
   ],
   "transformationStages": [
     {
       "title": "Stage Title",
-      "description": "Stage description",
+      "description": "Personalized stage description",
       "insights": ["insight1", "insight2", "insight3"]
     }
   ],
   "beforeAfter": {
-    "before": ["Led from survival", "Chronically defensive", "Disconnected", "Attracted conflict"],
-    "after": ["Leads with presence", "Emotionally intelligent", "Heart-brain connected", "Attracts collaboration"]
+    "before": ["Pattern from their data", "Specific challenge", "Current limitation", "Assessment insight"],
+    "after": ["Transformed state", "Growth outcome", "New capability", "Potential realized"]
   },
-  "callToAction": "Personalized transformation message"
+  "callToAction": "Personalized transformation message based on their specific assessment"
 }`;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -245,7 +242,6 @@ Response format:
 
     const aiContent = JSON.parse(response.choices[0].message.content || '{}');
     
-    // Ensure we have properly structured data with approved terminology
     return {
       heroTitle: aiContent.heroTitle || `${personalityName} Transformation Journey`,
       heroSubtitle: aiContent.heroSubtitle || `Your Hero's Path to Authentic Mastery`,
@@ -255,16 +251,15 @@ Response format:
         average: Math.max(30, assessmentData.confidence - 15),
         belowAverage: Math.min(70, 100 - assessmentData.confidence + 15)
       },
-      lifeAreas: aiContent.lifeAreas || generateDefaultLifeAreas(assessmentData, personalityName),
-      transformationStages: aiContent.transformationStages || generateDefaultStages(assessmentData, personalityName),
-      beforeAfter: aiContent.beforeAfter || generateDefaultBeforeAfter(assessmentData, personalityName),
+      lifeAreas: aiContent.lifeAreas || getPersonalizedLifeAreas(assessmentData),
+      transformationStages: aiContent.transformationStages || getPersonalizedStages(assessmentData),
+      beforeAfter: aiContent.beforeAfter || getPersonalizedBeforeAfter(assessmentData),
       callToAction: aiContent.callToAction || `Begin your ${personalityName.toLowerCase()} transformation journey today and unlock your authentic potential.`
     };
 
   } catch (error) {
     console.error("Error generating custom report:", error);
     
-    // Fallback content based on assessment data
     const personalityName = getPersonalityName(assessmentData.primaryType);
     const influenceName = getInfluenceName(assessmentData.wing);
     
@@ -277,100 +272,80 @@ Response format:
         average: Math.max(20, assessmentData.confidence - 20),
         belowAverage: Math.min(80, 100 - assessmentData.confidence)
       },
-      lifeAreas: generateDefaultLifeAreas(assessmentData, personalityName),
-      transformationStages: generateDefaultStages(assessmentData, personalityName),
-      beforeAfter: generateDefaultBeforeAfter(assessmentData, personalityName),
+      lifeAreas: getPersonalizedLifeAreas(assessmentData),
+      transformationStages: getPersonalizedStages(assessmentData),
+      beforeAfter: getPersonalizedBeforeAfter(assessmentData),
       callToAction: `Begin your ${personalityName.toLowerCase()} transformation journey today and unlock your authentic potential.`
     };
   }
 }
 
-// Add the missing life areas for fallback
-function generateFallbackLifeAreas(): Array<{area: string; icon: string; description: string; percentage: number}> {
+function getPersonalizedLifeAreas(assessmentData: AssessmentData) {
+  const confidenceBoost = Math.floor(assessmentData.confidence / 10);
+  return [
+    { area: "Career", icon: "fas fa-briefcase", description: "Professional growth and leadership development", percentage: Math.min(95, 45 + confidenceBoost) },
+    { area: "Relationships", icon: "fas fa-heart", description: "Emotional intelligence and connection", percentage: Math.min(95, 55 + confidenceBoost) },
+    { area: "Health", icon: "fas fa-heartbeat", description: "Physical and mental wellbeing", percentage: Math.min(95, 40 + confidenceBoost) },
+    { area: "Spirituality", icon: "fas fa-leaf", description: "Inner peace and purpose", percentage: Math.min(95, 35 + confidenceBoost) },
+    { area: "Personal Growth", icon: "fas fa-seedling", description: "Self-awareness and development", percentage: Math.min(95, 60 + confidenceBoost) },
+    { area: "Finances", icon: "fas fa-coins", description: "Financial stability and abundance", percentage: Math.min(95, 50 + confidenceBoost) },
+    { area: "Recreation", icon: "fas fa-smile", description: "Joy and life balance", percentage: Math.min(95, 45 + confidenceBoost) },
+    { area: "Contribution", icon: "fas fa-hands-helping", description: "Making a meaningful impact", percentage: Math.min(95, 55 + confidenceBoost) }
+  ];
+}
+
+function getPersonalizedStages(assessmentData: AssessmentData) {
+  const personalityName = getPersonalityName(assessmentData.primaryType);
   return [
     {
-      area: "Career",
-      icon: "fas fa-briefcase",
-      description: "You have leadership potential but may feel unfulfilled in your current path.",
-      percentage: 45
+      title: "Awakening",
+      description: "Recognizing your current patterns and their limitations",
+      insights: [`Understanding your ${personalityName.toLowerCase()} core motivations`, "Identifying unconscious behavioral patterns", "Recognizing growth opportunities"]
     },
-        {
-          area: "Relationships",
-          icon: "fas fa-heart",
-          description: "Deep connections are important to you but trust can be challenging.",
-          percentage: 40
-        },
-        {
-          area: "Personal Growth",
-          icon: "fas fa-seedling",
-          description: "You seek development but need the right approach for your type.",
-          percentage: 35
-        },
-        {
-          area: "Mental State",
-          icon: "fas fa-brain",
-          description: "Your mind processes intensely but could benefit from more peace.",
-          percentage: 50
-        },
-        {
-          area: "Physical Health",
-          icon: "fas fa-dumbbell",
-          description: "Stress patterns may manifest physically in your body.",
-          percentage: 45
-        },
-        {
-          area: "Finances",
-          icon: "fas fa-dollar-sign",
-          description: "You're capable but emotional patterns affect financial decisions.",
-          percentage: 55
-        },
-        {
-          area: "Social Life",
-          icon: "fas fa-users",
-          description: "You connect selectively and value authentic relationships.",
-          percentage: 40
-        },
-        {
-          area: "Environment",
-          icon: "fas fa-home",
-          description: "Your space reflects your inner state and control needs.",
-          percentage: 50
-        }
-      ],
-      transformationStages: [
-        {
-          title: "Recognition",
-          description: "Understanding your current patterns and their impact",
-          insights: ["Identify reactive patterns", "Understand your motivations", "See the cost of current approach"]
-        },
-        {
-          title: "Integration",
-          description: "Learning new ways of being and responding",
-          insights: ["Practice new behaviors", "Build emotional intelligence", "Develop healthier patterns"]
-        },
-        {
-          title: "Mastery",
-          description: "Living from your transformed authentic self",
-          insights: ["Lead with presence", "Create lasting relationships", "Live with purpose and peace"]
-        }
-      ],
-      beforeAfter: {
-        before: [
-          "Led from reactive patterns",
-          "Felt constantly under pressure",
-          "Struggled with emotional connection",
-          "Attracted conflict and resistance"
-        ],
-        after: [
-          "Leads from authentic presence",
-          "Maintains inner peace and strength",
-          "Creates deep, meaningful connections",
-          "Attracts collaboration and trust"
-        ]
-      },
-      callToAction: "Your transformation journey awaits. The insights you've gained today are just the beginning of what's possible when you commit to authentic growth."
-    };
-  }
+    {
+      title: "Exploration", 
+      description: "Discovering new possibilities and perspectives",
+      insights: ["Exploring beyond comfort zone boundaries", "Developing emotional intelligence", "Building self-awareness practices"]
+    },
+    {
+      title: "Integration",
+      description: "Combining insights with daily practice",
+      insights: ["Implementing new behavioral patterns", "Balancing strengths with growth areas", "Creating sustainable change habits"]
+    },
+    {
+      title: "Mastery",
+      description: "Embodying your transformed self",
+      insights: ["Living authentically from your core", "Leading others through example", "Creating positive ripple effects"]
+    },
+    {
+      title: "Service",
+      description: "Contributing your gifts to the world",
+      insights: ["Mentoring others on their journey", "Creating meaningful impact", "Living your highest purpose"]
+    }
+  ];
+}
+
+function getPersonalizedBeforeAfter(assessmentData: AssessmentData) {
+  const personalityName = getPersonalityName(assessmentData.primaryType);
+  const patterns: { [key: string]: {before: string[]; after: string[]} } = {
+    "The Challenger": {
+      before: ["Led from survival", "Chronically defensive", "Disconnected from vulnerability", "Attracted conflict"],
+      after: ["Leads with presence", "Emotionally intelligent", "Heart-brain connected", "Attracts collaboration"]
+    },
+    "The Achiever": {
+      before: ["Driven by external validation", "Image-focused", "Disconnected from feelings", "Burned out from overwork"],
+      after: ["Internally motivated", "Authentically confident", "Emotionally aware", "Balanced and sustainable"]
+    },
+    "The Helper": {
+      before: ["People-pleasing", "Neglecting own needs", "Manipulative giving", "Resentful and exhausted"],
+      after: ["Healthy boundaries", "Self-caring", "Genuine generosity", "Energized and fulfilled"]
+    }
+  };
+  
+  return patterns[personalityName] || {
+    before: ["Reactive patterns", "Limited self-awareness", "Stuck in comfort zone", "Unfulfilled potential"],
+    after: ["Conscious responses", "Deep self-knowledge", "Embracing growth", "Living authentically"]
+  };
 }
 
 export function generateCustomReportHTML(reportData: CustomReportData): string {
@@ -379,9 +354,9 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${reportData.heroTitle} - Your Transformation Journey</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <title>${reportData.heroTitle}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-purple: #6B46C1;
@@ -391,7 +366,6 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             --cyan: #00D4FF;
             --orange: #FF6B35;
             --white: #FFFFFF;
-            --light-purple-text: #E9D5FF;
         }
 
         * {
@@ -408,12 +382,6 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -424,202 +392,41 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             overflow: hidden;
         }
 
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
         .hero-content {
-            position: relative;
-            z-index: 2;
+            z-index: 10;
+            max-width: 800px;
+            padding: 2rem;
         }
 
         .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 8rem);
-            font-weight: 900;
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
             background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: brightness(1); }
-            to { filter: brightness(1.2); }
+            animation: shimmer 3s ease-in-out infinite;
         }
 
         .hero-subtitle {
-            font-size: 1.8rem;
-            color: var(--light-purple-text);
-            margin-bottom: 3rem;
+            font-size: 1.5rem;
             font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
         }
 
-        .journey-stage {
-            padding: 100px 0;
-            position: relative;
-        }
-
-        .stage-number {
-            font-size: 8rem;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        .stage-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .stage-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(45deg, var(--gold), var(--cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stage-description {
-            font-size: 1.3rem;
-            text-align: center;
-            margin-bottom: 4rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            color: var(--light-purple-text);
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            margin: 4rem 0;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-            margin: 1rem;
-        }
-
-        .stat-number {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--gold);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 1.2rem;
-            color: var(--light-purple-text);
-        }
-
-        .danger-indicator {
-            color: var(--orange);
-            font-weight: 700;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.5; }
-        }
-
-        .wheel-of-life {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
-        .life-area {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            border-left: 5px solid var(--gold);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
-            border-radius: 10px;
-            transition: width 2s ease-in-out;
-        }
-
-        .before-after {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin: 4rem 0;
-        }
-
-        .before-section {
-            background: rgba(255, 107, 53, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            border-left: 5px solid var(--orange);
-        }
-
-        .after-section {
-            background: rgba(0, 212, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            border-left: 5px solid var(--cyan);
-        }
-
-        .highlight-text {
-            background: linear-gradient(45deg, var(--gold), var(--cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .floating-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .floating-element {
             position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             animation: float 6s ease-in-out infinite;
         }
 
@@ -628,105 +435,314 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             50% { transform: translateY(-20px); }
         }
 
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 4rem 0;
-        }
-
-        .timeline {
+        .journey-stage {
+            padding: 4rem 2rem;
             position: relative;
-            margin: 4rem 0;
         }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(to bottom, var(--gold), var(--cyan));
-            transform: translateX(-50%);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 3rem;
+            align-items: center;
         }
 
-        .timeline-item {
-            position: relative;
-            margin: 3rem 0;
+        .stage-number {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            background: var(--gold);
-            border-radius: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 20px var(--gold);
+        .stage-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .timeline-content {
+        .stage-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .stage-description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .highlight-text {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .danger-indicator {
+            color: #FF6B6B;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .life-areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .life-area-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 2rem;
-            margin-left: 60%;
-            width: 35%;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
         }
 
-        .timeline-item:nth-child(even) .timeline-content {
-            margin-left: 5%;
+        .life-area-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .area-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .area-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            color: var(--gold);
+        }
+
+        .area-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .area-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--orange));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .percentage-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .transformation-timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-stage {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .insights-list {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .insights-list li {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .insights-list li:before {
+            content: "→";
+            color: var(--gold);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+
+        .before-after-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .before-after-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .before-after-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .before-title {
+            color: #FF6B6B;
+        }
+
+        .after-title {
+            color: #4ECDC4;
+        }
+
+        .before-after-list {
+            list-style: none;
+        }
+
+        .before-after-list li {
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: #1a1a1a;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 3rem;
-            }
-            
-            .stage-title {
                 font-size: 2.5rem;
             }
             
-            .wheel-of-life {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .before-after-section {
                 grid-template-columns: 1fr;
             }
             
-            .before-after {
+            .life-areas-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .timeline-content {
-                margin-left: 10% !important;
-                width: 80% !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-elements">
-        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
-        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
-        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
-        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
-    </div>
+    <div class="floating-element" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="top: 20%; right: 15%; animation-delay: 1s;"></div>
+    <div class="floating-element" style="bottom: 30%; left: 20%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="bottom: 10%; right: 10%; animation-delay: 3s;"></div>
 
-    <!-- Hero Section -->
     <section class="hero-section">
-        <div class="hero-background"></div>
         <div class="hero-content">
             <h1 class="hero-title">${reportData.heroTitle}</h1>
             <p class="hero-subtitle">${reportData.heroSubtitle}</p>
         </div>
     </section>
 
-    <!-- Current Reality -->
     <section class="journey-stage">
         <div class="container">
             <div class="stage-number">01</div>
             <div class="stage-content">
                 <h2 class="stage-title">Your Current Reality</h2>
-                <p class="stage-description">You are a <span class="highlight-text">${reportData.personalityType}</span> with <span class="highlight-text">${reportData.influencePattern}</span>. This is your current state...</p>
+                <p class="stage-description">You are a <span class="highlight-text">${reportData.personalityType}</span> with <span class="highlight-text">${reportData.influencePattern}</span>. This assessment reveals your unique transformation path.</p>
                 
                 <div class="stats-container">
                     <div class="stat-item">
@@ -735,136 +751,117 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
                     </div>
                     <div class="stat-item">
                         <span class="stat-number danger-indicator">${reportData.currentState.belowAverage}%</span>
-                        <span class="stat-label">Untapped Potential<br>Ready for Transformation</span>
+                        <span class="stat-label">Below Potential<br>Transformation Needed</span>
                     </div>
-                </div>
-
-                <div class="wheel-of-life">
-                    ${reportData.lifeAreas.map(area => `
-                    <div class="life-area">
-                        <h4><i class="${area.icon}" style="color: var(--gold);"></i> ${area.area}</h4>
-                        <p>${area.description}</p>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${area.percentage}%;"></div>
-                        </div>
-                    </div>
-                    `).join('')}
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Transformation Journey -->
     <section class="journey-stage">
         <div class="container">
             <div class="stage-number">02</div>
             <div class="stage-content">
-                <h2 class="stage-title">Your Transformation Journey</h2>
-                <p class="stage-description">Based on your assessment results, here's your personalized path to growth and mastery.</p>
+                <h2 class="stage-title">Life Areas Assessment</h2>
+                <p class="stage-description">Based on your specific assessment results, here's how you're performing across key life areas and where you have the most potential for growth.</p>
                 
-                <div class="timeline">
-                    ${reportData.transformationStages.map((stage, index) => `
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h4 style="color: var(--gold);">${stage.title}</h4>
-                            <p>${stage.description}</p>
-                            <ul style="margin-top: 1rem; list-style: none; padding: 0;">
-                                ${stage.insights.map(insight => `<li style="margin: 0.5rem 0;"><i class="fas fa-star" style="color: var(--gold); margin-right: 0.5rem;"></i>${insight}</li>`).join('')}
-                            </ul>
+                <div class="life-areas-grid">
+                    ${reportData.lifeAreas.map(area => `
+                        <div class="life-area-card">
+                            <div class="area-header">
+                                <i class="${area.icon} area-icon"></i>
+                                <h3 class="area-title">${area.area}</h3>
+                            </div>
+                            <p class="area-description">${area.description}</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${area.percentage}%"></div>
+                            </div>
+                            <div class="percentage-text">${area.percentage}%</div>
                         </div>
-                    </div>
                     `).join('')}
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Before & After -->
     <section class="journey-stage">
         <div class="container">
             <div class="stage-number">03</div>
             <div class="stage-content">
-                <h2 class="stage-title">Your Transformation</h2>
-                <p class="stage-description">The journey from where you are now to your <span class="highlight-text">incredible potential</span>.</p>
+                <h2 class="stage-title">Your Transformation Journey</h2>
+                <p class="stage-description">This is your personalized roadmap based on your unique assessment profile to unlock your full potential and live your most authentic life.</p>
                 
-                <div class="before-after">
-                    <div class="before-section">
-                        <h3><i class="fas fa-arrow-left"></i> Current Patterns</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            ${reportData.beforeAfter.before.map(item => `<li><i class="fas fa-times" style="color: var(--orange);"></i> ${item}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="after-section">
-                        <h3><i class="fas fa-arrow-right"></i> Transformed You</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            ${reportData.beforeAfter.after.map(item => `<li><i class="fas fa-check" style="color: var(--cyan);"></i> ${item}</li>`).join('')}
-                        </ul>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin: 4rem 0; padding: 4rem; background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.2)); border-radius: 20px; border: 2px solid var(--gold);">
-                    <h3 style="color: var(--gold); font-size: 3rem; margin-bottom: 2rem;">Your Journey Begins Now</h3>
-                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
-                        ${reportData.callToAction}
-                    </p>
-                    <p style="font-size: 1.2rem; color: var(--gold); font-weight: 700;">
-                        The hero's journey begins with a single decision. Make yours now.
-                    </p>
+                <div class="transformation-timeline">
+                    ${reportData.transformationStages.map((stage, index) => `
+                        <div class="timeline-stage">
+                            <h3 class="timeline-title">Stage ${index + 1}: ${stage.title}</h3>
+                            <p class="timeline-description">${stage.description}</p>
+                            <ul class="insights-list">
+                                ${stage.insights.map(insight => `<li>${insight}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         </div>
     </section>
 
+    <section class="journey-stage">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Your Transformation</h2>
+                <p class="stage-description">Based on your assessment patterns, here's what your life looks like before and after your transformation journey.</p>
+                
+                <div class="before-after-section">
+                    <div class="before-after-card">
+                        <h3 class="before-after-title before-title">Before Transformation</h3>
+                        <ul class="before-after-list">
+                            ${reportData.beforeAfter.before.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="before-after-card">
+                        <h3 class="before-after-title after-title">After Transformation</h3>
+                        <ul class="before-after-list">
+                            ${reportData.beforeAfter.after.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <p class="cta-text">${reportData.callToAction}</p>
+        <a href="#" class="cta-button">Begin Your Transformation</a>
+    </section>
+
     <script>
-        // Animate progress bars when they come into view
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const progressFill = entry.target.querySelector('.progress-fill');
-                    if (progressFill) {
-                        progressFill.style.width = progressFill.style.width;
-                    }
-                }
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.progress-bar').forEach(bar => {
-            observer.observe(bar);
         });
 
-        // Add floating animation to elements
-        function createFloatingElements() {
-            const floatingContainer = document.querySelector('.floating-elements');
-            const colors = ['var(--gold)', 'var(--cyan)', 'var(--orange)'];
-            const symbols = ['✨', '⚡', '💫', '🌟', '💎', '🔥'];
+        function createFloatingElement() {
+            const element = document.createElement('div');
+            element.className = 'floating-element';
+            element.style.top = Math.random() * 100 + '%';
+            element.style.left = Math.random() * 100 + '%';
+            element.style.animationDelay = Math.random() * 6 + 's';
+            document.body.appendChild(element);
             
-            for (let i = 0; i < 10; i++) {
-                const element = document.createElement('div');
-                element.className = 'floating-element';
-                element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                element.style.color = colors[Math.floor(Math.random() * colors.length)];
-                element.style.top = Math.random() * 100 + '%';
-                element.style.left = Math.random() * 100 + '%';
-                element.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-                element.style.animationDelay = '-' + Math.random() * 6 + 's';
-                element.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                
-                floatingContainer.appendChild(element);
-            }
+            setTimeout(() => {
+                element.remove();
+            }, 6000);
         }
 
-        // Initialize floating elements
-        createFloatingElements();
+        setInterval(createFloatingElement, 3000);
     </script>
 </body>
 </html>`;
