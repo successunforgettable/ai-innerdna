@@ -488,6 +488,34 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
   });
 
+  // ChatGPT content injection endpoint
+  app.post("/api/inject-report-content", async (req, res) => {
+    try {
+      const { contentData } = req.body;
+      
+      if (!contentData) {
+        return res.status(400).json({ error: "Content data is required" });
+      }
+
+      // Read the placeholder template
+      const fs = require('fs');
+      const templatePath = path.join(__dirname, '../challenger-template-with-placeholders.html');
+      let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
+
+      // Replace all placeholders with content from ChatGPT
+      for (const [placeholder, content] of Object.entries(contentData)) {
+        const placeholderPattern = new RegExp(`{{${placeholder}}}`, 'g');
+        htmlTemplate = htmlTemplate.replace(placeholderPattern, content);
+      }
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlTemplate);
+    } catch (error) {
+      console.error('Error injecting content:', error);
+      res.status(500).json({ error: "Failed to inject content into template" });
+    }
+  });
+
 
 
   // AI-generated personalized report route - Perfectionist 9 example
