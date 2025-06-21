@@ -9,6 +9,7 @@ import { sendPasswordRecoveryEmail } from "./emailService";
 import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
 import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_clean";
 import { generateSentinelCopy } from "./sentinelCopyGenerator";
+import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -516,70 +517,36 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Preview route for Sentinel 8 report (awaiting ChatGPT content generation)
-  app.get("/sentinel-8-preview", (req, res) => {
-    res.setHeader('Content-Type', 'text/html');
-    res.send(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Sentinel 8 Report - Awaiting Content</title>
-        <style>
-          body { 
-            font-family: Inter, sans-serif; 
-            background: linear-gradient(135deg, #6B46C1, #9333EA, #A855F7);
-            color: white;
-            padding: 50px;
-            text-align: center;
-          }
-          .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-          }
-          .status {
-            color: #FFD700;
-            font-size: 24px;
-            margin-bottom: 20px;
-          }
-          .specs {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>Sentinel 8 Transformation Report</h1>
-          <div class="status">⏳ Awaiting ChatGPT Content Generation</div>
-          
-          <div class="specs">
-            <h3>Report Specifications:</h3>
-            <ul>
-              <li><strong>Personality Type:</strong> Sentinel 8</li>
-              <li><strong>Current State:</strong> 60% Destructive, 40% Good</li>
-              <li><strong>Dominant Subtype:</strong> Sexual</li>
-              <li><strong>Blind Spot:</strong> Social Subtype</li>
-            </ul>
-          </div>
-          
-          <p>The technical infrastructure is ready. ChatGPT needs to generate the personalized content for this specific Sentinel 8 profile.</p>
-          
-          <div style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
-            Template: ✅ Ready<br>
-            API Endpoint: ✅ Active<br>
-            Content: ⏳ Pending ChatGPT Generation
-          </div>
-        </div>
-      </body>
-      </html>
-    `);
+  // Generate Sentinel 8 report automatically
+  app.get("/sentinel-8-report", async (req, res) => {
+    try {
+      // Generate content using OpenAI for your specific profile
+      const profile = {
+        destructivePercentage: 60,
+        goodPercentage: 40,
+        dominantSubtype: 'sexual' as const,
+        blindSubtype: 'social' as const
+      };
+
+      const contentData = await generateSentinel8Content(profile);
+      
+      // Read the placeholder template
+      const fs = require('fs');
+      const templatePath = path.join(__dirname, '../challenger-template-with-placeholders.html');
+      let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
+
+      // Replace all placeholders with generated content
+      for (const [placeholder, content] of Object.entries(contentData)) {
+        const placeholderPattern = new RegExp(`{{${placeholder}}}`, 'g');
+        htmlTemplate = htmlTemplate.replace(placeholderPattern, content);
+      }
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlTemplate);
+    } catch (error) {
+      console.error('Error generating Sentinel 8 report:', error);
+      res.status(500).send('Error generating Sentinel 8 report');
+    }
   });
 
 

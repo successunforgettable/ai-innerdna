@@ -1,133 +1,83 @@
-import { makeOpenAIRequest } from './openaiClient';
+import OpenAI from "openai";
 
-interface SentinelAssessmentData {
-  personalityType: string;
-  wing: string;
-  stateDistribution: {
-    destructive: number;
-    good: number;
-  };
-  subtype: {
-    dominant: string;
-    blind: string;
-  };
-  confidence: number;
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("OPENAI_API_KEY environment variable must be set");
 }
 
-interface SentinelReportContent {
-  heroTitle: string;
-  brainHeartDisconnect: string;
-  stage1Description: string;
-  challengeCards: Array<{
-    title: string;
-    description: string;
-    icon: string;
-  }>;
-  wheelOfLife: Array<{
-    area: string;
-    percentage: number;
-    description: string;
-  }>;
-  testimonials: Array<{
-    quote: string;
-    name: string;
-    title: string;
-  }>;
-  heroJourneyStages: {
-    stage2: string;
-    stage3: string;
-    stage4: string;
-    stage5: string;
-    stage6: string;
-  };
-  callToAction: string;
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+interface SentinelProfile {
+  destructivePercentage: number;
+  goodPercentage: number;
+  dominantSubtype: 'sexual' | 'social' | 'selfPreservation';
+  blindSubtype: 'sexual' | 'social' | 'selfPreservation';
 }
 
-export async function generateSentinel8Report(assessmentData: SentinelAssessmentData): Promise<SentinelReportContent> {
+export async function generateSentinel8Content(profile: SentinelProfile) {
   try {
-    const prompt = `
-Generate a complete personalized transformation report for a Sentinel 8 personality type.
-
-PERSONALITY PROFILE:
-- Type: ${assessmentData.personalityType}
-- Wing: ${assessmentData.wing} 
-- State Distribution: ${assessmentData.stateDistribution.destructive}% Destructive, ${assessmentData.stateDistribution.good}% Good
-- Subtype: ${assessmentData.subtype.dominant} dominant, ${assessmentData.subtype.blind} subtype blind
-- Confidence: ${assessmentData.confidence}%
-
-SENTINEL 8 CHARACTERISTICS:
-- Core: Protective guardian with authority/power drive
-- Fear: Being controlled, manipulated, or vulnerable
-- Drive: Protecting others while maintaining control and authority
-- 8 Wing Impact: Intensifies control needs, adds confrontational energy, increases dominance patterns
-
-DESTRUCTIVE STATE (${assessmentData.stateDistribution.destructive}%): Controlling behavior that suffocates those being protected, aggressive authority that pushes people away, paranoid protection that creates threats it fears, dominating leadership that breeds resentment
-
-GOOD STATE (${assessmentData.stateDistribution.good}%): Protective strength that empowers others, wise authority that guides without controlling, strategic leadership that builds trust, powerful advocacy for the vulnerable
-
-SELF-PRESERVATION FOCUS: Intense focus on security, resources, safety, building protective systems and boundaries, control over environment, less concerned with image or relationships
-
-SEXUAL SUBTYPE BLIND: Struggles with intimate intensity and passion, difficulty with one-on-one emotional depth, may avoid vulnerable personal connections, focus on broader protection rather than intimate bonds
-
-GENERATE COMPLETE TRANSFORMATION REPORT CONTENT in JSON format with these sections:
-
-1. heroTitle: Compelling transformation title for Sentinel 8 journey
-2. brainHeartDisconnect: Specific message for Sentinel 8 patterns (like "PROTECTIVE CONTROL DETECTED")
-3. stage1Description: 60-80 word description of Sentinel 8 ordinary world
-4. challengeCards: Array of 4 specific Sentinel 8 struggles with titles, descriptions, and fontawesome icons
-5. wheelOfLife: Array of 8 life areas with realistic percentages and self-preservation focused descriptions
-6. testimonials: Array of 4 professional transformation stories from Sentinel 8 perspectives
-7. heroJourneyStages: Object with stages 2-6 transformation descriptions
-8. callToAction: Final transformation message
-
-REQUIREMENTS:
-- Use "Sentinel 8" terminology, never "Type 6w8" or "Enneagram"
-- Focus on control/protection balance and authority transformation
-- Address self-preservation dominance and sexual blind spot specifically
-- Professional, authoritative tone matching Sentinel 8 energy
-- Each description 50-80 words to match challenger template length
-- Generate authentic content based on real Sentinel 8 patterns
-
-Return as valid JSON object with all sections clearly structured.`;
-
-    console.log('Generating Sentinel 8 report with OpenAI GPT-4o...');
-    
-    const response = await makeOpenAIRequest({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+    // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: "You are an expert transformation coach specializing in Sentinel 8 patterns. Generate precise, powerful content that captures the Sentinel 8 journey from destructive control to protective leadership. Focus on authentic personality-specific content."
+          content: `You are an expert Inner DNA personality analyst generating transformation report content for a Sentinel 8 personality type. 
+
+CRITICAL REQUIREMENTS:
+- Generate content for ALL placeholders in the Challenger template
+- Use Inner DNA terminology (NO Enneagram terms like "Type 8", "Challenger", etc.)
+- Focus on transformation and growth themes
+- Match the heroic journey narrative structure
+- Include brain-heart disconnect messaging
+- Respond ONLY in JSON format with placeholder mappings
+
+Sentinel 8 Profile:
+- ${profile.destructivePercentage}% destructive state, ${profile.goodPercentage}% constructive state
+- ${profile.dominantSubtype} dominant subtype
+- ${profile.blindSubtype} blind spot subtype
+
+Brain-heart disconnect: "CONTROL DEPENDENCY DETECTED"`
         },
         {
-          role: "user",
-          content: prompt
+          role: "user", 
+          content: `Generate personalized content for this Sentinel 8 profile. Return JSON with these exact placeholders:
+
+{
+  "HERO_TITLE": "transformation journey title",
+  "BRAIN_HEART_DISCONNECT": "CONTROL DEPENDENCY DETECTED",
+  "HERO_SUBTITLE": "subtitle about control to protection",
+  "CHALLENGE_DESCRIPTION": "current challenge description",
+  "STAGE_1_TITLE": "stage 1 title",
+  "STAGE_1_DESCRIPTION": "stage 1 description",
+  "STAGE_2_TITLE": "stage 2 title", 
+  "STAGE_2_DESCRIPTION": "stage 2 description",
+  "STAGE_3_TITLE": "stage 3 title",
+  "STAGE_3_DESCRIPTION": "stage 3 description",
+  "TESTIMONIAL_1_TEXT": "testimonial text",
+  "TESTIMONIAL_1_AUTHOR": "testimonial author",
+  "TESTIMONIAL_2_TEXT": "testimonial text",
+  "TESTIMONIAL_2_AUTHOR": "testimonial author",
+  "LIFE_AREA_1_TITLE": "life area title",
+  "LIFE_AREA_1_DESCRIPTION": "life area description",
+  "LIFE_AREA_2_TITLE": "life area title",
+  "LIFE_AREA_2_DESCRIPTION": "life area description",
+  "LIFE_AREA_3_TITLE": "life area title", 
+  "LIFE_AREA_3_DESCRIPTION": "life area description",
+  "TRANSFORMATION_OVERVIEW": "transformation summary",
+  "NEXT_STEPS": "concrete next steps"
+}
+
+Make it highly personalized for this specific Sentinel 8 state distribution and subtype pattern.`
         }
       ],
       response_format: { type: "json_object" },
-      temperature: 0.7,
-      max_tokens: 3500
+      max_tokens: 4000
     });
 
-    const content = JSON.parse(response.choices[0].message.content || '{}');
-    
-    // Validate required sections
-    const requiredSections = [
-      'heroTitle', 'brainHeartDisconnect', 'stage1Description', 
-      'challengeCards', 'wheelOfLife', 'testimonials', 'heroJourneyStages', 'callToAction'
-    ];
-
-    for (const section of requiredSections) {
-      if (!content[section]) {
-        throw new Error(`Missing required section: ${section}`);
-      }
-    }
-
-    console.log('✅ Sentinel 8 report generated successfully by OpenAI');
-    return content as SentinelReportContent;
-
+    const contentData = JSON.parse(response.choices[0].message.content || '{}');
+    return contentData;
   } catch (error) {
-    console.error('❌ Error generating Sentinel 8 report:', error);
-    throw new Error('Failed to generate Sentinel 8 transformation report');
+    console.error('Error generating Sentinel 8 content:', error);
+    throw new Error('Failed to generate Sentinel 8 content');
   }
 }
