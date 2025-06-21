@@ -1,0 +1,379 @@
+// server/workingReportGenerator.ts - Clean Multi-Call ChatGPT Implementation
+import { promises as fs } from 'fs';
+import path from 'path';
+
+interface UserData {
+  personalityType: string;
+  personalityName: string;
+  wingInfluence: number;
+  moodStates: {
+    primary: { name: string; percentage: number };
+    secondary: { name: string; percentage: number };
+  };
+  subtype: string;
+}
+
+// CALL 1: Core Content (50 placeholders) - Keep your working version
+async function generateCoreChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach creating a comprehensive hero's journey report for a ${userData.personalityType} - ${userData.personalityName} with ${userData.subtype} subtype.
+
+CRITICAL: Respond ONLY with valid JSON containing the exact field names specified below. Do not include any markdown formatting, explanations, or additional text.
+
+User Profile:
+- Personality Type: ${userData.personalityType} - ${userData.personalityName}
+- Wing Influence: ${userData.wingInfluence}
+- Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
+- Secondary Mood State: ${userData.moodStates.secondary.name} (${userData.moodStates.secondary.percentage}%)
+- Subtype: ${userData.subtype}
+
+Generate authentic, personalized content for these 45 fields in valid JSON format:
+
+{
+  "PERSONALITY_TYPE": "Type X - Name format for this specific personality",
+  "HERO_SUBTITLE": "Inspiring subtitle about their transformation journey",
+  
+  "STAGE1_OPENING": "Compelling opening about their ordinary world struggles as this personality type",
+  "STAGE2_OPENING": "Discovery of heart-brain disconnect revelation specific to this type", 
+  "STAGE3_OPENING": "Resistance to vulnerability and change typical of this personality",
+  "STAGE4_OPENING": "Meeting The Incredible You mentorship system introduction",
+  "STAGE5_OPENING": "Crossing threshold into transformation for this type",
+  "STAGE6_OPENING": "Facing tests and trials during journey specific to their patterns",
+  "STAGE7_OPENING": "Core ordeal and breakthrough moment for this personality",
+  "STAGE8_OPENING": "Reward of heart-brain coherence achieved in their context",
+  "STAGE9_OPENING": "Integration into real-world leadership for this type",
+  "STAGE10_OPENING": "Complete resurrection and transformation specific to them",
+  "STAGE11_OPENING": "Return with gift of authentic leadership in their style",
+  
+  "CARD1_TITLE": "First struggle card title for this personality type",
+  "CARD1_DESCRIPTION": "Description of first core struggle this type faces",
+  "CARD2_TITLE": "Second struggle card title specific to this type", 
+  "CARD2_DESCRIPTION": "Description of second core pattern they experience",
+  "CARD3_TITLE": "Third struggle card title for this personality",
+  "CARD3_DESCRIPTION": "Description of third challenge they typically have",
+  "CARD4_TITLE": "Fourth struggle card title relevant to this type",
+  "CARD4_DESCRIPTION": "Description of fourth pattern causing them pain",
+  
+  "CARD5_TITLE": "Fifth discovery card title about their disconnect",
+  "CARD5_DESCRIPTION": "Description of fifth realization they need to make",
+  "CARD6_TITLE": "Sixth discovery card title about their patterns", 
+  "CARD6_DESCRIPTION": "Description of sixth insight specific to this type",
+  "CARD7_TITLE": "Seventh discovery card title about their blocks",
+  "CARD7_DESCRIPTION": "Description of seventh breakthrough they need",
+  "CARD8_TITLE": "Eighth discovery card title about their potential",
+  "CARD8_DESCRIPTION": "Description of eighth transformation possibility",
+  
+  "TESTIMONIAL1_QUOTE": "Authentic first-person quote about realizing heart-brain disconnect as this personality type",
+  "TESTIMONIAL1_AUTHOR": "Realistic name, profession & personality type graduate",
+  "TESTIMONIAL2_QUOTE": "Authentic quote about breakthrough in transformation process for this type", 
+  "TESTIMONIAL2_AUTHOR": "Realistic name, profession & personality type graduate",
+  "TESTIMONIAL3_QUOTE": "Authentic quote about leading from presence not pressure as this type",
+  "TESTIMONIAL3_AUTHOR": "Realistic name, profession & personality type graduate",
+  
+  "WHEEL_CAREER_BEFORE": "Current career reality for this personality type in their ordinary world",
+  "WHEEL_CAREER_AFTER": "Transformed career state after heart-brain coherence for this type",
+  "WHEEL_FINANCES_BEFORE": "Current financial patterns and struggles typical of this type", 
+  "WHEEL_FINANCES_AFTER": "Transformed financial clarity and confidence for this personality",
+  "WHEEL_RELATIONSHIPS_BEFORE": "Current relationship patterns and challenges for this type",
+  "WHEEL_RELATIONSHIPS_AFTER": "Transformed relationship capacity and safety for this personality",
+  "WHEEL_MENTAL_BEFORE": "Current mental state and thought patterns of this type",
+  "WHEEL_MENTAL_AFTER": "Transformed mental clarity and peace for this personality",
+  "WHEEL_PHYSICAL_BEFORE": "Current physical symptoms and tension patterns of this type",
+  "WHEEL_PHYSICAL_AFTER": "Transformed physical health and energy for this personality",
+  "WHEEL_SOCIAL_BEFORE": "Current social patterns and challenges for this type", 
+  "WHEEL_SOCIAL_AFTER": "Transformed social presence and connections for this personality",
+  
+  "WARNING_TEXT": "Motivating warning about what happens if they don't transform",
+  "INSIGHT_TEXT": "Powerful insight about the choice they face right now",
+  "INVITATION_TEXT": "Compelling invitation to trust their potential for transformation"
+}`;
+
+  return await callChatGPTAPI(prompt, "Core Content");
+}
+
+// CALL 2: Additional Testimonials (20 placeholders)
+async function generateTestimonialsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate additional authentic testimonials for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 20 testimonial fields:
+
+{
+  "TESTIMONIAL4_QUOTE": "Authentic quote about week 6 breakthrough moment for this personality type",
+  "TESTIMONIAL4_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
+  "TESTIMONIAL5_QUOTE": "Authentic quote about relationship transformation specific to this type", 
+  "TESTIMONIAL5_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
+  "TESTIMONIAL6_QUOTE": "Authentic quote about career leadership change for this personality",
+  "TESTIMONIAL6_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
+  "TESTIMONIAL7_QUOTE": "Authentic quote about financial mindset shift for this type",
+  "TESTIMONIAL7_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
+  "TESTIMONIAL8_QUOTE": "Authentic quote about family impact of transformation",
+  "TESTIMONIAL8_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
+  
+  "SUCCESS_STORY_1": "Brief success story about rapid transformation for this personality type",
+  "SUCCESS_STORY_2": "Brief success story about overcoming specific resistance pattern",
+  "SUCCESS_STORY_3": "Brief success story about sustainable change achievement",
+  "SUCCESS_STORY_4": "Brief success story about leadership evolution",
+  "SUCCESS_STORY_5": "Brief success story about relationship breakthrough",
+  
+  "BREAKTHROUGH_MOMENT_1": "Description of typical breakthrough moment for this personality type",
+  "BREAKTHROUGH_MOMENT_2": "Description of relationship breakthrough specific to this type",
+  "BREAKTHROUGH_MOMENT_3": "Description of career transformation moment",
+  "BREAKTHROUGH_MOMENT_4": "Description of inner peace achievement moment",
+  "BREAKTHROUGH_MOMENT_5": "Description of authentic power discovery moment"
+}`;
+
+  return await callChatGPTAPI(prompt, "Additional Testimonials");
+}
+
+// CALL 3: Detailed Metrics (25 placeholders)
+async function generateMetricsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate detailed transformation metrics for a ${userData.personalityType} - ${userData.personalityName}.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 25 transformation metric fields:
+
+{
+  "TRANSFORMATION_METRIC_1": "Specific measurable outcome for this personality type",
+  "TRANSFORMATION_METRIC_2": "Leadership effectiveness improvement metric",
+  "TRANSFORMATION_METRIC_3": "Relationship quality enhancement metric",
+  "TRANSFORMATION_METRIC_4": "Stress reduction and peace metric",
+  "TRANSFORMATION_METRIC_5": "Heart-brain coherence improvement measure",
+  
+  "BEFORE_AFTER_LEADERSHIP": "Leadership style transformation description for this type",
+  "BEFORE_AFTER_COMMUNICATION": "Communication pattern change specific to this personality", 
+  "BEFORE_AFTER_DECISION_MAKING": "Decision making evolution for this type",
+  "BEFORE_AFTER_STRESS_RESPONSE": "Stress response transformation for this personality",
+  "BEFORE_AFTER_CONFIDENCE": "Confidence and self-assurance transformation",
+  
+  "WEEK_MILESTONE_1": "Week 1-2 transformation milestones for this personality type",
+  "WEEK_MILESTONE_2": "Week 3-4 transformation milestones for this type",
+  "WEEK_MILESTONE_3": "Week 5-6 transformation milestones for this personality", 
+  "WEEK_MILESTONE_4": "Week 7-8 transformation milestones for this type",
+  "WEEK_MILESTONE_5": "Week 9-10 transformation milestones for this personality",
+  
+  "LONG_TERM_OUTCOME_1": "6-month post-program outcome for this personality type",
+  "LONG_TERM_OUTCOME_2": "1-year sustained transformation measure",
+  "LONG_TERM_OUTCOME_3": "Lifetime behavioral change indicator",
+  
+  "IMPACT_FAMILY": "How transformation affects family relationships for this type",
+  "IMPACT_TEAM": "How transformation affects team dynamics", 
+  "IMPACT_CAREER": "How transformation affects career trajectory",
+  
+  "ROI_PERSONAL": "Personal return on investment description",
+  "ROI_PROFESSIONAL": "Professional return on investment description",
+  "ROI_RELATIONAL": "Relational return on investment description",
+  "ROI_OVERALL": "Overall life transformation value proposition"
+}`;
+
+  return await callChatGPTAPI(prompt, "Transformation Metrics");
+}
+
+// Shared ChatGPT API call function
+async function callChatGPTAPI(prompt: string, contentType: string): Promise<Record<string, string> | null> {
+  try {
+    console.log(`🤖 Calling ChatGPT API for ${contentType}...`);
+    
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert personality transformation coach. Respond only with valid JSON containing the exact field names requested. Do not include markdown formatting or explanations.'
+          },
+          {
+            role: 'user', 
+            content: prompt
+          }
+        ],
+        max_tokens: 3000,
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error(`❌ ChatGPT API error for ${contentType}: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    const content = data.choices[0]?.message?.content;
+
+    if (!content) {
+      console.error(`❌ No content received for ${contentType}`);
+      return null;
+    }
+
+    // Parse JSON response
+    let jsonContent = content.trim();
+    if (jsonContent.startsWith('```json')) {
+      jsonContent = jsonContent.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+    } else if (jsonContent.startsWith('```')) {
+      jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '');
+    }
+
+    const parsedContent = JSON.parse(jsonContent);
+    console.log(`✅ ${contentType} generated: ${Object.keys(parsedContent).length} fields`);
+    return parsedContent;
+
+  } catch (error) {
+    console.error(`❌ ${contentType} generation failed:`, error);
+    return null;
+  }
+}
+
+// Calculate dynamic progress percentages
+function calculateDynamicProgressPercentages(moodStates: any): Record<string, string> {
+  const primaryPercentage = moodStates.primary.percentage;
+  const isAnxious = moodStates.primary.name.includes("Anxious") || moodStates.primary.name.includes("Worried");
+  
+  if (isAnxious || primaryPercentage < 50) {
+    return {
+      CAREER_PERCENTAGE: "21%", 
+      FINANCES_PERCENTAGE: "18%", 
+      RELATIONSHIPS_PERCENTAGE: "15%",
+      MENTAL_PERCENTAGE: "12%", 
+      PHYSICAL_PERCENTAGE: "18%", 
+      SOCIAL_PERCENTAGE: "20%",
+      ENVIRONMENT_PERCENTAGE: "25%", 
+      GROWTH_PERCENTAGE: "10%"
+    };
+  } else {
+    return {
+      CAREER_PERCENTAGE: "40%", 
+      FINANCES_PERCENTAGE: "35%", 
+      RELATIONSHIPS_PERCENTAGE: "30%",
+      MENTAL_PERCENTAGE: "25%", 
+      PHYSICAL_PERCENTAGE: "30%", 
+      SOCIAL_PERCENTAGE: "35%", 
+      ENVIRONMENT_PERCENTAGE: "45%", 
+      GROWTH_PERCENTAGE: "20%"
+    };
+  }
+}
+
+function getPersonalityName(type: number): string {
+  const names: Record<number, string> = {
+    1: "Perfectionist", 2: "Helper", 3: "Achiever", 4: "Individualist",
+    5: "Investigator", 6: "Loyalist", 7: "Enthusiast", 8: "Challenger", 9: "Peacemaker"
+  };
+  return names[type] || "Challenger";
+}
+
+// Main multi-call generation function
+export async function generateMultiChatGPTReport(assessmentData: any): Promise<string | null> {
+  try {
+    console.log("🚀 Starting MULTI-CALL ChatGPT content generation...");
+    
+    const userData: UserData = {
+      personalityType: `Type ${assessmentData.results?.personalityType || 6}`,
+      personalityName: getPersonalityName(assessmentData.results?.personalityType || 6),
+      wingInfluence: assessmentData.results?.wingInfluence || 7,
+      moodStates: {
+        primary: { name: "Anxious & Worried", percentage: 65 },
+        secondary: { name: "Focused & Determined", percentage: 35 }
+      },
+      subtype: assessmentData.results?.subtype || "Self-Preservation"
+    };
+    
+    // Execute ChatGPT API calls sequentially to avoid rate limits
+    console.log("📞 Calling Core Content...");
+    const coreContent = await generateCoreChatGPTContent(userData);
+    if (!coreContent) {
+      console.error("❌ Core content generation failed");
+      return null;
+    }
+    
+    console.log("📞 Calling Additional Testimonials...");
+    const testimonialsContent = await generateTestimonialsChatGPTContent(userData);
+    if (!testimonialsContent) {
+      console.log("⚠️ Testimonials generation failed, continuing with core content only");
+    }
+    
+    console.log("📞 Calling Transformation Metrics...");
+    const metricsContent = await generateMetricsChatGPTContent(userData);
+    if (!metricsContent) {
+      console.log("⚠️ Metrics generation failed, continuing with available content");
+    }
+    
+    // Combine all successful ChatGPT content
+    const allChatGPTContent = {
+      ...coreContent,
+      ...(testimonialsContent || {}),
+      ...(metricsContent || {})
+    };
+    
+    const totalFields = Object.keys(allChatGPTContent).length;
+    console.log(`✅ Multi-call ChatGPT generation completed: ${totalFields} total fields`);
+    
+    // Calculate progress percentages (technical only)
+    const progressPercentages = calculateDynamicProgressPercentages(userData.moodStates);
+    
+    // Read and process template
+    const templatePath = path.join(process.cwd(), 'challenger_template.html');
+    let template = await fs.readFile(templatePath, 'utf-8');
+    
+    // Inject all ChatGPT content
+    Object.entries(allChatGPTContent).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    // Inject progress percentages
+    Object.entries(progressPercentages).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    const coveragePercent = Math.round((totalFields / 131) * 100);
+    console.log(`✅ Multi-call report generated: ${totalFields} ChatGPT fields, ${coveragePercent}% template coverage`);
+    return template;
+    
+  } catch (error) {
+    console.error("❌ Multi-call ChatGPT generation failed:", error);
+    return null;
+  }
+}
+
+// Keep the original single-call function as backup
+export async function generateTransformationReport(assessmentData: any): Promise<string | null> {
+  console.log("🔄 Using single-call backup generation...");
+  
+  const userData: UserData = {
+    personalityType: `Type ${assessmentData.results?.personalityType || 6}`,
+    personalityName: getPersonalityName(assessmentData.results?.personalityType || 6),
+    wingInfluence: assessmentData.results?.wingInfluence || 7,
+    moodStates: {
+      primary: { name: "Anxious & Worried", percentage: 65 },
+      secondary: { name: "Focused & Determined", percentage: 35 }
+    },
+    subtype: assessmentData.results?.subtype || "Self-Preservation"
+  };
+  
+  const coreContent = await generateCoreChatGPTContent(userData);
+  if (!coreContent) return null;
+  
+  const progressPercentages = calculateDynamicProgressPercentages(userData.moodStates);
+  
+  const templatePath = path.join(process.cwd(), 'challenger_template.html');
+  let template = await fs.readFile(templatePath, 'utf-8');
+  
+  Object.entries({ ...coreContent, ...progressPercentages }).forEach(([key, value]) => {
+    const placeholder = `{{${key}}}`;
+    template = template.replace(new RegExp(placeholder, 'g'), value);
+  });
+  
+  console.log(`✅ Single-call report generated: ${Object.keys(coreContent).length} ChatGPT fields`);
+  return template;
+}
