@@ -877,21 +877,22 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       console.log('Testing working transformation report...');
       const result = await generateWorkingReport(testData);
       
-      if (result.success) {
+      if (result && fs.existsSync(result)) {
+        const html = fs.readFileSync(result, 'utf8');
         // Save report to file for viewing
         const filename = 'test-working-report.html';
-        fs.writeFileSync(filename, result.html!);
+        fs.writeFileSync(filename, html);
         
         res.send(`
           <h1>Working Transformation Report Test</h1>
           <p>Report generated successfully!</p>
-          <p>Size: ${result.size} bytes</p>
-          <p>Content fields: ${result.contentFields}</p>
+          <p>Size: ${html.length} bytes</p>
+          <p>File: ${result}</p>
           <p><a href="/view-working-report" target="_blank">View Generated Report</a></p>
           <p><a href="/api/generate-working-report" target="_blank">API Endpoint</a></p>
         `);
       } else {
-        res.status(500).send(`Report generation failed: ${result.error}`);
+        res.status(500).send(`Report generation failed: Unable to generate file`);
       }
       
     } catch (error) {
