@@ -256,11 +256,11 @@ function addRecentNotification(notification: any) {
   });
 
   // Static file routes that must be registered BEFORE the catch-all route
-  app.get("/helper-3-report", (req, res) => {
+  app.get("/api/report/helper-3", (req, res) => {
     res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
   });
 
-  app.get("/challenger-fixed", (req, res) => {
+  app.get("/api/report/challenger-fixed", (req, res) => {
     res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
   });
 
