@@ -154,9 +154,10 @@ function getPersonalizedContent(primaryType: string, wing?: string) {
 
 async function generateAIContent(assessmentData: AssessmentData) {
   try {
-    // Map assessment data to detailed prompt format
+    // Parse assessment data with comprehensive analysis
     const personalityType = getPersonalityName(assessmentData.primaryType);
-    const influence = assessmentData.wing;
+    const wing = assessmentData.wing;
+    const confidence = assessmentData.confidence || 75;
     
     // Calculate state distribution from color states
     const colorStates = assessmentData.colorStates || [];
@@ -175,31 +176,51 @@ async function generateAIContent(assessmentData: AssessmentData) {
       subtypeScores[a[0] as keyof typeof subtypeScores] > subtypeScores[b[0] as keyof typeof subtypeScores] ? a : b
     )[0];
 
+    // Generate personality + wing combination insights
+    const personalityWingKey = `${personalityType} ${wing}`;
+    
+    // Map personality types to brain-heart disconnect messages
+    const disconnectMessages: Record<string, string> = {
+      'The Perfectionist': 'PERFECTIONISM PARALYSIS DETECTED',
+      'The Helper': 'APPROVAL DEPENDENCY DETECTED',
+      'The Achiever': 'IMAGE-SUCCESS CONFLICT DETECTED',
+      'The Individualist': 'EMOTIONAL INTENSITY OVERLOAD DETECTED',
+      'The Investigator': 'ISOLATION-ENGAGEMENT CONFLICT DETECTED',
+      'The Loyalist': 'ANXIETY-SECURITY PARADOX DETECTED',
+      'The Enthusiast': 'SCATTERED ENERGY DETECTED',
+      'The Challenger': 'CONTROL-VULNERABILITY CONFLICT DETECTED',
+      'The Peacemaker': 'HARMONY-ACTION PARALYSIS DETECTED'
+    };
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
         {
           role: "system",
-          content: `You are a personality transformation expert creating personalized hero's journey reports using the exact Challenger template design. 
+          content: `You are a master personality transformation expert creating fully personalized hero's journey reports using real assessment data to generate unique content while maintaining the exact Challenger template visual design.
 
-CRITICAL DESIGN REQUIREMENTS - NO DEVIATIONS ALLOWED:
-✅ Use 100% identical structure from Challenger template
-✅ Same 11-stage hero's journey structure
-✅ Content must be personalized based on user's exact assessment data
+CRITICAL VISUAL REQUIREMENTS - ZERO DEVIATIONS:
+✅ Use 100% identical CSS, layout, and structure from Challenger template
+✅ Same 11-stage hero's journey structure with identical stage numbers
+✅ Same animations, floating elements, fonts, colors
+✅ Content must be deeply personalized based on user's exact assessment metrics
+
+ASSESSMENT DATA INTEGRATION:
+Parse the specific metrics collected from the platform to create unique content for each user's combination.
 
 FORBIDDEN TERMINOLOGY:
 Never use: "Enneagram", "Type 1/2/3", "wings", "arrows", "integration/disintegration"
-Always use: "${personalityType}", "influence", "good/average/destructive states"
+Always use: "${personalityType} ${wing}", "influence", "state distribution", "mood patterns"
 
-Respond in JSON format with deeply personalized content.`
+Respond in JSON format with comprehensive personalized content that feels written specifically for this individual's exact pattern.`
         },
         {
           role: "user",
-          content: `Create a personalized transformation report using the exact Challenger template design but with content dynamically generated based on user's assessment data.
+          content: `Create a fully personalized transformation report using real assessment data to create unique content while maintaining the exact Challenger visual template.
 
-INPUT DATA ANALYSIS:
-- Personality Type: ${personalityType}
-- Influence: ${influence}
+COMPREHENSIVE ASSESSMENT DATA ANALYSIS:
+- Personality + Wing Combination: ${personalityWingKey}
+- Confidence Level: ${confidence}% (adjust language intensity accordingly)
 - Primary State: ${primaryState.state} (${primaryState.percentage}%)
 - Secondary State: ${secondaryState.state} (${secondaryState.percentage}%)
 - Dominant Subtype: ${dominantSubtype}
@@ -208,57 +229,83 @@ INPUT DATA ANALYSIS:
 - Color State Distribution: ${JSON.stringify(assessmentData.colorStates)}
 - Detail Token Distribution: ${JSON.stringify(assessmentData.detailTokens)}
 
-CONTENT GENERATION RULES:
+PERSONALITY + WING COMBINATIONS (Create unique content for each):
+- ${personalityType} ${wing}: Analyze the specific tension between core type drives and wing influence
+- State Pattern: ${primaryState.percentage}% ${primaryState.state}, ${secondaryState.percentage}% ${secondaryState.state} = their unique lived experience
+- Subtype Focus: ${dominantSubtype} dominant = their primary area of attention and energy
 
-1. ANALYZE USER'S EXACT PATTERN:
-   - ${personalityType} ${influence} = specific combination of core drives and influences
-   - ${primaryState.percentage}% ${primaryState.state} state = their current life experience level
-   - ${dominantSubtype} dominant = their primary focus area and challenges
+DYNAMIC CONTENT REQUIREMENTS:
 
-2. STATE-BASED CONTENT ADAPTATION:
-   - ${primaryState.percentage}%+ ${primaryState.state} state: Adjust content tone and challenges accordingly
-   - Address their specific lived experience, not generic patterns
+1. BRAIN-HEART DISCONNECT MESSAGE:
+   Use: "${disconnectMessages[personalityType] || 'INNER CONFLICT DETECTED'}"
 
-3. SUBTYPE-SPECIFIC CONTENT:
-   - ${dominantSubtype} dominant: Focus content on their primary drive area
-   - Self-preservation: Security, routines, personal needs, resource management
-   - Social: Group dynamics, belonging, status, community connections  
-   - Sexual: Intense relationships, chemistry, personal influence
+2. STAGE 1 (ORDINARY WORLD):
+   Create specific description for ${personalityWingKey} with ${primaryState.percentage}% ${primaryState.state} state and ${dominantSubtype} focus
 
-4. PERSONALIZED EXAMPLES must reflect their ${personalityType} ${influence} pattern with ${primaryState.percentage}% ${primaryState.state} state and ${dominantSubtype} focus.
+3. WHEEL OF LIFE PERCENTAGES:
+   Use exactly: Career 40%, Relationships 35%, Health 30%, Finances 25%, Personal Growth 30%, Spirituality 35%, Fun & Recreation 45%, Physical Environment 20%
+   But adapt descriptions to match their ${personalityType} ${wing} + ${dominantSubtype} combination
 
-Return JSON with personalized content:
+4. TESTIMONIALS:
+   Create testimonial from someone with their exact pattern, reflecting their state distribution
+
+5. TRANSFORMATION JOURNEY:
+   Each stage must address their specific combination of personality + wing + states + subtype
+
+Return comprehensive JSON with deeply personalized content:
 {
-  "heroTitle": "Specific transformation journey title for ${personalityType} ${influence}",
-  "heroSubtitle": "Inspiring subtitle reflecting their ${primaryState.state} state journey", 
-  "currentStateDescription": "Description reflecting ${primaryState.percentage}% ${primaryState.state}, ${secondaryState.percentage}% ${secondaryState.state} distribution",
+  "heroTitle": "Unique transformation journey title for ${personalityWingKey}",
+  "heroSubtitle": "Inspiring subtitle reflecting ${primaryState.state}/${secondaryState.state} state journey",
+  "brainHeartDisconnect": "${disconnectMessages[personalityType] || 'INNER CONFLICT DETECTED'}",
+  "personalityDescription": "Deep analysis of ${personalityWingKey} pattern with specific tensions and drives",
+  "currentStateDescription": "Vivid description of living with ${primaryState.percentage}% ${primaryState.state}, ${secondaryState.percentage}% ${secondaryState.state} distribution",
   "stageDescriptions": [
-    "Stage 1: Ordinary world description matching their exact pattern",
-    "Stage 2: Call to adventure for ${personalityType} ${influence}",
-    "Stage 3: Meeting mentor relevant to their ${dominantSubtype} focus",
-    "Stage 4: Crossing threshold specific to their state distribution",
-    "Stage 5: Tests and trials for their exact combination",
-    "Stage 6: Transformation specific to their pattern"
+    "Stage 1: Ordinary world for ${personalityWingKey} with ${dominantSubtype} focus - their specific reality",
+    "Stage 2: Call to adventure that resonates with ${personalityType} ${wing} pattern",
+    "Stage 3: Refusal/resistance specific to their ${dominantSubtype} blind spots",
+    "Stage 4: Meeting mentor who understands ${personalityWingKey} struggles",
+    "Stage 5: Crossing threshold relevant to their state distribution",
+    "Stage 6: Tests and allies for ${personalityType} ${wing} journey",
+    "Stage 7: Approach to ordeal addressing their specific fears",
+    "Stage 8: Ordeal - breaking point for ${personalityWingKey} pattern", 
+    "Stage 9: Reward - their version of heart-brain coherence",
+    "Stage 10: Road back with new ${personalityType} ${wing} wisdom",
+    "Stage 11: Return transformed as integrated ${personalityWingKey}"
   ],
   "challengeCards": [
-    {"title": "Challenge 1 for ${personalityType} ${influence}", "description": "Based on ${dominantSubtype} focus"},
-    {"title": "Challenge 2 for ${personalityType} ${influence}", "description": "Based on ${primaryState.state} state patterns"},
-    {"title": "Challenge 3 for ${personalityType} ${influence}", "description": "Based on their specific metrics"}
+    {"title": "Primary Challenge for ${personalityWingKey}", "description": "Based on ${dominantSubtype} focus and ${primaryState.state} state patterns"},
+    {"title": "Secondary Challenge", "description": "Wing ${wing} influence creating specific tension with core ${personalityType} drives"},
+    {"title": "Hidden Challenge", "description": "Blind spot related to ${secondaryState.state} state and subtype pattern"}
   ],
   "lifeAreas": [
-    {"area": "Career", "icon": "fas fa-briefcase", "description": "Career state for ${personalityType} with ${dominantSubtype} focus", "percentage": 45},
-    {"area": "Relationships", "icon": "fas fa-heart", "description": "Relationship patterns for ${personalityType} ${influence}", "percentage": 38},
-    {"area": "Health", "icon": "fas fa-dumbbell", "description": "Health approach for ${dominantSubtype} dominant", "percentage": 42},
-    {"area": "Finances", "icon": "fas fa-dollar-sign", "description": "Financial patterns for ${personalityType}", "percentage": 40},
-    {"area": "Personal Growth", "icon": "fas fa-seedling", "description": "Growth path for ${primaryState.state} state", "percentage": 35}
+    {"area": "Career", "icon": "fas fa-briefcase", "description": "Career approach for ${personalityWingKey} with ${dominantSubtype} focus", "percentage": 40},
+    {"area": "Relationships", "icon": "fas fa-heart", "description": "Relationship patterns for ${personalityType} ${wing} combination", "percentage": 35},
+    {"area": "Health", "icon": "fas fa-dumbbell", "description": "Health approach for ${dominantSubtype} dominant ${personalityType}", "percentage": 30},
+    {"area": "Finances", "icon": "fas fa-dollar-sign", "description": "Financial patterns for ${personalityWingKey}", "percentage": 25},
+    {"area": "Personal Growth", "icon": "fas fa-seedling", "description": "Growth path for ${primaryState.state}/${secondaryState.state} state pattern", "percentage": 30},
+    {"area": "Spirituality", "icon": "fas fa-om", "description": "Spiritual approach for ${personalityType} ${wing}", "percentage": 35},
+    {"area": "Fun & Recreation", "icon": "fas fa-gamepad", "description": "Recreation style for ${dominantSubtype} ${personalityType}", "percentage": 45},
+    {"area": "Physical Environment", "icon": "fas fa-home", "description": "Environment needs for ${personalityWingKey}", "percentage": 20}
   ],
   "beforeAfter": {
-    "before": ["Current struggle specific to ${primaryState.percentage}% ${primaryState.state} state", "Struggle 2 for ${personalityType} ${influence}", "Challenge 3 for ${dominantSubtype} dominant"],
-    "after": ["Transformation 1 for ${personalityType} potential", "Growth 2 specific to their pattern", "Future 3 based on their exact metrics"]
+    "before": [
+      "Current struggle specific to ${primaryState.percentage}% ${primaryState.state} state living",
+      "Challenge from ${personalityType} ${wing} tension and conflicts", 
+      "Limitation from ${dominantSubtype} blind spots and patterns"
+    ],
+    "after": [
+      "Transformation leveraging ${personalityType} ${wing} strengths",
+      "Integration of ${primaryState.state}/${secondaryState.state} state wisdom",
+      "Mastery of ${dominantSubtype} gifts without unconscious patterns"
+    ]
   },
-  "callToAction": "Compelling call to action for ${personalityType} ${influence} with ${dominantSubtype} focus",
+  "callToAction": "Compelling call to action for ${personalityWingKey} with ${dominantSubtype} focus and ${confidence}% confidence level",
   "testimonials": [
-    {"name": "Name appropriate for ${personalityType}", "title": "Title reflecting their pattern", "content": "Testimonial matching ${primaryState.state} state experience"}
+    {
+      "name": "Name appropriate for ${personalityType} background", 
+      "title": "Title reflecting ${personalityWingKey} career pattern", 
+      "content": "Testimonial showing transformation from ${primaryState.percentage}% ${primaryState.state} struggle to integrated ${personalityType} ${wing} success"
+    }
   ]
 }`
         }
@@ -266,12 +313,21 @@ Return JSON with personalized content:
       response_format: { type: "json_object" }
     });
 
-    return JSON.parse(response.choices[0].message.content || '{}');
-  } catch (error) {
+    const aiContent = JSON.parse(response.choices[0].message.content || '{}');
+    console.log('AI Content Generated Successfully:', {
+      personalityWing: personalityWingKey,
+      statePattern: `${primaryState.percentage}% ${primaryState.state}, ${secondaryState.percentage}% ${secondaryState.state}`,
+      dominantSubtype: dominantSubtype,
+      hasStageDescriptions: !!aiContent.stageDescriptions,
+      challengeCardsCount: aiContent.challengeCards?.length || 0
+    });
+    
+    return aiContent;
+  } catch (error: any) {
     console.error('Error generating AI content:', error);
     console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
+      message: error?.message,
+      stack: error?.stack,
       assessmentData: JSON.stringify(assessmentData, null, 2)
     });
     // Fallback to predefined content

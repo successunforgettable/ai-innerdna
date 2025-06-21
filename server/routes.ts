@@ -482,7 +482,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
   });
 
-  // AI-generated personalized report route
+  // AI-generated personalized report route - Perfectionist 9 example
   app.get("/ai-reformer-report", async (req, res) => {
     try {
       const reformerAssessmentData = {
@@ -520,7 +520,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         }
       };
 
-      console.log('Generating AI-powered personalized report...');
+      console.log('Generating AI-powered personalized report for Perfectionist 9...');
       const reportData = await generateCustomReport(reformerAssessmentData);
       const htmlReport = generateCustomReportHTML(reportData);
       res.setHeader('Content-Type', 'text/html');
@@ -528,6 +528,55 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error) {
       console.error('Error generating AI report:', error);
       res.status(500).send('Error generating AI-powered report');
+    }
+  });
+
+  // AI-generated personalized report route - Achiever 2 example  
+  app.get("/ai-achiever-report", async (req, res) => {
+    try {
+      const achieverAssessmentData = {
+        primaryType: "3",
+        confidence: 92,
+        wing: "2",
+        foundationStones: [
+          {
+            setIndex: 2,
+            stoneIndex: 1,
+            context: "When pursuing goals,",
+            statements: ["I focus on success", "I adapt to win", "I project confidence"]
+          }
+        ],
+        buildingBlocks: [
+          {
+            name: "Adaptive Achiever",
+            wing: "2"
+          }
+        ],
+        colorStates: [
+          {
+            state: "Focused",
+            percentage: 60
+          },
+          {
+            state: "Intense", 
+            percentage: 40
+          }
+        ],
+        detailTokens: {
+          social: 5,
+          selfPreservation: 2,
+          sexual: 3
+        }
+      };
+
+      console.log('Generating AI-powered personalized report for Achiever 2...');
+      const reportData = await generateCustomReport(achieverAssessmentData);
+      const htmlReport = generateCustomReportHTML(reportData);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlReport);
+    } catch (error) {
+      console.error('Error generating AI achiever report:', error);
+      res.status(500).send('Error generating AI-powered achiever report');
     }
   });
 

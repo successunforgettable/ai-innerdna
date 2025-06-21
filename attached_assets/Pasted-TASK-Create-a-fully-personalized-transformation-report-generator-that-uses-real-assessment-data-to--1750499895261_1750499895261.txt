@@ -1,0 +1,99 @@
+TASK: Create a fully personalized transformation report generator that uses real assessment data to create unique content while maintaining the exact Challenger 9 visual template.
+
+ASSESSMENT DATA INTEGRATION:
+Your platform collects these specific metrics from users:
+- personalityType: "1" (Reformer), "2" (Helper), "3" (Achiever), etc.
+- wing: "9", "1", "2", etc. (from Building Blocks phase)
+- colorStates: [{"state": "Order", "percentage": 70}, {"state": "Peace", "percentage": 30}]
+- detailTokens: {"social": 4, "selfPreservation": 4, "sexual": 2}
+- confidence: 88 (algorithm confidence percentage)
+
+CRITICAL VISUAL REQUIREMENTS - ZERO DEVIATIONS:
+✅ Use 100% identical CSS, layout, and structure from Challenger 9 template
+✅ Same colors: --primary-purple: #6B46C1, --gold: #FFD700, --cyan: #00D4FF, --orange: #FF6B35
+✅ Same 11-stage hero's journey structure with identical stage numbers and layouts
+✅ Same animations, floating elements (⚡💫🌟✨), fonts (Inter/Playfair Display)
+✅ Same brain-heart SVG visualizations, card grids, progress bars, testimonials
+✅ Same CTA button styles, timeline structure, Wheel of Life 8-area grid
+✅ Same before/after sections, section dividers, hover effects
+
+AI CONTENT GENERATION SYSTEM:
+
+1. PARSE ASSESSMENT DATA:
+   - Extract personalityType + wing combination (e.g., "Reformer 9")
+   - Calculate dominant subtype from token distribution
+   - Identify primary/secondary states from colorStates percentages
+   - Use confidence level to adjust language intensity
+
+2. PERSONALITY + WING COMBINATIONS (Examples):
+   - Reformer 9: Perfectionism + Peace-seeking = "You strive for perfection but avoid conflict, creating inner tension between your high standards and desire for harmony"
+   - Reformer 2: Perfectionism + People-pleasing = "You improve others while maintaining high standards, but burn out from helping everyone meet your expectations"
+   - Helper 1: Service + Perfectionism = "You help others with precise care and high standards, but become resentful when your efforts aren't appreciated correctly"
+
+3. STATE-BASED PERSONALIZATION:
+   - 70% Order, 30% Peace: "You operate primarily from a need for structure and correctness, with an underlying desire for harmony that sometimes conflicts with your standards"
+   - 60% Intense, 40% Focused: "Your passionate intensity drives your achievements, balanced by periods of laser-focused determination"
+   - Different combinations = completely different life experience descriptions
+
+4. SUBTYPE INTEGRATION:
+   - Social dominant (4+ tokens): Focus on group standards, social correctness, community improvement
+   - Self-Preservation dominant: Focus on personal routines, health standards, security through perfection
+   - Sexual/One-to-One dominant: Focus on perfecting relationships, intensity in connections
+
+5. FORBIDDEN TERMINOLOGY:
+   Never use: "Enneagram", "Type 1/2/3", "wings", "arrows", "integration/disintegration"
+   Always use: "Reformer 9", "Helper 2", "wing influence", "good/bad mood states"
+
+6. DYNAMIC CONTENT EXAMPLES:
+
+   For Reformer 9 (70% Order, 30% Peace, Social dominant):
+   Stage 1: "You are a Reformer 9 - driven to improve the world while maintaining harmony. You see what's wrong everywhere and feel compelled to fix it, but your 9 influence makes you avoid the conflict that change often requires. You spend 70% of your time in an ordered, structured state, but that underlying 30% need for peace often sabotages your reforming efforts..."
+
+   vs
+
+   Reformer 2 (60% Intense, 40% Focused, Self-Preservation dominant):
+   Stage 1: "You are a Reformer 2 - perfecting the world through service to others. Your intensity drives you to help people meet higher standards, but your self-preservation focus means you often burn out from giving too much. You operate with 60% passionate intensity, balanced by 40% focused determination, creating a unique pattern of helpful perfectionism..."
+
+7. WHEEL OF LIFE PERCENTAGES:
+   Use the exact percentages from Challenger 9 template (40%, 35%, 30%, 25%, 30%, 35%, 45%, 20%) but adapt descriptions to match their specific personality + wing + state + subtype combination.
+
+8. TESTIMONIALS MUST MATCH:
+   - Use names/titles appropriate for their personality type
+   - Reflect their exact state distribution in the testimonial content
+   - Show transformation relevant to their specific metrics
+   
+   Example for Reformer 9 (Social dominant):
+   "The Incredible You helped me stop trying to fix everyone else's problems and start creating the change I wanted to see. I learned to use my standards to build rather than just criticize." - Patricia Chen, Community Organizer & Reformer 9 Graduate
+
+9. BRAIN-HEART SVG CONTENT:
+   Stage 2: Adapt the "DISCONNECT DETECTED" message based on their pattern:
+   - Reformer: "PERFECTIONISM PARALYSIS DETECTED"
+   - Helper: "APPROVAL DEPENDENCY DETECTED" 
+   - Achiever: "IMAGE-SUCCESS CONFLICT DETECTED"
+
+10. TRANSFORMATION JOURNEY SPECIFICITY:
+    Each stage must address their exact combination:
+    - Stage 3 (Refusal): Address their specific subtype resistance
+    - Stage 7 (Ordeal): Their unique breaking point based on personality + wing + states
+    - Stage 8 (Reward): Their specific version of heart-brain coherence
+
+API INTEGRATION WITH YOUR SYSTEM:
+```javascript
+// This should work with your existing endpoint structure
+app.post('/api/generate-custom-report', async (req, res) => {
+  const { assessmentData } = req.body;
+  
+  // Parse the assessment data
+  const personalityType = assessmentData.primaryType; // "1", "2", "3", etc.
+  const wing = assessmentData.wing; // "9", "1", "2", etc.
+  const colorStates = assessmentData.colorStates; // [{"state": "Order", "percentage": 70}]
+  const subtype = calculateDominantSubtype(assessmentData.detailTokens);
+  
+  // Generate AI content using the detailed prompt above
+  const personalizedContent = await generateAIContent(assessmentData);
+  
+  // Inject into Challenger 9 template
+  const reportHTML = await injectContentIntoTemplate(personalizedContent);
+  
+  res.send(reportHTML);
+});
