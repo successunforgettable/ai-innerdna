@@ -7,6 +7,7 @@ import TypeDescription from '@/components/Results/TypeDescription';
 import MoodStates from '@/components/Results/MoodStates';
 
 import { saveAssessmentData } from '@/lib/assessmentStorage';
+import { generateAndDisplayReport } from '@/utils/reportGenerator';
 import '@/styles/design-system.css';
 
 const Results = () => {
@@ -409,28 +410,12 @@ const Results = () => {
                   <button
                     onClick={async () => {
                       try {
-                        const response = await fetch('/api/generate-custom-report', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ assessmentData })
-                        });
-                        
-                        if (response.ok) {
-                          const htmlContent = await response.text();
-                          const newWindow = window.open('', '_blank');
-                          if (newWindow) {
-                            newWindow.document.write(htmlContent);
-                            newWindow.document.close();
-                          } else {
-                            alert('Please allow popups to view your personalized report');
-                          }
-                        } else {
-                          const errorText = await response.text();
-                          console.error('Failed to generate custom report:', errorText);
-                          alert('Failed to generate report: ' + errorText);
+                        const result = await generateAndDisplayReport(assessmentData);
+                        if (result.success) {
+                          console.log('Report generated successfully:', result.message);
                         }
                       } catch (error: any) {
-                        console.error('Error generating custom report:', error);
+                        console.error('Error generating report:', error);
                         alert('Error generating report: ' + error.message);
                       }
                     }}
