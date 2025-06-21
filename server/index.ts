@@ -153,6 +153,31 @@ app.get('/view-report/:filename', (req, res) => {
   }
 });
 
+// API endpoint for reports data
+app.get('/api/reports-list', (req, res) => {
+  try {
+    const rootDir = path.join(__dirname, '..');
+    const htmlFiles = fs.readdirSync(rootDir)
+      .filter(file => file.endsWith('.html') && fs.statSync(path.join(rootDir, file)).size > 1000)
+      .map(file => {
+        const stats = fs.statSync(path.join(rootDir, file));
+        const fileNameWithoutExt = file.replace('.html', '');
+        return {
+          name: file,
+          nameWithoutExt: fileNameWithoutExt,
+          size: Math.round(stats.size / 1024),
+          date: stats.mtime.toLocaleDateString()
+        };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    res.json({ reports: htmlFiles, total: htmlFiles.length });
+  } catch (error) {
+    console.error('Error fetching reports:', error);
+    res.status(500).json({ error: 'Failed to fetch reports' });
+  }
+});
+
 // Report browser - list all available reports
 app.get('/reports-browser', (req, res) => {
   try {

@@ -18,6 +18,7 @@ import AlgorithmTest from "@/pages/AlgorithmTest";
 import AITestPage from "@/pages/AITestPage";
 import Login from "@/pages/Login";
 import Reports from "@/pages/Reports";
+import ReportsBrowser from "@/pages/ReportsBrowser";
 import ResetPassword from "@/pages/ResetPassword";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
@@ -107,6 +108,7 @@ function Router() {
       <Route path="/ai-test" component={AITestPage} />
       <Route path="/login" component={Login} />
       <Route path="/reports" component={Reports} />
+      <Route path="/reports-browser" component={ReportsBrowser} />
       <Route path="/reset-password" component={ResetPassword} />
       <Route component={NotFound} />
     </Switch>
