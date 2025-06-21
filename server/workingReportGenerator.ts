@@ -1,10 +1,10 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  timeout: 30000
+  timeout: 60000
 });
 
 interface AssessmentData {
@@ -17,7 +17,7 @@ interface AssessmentData {
   dominantSubtype?: string;
 }
 
-interface MultiChatGPTRequest {
+interface UserData {
   personalityType: string;
   personalityName: string;
   wingInfluence: number;
@@ -28,365 +28,263 @@ interface MultiChatGPTRequest {
   subtype: string;
 }
 
-export async function generateWorkingReport(assessmentData?: Partial<AssessmentData>): Promise<string> {
-  // Assessment data processing (technical only)
-  const testData: AssessmentData = {
-    personalityType: 6,
-    personalityName: "Sentinel 6",
-    colorStates: [{name: "Anxious", percentage: 60}, {name: "Secure", percentage: 40}],
-    detailTokens: {selfPreservation: 3, sexual: 2, social: 5},
-    dominantState: {name: "Anxious", percentage: 60},
-    secondaryState: {name: "Secure", percentage: 40},
-    dominantSubtype: "Social",
-    ...assessmentData
-  };
-
-  // Multiple ChatGPT API calls for comprehensive content generation
-  console.log('🚀 Starting MULTI-CALL ChatGPT content generation for:', testData.personalityName);
-  const contentData = await generateMultiCallChatGPTContent(testData);
-  console.log('Multi-call content generation completed, proceeding with template injection');
-  
-  // Technical template injection only
-  const template = fs.readFileSync('./challenger_template.html', 'utf8');
-  let html = template;
-  
-  Object.keys(contentData).forEach(key => {
-    html = html.replaceAll(`{{${key}}}`, contentData[key]);
-  });
-
-  const filename = 'sentinel-6-working.html';
-  fs.writeFileSync(filename, html);
-  return path.resolve(filename);
-}
-
-// Multi-call ChatGPT content generation for 131 placeholders
-async function generateMultiCallChatGPTContent(data: AssessmentData): Promise<Record<string, string>> {
-  try {
-    const userData: MultiChatGPTRequest = {
-      personalityType: `Type ${data.personalityType}`,
-      personalityName: data.personalityName || "Sentinel 6",
-      wingInfluence: 7,
-      moodStates: {
-        primary: { name: data.dominantState?.name || "Anxious", percentage: data.dominantState?.percentage || 65 },
-        secondary: { name: data.secondaryState?.name || "Secure", percentage: data.secondaryState?.percentage || 35 }
-      },
-      subtype: data.dominantSubtype || "Self-Preservation"
-    };
-
-    console.log('🚀 Executing 4 parallel ChatGPT API calls for comprehensive content...');
-    
-    // Execute all 4 ChatGPT API calls in parallel
-    const [coreContent, testimonialsContent, metricsContent, wheelContent] = await Promise.all([
-      generateCoreChatGPTContent(userData),      // 50 fields
-      generateTestimonialsChatGPTContent(userData), // 25 fields  
-      generateMetricsChatGPTContent(userData),    // 25 fields
-      generateWheelChatGPTContent(userData)       // 31 fields
-    ]);
-    
-    // Verify all calls succeeded
-    if (!coreContent || !testimonialsContent || !metricsContent || !wheelContent) {
-      console.error("❌ One or more ChatGPT API calls failed");
-      throw new Error("Multi-call ChatGPT generation failed");
-    }
-    
-    // Combine all ChatGPT content
-    const allChatGPTContent = {
-      ...coreContent,
-      ...testimonialsContent, 
-      ...metricsContent,
-      ...wheelContent
-    };
-    
-    const totalFields = Object.keys(allChatGPTContent).length;
-    console.log(`✅ Multi-call ChatGPT generation successful: ${totalFields} total fields`);
-    console.log(`📊 Content coverage: ${totalFields}/131 placeholders (${Math.round(totalFields/131*100)}% template coverage)`);
-    
-    return allChatGPTContent;
-    
-  } catch (error) {
-    console.error("❌ Multi-call ChatGPT generation failed:", error);
-    throw error;
-  }
-}
-
-// CALL 1: Core Content (50 placeholders) - EXISTING WORKING FUNCTION
-async function generateCoreChatGPTContent(userData: MultiChatGPTRequest): Promise<Record<string, string> | null> {
-  try {
-    console.log('🤖 ChatGPT Call 1: Core Content Generation...');
-    
-    const prompt = `You are an expert personality transformation coach creating a comprehensive hero's journey report for a ${userData.personalityType} - ${userData.personalityName} with ${userData.subtype} subtype.
+// CALL 1: Core Content (45 placeholders) - Proven working system
+async function generateCoreChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach creating a comprehensive hero's journey report for a ${userData.personalityType} - ${userData.personalityName} with ${userData.subtype} subtype.
 
 CRITICAL: Respond ONLY with valid JSON containing the exact field names specified below. Do not include any markdown formatting, explanations, or additional text.
 
 User Profile:
 - Personality Type: ${userData.personalityType} - ${userData.personalityName}
+- Wing Influence: ${userData.wingInfluence}
 - Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
 - Secondary Mood State: ${userData.moodStates.secondary.name} (${userData.moodStates.secondary.percentage}%)
 - Subtype: ${userData.subtype}
 
-Generate content for these 50 fields in valid JSON format:
+Generate authentic, personalized content for these 45 fields in valid JSON format:
 
 {
-  "PERSONALITY_TYPE": "Type 6 - ${userData.personalityName}",
-  "HERO_SUBTITLE": "Your Hero's Path to Heart-Brain Mastery",
+  "PERSONALITY_TYPE": "Type X - Name format for this specific personality",
+  "HERO_SUBTITLE": "Inspiring subtitle about their transformation journey",
   
-  "STAGE1_OPENING": "Compelling opening about their ordinary world struggles",
-  "STAGE2_OPENING": "Discovery of heart-brain disconnect revelation", 
-  "STAGE3_OPENING": "Resistance to vulnerability and change",
-  "STAGE4_OPENING": "Meeting The Incredible You mentorship system",
-  "STAGE5_OPENING": "Crossing threshold into transformation",
-  "STAGE6_OPENING": "Facing tests and trials during journey",
-  "STAGE7_OPENING": "Core ordeal and breakthrough moment",
-  "STAGE8_OPENING": "Reward of heart-brain coherence achieved",
-  "STAGE9_OPENING": "Integration into real-world leadership",
-  "STAGE10_OPENING": "Complete resurrection and transformation",
-  "STAGE11_OPENING": "Return with gift of authentic leadership",
+  "STAGE1_OPENING": "Compelling opening about their ordinary world struggles as this personality type",
+  "STAGE2_OPENING": "Discovery of heart-brain disconnect revelation specific to this type", 
+  "STAGE3_OPENING": "Resistance to vulnerability and change typical of this personality",
+  "STAGE4_OPENING": "Meeting The Incredible You mentorship system introduction",
+  "STAGE5_OPENING": "Crossing threshold into transformation for this type",
+  "STAGE6_OPENING": "Facing tests and trials during journey specific to their patterns",
+  "STAGE7_OPENING": "Core ordeal and breakthrough moment for this personality",
+  "STAGE8_OPENING": "Reward of heart-brain coherence achieved in their context",
+  "STAGE9_OPENING": "Integration into real-world leadership for this type",
+  "STAGE10_OPENING": "Complete resurrection and transformation specific to them",
+  "STAGE11_OPENING": "Return with gift of authentic leadership in their style",
   
-  "CARD1_TITLE": "Taking Charge",
-  "CARD1_DESCRIPTION": "Leadership burden they carry secretly",
-  "CARD2_TITLE": "Being the Strong One", 
-  "CARD2_DESCRIPTION": "Strength others rely on but feels unsupported",
-  "CARD3_TITLE": "Wanting Peace",
-  "CARD3_DESCRIPTION": "Inner conflict between action and harmony",
-  "CARD4_TITLE": "Push and Pause",
-  "CARD4_DESCRIPTION": "Tension between moving forward and holding back",
-  "CARD5_TITLE": "Tense Relationships",
-  "CARD5_DESCRIPTION": "Defensive patterns creating distance",
-  "CARD6_TITLE": "Low Emotional Bandwidth", 
-  "CARD6_DESCRIPTION": "Running on empty emotionally",
-  "CARD7_TITLE": "Chronic Restlessness",
-  "CARD7_DESCRIPTION": "Constant unsettled feeling despite achievements",
-  "CARD8_TITLE": "Control-Based Decisions",
-  "CARD8_DESCRIPTION": "Choosing power over intuition and wisdom",
+  "CARD1_TITLE": "First struggle card title for this personality type",
+  "CARD1_DESCRIPTION": "Description of first core struggle this type faces",
+  "CARD2_TITLE": "Second struggle card title specific to this type", 
+  "CARD2_DESCRIPTION": "Description of second core pattern they experience",
+  "CARD3_TITLE": "Third struggle card title for this personality",
+  "CARD3_DESCRIPTION": "Description of third challenge they typically have",
+  "CARD4_TITLE": "Fourth struggle card title relevant to this type",
+  "CARD4_DESCRIPTION": "Description of fourth pattern causing them pain",
   
-  "TESTIMONIAL1_QUOTE": "Authentic quote about realizing heart-brain disconnect",
-  "TESTIMONIAL1_AUTHOR": "Sarah M., ${userData.personalityName} Graduate",
-  "TESTIMONIAL2_QUOTE": "Quote about breakthrough in transformation process", 
-  "TESTIMONIAL2_AUTHOR": "Marcus T., CEO & ${userData.personalityName} Graduate",
-  "TESTIMONIAL3_QUOTE": "Quote about leading from presence not pressure",
-  "TESTIMONIAL3_AUTHOR": "Jennifer L., ${userData.personalityName} Graduate",
+  "CARD5_TITLE": "Fifth discovery card title about their disconnect",
+  "CARD5_DESCRIPTION": "Description of fifth realization they need to make",
+  "CARD6_TITLE": "Sixth discovery card title about their patterns", 
+  "CARD6_DESCRIPTION": "Description of sixth insight specific to this type",
+  "CARD7_TITLE": "Seventh discovery card title about their blocks",
+  "CARD7_DESCRIPTION": "Description of seventh breakthrough they need",
+  "CARD8_TITLE": "Eighth discovery card title about their potential",
+  "CARD8_DESCRIPTION": "Description of eighth transformation possibility",
   
-  "WHEEL_CAREER_BEFORE": "Respected but not fulfilled leadership reality",
-  "WHEEL_CAREER_AFTER": "Leading from presence with effortless influence",
-  "WHEEL_FINANCES_BEFORE": "Self-reliant provider with constant money pressure", 
-  "WHEEL_FINANCES_AFTER": "Clear financial decisions with calm confidence",
-  "WHEEL_RELATIONSHIPS_BEFORE": "Leading but not feeling emotionally safe",
-  "WHEEL_RELATIONSHIPS_AFTER": "Creating safety and connection, attracting followers",
-  "WHEEL_MENTAL_BEFORE": "Constantly alert mind but tired and pressured",
-  "WHEEL_MENTAL_AFTER": "Sharp clarity without pressure, calm assertiveness",
-  "WHEEL_PHYSICAL_BEFORE": "Chronic tension, sleep issues, power mode stuck on",
-  "WHEEL_PHYSICAL_AFTER": "Improved sleep, dissolved stress, body supporting mission",
-  "WHEEL_SOCIAL_BEFORE": "Selective connections feeling like burdens", 
-  "WHEEL_SOCIAL_AFTER": "Softened presence attracting deeper trust and quality",
+  "TESTIMONIAL1_QUOTE": "Authentic first-person quote about realizing heart-brain disconnect as this personality type",
+  "TESTIMONIAL1_AUTHOR": "Realistic name, profession & personality type graduate",
+  "TESTIMONIAL2_QUOTE": "Authentic quote about breakthrough in transformation process for this type", 
+  "TESTIMONIAL2_AUTHOR": "Realistic name, profession & personality type graduate",
+  "TESTIMONIAL3_QUOTE": "Authentic quote about leading from presence not pressure as this type",
+  "TESTIMONIAL3_AUTHOR": "Realistic name, profession & personality type graduate",
   
-  "WARNING_TEXT": "Most people stop here. Insight without integration leads to more frustration.",
-  "INSIGHT_TEXT": "You now have insight. But transformation requires action.",
-  "INVITATION_TEXT": "Trust inner calm over external control. Receive help as power, not weakness.",
+  "WHEEL_CAREER_BEFORE": "Current career reality for this personality type in their ordinary world",
+  "WHEEL_CAREER_AFTER": "Transformed career state after heart-brain coherence for this type",
+  "WHEEL_FINANCES_BEFORE": "Current financial patterns and struggles typical of this type", 
+  "WHEEL_FINANCES_AFTER": "Transformed financial clarity and confidence for this personality",
+  "WHEEL_RELATIONSHIPS_BEFORE": "Current relationship patterns and challenges for this type",
+  "WHEEL_RELATIONSHIPS_AFTER": "Transformed relationship capacity and safety for this personality",
+  "WHEEL_MENTAL_BEFORE": "Current mental state and thought patterns of this type",
+  "WHEEL_MENTAL_AFTER": "Transformed mental clarity and peace for this personality",
+  "WHEEL_PHYSICAL_BEFORE": "Current physical symptoms and tension patterns of this type",
+  "WHEEL_PHYSICAL_AFTER": "Transformed physical health and energy for this personality",
+  "WHEEL_SOCIAL_BEFORE": "Current social patterns and challenges for this type", 
+  "WHEEL_SOCIAL_AFTER": "Transformed social presence and connections for this personality",
   
-  "BRAIN_HEART_DISCONNECT": "LOYALTY DEPENDENCY DETECTED",
-  "TRANSFORMATION_PROMISE": "From Anxious Loyalty to Confident Trust",
-  "HERO_CHALLENGE": "Transform anxiety into authentic courage",
-  "CORE_WOUND": "Fear of abandonment driving hypervigilance",
-  "BREAKTHROUGH_MOMENT": "Realizing security comes from within",
-  "FINAL_INTEGRATION": "Leading with calm confidence instead of reactive fear"
+  "WARNING_TEXT": "Motivating warning about what happens if they don't transform",
+  "INSIGHT_TEXT": "Powerful insight about the choice they face right now",
+  "INVITATION_TEXT": "Compelling invitation to trust their potential for transformation"
+}`;
+
+  return await callChatGPTAPI(prompt, "Core Content");
 }
 
-Generate exactly this structure with appropriate content for ${userData.personalityName}. Return ONLY the complete JSON object.`;
-
-    return await callChatGPTAPI(prompt, "Core Content");
-    
-  } catch (error) {
-    console.error("❌ Core content generation failed:", error);
-    return null;
-  }
-}
-
-// CALL 2: Extended Testimonials & Case Studies (25 placeholders)
-async function generateTestimonialsChatGPTContent(userData: MultiChatGPTRequest): Promise<Record<string, string> | null> {
-  try {
-    console.log('🤖 ChatGPT Call 2: Testimonials & Case Studies...');
-    
-    const prompt = `You are an expert personality transformation coach. Generate authentic testimonials and case studies for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+// CALL 2: Additional Challenge Cards & Metrics (25 placeholders)
+async function generateAdditionalCardsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate additional challenge cards and transformation metrics for a ${userData.personalityType} - ${userData.personalityName} transformation report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile:
-- Personality Type: ${userData.personalityType} - ${userData.personalityName}
-- Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
-- Subtype: ${userData.subtype}
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
 
-Generate 25 testimonial and case study fields:
+Generate 25 additional card and metric fields:
 
 {
-  "TESTIMONIAL4_QUOTE": "Authentic quote about week 6 breakthrough moment",
+  "CARD9_TITLE": "Ninth challenge card title for this personality type",
+  "CARD9_DESCRIPTION": "Description of ninth struggle pattern they face",
+  "CARD10_TITLE": "Tenth challenge card title specific to this type",
+  "CARD10_DESCRIPTION": "Description of tenth core challenge they experience",
+  "CARD11_TITLE": "Eleventh challenge card title for this personality",
+  "CARD11_DESCRIPTION": "Description of eleventh pattern causing them difficulty",
+  "CARD12_TITLE": "Twelfth challenge card title relevant to this type",
+  "CARD12_DESCRIPTION": "Description of twelfth transformation opportunity",
+  "CARD13_TITLE": "Thirteenth challenge card title for this personality",
+  "CARD13_DESCRIPTION": "Description of thirteenth growth edge they need",
+  "CARD14_TITLE": "Fourteenth challenge card title specific to this type",
+  "CARD14_DESCRIPTION": "Description of fourteenth breakthrough potential",
+  "CARD15_TITLE": "Fifteenth challenge card title for this personality",
+  "CARD15_DESCRIPTION": "Description of fifteenth transformation possibility",
+  
+  "BEFORE1": "First before state description for this personality type",
+  "AFTER1": "First after state transformation for this type",
+  "BEFORE2": "Second before state description specific to this personality",
+  "AFTER2": "Second after state transformation for this type",
+  "BEFORE3": "Third before state description for this personality",
+  "AFTER3": "Third after state transformation for this type",
+  "BEFORE4": "Fourth before state description specific to this type",
+  "AFTER4": "Fourth after state transformation for this personality",
+  
+  "STAT1_DESCRIPTION": "First statistical outcome description for this personality type",
+  "STAT2_DESCRIPTION": "Second statistical outcome description for this type",
+  "BRAIN_HEART_DISCONNECT": "Brain-heart disconnect message specific to this personality type"
+}`;
+
+  return await callChatGPTAPI(prompt, "Additional Cards & Metrics");
+}
+
+// CALL 3: Extended Testimonials & Wheel Content (20 placeholders)
+async function generateTestimonialsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate extended testimonials and wheel of life content for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 20 testimonial and wheel fields:
+
+{
+  "TESTIMONIAL4_QUOTE": "Authentic quote about week 6 breakthrough moment for this personality type",
   "TESTIMONIAL4_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
-  "TESTIMONIAL5_QUOTE": "Authentic quote about relationship transformation", 
+  "TESTIMONIAL5_QUOTE": "Authentic quote about relationship transformation specific to this type", 
   "TESTIMONIAL5_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
-  "TESTIMONIAL6_QUOTE": "Authentic quote about career leadership change",
+  "TESTIMONIAL6_QUOTE": "Authentic quote about career leadership change for this personality",
   "TESTIMONIAL6_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
-  "TESTIMONIAL7_QUOTE": "Authentic quote about financial mindset shift",
+  "TESTIMONIAL7_QUOTE": "Authentic quote about financial mindset shift for this type",
   "TESTIMONIAL7_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
+  "TESTIMONIAL8_QUOTE": "Authentic quote about family impact of transformation",
+  "TESTIMONIAL8_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
   
-  "CASE_STUDY_1_TITLE": "Case study title about career transformation",
-  "CASE_STUDY_1_BEFORE": "Before state for this personality type professionally",
-  "CASE_STUDY_1_AFTER": "After state showing leadership transformation",
-  "CASE_STUDY_1_QUOTE": "Quote from this case study participant",
-  
-  "CASE_STUDY_2_TITLE": "Case study title about relationship breakthrough", 
-  "CASE_STUDY_2_BEFORE": "Before state in relationships for this type",
-  "CASE_STUDY_2_AFTER": "After state showing connection transformation",
-  "CASE_STUDY_2_QUOTE": "Quote from this case study participant",
-  
-  "CASE_STUDY_3_TITLE": "Case study title about inner peace achievement",
-  "CASE_STUDY_3_BEFORE": "Before state of inner turmoil for this type", 
-  "CASE_STUDY_3_AFTER": "After state showing heart-brain coherence",
-  "CASE_STUDY_3_QUOTE": "Quote from this case study participant",
-  
-  "SUCCESS_STORY_1": "Success story about rapid transformation",
-  "SUCCESS_STORY_2": "Success story about overcoming resistance",
-  "SUCCESS_STORY_3": "Success story about sustainable change",
-  "SUCCESS_STORY_4": "Success story about leadership evolution",
-  
-  "BREAKTHROUGH_MOMENT_1": "Description of typical breakthrough moment for this type",
-  "BREAKTHROUGH_MOMENT_2": "Description of relationship breakthrough for this personality"
-}`;
-
-    return await callChatGPTAPI(prompt, "Testimonials & Case Studies");
-    
-  } catch (error) {
-    console.error("❌ Testimonials generation failed:", error);
-    return null;
-  }
-}
-
-// CALL 3: Detailed Transformation Metrics (25 placeholders)
-async function generateMetricsChatGPTContent(userData: MultiChatGPTRequest): Promise<Record<string, string> | null> {
-  try {
-    console.log('🤖 ChatGPT Call 3: Transformation Metrics...');
-    
-    const prompt = `You are an expert personality transformation coach. Generate detailed transformation metrics and outcomes for a ${userData.personalityType} - ${userData.personalityName}.
-
-CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
-
-User Profile:
-- Personality Type: ${userData.personalityType} - ${userData.personalityName}
-- Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
-- Subtype: ${userData.subtype}
-
-Generate 25 transformation metric fields:
-
-{
-  "TRANSFORMATION_METRIC_1": "Specific measurable outcome for this personality type",
-  "TRANSFORMATION_METRIC_2": "Leadership effectiveness improvement metric",
-  "TRANSFORMATION_METRIC_3": "Relationship quality enhancement metric",
-  "TRANSFORMATION_METRIC_4": "Stress reduction and peace metric",
-  
-  "BEFORE_AFTER_LEADERSHIP": "Leadership style transformation description",
-  "BEFORE_AFTER_COMMUNICATION": "Communication pattern change description", 
-  "BEFORE_AFTER_DECISION_MAKING": "Decision making evolution description",
-  "BEFORE_AFTER_STRESS_RESPONSE": "Stress response transformation description",
-  
-  "WEEK_BY_WEEK_1": "Week 1-2 transformation milestones for this type",
-  "WEEK_BY_WEEK_2": "Week 3-4 transformation milestones for this type",
-  "WEEK_BY_WEEK_3": "Week 5-6 transformation milestones for this type", 
-  "WEEK_BY_WEEK_4": "Week 7-8 transformation milestones for this type",
-  "WEEK_BY_WEEK_5": "Week 9-10 transformation milestones for this type",
-  
-  "COHERENCE_METRIC_1": "Heart-brain coherence improvement measure",
-  "COHERENCE_METRIC_2": "Nervous system regulation improvement",
-  "COHERENCE_METRIC_3": "Emotional intelligence enhancement metric",
-  
-  "LONG_TERM_OUTCOME_1": "6-month post-program outcome for this type",
-  "LONG_TERM_OUTCOME_2": "1-year sustained transformation measure",
-  "LONG_TERM_OUTCOME_3": "Lifetime behavioral change indicator",
-  
-  "FAMILY_IMPACT": "How transformation affects family relationships",
-  "TEAM_IMPACT": "How transformation affects team dynamics", 
-  "CAREER_IMPACT": "How transformation affects career trajectory",
-  
-  "ROI_PERSONAL": "Personal return on investment description",
-  "ROI_PROFESSIONAL": "Professional return on investment description",
-  "ROI_RELATIONAL": "Relational return on investment description"
-}`;
-
-    return await callChatGPTAPI(prompt, "Transformation Metrics");
-    
-  } catch (error) {
-    console.error("❌ Metrics generation failed:", error);
-    return null;
-  }
-}
-
-// CALL 4: Advanced Wheel of Life Content (31 placeholders)
-async function generateWheelChatGPTContent(userData: MultiChatGPTRequest): Promise<Record<string, string> | null> {
-  try {
-    console.log('🤖 ChatGPT Call 4: Advanced Wheel of Life...');
-    
-    const prompt = `You are an expert personality transformation coach. Generate detailed wheel of life transformation content for a ${userData.personalityType} - ${userData.personalityName}.
-
-CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
-
-User Profile:
-- Personality Type: ${userData.personalityType} - ${userData.personalityName}
-- Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
-- Subtype: ${userData.subtype}
-
-Generate 31 detailed wheel of life fields:
-
-{
+  "WHEEL_ENVIRONMENT_BEFORE": "Current environment and living situation challenges for this type",
+  "WHEEL_ENVIRONMENT_AFTER": "Transformed environment and space creation for this personality",
+  "WHEEL_GROWTH_BEFORE": "Current personal growth and learning patterns for this type",
+  "WHEEL_GROWTH_AFTER": "Transformed growth mindset and learning capacity for this personality",
   "WHEEL_SPIRITUALITY_BEFORE": "Current spiritual/meaning state for this type",
   "WHEEL_SPIRITUALITY_AFTER": "Transformed spiritual connection and purpose",
   "WHEEL_RECREATION_BEFORE": "Current relationship with joy and play",
   "WHEEL_RECREATION_AFTER": "Transformed capacity for enjoyment and renewal",
   
-  "WHEEL_DETAILED_CAREER_STRUGGLE": "Detailed career struggles specific to this type",
-  "WHEEL_DETAILED_CAREER_SOLUTION": "Detailed career transformation pathway",
-  "WHEEL_DETAILED_FINANCE_STRUGGLE": "Detailed financial patterns and blocks",
-  "WHEEL_DETAILED_FINANCE_SOLUTION": "Detailed financial transformation approach",
-  
-  "WHEEL_DETAILED_RELATIONSHIP_STRUGGLE": "Detailed relationship challenges for this type",
-  "WHEEL_DETAILED_RELATIONSHIP_SOLUTION": "Detailed relationship transformation path",
-  "WHEEL_DETAILED_MENTAL_STRUGGLE": "Detailed mental/emotional challenges",
-  "WHEEL_DETAILED_MENTAL_SOLUTION": "Detailed mental/emotional transformation",
-  
-  "WHEEL_DETAILED_PHYSICAL_STRUGGLE": "Detailed physical symptoms and tension",
-  "WHEEL_DETAILED_PHYSICAL_SOLUTION": "Detailed physical health transformation",
-  "WHEEL_DETAILED_SOCIAL_STRUGGLE": "Detailed social connection challenges", 
-  "WHEEL_DETAILED_SOCIAL_SOLUTION": "Detailed social transformation outcomes",
-  
-  "LIFE_AREA_PRIORITY_1": "Most important life area for this personality to transform",
-  "LIFE_AREA_PRIORITY_2": "Second priority transformation area",
-  "LIFE_AREA_PRIORITY_3": "Third priority transformation area",
-  
-  "TRANSFORMATION_TIMELINE_CAREER": "Career transformation timeline for this type",
-  "TRANSFORMATION_TIMELINE_RELATIONSHIPS": "Relationship change timeline",
-  "TRANSFORMATION_TIMELINE_INNER_PEACE": "Inner peace development timeline",
-  
-  "RESISTANCE_PATTERN_1": "Primary resistance pattern for this personality type",
-  "RESISTANCE_PATTERN_2": "Secondary resistance pattern they face",
-  "RESISTANCE_SOLUTION_1": "How to overcome first resistance pattern",
-  "RESISTANCE_SOLUTION_2": "How to overcome second resistance pattern",
-  
-  "BREAKTHROUGH_INDICATOR_1": "First sign of breakthrough for this type",
-  "BREAKTHROUGH_INDICATOR_2": "Second breakthrough indicator to watch for",
-  "BREAKTHROUGH_INDICATOR_3": "Third transformation milestone indicator",
-  
-  "INTEGRATION_PRACTICE_1": "Key daily practice for sustaining transformation",
-  "INTEGRATION_PRACTICE_2": "Key weekly practice for ongoing growth",
-  "INTEGRATION_PRACTICE_3": "Key monthly practice for long-term success"
+  "SUCCESS_STORY_1": "Brief success story about rapid transformation for this personality type",
+  "SUCCESS_STORY_2": "Brief success story about overcoming specific resistance pattern"
 }`;
 
-    return await callChatGPTAPI(prompt, "Advanced Wheel of Life");
-    
-  } catch (error) {
-    console.error("❌ Wheel content generation failed:", error);
-    return null;
-  }
+  return await callChatGPTAPI(prompt, "Testimonials & Wheel Content");
+}
+
+// CALL 4: Complete Missing Placeholders (30 placeholders)
+async function generateMissingPlaceholdersChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate the remaining transformation content for a ${userData.personalityType} - ${userData.personalityName} report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 30 remaining placeholder fields:
+
+{
+  "SUCCESS_STORY_3": "Brief success story about sustainable change achievement",
+  "SUCCESS_STORY_4": "Brief success story about leadership evolution", 
+  "SUCCESS_STORY_5": "Brief success story about relationship breakthrough",
+  "BREAKTHROUGH_MOMENT_1": "Description of typical breakthrough moment for this personality type",
+  "BREAKTHROUGH_MOMENT_2": "Description of relationship breakthrough specific to this type",
+  
+  "STAT1_DESCRIPTION": "First statistical outcome description for this personality type",
+  "STAT2_DESCRIPTION": "Second statistical outcome description for this type",
+  "BRAIN_HEART_DISCONNECT": "Brain-heart disconnect message specific to this personality type",
+  
+  "HERO_TITLE": "Compelling hero title for this personality's transformation journey",
+  "CTA_BUTTON_TEXT": "Call-to-action button text for this personality type",
+  "FOOTER_MESSAGE": "Footer message about transformation potential",
+  "TESTIMONIAL_HEADER": "Header text for testimonials section",
+  "WHEEL_HEADER": "Header text for wheel of life section",
+  "CHALLENGE_HEADER": "Header text for challenges section",
+  "OPPORTUNITY_HEADER": "Header text for opportunities section",
+  
+  "ASSESSMENT_SUMMARY": "Summary of their assessment results and patterns",
+  "TRANSFORMATION_PROMISE": "Promise about what transformation will deliver",
+  "URGENCY_MESSAGE": "Urgency message about starting transformation now",
+  "RISK_WARNING": "Warning about risks of not transforming",
+  "SUPPORT_MESSAGE": "Message about support and guidance available",
+  
+  "STAGE1_TITLE": "Title for stage 1 of the hero's journey",
+  "STAGE2_TITLE": "Title for stage 2 of the hero's journey",
+  "STAGE3_TITLE": "Title for stage 3 of the hero's journey",
+  "STAGE4_TITLE": "Title for stage 4 of the hero's journey",
+  "STAGE5_TITLE": "Title for stage 5 of the hero's journey",
+  "STAGE6_TITLE": "Title for stage 6 of the hero's journey",
+  "STAGE7_TITLE": "Title for stage 7 of the hero's journey",
+  "STAGE8_TITLE": "Title for stage 8 of the hero's journey",
+  "STAGE9_TITLE": "Title for stage 9 of the hero's journey",
+  "STAGE10_TITLE": "Title for stage 10 of the hero's journey"
+}`;
+
+  return await callChatGPTAPI(prompt, "Missing Placeholders");
+}
+
+// CALL 5: Final Template Coverage (25 placeholders)
+async function generateFinalCoverageChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate the final content pieces for complete ${userData.personalityType} - ${userData.personalityName} template coverage.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 25 final placeholder fields:
+
+{
+  "STAGE11_TITLE": "Title for stage 11 of the hero's journey",
+  "STAGE1_DESCRIPTION": "Description for stage 1 transformation",
+  "STAGE2_DESCRIPTION": "Description for stage 2 transformation", 
+  "STAGE3_DESCRIPTION": "Description for stage 3 transformation",
+  "STAGE4_DESCRIPTION": "Description for stage 4 transformation",
+  "STAGE5_DESCRIPTION": "Description for stage 5 transformation",
+  "STAGE6_DESCRIPTION": "Description for stage 6 transformation",
+  "STAGE7_DESCRIPTION": "Description for stage 7 transformation",
+  "STAGE8_DESCRIPTION": "Description for stage 8 transformation",
+  "STAGE9_DESCRIPTION": "Description for stage 9 transformation",
+  "STAGE10_DESCRIPTION": "Description for stage 10 transformation",
+  "STAGE11_DESCRIPTION": "Description for stage 11 transformation",
+  
+  "MILESTONE_1": "First transformation milestone for this personality",
+  "MILESTONE_2": "Second transformation milestone for this type",
+  "MILESTONE_3": "Third transformation milestone for this personality",
+  "MILESTONE_4": "Fourth transformation milestone for this type",
+  "MILESTONE_5": "Fifth transformation milestone for this personality",
+  
+  "OUTCOME_1": "First transformation outcome for this personality type",
+  "OUTCOME_2": "Second transformation outcome for this type",
+  "OUTCOME_3": "Third transformation outcome for this personality",
+  "OUTCOME_4": "Fourth transformation outcome for this type",
+  "OUTCOME_5": "Fifth transformation outcome for this personality",
+  
+  "COMMITMENT_TEXT": "Text about commitment required for transformation",
+  "INVESTMENT_TEXT": "Text about investment in personal transformation",
+  "GUARANTEE_TEXT": "Text about transformation guarantee and results"
+}`;
+
+  return await callChatGPTAPI(prompt, "Final Coverage");
 }
 
 // Shared ChatGPT API call function
 async function callChatGPTAPI(prompt: string, contentType: string): Promise<Record<string, string> | null> {
   try {
+    console.log(`🤖 Calling ChatGPT API for ${contentType}...`);
+    
     const completion = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
@@ -428,4 +326,178 @@ async function callChatGPTAPI(prompt: string, contentType: string): Promise<Reco
     console.error(`❌ ${contentType} generation failed:`, error);
     return null;
   }
+}
+
+// Calculate dynamic progress percentages
+function calculateDynamicProgressPercentages(moodStates: any): Record<string, string> {
+  const primaryPercentage = moodStates.primary.percentage;
+  const isAnxious = moodStates.primary.name.includes("Anxious") || moodStates.primary.name.includes("Worried");
+  
+  if (isAnxious || primaryPercentage < 50) {
+    return {
+      CAREER_PERCENTAGE: "21%", 
+      FINANCES_PERCENTAGE: "18%", 
+      RELATIONSHIPS_PERCENTAGE: "15%",
+      MENTAL_PERCENTAGE: "12%", 
+      PHYSICAL_PERCENTAGE: "18%", 
+      SOCIAL_PERCENTAGE: "20%",
+      ENVIRONMENT_PERCENTAGE: "25%", 
+      GROWTH_PERCENTAGE: "10%"
+    };
+  } else {
+    return {
+      CAREER_PERCENTAGE: "40%", 
+      FINANCES_PERCENTAGE: "35%", 
+      RELATIONSHIPS_PERCENTAGE: "30%",
+      MENTAL_PERCENTAGE: "25%", 
+      PHYSICAL_PERCENTAGE: "30%", 
+      SOCIAL_PERCENTAGE: "35%", 
+      ENVIRONMENT_PERCENTAGE: "45%", 
+      GROWTH_PERCENTAGE: "20%"
+    };
+  }
+}
+
+function getPersonalityName(type: number): string {
+  const names: Record<number, string> = {
+    1: "Perfectionist", 2: "Helper", 3: "Achiever", 4: "Individualist",
+    5: "Investigator", 6: "Loyalist", 7: "Enthusiast", 8: "Challenger", 9: "Peacemaker"
+  };
+  return names[type] || "Challenger";
+}
+
+// Main multi-call generation function
+export async function generateWorkingReport(assessmentData?: Partial<AssessmentData>): Promise<string> {
+  try {
+    console.log("🚀 Starting MULTI-CALL ChatGPT content generation...");
+    
+    // Assessment data processing (technical only)
+    const testData: AssessmentData = {
+      personalityType: 6,
+      personalityName: "Sentinel 6",
+      colorStates: [{name: "Anxious", percentage: 60}, {name: "Secure", percentage: 40}],
+      detailTokens: {selfPreservation: 3, sexual: 2, social: 5},
+      dominantState: {name: "Anxious", percentage: 60},
+      secondaryState: {name: "Secure", percentage: 40},
+      dominantSubtype: "Social",
+      ...assessmentData
+    };
+    
+    const userData: UserData = {
+      personalityType: `Type ${testData.personalityType}`,
+      personalityName: testData.personalityName || "Sentinel 6",
+      wingInfluence: 7,
+      moodStates: {
+        primary: { name: testData.dominantState?.name || "Anxious", percentage: testData.dominantState?.percentage || 65 },
+        secondary: { name: testData.secondaryState?.name || "Secure", percentage: testData.secondaryState?.percentage || 35 }
+      },
+      subtype: testData.dominantSubtype || "Self-Preservation"
+    };
+    
+    // Execute ChatGPT API calls sequentially to avoid rate limits
+    console.log("📞 Calling Core Content...");
+    const coreContent = await generateCoreChatGPTContent(userData);
+    if (!coreContent) {
+      console.error("❌ Core content generation failed");
+      throw new Error("Core content generation failed");
+    }
+    
+    console.log("📞 Calling Additional Cards & Metrics...");
+    const cardsContent = await generateAdditionalCardsChatGPTContent(userData);
+    if (!cardsContent) {
+      console.log("⚠️ Additional cards generation failed, continuing with core content only");
+    }
+    
+    console.log("📞 Calling Testimonials & Wheel Content...");
+    const testimonialsContent = await generateTestimonialsChatGPTContent(userData);
+    if (!testimonialsContent) {
+      console.log("⚠️ Testimonials generation failed, continuing with available content");
+    }
+    
+    console.log("📞 Calling Missing Placeholders...");
+    const missingContent = await generateMissingPlaceholdersChatGPTContent(userData);
+    if (!missingContent) {
+      console.log("⚠️ Missing placeholders generation failed, continuing with available content");
+    }
+    
+    console.log("📞 Calling Final Coverage...");
+    const finalContent = await generateFinalCoverageChatGPTContent(userData);
+    if (!finalContent) {
+      console.log("⚠️ Final coverage generation failed, continuing with available content");
+    }
+    
+    // Combine all successful ChatGPT content
+    const allChatGPTContent = {
+      ...coreContent,
+      ...(cardsContent || {}),
+      ...(testimonialsContent || {}),
+      ...(missingContent || {}),
+      ...(finalContent || {})
+    };
+    
+    const totalFields = Object.keys(allChatGPTContent).length;
+    console.log(`✅ Multi-call ChatGPT generation completed: ${totalFields} total fields`);
+    
+    // Calculate progress percentages (technical only)
+    const progressPercentages = calculateDynamicProgressPercentages(userData.moodStates);
+    
+    // Read and process template
+    const template = await fs.readFile('./challenger_template.html', 'utf-8');
+    let html = template;
+    
+    // Inject all ChatGPT content
+    Object.entries(allChatGPTContent).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      html = html.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    // Inject progress percentages
+    Object.entries(progressPercentages).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      html = html.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    const filename = 'sentinel-6-working.html';
+    await fs.writeFile(filename, html);
+    
+    const coveragePercent = Math.round((totalFields / 131) * 100);
+    console.log(`✅ Multi-call report generated: ${totalFields} ChatGPT fields, ${coveragePercent}% template coverage`);
+    return path.resolve(filename);
+    
+  } catch (error) {
+    console.error("❌ Multi-call ChatGPT generation failed:", error);
+    throw error;
+  }
+}
+
+// Keep the original single-call function as backup
+export async function generateTransformationReport(assessmentData: any): Promise<string | null> {
+  console.log("🔄 Using single-call backup generation...");
+  
+  const userData: UserData = {
+    personalityType: `Type ${assessmentData.results?.personalityType || 6}`,
+    personalityName: getPersonalityName(assessmentData.results?.personalityType || 6),
+    wingInfluence: assessmentData.results?.wingInfluence || 7,
+    moodStates: {
+      primary: { name: "Anxious & Worried", percentage: 65 },
+      secondary: { name: "Focused & Determined", percentage: 35 }
+    },
+    subtype: assessmentData.results?.subtype || "Self-Preservation"
+  };
+  
+  const coreContent = await generateCoreChatGPTContent(userData);
+  if (!coreContent) return null;
+  
+  const progressPercentages = calculateDynamicProgressPercentages(userData.moodStates);
+  
+  const template = await fs.readFile('./challenger_template.html', 'utf-8');
+  let html = template;
+  
+  Object.entries({ ...coreContent, ...progressPercentages }).forEach(([key, value]) => {
+    const placeholder = `{{${key}}}`;
+    html = html.replace(new RegExp(placeholder, 'g'), value);
+  });
+  
+  console.log(`✅ Single-call report generated: ${Object.keys(coreContent).length} ChatGPT fields`);
+  return html;
 }
