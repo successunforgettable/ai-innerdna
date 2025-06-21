@@ -25,9 +25,16 @@ app.get("/api/generate-sentinel-copy", async (req, res) => {
   }
 });
 
-// Serve the Sentinel 8 report directly from root
-app.get("/sentinel-8-report", (req, res) => {
-  res.sendFile(path.resolve(process.cwd(), 'sentinel-8-challenger-copy.html'));
+// Serve the Sentinel 8 report using unique pattern to bypass Vite
+app.get("/view-sentinel-8", (req, res) => {
+  try {
+    const htmlContent = fs.readFileSync('sentinel-8-challenger-copy.html', 'utf8');
+    res.setHeader('Content-Type', 'text/html');
+    res.send(htmlContent);
+  } catch (error) {
+    console.error('Error serving Sentinel 8 report:', error);
+    res.status(500).send('Error loading report');
+  }
 });
 
 app.get("/api/report/helper-3", (req, res) => {
