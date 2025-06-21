@@ -1,6 +1,3 @@
-import { parseAssessmentData } from '../assessmentParser.js';
-import { calculateProgressPercentages } from '../calculateProgressPercentages.js';
-import { injectContentIntoTemplate } from '../templateInjector.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -88,7 +85,7 @@ export async function generateWorkingTransformationReport(inputData: AssessmentD
     const allContent = { ...contentData, ...systematicContent };
     
     // Add assessment data for calculations
-    allContent.assessmentData = parsedData;
+    (allContent as any).assessmentData = parsedData;
     
     console.log(`Complete content prepared: ${Object.keys(allContent).length} fields`);
     

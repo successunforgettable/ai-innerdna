@@ -10,7 +10,9 @@ import { generatePersonalizedReport, generateQuickInsight } from "./aiReportServ
 import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_clean";
 import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
+import { generateWorkingTransformationReport } from "./workingReportGenerator";
 import { z } from "zod";
+import fs from "fs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -817,6 +819,94 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         message: "Failed to generate Sentinel 8 report",
         error: error instanceof Error ? error.message : String(error)
       });
+    }
+  });
+
+  // Working Transformation Report Routes
+  app.post('/api/generate-working-report', async (req, res) => {
+    try {
+      const assessmentData = req.body;
+      
+      // Validate basic assessment data structure
+      if (!assessmentData || !assessmentData.personalityType) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid assessment data: personalityType is required'
+        });
+      }
+
+      console.log('Generating working transformation report...');
+      const result = await generateWorkingTransformationReport(assessmentData);
+      
+      if (result.success) {
+        res.json({
+          success: true,
+          reportHtml: result.html,
+          size: result.size,
+          contentFields: result.contentFields,
+          message: 'Working transformation report generated successfully'
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: result.error || 'Failed to generate report'
+        });
+      }
+      
+    } catch (error) {
+      console.error('Working report generation error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to generate working transformation report'
+      });
+    }
+  });
+
+  // Test route for working report generation
+  app.get('/test-working-report', async (req, res) => {
+    try {
+      const testData = {
+        personalityType: 6,
+        wing: 5,
+        colorStates: [{name: "Anxious", percentage: 60}, {name: "Secure", percentage: 40}],
+        detailTokens: {selfPreservation: 3, sexual: 2, social: 5},
+        confidence: 35
+      };
+
+      console.log('Testing working transformation report...');
+      const result = await generateWorkingTransformationReport(testData);
+      
+      if (result.success) {
+        // Save report to file for viewing
+        const filename = 'test-working-report.html';
+        fs.writeFileSync(filename, result.html!);
+        
+        res.send(`
+          <h1>Working Transformation Report Test</h1>
+          <p>Report generated successfully!</p>
+          <p>Size: ${result.size} bytes</p>
+          <p>Content fields: ${result.contentFields}</p>
+          <p><a href="/view-working-report" target="_blank">View Generated Report</a></p>
+          <p><a href="/api/generate-working-report" target="_blank">API Endpoint</a></p>
+        `);
+      } else {
+        res.status(500).send(`Report generation failed: ${result.error}`);
+      }
+      
+    } catch (error) {
+      console.error('Test working report error:', error);
+      res.status(500).send('Test report generation failed');
+    }
+  });
+
+  // View generated working report
+  app.get('/view-working-report', (req, res) => {
+    const reportPath = './test-working-report.html';
+    
+    if (fs.existsSync(reportPath)) {
+      res.sendFile(path.resolve(reportPath));
+    } else {
+      res.status(404).send('Working report not found. <a href="/test-working-report">Generate Test Report</a>');
     }
   });
 
