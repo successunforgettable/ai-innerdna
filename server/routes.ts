@@ -482,6 +482,11 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
   });
 
+  // Serve the Helper 3 personalized report as static file
+  app.get("/helper-3-report", (req, res) => {
+    res.sendFile(path.join(__dirname, '../helper-3-personalized-report.html'));
+  });
+
   // AI-generated personalized report route - Perfectionist 9 example
   app.get("/ai-reformer-report", async (req, res) => {
     try {
