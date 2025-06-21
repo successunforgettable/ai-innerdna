@@ -62,10 +62,39 @@ app.get("/api/generate-sentinel-copy", async (req, res) => {
   }
 });
 
-// Serve the Sentinel 8 report using unique pattern to bypass Vite
+// Generate and serve the Sentinel 8 report using template replacement
+app.get("/sentinel-8-report", (req, res) => {
+  try {
+    // Read the challenger template with placeholders
+    let template = fs.readFileSync('challenger-template-with-placeholders.html', 'utf8');
+    
+    // Replace placeholders with Sentinel 8 specific content
+    const sentinelContent = {
+      HERO_TITLE: "The Sentinel's Path to Balanced Protection",
+      HERO_SUBTITLE: "Your Hero's Journey from Control to Inner Security",
+      STAGE1_TITLE: "Your Current Reality",
+      STAGE1_DESCRIPTION: "You are <span class=\"highlight-text\">The Sentinel</span> with <span class=\"highlight-text\">Protective Focus</span>. Your assessment reveals a 60% destructive and 40% good state distribution, showing your natural intensity balanced with protective instincts. Your sexual dominant subtype with social blind spots creates a powerful but sometimes isolated pattern.",
+      ASSESSMENT_SUMMARY: "Your assessment reveals: <span class=\"highlight-text\">Sexual dominance</span> with protective emotional processing and realistic security perspectives. Your control-oriented building blocks combined with loyalty preferences show a powerful guardian pattern requiring transformation."
+    };
+    
+    // Replace all placeholders in template
+    Object.keys(sentinelContent).forEach(key => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), sentinelContent[key]);
+    });
+    
+    res.setHeader('Content-Type', 'text/html');
+    res.send(template);
+  } catch (error) {
+    console.error('Error serving Sentinel 8 report:', error);
+    res.status(500).send('Error loading report');
+  }
+});
+
+// Serve the completed Sentinel 8 report
 app.get("/view-sentinel-8", (req, res) => {
   try {
-    const htmlContent = fs.readFileSync('sentinel-8-exact-challenger-copy.html', 'utf8');
+    const htmlContent = fs.readFileSync('sentinel-8-report.html', 'utf8');
     res.setHeader('Content-Type', 'text/html');
     res.send(htmlContent);
   } catch (error) {
