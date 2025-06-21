@@ -10,6 +10,105 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// CRITICAL: Register static report routes FIRST before any middleware
+app.get("/api/report/helper-3", (req, res) => {
+  const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond Approval: The Helper's Journey to Inner Balance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .stage-description {
+            font-size: 1.3rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Beyond Approval: The Helper's Journey to Inner Balance</h1>
+            <p class="hero-subtitle">Navigating Destruction and Significance through the Heart's Lens</p>
+        </div>
+    </section>
+    <section style="padding: 6rem 0;">
+        <div class="container">
+            <h2 class="stage-title">The Ordinary World</h2>
+            <p class="stage-description">
+                You are a Helper 3 - driven to support others while achieving recognition for your indispensability. Your sexual subtype creates intense, magnetic connections where you become the essential person in someone's life. But living in 60% destructive state means you manipulate through giving, create dependencies, and burn out from neglecting your own needs.
+            </p>
+            <div style="text-align: center; margin-top: 4rem;">
+                <h3 style="color: var(--gold); font-size: 2rem; margin-bottom: 2rem;">APPROVAL DEPENDENCY DETECTED</h3>
+                <p style="font-size: 1.2rem; color: var(--light-purple-text);">
+                    Your brain-heart disconnect manifests as needing constant validation through helping others. 
+                    Transform from manipulative giving to authentic service. Your journey to balanced helping begins now.
+                </p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>`;
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.send(htmlContent);
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -255,13 +354,17 @@ function addRecentNotification(notification: any) {
     }
   });
 
-  // Static file routes that must be registered BEFORE the catch-all route
-  app.get("/api/report/helper-3", (req, res) => {
-    res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
-  });
+
 
   app.get("/api/report/challenger-fixed", (req, res) => {
-    res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
+    try {
+      const htmlContent = fs.readFileSync(path.join(__dirname, '../challenger-template-fixed.html'), 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(htmlContent);
+    } catch (error) {
+      console.error('Error serving challenger report:', error);
+      res.status(500).send('Error loading report');
+    }
   });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
