@@ -1,82 +1,59 @@
 import OpenAI from 'openai';
 
-async function generatePersonalityContent(parsedData) {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-  const prompt = `ROLE: You are an expert personality transformation coach creating content for a personalized report.
-
-ORIGINAL CHALLENGER TEMPLATE EXAMPLES (STUDY THESE PATTERNS):
-
-HERO SECTION EXAMPLE:
-Title: "The Challenger 9 Transformation Journey"
-Subtitle: "Your Hero's Path to Heart-Brain Mastery"
-
-STAGE OPENING EXAMPLE:
-"You are a Challenger 9 - wired for control, strength, and protection. You step forward when others step back. But this is your current reality..."
-
-CARD EXAMPLES:
-Title: "Taking Charge"
-Description: "You lead from the front, but secretly feel exhausted by the constant responsibility."
-
-Title: "Being the Strong One"  
-Description: "Others rely on your strength, but you rarely feel supported or understood."
-
-TESTIMONIAL EXAMPLES:
-Quote: "I realized I was leading from survival mode, not strength. My heart and brain were completely disconnected."
-Author: "Sarah M., Challenger 9 Graduate"
-
-Quote: "The Incredible You didn't just give me tools - it gave me back my authentic power. I lead from presence now, not pressure."
-Author: "Marcus T., CEO & Challenger 9 Graduate"
-
-WHEEL OF LIFE EXAMPLES:
-Before: "You are respected but not fulfilled. People follow your strength, but you don't feel seen."
-After: "You no longer lead from force, but from presence. Influence expands effortlessly."
-
-STYLE GUIDELINES FROM CHALLENGER TEMPLATE:
-- Direct, powerful language that speaks to strong personalities
-- Focus on transformation from "survival mode" to "authentic power"
-- Professional, inspiring tone without being preachy
-- Specific, actionable insights rather than generic advice
-- Balance of strength acknowledgment with vulnerability invitation
-
-CLIENT ASSESSMENT DATA:
-- Personality: ${parsedData.personalityName}
-- Influence: ${parsedData.influence}
-- Dominant State: ${parsedData.dominantState.name} (${parsedData.dominantState.percentage}%)
-- Secondary State: ${parsedData.secondaryState.name} (${parsedData.secondaryState.percentage}%)
-- Dominant Subtype: ${parsedData.dominantSubtype}
-
-CRITICAL RULES:
-1. NEVER use: "Enneagram", "Type 1/2/3", "Wing", "Integration", "Disintegration"
-2. ALWAYS use: "Reformer 1", "Helper 2", "Challenger 8", "Sentinel 6", etc.
-3. Use "influence" instead of "wing"
-4. Refer to "good/bad mood states" not "levels"
-
-CONTENT REQUIREMENTS:
-- Match the EXACT style, tone, and format of the Challenger examples
-- Use assessment data to personalize every section
-- Testimonials: 20-40 words with realistic professional names/titles
-- Card descriptions: 15-30 words
-- Stage descriptions: 40-80 words
-- Follow the transformation journey structure (struggle → breakthrough → mastery)
-
-Generate content for ALL placeholders following Challenger quality and style:
-{
-  "PERSONALITY_TYPE": "${parsedData.personalityName}",
-  "HERO_SUBTITLE": "[Follow Challenger subtitle pattern but for this personality]",
-  "STAGE1_OPENING": "[Follow Challenger opening style but for this personality's reality]",
-  // ... all content sections
+async function generateContentWithRetry(parsedData, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`ChatGPT API attempt ${attempt}/${maxRetries}...`);
+      const result = await Promise.race([
+        generateContent(parsedData),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Request timeout after 45 seconds')), 45000)
+        )
+      ]);
+      console.log(`✅ ChatGPT API successful on attempt ${attempt}`);
+      return result;
+    } catch (error) {
+      console.log(`❌ Attempt ${attempt} failed:`, error.message);
+      if (attempt === maxRetries) throw error;
+      console.log(`Retrying in 3 seconds...`);
+      await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+  }
 }
 
-Return ONLY valid JSON. No explanations.`;
+async function generateContent(parsedData) {
+  const openai = new OpenAI({ 
+    apiKey: process.env.OPENAI_API_KEY
+  });
+
+  const prompt = `Generate transformation report content for ${parsedData.personalityName} with ${parsedData.dominantState.name} state (${parsedData.dominantState.percentage}%). 
+
+Style: Professional transformation coach, direct but inspiring. Use "Sentinel 6" terminology, never "Enneagram" or "Type 6".
+
+Return JSON with these exact fields:
+{
+  "PERSONALITY_TYPE": "${parsedData.personalityName}",
+  "HERO_TITLE": "The ${parsedData.personalityName} Transformation Journey",
+  "HERO_SUBTITLE": "Your Path from ${parsedData.dominantState.name} to Security",
+  "STAGE1_TITLE": "Your Current Reality",
+  "STAGE1_DESCRIPTION": "Brief description of ${parsedData.personalityName} ${parsedData.dominantState.name} state patterns",
+  "ASSESSMENT_SUMMARY": "Quick summary of ${parsedData.dominantState.percentage}% ${parsedData.dominantState.name}, ${parsedData.secondaryState.percentage}% ${parsedData.secondaryState.name}, ${parsedData.dominantSubtype} focus"
+}
+
+Keep responses under 100 words per field. Return only valid JSON.`;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4",
     messages: [{ role: "user", content: prompt }],
-    max_tokens: 4000
+    max_tokens: 4000,
+    temperature: 0.7
   });
   
   return JSON.parse(response.choices[0].message.content);
+}
+
+async function generatePersonalityContent(parsedData) {
+  return await generateContentWithRetry(parsedData);
 }
 
 export { generatePersonalityContent };
