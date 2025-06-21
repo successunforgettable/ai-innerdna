@@ -91,15 +91,46 @@ app.get("/sentinel-8-report", (req, res) => {
   }
 });
 
-// Serve the accurate ChatGPT-generated Sentinel 8 report
-app.get("/view-sentinel-8", (req, res) => {
+// Generate Sentinel 8 report via ChatGPT API
+app.get("/view-sentinel-8", async (req, res) => {
   try {
-    const htmlContent = fs.readFileSync('sentinel-8-accurate-report.html', 'utf8');
+    const OpenAI = require('openai');
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    
+    const sentinelData = {
+      destructiveState: 60,
+      goodState: 40,
+      confidence: 35,
+      career: 25,
+      relationships: 30,
+      health: 35,
+      spirituality: 20,
+      personalGrowth: 25,
+      finances: 30
+    };
+    
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [{
+        role: "system",
+        content: `Generate complete Sentinel transformation report HTML using exact Challenger template structure.
+
+MANDATORY DATA:
+- ${sentinelData.destructiveState}% destructive, ${sentinelData.goodState}% good state
+- ${sentinelData.confidence}% confidence (realistic for destructive state)
+- Sexual dominant, social blind subtype
+- Career: ${sentinelData.career}%, Relationships: ${sentinelData.relationships}%, Health: ${sentinelData.health}%, Spirituality: ${sentinelData.spirituality}%, Personal Growth: ${sentinelData.personalGrowth}%, Finances: ${sentinelData.finances}%
+
+Include "CONTROL DEPENDENCY DETECTED" message. Generate complete HTML with all CSS, styling, and exact challenger template structure. Use these exact percentages throughout.`
+      }]
+    });
+    
     res.setHeader('Content-Type', 'text/html');
-    res.send(htmlContent);
+    res.send(response.choices[0].message.content);
+    
   } catch (error) {
-    console.error('Error serving Sentinel 8 report:', error);
-    res.status(500).send('Error loading report');
+    console.error('Error generating report:', error);
+    res.status(500).send('Error generating report');
   }
 });
 
