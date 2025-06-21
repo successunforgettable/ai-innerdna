@@ -134,6 +134,103 @@ Include "CONTROL DEPENDENCY DETECTED" message. Generate complete HTML with all C
   }
 });
 
+// Serve HTML reports directly
+app.get('/view-report/:filename', (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, '..', `${filename}.html`);
+    
+    if (fs.existsSync(filePath)) {
+      const htmlContent = fs.readFileSync(filePath, 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(htmlContent);
+    } else {
+      res.status(404).send(`Report ${filename} not found`);
+    }
+  } catch (error) {
+    console.error('Error serving report:', error);
+    res.status(500).send('Error loading report');
+  }
+});
+
+// Report browser - list all available reports
+app.get('/reports-browser', (req, res) => {
+  try {
+    const rootDir = path.join(__dirname, '..');
+    const htmlFiles = fs.readdirSync(rootDir)
+      .filter(file => file.endsWith('.html') && fs.statSync(path.join(rootDir, file)).size > 1000)
+      .map(file => {
+        const stats = fs.statSync(path.join(rootDir, file));
+        const fileNameWithoutExt = file.replace('.html', '');
+        return {
+          name: file,
+          nameWithoutExt: fileNameWithoutExt,
+          size: Math.round(stats.size / 1024),
+          date: stats.mtime.toLocaleDateString()
+        };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    const browserHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Reports Browser</title>
+    <style>
+        body { font-family: Inter, sans-serif; margin: 40px; background: #f8fafc; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #1e293b; margin-bottom: 30px; }
+        .stats { background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .report-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid #6366f1; }
+        .report-name { font-weight: 600; color: #1e293b; margin-bottom: 8px; }
+        .report-meta { color: #64748b; font-size: 14px; margin-bottom: 15px; }
+        .view-link { display: inline-block; background: #6366f1; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-size: 14px; }
+        .view-link:hover { background: #4f46e5; }
+        .key-reports { background: #fef3c7; border-left-color: #f59e0b; }
+        .key-reports .report-name { color: #92400e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generated Reports Browser</h1>
+        
+        <div class="stats">
+            <strong>${htmlFiles.length}</strong> HTML reports found
+        </div>
+        
+        <div class="reports-grid">
+            ${htmlFiles.map(file => {
+              const isKeyReport = file.nameWithoutExt.includes('sentinel-6') || 
+                                file.nameWithoutExt.includes('verification') || 
+                                file.nameWithoutExt.includes('challenger-demo') ||
+                                file.nameWithoutExt.includes('final-test');
+              
+              return `
+                <div class="report-card ${isKeyReport ? 'key-reports' : ''}">
+                    <div class="report-name">${file.name}</div>
+                    <div class="report-meta">${file.size}KB • ${file.date}</div>
+                    <a href="/view-report/${file.nameWithoutExt}" class="view-link" target="_blank">
+                        View Report →
+                    </a>
+                </div>
+              `;
+            }).join('')}
+        </div>
+    </div>
+</body>
+</html>`;
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(browserHtml);
+  } catch (error) {
+    console.error('Error creating reports browser:', error);
+    res.status(500).send('Error loading reports browser');
+  }
+});
+
 app.get("/api/report/helper-3", (req, res) => {
   const htmlContent = `<!DOCTYPE html>
 <html lang="en">
