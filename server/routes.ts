@@ -427,53 +427,59 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
   });
 
   // Preview route for the Reformer test report with exact challenger design
-  app.get("/preview-reformer", (req, res) => {
-    const reformerAssessmentData = {
-      primaryType: "1",
-      confidence: 88,
-      wing: "9",
-      foundationStones: [
-        {
-          setIndex: 0,
-          stoneIndex: 2,
-          context: "When making decisions,",
-          statements: ["I consider what is right", "I focus on improvement", "I aim for perfection"]
+  app.get("/preview-reformer", async (req, res) => {
+    try {
+      const reformerAssessmentData = {
+        primaryType: "1",
+        confidence: 88,
+        wing: "9",
+        foundationStones: [
+          {
+            setIndex: 0,
+            stoneIndex: 2,
+            context: "When making decisions,",
+            statements: ["I consider what is right", "I focus on improvement", "I aim for perfection"]
+          }
+        ],
+        buildingBlocks: [
+          {
+            name: "Principled Reformer",
+            wing: "9"
+          }
+        ],
+        colorStates: [
+          {
+            state: "Order",
+            percentage: 70
+          },
+          {
+            state: "Peace", 
+            percentage: 30
+          }
+        ],
+        detailTokens: {
+          social: 4,
+          selfPreservation: 4,
+          sexual: 2
         }
-      ],
-      buildingBlocks: [
-        {
-          name: "Principled Reformer",
-          wing: "9"
-        }
-      ],
-      colorStates: [
-        {
-          state: "Order",
-          percentage: 70
-        },
-        {
-          state: "Peace", 
-          percentage: 30
-        }
-      ],
-      detailTokens: {
-        social: 4,
-        selfPreservation: 4,
-        sexual: 2
-      }
-    };
+      };
 
-    generateCustomReport(reformerAssessmentData)
-      .then(reportData => {
-        // Use the exact challenger template with AI-generated content
-        const htmlReport = generateCustomReportHTML(reportData);
-        res.setHeader('Content-Type', 'text/html');
-        res.send(htmlReport);
-      })
-      .catch(error => {
-        console.error('Error generating preview report:', error);
-        res.status(500).send('Error generating preview report');
-      });
+      // Generate AI-powered content for The Reformer
+      const reportData = await generateCustomReport(reformerAssessmentData);
+      
+      // Use the exact challenger template structure with AI content
+      const htmlReport = generateCustomReportHTML(reportData);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlReport);
+    } catch (error) {
+      console.error('Error generating preview report:', error);
+      res.status(500).send('Error generating preview report');
+    }
+  });
+
+  // Fixed challenger template route
+  app.get("/challenger-fixed", (req, res) => {
+    res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
   });
 
   app.post("/api/generate-custom-report-data", async (req, res) => {
