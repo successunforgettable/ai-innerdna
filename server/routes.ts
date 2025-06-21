@@ -686,6 +686,38 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // Sentinel 8 Report Generation Endpoint
+  app.post('/api/generate-sentinel-8', async (req, res) => {
+    try {
+      const { generateSentinel8Report } = await import('./sentinelReportGenerator');
+      
+      const assessmentData = {
+        personalityType: "Sentinel 8",
+        wing: "8",
+        stateDistribution: { destructive: 60, good: 40 },
+        subtype: { dominant: "self-preservation", blind: "sexual" },
+        confidence: 85
+      };
+
+      console.log('Starting Sentinel 8 report generation...');
+      const reportContent = await generateSentinel8Report(assessmentData);
+      
+      res.json({
+        success: true,
+        content: reportContent,
+        message: "Sentinel 8 report generated successfully by OpenAI"
+      });
+
+    } catch (error) {
+      console.error('Error generating Sentinel 8 report:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to generate Sentinel 8 report",
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

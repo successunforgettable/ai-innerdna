@@ -1,136 +1,207 @@
-import OpenAI from 'openai';
-import fs from 'fs';
+const OpenAI = require('openai').default;
+const fs = require('fs');
 
 const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY 
+  apiKey: process.env.OPENAI_API_KEY,
+  timeout: 120000,
+  maxRetries: 3
 });
 
-async function generateSentinel8Report() {
+async function generateSentinel8Content() {
   try {
-    const assessmentData = {
-      personalityType: "Sentinel 8",
-      wing: "8",
-      stateDistribution: {
-        destructive: 60,
-        good: 40
-      },
-      subtype: {
-        dominant: "self-preservation",
-        blind: "sexual"
-      },
-      confidence: 85
-    };
-
-    const prompt = `
-You are an expert transformation coach. Generate a complete personalized transformation report for a Sentinel 8 personality.
-
-PERSONALITY PROFILE:
-- Type: Sentinel 8 (protective authority with 8 wing influence)
-- Wing: 8 (adds intensity, control needs, confrontational energy)
-- State Distribution: 60% Destructive, 40% Good
-- Subtype: Self-Preservation dominant, Sexual subtype blind
-- Confidence: 85%
-
-SENTINEL 8 CHARACTERISTICS:
-- Core: Protective guardian with authority/power drive
-- Fear: Being controlled, manipulated, or vulnerable
-- Drive: Protecting others while maintaining control and authority
-- 8 Wing Impact: Intensifies control needs, adds confrontational energy, increases dominance patterns
-
-DESTRUCTIVE STATE (60%): Controlling behavior that suffocates those being protected, aggressive authority that pushes people away, paranoid protection that creates threats it fears, dominating leadership that breeds resentment
-
-GOOD STATE (40%): Protective strength that empowers others, wise authority that guides without controlling, strategic leadership that builds trust, powerful advocacy for the vulnerable
-
-SELF-PRESERVATION FOCUS: Intense focus on security, resources, safety, building protective systems and boundaries, control over environment, less concerned with image or relationships
-
-SEXUAL SUBTYPE BLIND: Struggles with intimate intensity and passion, difficulty with one-on-one emotional depth, may avoid vulnerable personal connections, focus on broader protection rather than intimate bonds
-
-GENERATE COMPLETE TRANSFORMATION REPORT CONTENT:
-
-1. Hero Title: Compelling transformation title for Sentinel 8
-2. Brain-Heart Disconnect Message: Specific to Sentinel 8 patterns 
-3. Stage 1 Ordinary World: 60-80 word description of Sentinel 8 daily reality
-4. Challenge Cards (4): Specific Sentinel 8 struggles with control, authority, protection
-5. Wheel of Life (8 areas): Self-preservation focused descriptions with realistic percentages
-6. Testimonials (4): Professional transformation stories from Sentinel 8 perspectives
-7. Hero's Journey Stages 2-6: Complete transformation arc from destructive control to protective leadership
-
-REQUIREMENTS:
-- Use "Sentinel 8" terminology, never "Type 6w8" or "Enneagram"
-- Focus on control/protection balance and authority transformation
-- Address self-preservation dominance and sexual blind spot specifically
-- Professional, authoritative tone matching Sentinel 8 energy
-- Each section 50-80 words matching challenger template length
-- Generate authentic content based on real Sentinel 8 patterns
-
-Return structured JSON with all sections clearly labeled for HTML insertion.`;
-
-    console.log('Generating Sentinel 8 transformation report with OpenAI...');
+    console.log('🚀 Generating Sentinel 8 transformation report content...');
     
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+    // Generate Hero Title and Brain-Heart Disconnect
+    console.log('📝 Generating hero title and brain-heart disconnect...');
+    const heroResponse = await openai.chat.completions.create({
+      model: 'gpt-4o',
       messages: [
         {
-          role: "system",
-          content: "You are an expert transformation coach specializing in Sentinel 8 patterns. Generate precise, powerful content that captures the Sentinel 8 journey from destructive control to protective leadership. Focus on authentic personality-specific content."
+          role: 'system',
+          content: 'You are an expert transformation coach for Sentinel 8 personalities. Generate powerful, authoritative titles and messages.'
         },
         {
-          role: "user",
-          content: prompt
+          role: 'user',
+          content: `Generate for Sentinel 8 (60% destructive/40% good, self-preservation dominant, sexual blind):
+1. heroTitle: Compelling transformation journey title
+2. brainHeartDisconnect: Specific warning message (like "PROTECTIVE CONTROL CONFLICT DETECTED")
+3. stage1Description: 60-80 words describing Sentinel 8 ordinary world
+
+Return as JSON with these 3 fields only.`
         }
       ],
-      response_format: { type: "json_object" },
+      response_format: { type: 'json_object' },
       temperature: 0.7,
-      max_tokens: 3000
+      max_tokens: 500
     });
 
-    const content = JSON.parse(response.choices[0].message.content || '{}');
-    
-    console.log('AI-generated Sentinel 8 content:');
-    console.log(JSON.stringify(content, null, 2));
-    
-    // Save the generated content
-    fs.writeFileSync('sentinel-8-ai-content.json', JSON.stringify(content, null, 2));
-    
-    // Now create the HTML report using the Challenger template
-    const template = fs.readFileSync('challenger-template-fixed.html', 'utf8');
-    
-    let reportHtml = template
-      // Update hero section
-      .replace(/Beyond Control: The Challenger's Journey to Authentic Power/g, content.heroTitle || "Beyond Control: The Sentinel's Journey to Protective Leadership")
-      .replace(/CONTROL ADDICTION DETECTED/g, content.brainHeartDisconnect || "PROTECTIVE CONTROL DETECTED")
-      
-      // Update Stage 1
-      .replace(/Living in a world where your need to be in control has become your prison, and there's a different way to create positive change\./g, content.stage1Description || "Living in a world where your protective instincts have become controlling barriers that push away those you seek to protect.")
-      
-      // Update challenge cards
-      .replace(/Taking control of every situation/g, content.challengeCards?.[0]?.title || "Controlling Protection")
-      .replace(/Your need to dominate conversations and decisions creates resistance/g, content.challengeCards?.[0]?.description || "Your need to control every variable creates the insecurity you're trying to prevent")
-      
-      // Update wheel of life with AI-generated content
-      .replace(/Career \(75%\): Your professional life thrives on challenge and achievement/g, `Career (${content.wheelOfLife?.career?.percentage || '75%'}): ${content.wheelOfLife?.career?.description || 'Career focused on protective leadership and security'}`)
-      .replace(/Finances \(45%\): Money represents power and security/g, `Finances (${content.wheelOfLife?.finances?.percentage || '65%'}): ${content.wheelOfLife?.finances?.description || 'Financial security paramount for self-preservation focus'}`)
-      
-      // Update stages with AI content
-      .replace(/A moment of recognition that your pursuit of control has become a prison/g, content.stage2 || "Recognition that your protective control has become the threat you're defending against")
-      .replace(/Discovering wisdom that helps you transform aggression into assertiveness/g, content.stage3 || "Discovering mentors who teach protective leadership without domination")
-      .replace(/Taking the brave step to release the need for absolute control/g, content.stage4 || "Taking the step to trust others with responsibility while maintaining oversight")
-      .replace(/Facing situations that challenge your old patterns of dominance/g, content.stage5 || "Confronting situations that test your ability to protect without controlling")
-      .replace(/Returning to your world as a transformed leader who protects through empowerment/g, content.stage6 || "Returning as a Sentinel 8 who protects through empowerment rather than control");
+    const heroContent = JSON.parse(heroResponse.choices[0].message.content);
+    console.log('✅ Hero content generated');
 
-    // Save the final report
-    fs.writeFileSync('ai-generated-sentinel-8-report.html', reportHtml);
+    // Generate Challenge Cards
+    console.log('🎯 Generating challenge cards...');
+    const challengeResponse = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Generate 4 specific challenge cards for Sentinel 8 transformation struggles.'
+        },
+        {
+          role: 'user',
+          content: `Generate 4 challenge cards for Sentinel 8 (protective control patterns):
+Each card needs: title, description (40-60 words), icon (FontAwesome class)
+Focus on: control vs protection, authority struggles, trust issues, vulnerability fears
+Return as JSON: {"challengeCards": [array of 4 cards]}`
+        }
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0.7,
+      max_tokens: 800
+    });
+
+    const challengeContent = JSON.parse(challengeResponse.choices[0].message.content);
+    console.log('✅ Challenge cards generated');
+
+    // Generate Wheel of Life
+    console.log('⚡ Generating wheel of life...');
+    const wheelResponse = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Generate realistic wheel of life assessments for Sentinel 8 with self-preservation focus.'
+        },
+        {
+          role: 'user',
+          content: `Generate 8 wheel of life areas for Sentinel 8:
+Areas: Career, Relationships, Health, Finance, Personal Growth, Family, Recreation, Contribution
+Each needs: area name, percentage (realistic for someone struggling), description (30-40 words)
+Focus on self-preservation themes, control issues, protective behaviors
+Return as JSON: {"wheelOfLife": [array of 8 areas]}`
+        }
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0.7,
+      max_tokens: 1000
+    });
+
+    const wheelContent = JSON.parse(wheelResponse.choices[0].message.content);
+    console.log('✅ Wheel of life generated');
+
+    // Generate Testimonials
+    console.log('💬 Generating testimonials...');
+    const testimonialResponse = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Generate authentic testimonials from Sentinel 8 personalities who underwent transformation.'
+        },
+        {
+          role: 'user',
+          content: `Generate 4 professional testimonials from Sentinel 8 perspectives:
+Each needs: quote (40-60 words about transformation), name, title
+Focus on: moving from destructive control to empowering leadership
+Themes: trust building, vulnerability, balanced authority, protective strength
+Return as JSON: {"testimonials": [array of 4 testimonials]}`
+        }
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0.7,
+      max_tokens: 800
+    });
+
+    const testimonialContent = JSON.parse(testimonialResponse.choices[0].message.content);
+    console.log('✅ Testimonials generated');
+
+    // Generate Hero Journey Stages
+    console.log('🚀 Generating hero journey stages...');
+    const stagesResponse = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Generate transformation stages for Sentinel 8 hero journey from destructive control to empowering leadership.'
+        },
+        {
+          role: 'user',
+          content: `Generate hero journey stages 2-6 for Sentinel 8 transformation:
+stage2: The Call (60-80 words)
+stage3: Resistance (60-80 words) 
+stage4: Meeting the Mentor (60-80 words)
+stage5: Crossing the Threshold (60-80 words)
+stage6: Tests and Trials (60-80 words)
+
+Focus on: control patterns, trust building, vulnerability, leadership evolution
+Return as JSON: {"heroJourneyStages": {stage2: "", stage3: "", stage4: "", stage5: "", stage6: ""}}`
+        }
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0.7,
+      max_tokens: 1200
+    });
+
+    const stagesContent = JSON.parse(stagesResponse.choices[0].message.content);
+    console.log('✅ Hero journey stages generated');
+
+    // Generate Call to Action
+    console.log('📢 Generating call to action...');
+    const ctaResponse = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Generate a powerful call to action for Sentinel 8 transformation.'
+        },
+        {
+          role: 'user',
+          content: `Generate a compelling call to action for Sentinel 8 transformation (50-80 words):
+Focus on: moving from destructive control to empowering protection
+Tone: Authoritative, inspiring, action-oriented
+Themes: balanced authority, trust, protective leadership
+Return as JSON: {"callToAction": "your message here"}`
+        }
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0.7,
+      max_tokens: 300
+    });
+
+    const ctaContent = JSON.parse(ctaResponse.choices[0].message.content);
+    console.log('✅ Call to action generated');
+
+    // Combine all content
+    const completeReport = {
+      ...heroContent,
+      ...challengeContent,
+      ...wheelContent,
+      ...testimonialContent,
+      ...stagesContent,
+      ...ctaContent
+    };
+
+    // Save complete report
+    fs.writeFileSync('sentinel-8-ai-report.json', JSON.stringify(completeReport, null, 2));
     
-    console.log('✅ Sentinel 8 transformation report generated successfully!');
-    console.log('📄 Report saved as: ai-generated-sentinel-8-report.html');
-    console.log('🤖 All content generated by OpenAI GPT-4o');
-    
-    return content;
+    console.log('');
+    console.log('🎉 COMPLETE SENTINEL 8 REPORT GENERATED!');
+    console.log('📝 Hero Title:', completeReport.heroTitle);
+    console.log('🧠 Brain-Heart Disconnect:', completeReport.brainHeartDisconnect); 
+    console.log('📊 Challenge Cards:', completeReport.challengeCards?.length || 0);
+    console.log('⚡ Wheel Areas:', completeReport.wheelOfLife?.length || 0);
+    console.log('💬 Testimonials:', completeReport.testimonials?.length || 0);
+    console.log('🚀 Journey Stages:', Object.keys(completeReport.heroJourneyStages || {}).length);
+    console.log('📢 Call to Action: ✓');
+    console.log('');
+    console.log('🤖 ALL CONTENT GENERATED BY: ChatGPT/OpenAI GPT-4o');
+    console.log('💾 Saved to: sentinel-8-ai-report.json');
+    console.log('📋 Total Characters:', JSON.stringify(completeReport).length);
 
   } catch (error) {
-    console.error('❌ Error generating Sentinel 8 report:', error);
-    throw error;
+    console.error('❌ Error generating Sentinel 8 report:', error.message);
+    process.exit(1);
   }
 }
 
-generateSentinel8Report();
+generateSentinel8Content();
