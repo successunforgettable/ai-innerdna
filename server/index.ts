@@ -25,6 +25,11 @@ app.get("/api/generate-sentinel-copy", async (req, res) => {
   }
 });
 
+// Serve the Sentinel 8 report directly from root
+app.get("/sentinel-8-report", (req, res) => {
+  res.sendFile(path.resolve(process.cwd(), 'sentinel-8-challenger-copy.html'));
+});
+
 app.get("/api/report/helper-3", (req, res) => {
   const htmlContent = `<!DOCTYPE html>
 <html lang="en">
