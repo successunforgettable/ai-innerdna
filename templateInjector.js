@@ -38,10 +38,37 @@ function injectContentIntoTemplate(contentData) {
     `<div class="progress-fill" style="width: ${percentages.before.growth}%;"></div>`
   );
   
-  // Replace content placeholders
+  // DEBUG: Content injection process
+  console.log('=== CONTENT INJECTION DEBUG ===');
+  console.log('Content data received:', Object.keys(contentData));
+  console.log('Template before replacement:', template.substring(0, 200));
+  
+  // Find all placeholders in template
+  const placeholderMatches = template.match(/\{\{[^}]+\}\}/g) || [];
+  console.log('Placeholders found in template:', placeholderMatches);
+  
+  // Replace content placeholders with detailed logging
   Object.keys(contentData).forEach(key => {
-    template = template.replaceAll(`{{${key}}}`, contentData[key]);
+    if (key !== 'assessmentData') { // Skip assessment data object
+      const placeholder = `{{${key}}}`;
+      const replacement = contentData[key] || '[MISSING CONTENT]';
+      console.log(`Replacing ${placeholder} with: ${replacement.substring(0, 50)}...`);
+      
+      const beforeCount = (template.match(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+      template = template.replaceAll(placeholder, replacement);
+      const afterCount = (template.match(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+      
+      console.log(`${placeholder}: ${beforeCount} found, ${beforeCount - afterCount} replaced`);
+    }
   });
+  
+  console.log('Template after replacement:', template.substring(0, 200));
+  
+  // Check for remaining placeholders
+  const remainingPlaceholders = template.match(/\{\{[^}]+\}\}/g) || [];
+  if (remainingPlaceholders.length > 0) {
+    console.log('WARNING: Unreplaced placeholders:', remainingPlaceholders);
+  }
   
   return template;
 }
