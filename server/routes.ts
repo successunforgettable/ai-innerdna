@@ -426,6 +426,55 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // Preview route for the Reformer test report
+  app.get("/preview-reformer", (req, res) => {
+    const reformerAssessmentData = {
+      primaryType: "1",
+      confidence: 88,
+      wing: "9",
+      foundationStones: [
+        {
+          setIndex: 0,
+          stoneIndex: 2,
+          context: "When making decisions,",
+          statements: ["I consider what is right", "I focus on improvement", "I aim for perfection"]
+        }
+      ],
+      buildingBlocks: [
+        {
+          name: "Principled Reformer",
+          wing: "9"
+        }
+      ],
+      colorStates: [
+        {
+          state: "Order",
+          percentage: 70
+        },
+        {
+          state: "Peace", 
+          percentage: 30
+        }
+      ],
+      detailTokens: {
+        social: 4,
+        selfPreservation: 4,
+        sexual: 2
+      }
+    };
+
+    generateCustomReport(reformerAssessmentData)
+      .then(reportData => {
+        const htmlReport = generateCustomReportHTML(reportData);
+        res.setHeader('Content-Type', 'text/html');
+        res.send(htmlReport);
+      })
+      .catch(error => {
+        console.error('Error generating preview report:', error);
+        res.status(500).send('Error generating preview report');
+      });
+  });
+
   app.post("/api/generate-custom-report-data", async (req, res) => {
     try {
       const { assessmentData } = req.body;
