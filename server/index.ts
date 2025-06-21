@@ -367,6 +367,291 @@ function addRecentNotification(notification: any) {
     }
   });
 
+  // Static reports directory - BEFORE Vite middleware
+  app.use('/reports', express.static(path.join(__dirname, '../public/reports'), {
+    setHeaders: (res) => {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }));
+
+  // Generate static report files
+  app.post('/api/generate-static-report', async (req, res) => {
+    try {
+      const { assessmentData, reportType = 'helper-3' } = req.body;
+      
+      // Generate unique filename
+      const timestamp = Date.now();
+      const reportId = `${reportType}-${timestamp}`;
+      const filename = `${reportId}.html`;
+      
+      // Generate personalized HTML based on assessment data
+      let reportHTML = '';
+      
+      if (reportType === 'helper-3' || !assessmentData) {
+        // Default Helper 3 report
+        reportHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond Approval: The Helper's Journey to Inner Balance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+            to { text-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+        }
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .stage-description {
+            font-size: 1.3rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .challenge-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--cyan));
+        }
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Beyond Approval: The Helper's Journey to Inner Balance</h1>
+            <p class="hero-subtitle">Navigating Destruction and Significance through the Heart's Lens</p>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <section style="padding: 6rem 0;">
+        <div class="container">
+            <h2 class="stage-title">The Ordinary World</h2>
+            <p class="stage-description">
+                You are a Helper 3 - driven to support others while achieving recognition for your indispensability. Your sexual subtype creates intense, magnetic connections where you become the essential person in someone's life. But living in 60% destructive state means you manipulate through giving, create dependencies, and burn out from neglecting your own needs.
+            </p>
+            
+            <div class="challenge-card">
+                <div class="card-icon"><i class="fas fa-heart-broken"></i></div>
+                <h3 class="card-title">Manipulation Through Giving</h3>
+                <p>Using help as a control mechanism in intense relationships, creating unhealthy dependencies</p>
+            </div>
+            
+            <div class="challenge-card">
+                <div class="card-icon"><i class="fas fa-battery-empty"></i></div>
+                <h3 class="card-title">Burnout from Self-Neglect</h3>
+                <p>Ignoring basic needs while over-focusing on others, leading to exhaustion and resentment</p>
+            </div>
+            
+            <div class="challenge-card">
+                <div class="card-icon"><i class="fas fa-trophy"></i></div>
+                <h3 class="card-title">Achievement-Driven Service</h3>
+                <p>Needing recognition and success from helping, making service about personal validation</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 4rem; padding: 3rem; background: rgba(255, 255, 255, 0.1); border-radius: 20px;">
+                <h3 style="color: var(--gold); font-size: 2rem; margin-bottom: 2rem;">APPROVAL DEPENDENCY DETECTED</h3>
+                <p style="font-size: 1.2rem; color: var(--light-purple-text);">
+                    Your brain-heart disconnect manifests as needing constant validation through helping others. 
+                    Transform from manipulative giving to authentic service. Your journey to balanced helping begins now.
+                </p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>`;
+      } else {
+        // Generate dynamic content based on assessment data
+        const personalityType = assessmentData.primaryType || '3';
+        const wing = assessmentData.wing || '2';
+        const states = assessmentData.colorStates || [];
+        const subtypes = assessmentData.detailTokens || [];
+        
+        reportHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personalized Transformation Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Your Transformation Journey: Type ${personalityType} with ${wing} Wing</h1>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem;">
+                Personalized insights based on your unique assessment data
+            </p>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <section style="padding: 6rem 0;">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); text-align: center; margin-bottom: 3rem;">
+                Your Profile
+            </h2>
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 20px; text-align: center;">
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    <strong>Personality Type:</strong> ${personalityType}<br>
+                    <strong>Wing Influence:</strong> ${wing}<br>
+                    <strong>Primary States:</strong> ${states.map(s => \`\${s.state} (\${s.percentage}%)\`).join(', ')}<br>
+                    <strong>Subtype Distribution:</strong> ${subtypes.map(t => \`\${t.category}: \${t.tokens}\`).join(', ')}
+                </p>
+                <h3 style="color: var(--gold); font-size: 2rem; margin-top: 3rem;">
+                    Your transformation journey is uniquely designed based on this specific combination.
+                </h3>
+            </div>
+        </div>
+    </section>
+</body>
+</html>`;
+      }
+      
+      // Save to static directory
+      const filePath = path.join(__dirname, '../public/reports', filename);
+      fs.writeFileSync(filePath, reportHTML);
+      
+      // Return URL to static file
+      res.json({ 
+        success: true, 
+        reportUrl: \`/reports/\${filename}\`,
+        reportId,
+        timestamp 
+      });
+    } catch (error) {
+      console.error('Error generating static report:', error);
+      res.status(500).json({ error: 'Failed to generate static report' });
+    }
+  });
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
