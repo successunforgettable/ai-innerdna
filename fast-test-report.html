@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sentinel 6 Transformation Journey - Your Hero's Path to Heart-Brain Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .journey-stage {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .stage-number {
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .stage-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--light-purple-text);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 4rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+        }
+
+        .neural-network {
+            width: 100%;
+            height: 300px;
+            margin: 3rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+        }
+
+        .wheel-of-life {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .life-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .before-section {
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--orange);
+        }
+
+        .after-section {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--cyan);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 4rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gold), var(--cyan));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-left: 60%;
+            width: 35%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 5%;
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-content {
+                margin-left: 10% !important;
+                width: 80% !important;
+            }
+        }
+
+        .brain-heart-visual {
+            width: 100%;
+            height: 400px;
+            margin: 3rem 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The Sentinel 6<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Your Path from Anxious to Security and Growth</p>
+            <a href="#stage1" class="cta-button">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Stage 1: The Ordinary World -->
+    <section class="journey-stage" id="stage1">
+        <div class="container">
+            <div class="stage-number">01</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordinary World</h2>
+                <p class="stage-description">You are currently experiencing 60% Anxious state patterns. This creates a specific set of challenges and opportunities unique to your Sentinel 6 type.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">60%</span>
+                        <span class="stat-label">35% assessment confidence level achieved through comprehensive analysis.</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">40%</span>
+                        <span class="stat-label">60% Anxious state intensity identified and measured.</span>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-crown"></i></div>
+                        <h3 class="card-title">Core Challenge</h3>
+                        <p>Your Sentinel 6 type struggles with Anxious patterns that create doubt and hesitation in crucial moments.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="card-title">Hidden Pattern</h3>
+                        <p>The Anxious state operates at 60% intensity, influencing most of your daily decisions and reactions.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h3 class="card-title">Growth Path</h3>
+                        <p>Your transformation involves building genuine security through consistent action and trusting your inner guidance system.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 4</h3>
+                        <p>Key insight 4 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                </div>
+
+                <div class="wheel-of-life">
+                    <div class="life-area">
+                        <h4><i class="fas fa-briefcase" style="color: var(--gold);"></i> Career</h4>
+                        <p>30</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 21%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-dollar-sign" style="color: var(--gold);"></i> Finances</h4>
+                        <p>29</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 18%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-heart" style="color: var(--gold);"></i> Relationships</h4>
+                        <p>21</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-brain" style="color: var(--gold);"></i> Mental State</h4>
+                        <p>26</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 12%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-dumbbell" style="color: var(--gold);"></i> Physical Health</h4>
+                        <p>35</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-users" style="color: var(--gold);"></i> Social Life</h4>
+                        <p>30</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 18%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-home" style="color: var(--gold);"></i> Environment</h4>
+                        <p>31</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 24%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-seedling" style="color: var(--gold);"></i> Personal Growth</h4>
+                        <p>30</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 9%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
+        <div class="container">
+            <div class="stage-number">02</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Call to Adventure</h2>
+                <p class="stage-description">Your awakening begins with recognizing how Anxious patterns have been both protecting and limiting you. This awareness is the first step toward transformation.</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Brain -->
+                        <g transform="translate(100, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#FF6B35" stroke-width="3" opacity="0.7"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.5"/>
+                            <circle cx="80" cy="80" r="30" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.3"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FF6B35" font-size="14" font-weight="bold">BRAIN</text>
+                            <!-- Disconnected signals -->
+                            <line x1="150" y1="80" x2="200" y2="80" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.5">
+                                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="150" y1="60" x2="200" y2="60" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.3">
+                                <animate attributeName="opacity" values="0.1;0.6;0.1" dur="2.5s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="150" y1="100" x2="200" y2="100" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.4">
+                                <animate attributeName="opacity" values="0.1;0.7;0.1" dur="1.8s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+                        
+                        <!-- Heart -->
+                        <g transform="translate(350, 150)">
+                            <path d="M80,60 C80,40 60,20 40,20 C20,20 0,40 0,60 C0,80 40,120 80,140 C120,120 160,80 160,60 C160,40 140,20 120,20 C100,20 80,40 80,60 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="3" opacity="0.7"/>
+                            <path d="M80,70 C80,55 65,40 50,40 C35,40 20,55 20,70 C20,85 50,115 80,130 C110,115 140,85 140,70 C140,55 125,40 110,40 C95,40 80,55 80,70 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="2" opacity="0.5"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">HEART</text>
+                        </g>
+                        
+                        <!-- Disconnect indicator -->
+                        <text x="300" y="200" text-anchor="middle" fill="#FF6B35" font-size="24" font-weight="bold" opacity="0.8">
+                            DISCONNECT DETECTED
+                            <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-exclamation-triangle" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 5</h3>
+                        <p>Key insight 5 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-battery-empty" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 6</h3>
+                        <p>Key insight 6 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-tornado" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 7</h3>
+                        <p>Key insight 7 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gavel" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 8</h3>
+                        <p>Key insight 8 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 transformation approach helped me move from constant Anxious thoughts to actual confidence and clarity.</p>
+                    <p class="testimonial-author">Sarah M., Sentinel 6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 3: Refusal of the Call -->
+    <section class="journey-stage" id="stage3">
+        <div class="container">
+            <div class="stage-number">03</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Refusal of the Call</h2>
+                <p class="stage-description">Breaking through requires courage to challenge the Anxious beliefs that have kept you stuck. You're ready to move beyond fear-based patterns.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-lock" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 9</h3>
+                        <p>Key insight 9 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-fire" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 10</h3>
+                        <p>Key insight 10 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-shield" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 11</h3>
+                        <p>Key insight 11 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-times-circle"></i> The Familiar Struggle</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Anxious reactive pattern 1</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Anxious reactive pattern 2</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Anxious reactive pattern 3</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> Anxious reactive pattern 4</li>
+                        </ul>
+                    </div>
+                    <div class="after-section">
+                        <h3><i class="fas fa-lightbulb"></i> The Invitation</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Secure confident pattern 1</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Secure confident pattern 2</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Secure confident pattern 3</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> Secure confident pattern 4</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        <span class="danger-indicator">Your Anxious patterns are creating unnecessary limitations in your life. The time for transformation is now.</span><br>
+                        Transform Anxious reactivity into genuine security by building trust in yourself and your environment.
+                    </p>
+                    <p style="font-size: 1.3rem; color: var(--gold);">
+                        This is your invitation to step beyond Anxious limitations and into your full Sentinel 6 potential.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 4: Meeting the Mentor -->
+    <section class="journey-stage" id="stage4">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Meeting the Mentor</h2>
+                <p class="stage-description">Taking decisive action means choosing security over Anxious reactivity. Each choice builds your new foundation of authentic strength.</p>
+                
+                <div style="text-align: center; margin: 4rem 0;">
+                    <div style="background: linear-gradient(45deg, var(--gold), var(--cyan)); border-radius: 50%; width: 200px; height: 200px; margin: 0 auto 2rem auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem;">The Incredible You</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text);">Your 10-Week Guided System for Complete Transformation</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-brain" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 12</h3>
+                        <p>Key insight 12 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 13</h3>
+                        <p>Key insight 13 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 14</h3>
+                        <p>Key insight 14 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-infinity" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 15</h3>
+                        <p>Key insight 15 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 approach transformed my relationship with Anxious patterns completely.</p>
+                    <p class="testimonial-author">Alex K., Sentinel 6</p>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <a href="#stage5" class="cta-button">Accept the Mentorship</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 5: Crossing the Threshold -->
+    <section class="journey-stage" id="stage5">
+        <div class="container">
+            <div class="stage-number">05</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Crossing the Threshold</h2>
+                <p class="stage-description">Stage 5 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Transformation Milestone 1</h4>
+                            <p>Key progress marker 1 in your Sentinel 6 journey from Anxious to security.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Transformation Milestone 2</h4>
+                            <p>Key progress marker 2 in your Sentinel 6 journey from Anxious to security.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Transformation Milestone 3</h4>
+                            <p>Key progress marker 3 in your Sentinel 6 journey from Anxious to security.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">10</span>
+                        <span class="stat-label">Weeks of Transformation</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">24/7</span>
+                        <span class="stat-label">Expert Support</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">∞</span>
+                        <span class="stat-label">Lifetime Benefits</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        Your security is not found in certainty, but in your ability to navigate uncertainty with confidence.
+                    </p>
+                    <a href="#stage6" class="cta-button">Take the First Step</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 6: Tests & Trials -->
+    <section class="journey-stage" id="stage6">
+        <div class="container">
+            <div class="stage-number">06</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Tests & Trials</h2>
+                <p class="stage-description">Stage 6 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-mountain" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 16</h3>
+                        <p>Key insight 16 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-compass" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 17</h3>
+                        <p>Key insight 17 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-trophy" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 18</h3>
+                        <p>Key insight 18 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 approach transformed my relationship with Anxious patterns completely.</p>
+                    <p class="testimonial-author">Jordan K., Sentinel 6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 7: The Ordeal -->
+    <section class="journey-stage" id="stage7">
+        <div class="container">
+            <div class="stage-number">07</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordeal</h2>
+                <p class="stage-description">Stage 7 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Transformation visualization -->
+                        <g transform="translate(100, 100)">
+                            <!-- Old pattern -->
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#FF6B35" stroke-width="3" opacity="0.3"/>
+                            <text x="80" y="180" text-anchor="middle" fill="#FF6B35" font-size="12">Old Pattern</text>
+                        </g>
+                        
+                        <!-- Breakthrough moment -->
+                        <g transform="translate(250, 50)">
+                            <circle cx="50" cy="50" r="40" fill="var(--gold)" opacity="0.8">
+                                <animate attributeName="r" values="40;60;40" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x="50" y="120" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">BREAKTHROUGH</text>
+                        </g>
+                        
+                        <!-- New pattern -->
+                        <g transform="translate(400, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.8"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.6"/>
+                            <text x="80" y="180" text-anchor="middle" fill="#00D4FF" font-size="12">New Pattern</text>
+                        </g>
+                        
+                        <!-- Connection lines -->
+                        <line x1="170" y1="180" x2="230" y2="120" stroke="var(--gold)" stroke-width="3" opacity="0.8"/>
+                        <line x1="320" y1="120" x2="380" y2="180" stroke="var(--gold)" stroke-width="3" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: rgba(255, 107, 53, 0.1); border-radius: 20px; border: 2px solid var(--orange);">
+                    <h3 style="color: var(--orange); font-size: 2rem; margin-bottom: 2rem;">The Critical Choice</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        Choose growth over Anxious comfort. Choose action over endless analysis.
+                    </p>
+                    <p style="font-size: 1.1rem; color: var(--gold);">
+                        Your future Sentinel 6 self depends on the choices you make in these crucial moments of transformation.
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 approach transformed my relationship with Anxious patterns completely.</p>
+                    <p class="testimonial-author">Casey K., Sentinel 6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 8: The Reward -->
+    <section class="journey-stage" id="stage8">
+        <div class="container">
+            <div class="stage-number">08</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Reward</h2>
+                <p class="stage-description">Stage 8 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Connected brain and heart -->
+                        <g transform="translate(150, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.8"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.6"/>
+                            <circle cx="80" cy="80" r="30" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.4"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#00D4FF" font-size="14" font-weight="bold">BRAIN</text>
+                        </g>
+                        
+                        <!-- Heart -->
+                        <g transform="translate(300, 150)">
+                            <path d="M80,60 C80,40 60,20 40,20 C20,20 0,40 0,60 C0,80 40,120 80,140 C120,120 160,80 160,60 C160,40 140,20 120,20 C100,20 80,40 80,60 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="3" opacity="0.8"/>
+                            <path d="M80,70 C80,55 65,40 50,40 C35,40 20,55 20,70 C20,85 50,115 80,130 C110,115 140,85 140,70 C140,55 125,40 110,40 C95,40 80,55 80,70 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">HEART</text>
+                        </g>
+                        
+                        <!-- Connection lines - flowing energy -->
+                        <g>
+                            <line x1="300" y1="180" x2="380" y2="230" stroke="var(--cyan)" stroke-width="4" opacity="0.8">
+                                <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="310" y1="175" x2="390" y2="225" stroke="var(--gold)" stroke-width="3" opacity="0.6">
+                                <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="290" y1="185" x2="370" y2="235" stroke="var(--cyan)" stroke-width="3" opacity="0.7">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+                        
+                        <!-- Coherence indicator -->
+                        <text x="300" y="350" text-anchor="middle" fill="#00D4FF" font-size="20" font-weight="bold" opacity="0.9">
+                            COHERENCE ACHIEVED
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="wheel-of-life">
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-briefcase" style="color: var(--cyan);"></i> Career</h4>
+                        <p>92</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-dollar-sign" style="color: var(--cyan);"></i> Finances</h4>
+                        <p>88</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-heart" style="color: var(--cyan);"></i> Relationships</h4>
+                        <p>94</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-brain" style="color: var(--cyan);"></i> Mental State</h4>
+                        <p>92</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-dumbbell" style="color: var(--cyan);"></i> Physical Health</h4>
+                        <p>88</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-users" style="color: var(--cyan);"></i> Social Life</h4>
+                        <p>93</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 88%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-home" style="color: var(--cyan);"></i> Environment</h4>
+                        <p>90</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-seedling" style="color: var(--cyan);"></i> Personal Growth</h4>
+                        <p>82</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 approach transformed my relationship with Anxious patterns completely.</p>
+                    <p class="testimonial-author">Morgan K., Sentinel 6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 9: The Road Back -->
+    <section class="journey-stage" id="stage9">
+        <div class="container">
+            <div class="stage-number">09</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Road Back</h2>
+                <p class="stage-description">Stage 9 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Transformation Milestone 4</h4>
+                            <p>Key progress marker 4 in your Sentinel 6 journey from Anxious to security.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Transformation Milestone 5</h4>
+                            <p>Key progress marker 5 in your Sentinel 6 journey from Anxious to security.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">Transformation Milestone 6</h4>
+                            <p>Key progress marker 6 in your Sentinel 6 journey from Anxious to security.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        Complete Sentinel 6 transformation from Anxious limitation to authentic security and confident action.
+                    </p>
+                    <p style="font-size: 1.3rem; color: var(--gold);">
+                        You are an incredible Sentinel 6 with the capacity for profound transformation and authentic security.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 10: Resurrection -->
+    <section class="journey-stage" id="stage10">
+        <div class="container">
+            <div class="stage-number">10</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Resurrection</h2>
+                <p class="stage-description">Stage 10 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">100%</span>
+                        <span class="stat-label">Heart-Brain Coherence</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">∞</span>
+                        <span class="stat-label">Authentic Power</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">360°</span>
+                        <span class="stat-label">Life Transformation</span>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-skull"></i> The Old You (Dead)</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Previous Anxious limitation 1</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Previous Anxious limitation 2</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Previous Anxious limitation 3</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> Previous Anxious limitation 4</li>
+                        </ul>
+                    </div>
+                    <div class="after-section">
+                        <h3><i class="fas fa-phoenix-alt"></i> The Incredible You (Reborn)</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> New empowered Sentinel 6 state 1</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> New empowered Sentinel 6 state 2</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> New empowered Sentinel 6 state 3</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> New empowered Sentinel 6 state 4</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 approach transformed my relationship with Anxious patterns completely.</p>
+                    <p class="testimonial-author">Taylor K., Sentinel 6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 11: Return with Elixir -->
+    <section class="journey-stage" id="stage11">
+        <div class="container">
+            <div class="stage-number">11</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Return with Elixir</h2>
+                <p class="stage-description">Stage 11 represents deeper integration of Sentinel 6 security patterns and authentic confidence.</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-crown" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 19</h3>
+                        <p>Key insight 19 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-heart" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 20</h3>
+                        <p>Key insight 20 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 21</h3>
+                        <p>Key insight 21 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gift" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">Sentinel 6 Pattern 22</h3>
+                        <p>Key insight 22 for Sentinel 6 development and authentic security building.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 4rem; background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.2)); border-radius: 20px; border: 2px solid var(--gold);">
+                    <h3 style="color: var(--gold); font-size: 3rem; margin-bottom: 2rem;">Your Hero's Journey Awaits</h3>
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem;">
+                        You are embarking on a transformative journey from Anxious patterns to authentic security. This is your personalized roadmap to breakthrough limiting beliefs and step into your true Sentinel 6 potential.
+                    </p>
+                    
+                    <div style="margin: 3rem 0;">
+                        <p style="font-size: 1.2rem; color: var(--orange); margin-bottom: 1rem;">⚠️ Warning: Most People Stop Here</p>
+                        <p style="font-size: 1.1rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                            Complete your Sentinel 6 transformation journey. The world needs your authentic contribution.
+                        </p>
+                    </div>
+
+                    <a href="#begin-journey" class="cta-button" style="font-size: 1.5rem; padding: 25px 50px; margin: 20px;">
+                        Begin The Incredible You Journey
+                    </a>
+                    
+                    <p style="font-size: 1rem; color: var(--light-purple-text); margin-top: 2rem;">
+                        You have everything needed for Sentinel 6 success. Trust the process and take action.
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">The Sentinel 6 approach transformed my relationship with Anxious patterns completely.</p>
+                    <p class="testimonial-author">Riley K., Sentinel 6</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                The Choice is Yours
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                The choice is yours: remain in Anxious patterns or transform into authentic security.
+            </p>
+            <p style="font-size: 1.8rem; color: var(--gold); margin-bottom: 4rem; font-weight: 700;">
+                Your Sentinel 6 transformation is complete when security comes from within, not from external validation.
+            </p>
+            
+            <div style="margin: 4rem 0;">
+                <a href="#contact" class="cta-button" style="font-size: 1.8rem; padding: 30px 60px; margin: 20px;">
+                    <i class="fas fa-rocket"></i> Start Your Transformation Today
+                </a>
+            </div>
+            
+            <p style="font-size: 1.2rem; color: var(--light-purple-text);">
+                Step into your transformed Sentinel 6 life. The security you seek is built through courageous action.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate progress bars when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressFill = entry.target.querySelector('.progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = progressFill.style.width;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.progress-bar').forEach(bar => {
+            observer.observe(bar);
+        });
+
+        // Add floating animation to elements
+        function createFloatingElements() {
+            const floatingContainer = document.querySelector('.floating-elements');
+            const colors = ['var(--gold)', 'var(--cyan)', 'var(--orange)'];
+            const symbols = ['✨', '⚡', '💫', '🌟', '💎', '🔥'];
+            
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                element.style.color = colors[Math.floor(Math.random() * colors.length)];
+                element.style.top = Math.random() * 100 + '%';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                element.style.animationDelay = '-' + Math.random() * 6 + 's';
+                element.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                floatingContainer.appendChild(element);
+            }
+        }
+
+        // Initialize floating elements
+        createFloatingElements();
+
+        // Add pulse animation to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.6s infinite';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+    </script>
+</body>
+</html>
