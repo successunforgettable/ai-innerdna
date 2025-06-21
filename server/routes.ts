@@ -465,9 +465,217 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
 
     generateCustomReport(reformerAssessmentData)
       .then(reportData => {
-        const htmlReport = generateCustomReportHTML(reportData);
+        // Create a simplified preview version
+        const previewHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${reportData.heroTitle}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #6B46C1 0%, #9333EA 50%, #A855F7 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #FFD700, #00D4FF, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #E9D5FF;
+        }
+        .section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: #FFD700;
+            margin-bottom: 1rem;
+        }
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .challenge-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #00D4FF;
+        }
+        .challenge-title {
+            color: #FFD700;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .life-areas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .life-area {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #00D4FF;
+        }
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #00D4FF);
+            border-radius: 4px;
+        }
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .transformation-column {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+        .transformation-title {
+            color: #FFD700;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .transformation-list {
+            list-style: none;
+            padding: 0;
+        }
+        .transformation-list li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .transformation-list li:before {
+            content: "•";
+            color: #00D4FF;
+            position: absolute;
+            left: 0;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 3rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+        .cta-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .before-after { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="hero-title">${reportData.heroTitle}</h1>
+        <p class="hero-subtitle">${reportData.heroSubtitle}</p>
+        
+        <div class="section">
+            <h2 class="section-title">Your Current State</h2>
+            <p>${reportData.currentStateDescription}</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Core Challenges to Transform</h2>
+            <div class="challenge-grid">
+                ${reportData.challengeCards.map(card => `
+                    <div class="challenge-card">
+                        <div class="challenge-title">${card.title}</div>
+                        <div>${card.description}</div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Life Areas Assessment</h2>
+            <div class="life-areas">
+                ${reportData.lifeAreas.map(area => `
+                    <div class="life-area">
+                        <h4 style="color: #FFD700; margin-bottom: 0.5rem;">
+                            <i class="${area.icon}" style="margin-right: 0.5rem;"></i>
+                            ${area.area}
+                        </h4>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">${area.description}</p>
+                        <div style="font-weight: 600;">${area.percentage}%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${area.percentage}%"></div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Your Transformation Journey</h2>
+            <div class="before-after">
+                <div class="transformation-column">
+                    <div class="transformation-title">Current Challenges</div>
+                    <ul class="transformation-list">
+                        ${reportData.beforeAfter.before.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="transformation-column">
+                    <div class="transformation-title">Your Potential</div>
+                    <ul class="transformation-list">
+                        ${reportData.beforeAfter.after.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="color: #FFD700; margin-bottom: 1rem;">Your Hero's Journey Awaits</h2>
+            <p class="cta-text">${reportData.callToAction}</p>
+        </div>
+    </div>
+</body>
+</html>`;
+        
         res.setHeader('Content-Type', 'text/html');
-        res.send(htmlReport);
+        res.send(previewHTML);
       })
       .catch(error => {
         console.error('Error generating preview report:', error);
