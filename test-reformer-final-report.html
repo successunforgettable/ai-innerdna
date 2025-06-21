@@ -1,210 +1,11 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-interface AssessmentData {
-  primaryType: string;
-  confidence: number;
-  wing?: string;
-  foundationStones?: any[];
-  buildingBlocks?: any[];
-  colorStates?: any[];
-  detailTokens?: any;
-}
-
-interface CustomReportData {
-  heroTitle: string;
-  heroSubtitle: string;
-  personalityType: string;
-  influencePattern: string;
-  personalityDescription: string;
-  currentStateDescription: string;
-  currentState: {
-    average: number;
-    belowAverage: number;
-  };
-  lifeAreas: Array<{
-    area: string;
-    icon: string;
-    description: string;
-    percentage: number;
-  }>;
-  challengeCards: Array<{
-    title: string;
-    description: string;
-  }>;
-  beforeAfter: {
-    before: string[];
-    after: string[];
-  };
-  callToAction: string;
-}
-
-function getPersonalityName(type: string): string {
-  const names = {
-    '1': 'The Perfectionist',
-    '2': 'The Helper', 
-    '3': 'The Achiever',
-    '4': 'The Individualist',
-    '5': 'The Investigator',
-    '6': 'The Loyalist',
-    '7': 'The Enthusiast',
-    '8': 'The Challenger',
-    '9': 'The Peacemaker'
-  };
-  return names[type as keyof typeof names] || 'The Transformer';
-}
-
-function getInfluenceName(wing?: string): string {
-  const influences = {
-    '1': 'Perfectionist Influence',
-    '2': 'Helper Influence',
-    '3': 'Achiever Influence', 
-    '4': 'Individualist Influence',
-    '5': 'Investigator Influence',
-    '6': 'Loyalist Influence',
-    '7': 'Enthusiast Influence',
-    '8': 'Challenger Influence',
-    '9': 'Peacemaker Influence'
-  };
-  return influences[wing as keyof typeof influences] || 'Balanced Influence';
-}
-
-function getPersonalityDescription(type: string): string {
-  const descriptions = {
-    '1': 'A perfectionist who seeks excellence and integrity, driven to improve yourself and the world around you through principled action and high standards.',
-    '2': 'A caring helper who intuitively understands others\' needs, motivated to create meaningful connections and support those around you.',
-    '3': 'An achievement-oriented individual who thrives on success and recognition, driven to excel and inspire others through your accomplishments and adaptability.',
-    '4': 'A unique individualist who seeks authentic self-expression, driven by deep emotions and a desire to create something meaningful and beautiful.',
-    '5': 'An insightful investigator who values knowledge and understanding, motivated to master complex ideas and maintain your independence.',
-    '6': 'A loyal supporter who seeks security and guidance, driven to build trustworthy relationships and prepare for potential challenges.',
-    '7': 'An enthusiastic visionary who pursues exciting possibilities, motivated by adventure and the freedom to explore new experiences.',
-    '8': 'A powerful challenger who takes charge and protects others, driven by justice and the determination to create lasting impact.',
-    '9': 'A peaceful mediator who values harmony and connection, motivated to bring people together and maintain stability.'
-  };
-  return descriptions[type as keyof typeof descriptions] || 'A driven individual focused on growth and transformation, with unique strengths waiting to be unleashed.';
-}
-
-function getPersonalizedContent(primaryType: string, wing?: string) {
-  const contentMap: { [key: string]: any } = {
-    '1': {
-      heroTitle: "The Reformer Transformation Journey",
-      heroSubtitle: "From Perfect Standards to Wise Action",
-      currentStateDescription: "Driven by a vision of perfection and righteousness, yet struggling with inner criticism and the weight of impossible standards",
-      challengeCards: [
-        { title: "Inner Critic", description: "Transforming the harsh internal voice into a wise guide for improvement" },
-        { title: "Perfectionism", description: "Learning that excellence doesn't require perfection - progress over perfection" },
-        { title: "Resentment", description: "Releasing anger toward imperfection and finding peace with what is" }
-      ],
-      lifeAreas: [
-        { area: "Career", icon: "fas fa-briefcase", description: "High standards driving meaningful work", percentage: 70 },
-        { area: "Relationships", icon: "fas fa-heart", description: "Learning acceptance and reducing criticism", percentage: 50 },
-        { area: "Health", icon: "fas fa-dumbbell", description: "Structured approach to wellness and balance", percentage: 65 },
-        { area: "Finances", icon: "fas fa-dollar-sign", description: "Responsible management with ethical investments", percentage: 75 },
-        { area: "Personal Growth", icon: "fas fa-seedling", description: "Embracing imperfection as part of growth", percentage: 45 }
-      ],
-      beforeAfter: {
-        before: [
-          "Constant self-criticism and judgment of others",
-          "Frustrated by imperfection in every situation",
-          "Rigid thinking that limits creative solutions"
-        ],
-        after: [
-          "Channeling perfectionism into positive change",
-          "Accepting imperfection while maintaining standards",
-          "Leading with wisdom rather than criticism"
-        ]
-      },
-      callToAction: "Transform your vision of perfection into a force for meaningful improvement. Your journey to wise leadership begins now."
-    },
-    '3': {
-      heroTitle: "The Achiever Transformation Journey",
-      heroSubtitle: "From Performance to Authentic Success",
-      currentStateDescription: "Driven by success and recognition, yet yearning for deeper fulfillment beyond external achievements",
-      challengeCards: [
-        { title: "Image Management", description: "Breaking free from the exhausting cycle of maintaining the perfect facade" },
-        { title: "Workaholism", description: "Learning to value being over doing, rest over constant productivity" },
-        { title: "Emotional Disconnection", description: "Reconnecting with authentic feelings beneath the drive for success" }
-      ],
-      lifeAreas: [
-        { area: "Career", icon: "fas fa-briefcase", description: "High performance but seeking meaningful impact", percentage: 75 },
-        { area: "Relationships", icon: "fas fa-heart", description: "Building genuine connections beyond networking", percentage: 45 },
-        { area: "Health", icon: "fas fa-dumbbell", description: "Optimizing energy for sustainable success", percentage: 60 },
-        { area: "Finances", icon: "fas fa-dollar-sign", description: "Strong financial drive with smart investments", percentage: 80 },
-        { area: "Personal Growth", icon: "fas fa-seedling", description: "Developing authentic self beyond achievements", percentage: 40 }
-      ],
-      beforeAfter: {
-        before: [
-          "Constantly performing for others' approval",
-          "Burnout from relentless achievement focus",
-          "Fear of failure paralyzing authentic expression"
-        ],
-        after: [
-          "Achieving with authentic purpose and passion",
-          "Balanced success that includes personal fulfillment", 
-          "Inspiring others through genuine leadership"
-        ]
-      },
-      callToAction: "Transform your drive for success into a force for authentic impact. Your journey to heart-centered achievement begins now."
-    }
-  };
-
-  return contentMap[primaryType] || contentMap['1'];
-}
-
-export async function generateCustomReport(assessmentData: AssessmentData): Promise<CustomReportData> {
-  try {
-    console.log('Generating custom report for primaryType:', assessmentData.primaryType);
-    const personalityName = getPersonalityName(assessmentData.primaryType);
-    const influenceName = getInfluenceName(assessmentData.wing);
-    const personalityDescription = getPersonalityDescription(assessmentData.primaryType);
-
-    // Generate personalized content based on personality type
-    const aiContent = getPersonalizedContent(assessmentData.primaryType, assessmentData.wing);
-    console.log('Generated content:', { heroTitle: aiContent.heroTitle, heroSubtitle: aiContent.heroSubtitle });
-
-    return {
-      heroTitle: aiContent.heroTitle || `${personalityName} Transformation Journey`,
-      heroSubtitle: aiContent.heroSubtitle || "Your Hero's Path to Heart-Brain Mastery",
-      personalityType: personalityName,
-      influencePattern: influenceName,
-      personalityDescription,
-      currentStateDescription: aiContent.currentStateDescription || "Ready for profound transformation and growth.",
-      currentState: {
-        average: 42,
-        belowAverage: 58
-      },
-      lifeAreas: aiContent.lifeAreas || [
-        { area: "Career", icon: "fas fa-briefcase", description: "Seeking greater fulfillment", percentage: 45 },
-        { area: "Relationships", icon: "fas fa-heart", description: "Building deeper connections", percentage: 38 },
-        { area: "Health", icon: "fas fa-dumbbell", description: "Focusing on wellbeing", percentage: 42 },
-        { area: "Finances", icon: "fas fa-dollar-sign", description: "Creating stability", percentage: 40 },
-        { area: "Personal Growth", icon: "fas fa-seedling", description: "Expanding potential", percentage: 35 }
-      ],
-      challengeCards: aiContent.challengeCards || [
-        { title: "Inner Critic", description: "Overcoming self-doubt and perfectionism" },
-        { title: "Relationship Patterns", description: "Breaking cycles that limit connection" },
-        { title: "Fear of Change", description: "Moving past comfort zones toward growth" }
-      ],
-      beforeAfter: aiContent.beforeAfter || {
-        before: ["Feeling stuck in old patterns", "Struggling with self-doubt", "Limited by fear"],
-        after: ["Living with authentic confidence", "Creating meaningful impact", "Embracing growth opportunities"]
-      },
-      callToAction: aiContent.callToAction || "Your transformation journey begins now. Step into your authentic power and create the life you're meant to live."
-    };
-  } catch (error) {
-    console.error('Error generating custom report:', error);
-    throw error;
-  }
-}
-
-export function generateCustomReportHTML(reportData: CustomReportData): string {
-  return `<!DOCTYPE html>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${reportData.heroTitle} - Your Hero's Path to Heart-Brain Mastery</title>
+    <title>The Achiever Transformation Journey - Your Hero's Path to Heart-Brain Mastery</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -486,8 +287,8 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
     <section class="hero-section">
         <div class="hero-background"></div>
         <div class="hero-content">
-            <h1 class="hero-title">${reportData.heroTitle}</h1>
-            <p class="hero-subtitle">${reportData.heroSubtitle}</p>
+            <h1 class="hero-title">The Achiever Transformation Journey</h1>
+            <p class="hero-subtitle">From Performance to Authentic Success</p>
             <a href="#stage1" class="cta-button">Begin Your Journey</a>
         </div>
     </section>
@@ -500,28 +301,72 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
             <div class="stage-number">01</div>
             <div class="stage-content">
                 <h2 class="stage-title">The Ordinary World</h2>
-                <p class="stage-description">Your current state: ${reportData.currentStateDescription}</p>
+                <p class="stage-description">Your current state: Driven by success and recognition, yet yearning for deeper fulfillment beyond external achievements</p>
                 
                 <div class="card-grid">
-                    ${reportData.challengeCards.map(card => `
+                    
                         <div class="card">
                             <div class="card-icon"><i class="fas fa-exclamation-triangle" style="color: var(--orange);"></i></div>
-                            <h3 class="card-title">${card.title}</h3>
-                            <p>${card.description}</p>
+                            <h3 class="card-title">Image Management</h3>
+                            <p>Breaking free from the exhausting cycle of maintaining the perfect facade</p>
                         </div>
-                    `).join('')}
+                    
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-exclamation-triangle" style="color: var(--orange);"></i></div>
+                            <h3 class="card-title">Workaholism</h3>
+                            <p>Learning to value being over doing, rest over constant productivity</p>
+                        </div>
+                    
+                        <div class="card">
+                            <div class="card-icon"><i class="fas fa-exclamation-triangle" style="color: var(--orange);"></i></div>
+                            <h3 class="card-title">Emotional Disconnection</h3>
+                            <p>Reconnecting with authentic feelings beneath the drive for success</p>
+                        </div>
+                    
                 </div>
 
                 <div class="wheel-of-life">
-                    ${reportData.lifeAreas.map(area => `
+                    
                         <div class="life-area" style="border-left-color: var(--orange);">
-                            <h4><i class="${area.icon}" style="color: var(--orange);"></i> ${area.area}</h4>
-                            <p>${area.description}</p>
+                            <h4><i class="fas fa-briefcase" style="color: var(--orange);"></i> Career</h4>
+                            <p>High performance but seeking meaningful impact</p>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${area.percentage}%; background: linear-gradient(90deg, var(--orange), var(--gold));"></div>
+                                <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, var(--orange), var(--gold));"></div>
                             </div>
                         </div>
-                    `).join('')}
+                    
+                        <div class="life-area" style="border-left-color: var(--orange);">
+                            <h4><i class="fas fa-heart" style="color: var(--orange);"></i> Relationships</h4>
+                            <p>Building genuine connections beyond networking</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%; background: linear-gradient(90deg, var(--orange), var(--gold));"></div>
+                            </div>
+                        </div>
+                    
+                        <div class="life-area" style="border-left-color: var(--orange);">
+                            <h4><i class="fas fa-dumbbell" style="color: var(--orange);"></i> Health</h4>
+                            <p>Optimizing energy for sustainable success</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%; background: linear-gradient(90deg, var(--orange), var(--gold));"></div>
+                            </div>
+                        </div>
+                    
+                        <div class="life-area" style="border-left-color: var(--orange);">
+                            <h4><i class="fas fa-dollar-sign" style="color: var(--orange);"></i> Finances</h4>
+                            <p>Strong financial drive with smart investments</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%; background: linear-gradient(90deg, var(--orange), var(--gold));"></div>
+                            </div>
+                        </div>
+                    
+                        <div class="life-area" style="border-left-color: var(--orange);">
+                            <h4><i class="fas fa-seedling" style="color: var(--orange);"></i> Personal Growth</h4>
+                            <p>Developing authentic self beyond achievements</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%; background: linear-gradient(90deg, var(--orange), var(--gold));"></div>
+                            </div>
+                        </div>
+                    
                 </div>
             </div>
         </div>
@@ -540,7 +385,7 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
                 <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: rgba(255, 215, 0, 0.1); border-radius: 20px; border: 2px solid var(--gold);">
                     <h3 style="color: var(--gold); font-size: 2.5rem; margin-bottom: 2rem;">Your Awakening Moment</h3>
                     <p style="font-size: 1.4rem; color: var(--light-purple-text); margin-bottom: 2rem;">
-                        ${reportData.personalityDescription}
+                        A perfectionist who seeks excellence and integrity, driven to improve yourself and the world around you through principled action and high standards.
                     </p>
                     <p style="font-size: 1.2rem; color: var(--gold);">
                         This is your invitation to step into your authentic power.
@@ -589,13 +434,13 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
                         <div>
                             <h4 style="color: var(--orange); margin-bottom: 1rem;">Before Transformation:</h4>
                             <ul style="text-align: left; color: var(--light-purple-text);">
-                                ${reportData.beforeAfter.before.map(item => `<li style="margin-bottom: 0.5rem;">${item}</li>`).join('')}
+                                <li style="margin-bottom: 0.5rem;">Constantly performing for others' approval</li><li style="margin-bottom: 0.5rem;">Burnout from relentless achievement focus</li><li style="margin-bottom: 0.5rem;">Fear of failure paralyzing authentic expression</li>
                             </ul>
                         </div>
                         <div>
                             <h4 style="color: var(--gold); margin-bottom: 1rem;">After Transformation:</h4>
                             <ul style="text-align: left; color: var(--light-purple-text);">
-                                ${reportData.beforeAfter.after.map(item => `<li style="margin-bottom: 0.5rem;">${item}</li>`).join('')}
+                                <li style="margin-bottom: 0.5rem;">Achieving with authentic purpose and passion</li><li style="margin-bottom: 0.5rem;">Balanced success that includes personal fulfillment</li><li style="margin-bottom: 0.5rem;">Inspiring others through genuine leadership</li>
                             </ul>
                         </div>
                     </div>
@@ -649,13 +494,14 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
     <div class="section-divider"></div>
 
     <!-- Call to Action -->
-    <section class="journey-stage" style="text-align: center; padding: 8rem 0;">
+    <section class="journey-stage" style="text-align:100 22468  100 22365  100   103   618k   2914 --:--:-- --:--:-- --:--:--  626k
+ center; padding: 8rem 0;">
         <div class="container">
             <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 2rem;">
                 Your Hero's Journey Awaits
             </h2>
             <p style="font-size: 1.4rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                ${reportData.callToAction}
+                Transform your drive for success into a force for authentic impact. Your journey to heart-centered achievement begins now.
             </p>
             <a href="#" class="cta-button" style="font-size: 1.4rem; padding: 2rem 4rem;">
                 Begin Your Transformation
@@ -694,5 +540,4 @@ export function generateCustomReportHTML(reportData: CustomReportData): string {
         });
     </script>
 </body>
-</html>`;
-}
+</html>
