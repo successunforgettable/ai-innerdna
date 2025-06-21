@@ -1,50 +1,37 @@
-// Report Generator - ORCHESTRATION ONLY, NO CONTENT CREATION
-// CONNECTS COMPONENTS: Parser → ChatGPT API → Template Injection
-// ALL CONTENT CREATED BY CHATGPT VIA API KEY - NOT THIS FILE
-
-import { parseAssessmentData } from './assessmentParser.js';
-import { generatePersonalityContent } from './contentGenerator.js';
-import { injectContentIntoTemplate } from './templateInjector.js';
-
 async function generatePersonalizedReport(rawAssessmentData) {
-  // NO CONTENT CREATION - ONLY ORCHESTRATION
-  // All content comes from ChatGPT via API key
+  const { parseAssessmentData } = require('./assessmentParser');
+  const { generatePersonalityContent } = require('./contentGenerator');
+  const { injectContentIntoTemplate } = require('./templateInjector');
   
   try {
-    // Step 1: Parse assessment data (no content creation)
+    // Step 1: Parse assessment data
     const parsedData = parseAssessmentData(rawAssessmentData);
     
-    // Step 2: Call ChatGPT via API key to generate content
-    // ChatGPT creates ALL content - not this file
-    const chatgptGeneratedContent = await generatePersonalityContent(parsedData);
+    // Step 2: Generate content via ChatGPT
+    const generatedContent = await generatePersonalityContent(parsedData);
     
-    // Step 3: Inject ChatGPT's API-generated content into template
-    const finalReport = injectContentIntoTemplate(chatgptGeneratedContent);
+    // Step 3: Inject content into template
+    const finalReport = injectContentIntoTemplate(generatedContent);
     
     return finalReport;
-    
   } catch (error) {
-    console.error('Error in report generation orchestration:', error);
-    throw new Error('Failed to orchestrate report generation');
+    console.error('Error generating personalized report:', error);
+    throw error;
   }
 }
 
 function generateSpecificPersonalityReport(personalityType, stateDistribution, subtype) {
-  // Orchestration for specific personality profiles
-  // NO CONTENT CREATION - only function calls
-  
-  const specificAssessmentData = {
-    primaryType: personalityType,
+  // This function generates reports for specific personality configurations
+  // Used for creating targeted reports like Sentinel 8, Helper 3, etc.
+  const mockAssessmentData = {
+    personalityType: personalityType,
+    wing: personalityType === 8 ? 9 : personalityType + 1,
     colorStates: stateDistribution,
     detailTokens: subtype,
-    confidence: 85 // Default confidence
+    confidence: 35
   };
   
-  return generatePersonalizedReport(specificAssessmentData);
+  return generatePersonalizedReport(mockAssessmentData);
 }
 
-// NO CONTENT CREATION - ONLY ORCHESTRATION FUNCTIONS
-export { 
-  generatePersonalizedReport, 
-  generateSpecificPersonalityReport 
-};
+module.exports = { generatePersonalizedReport, generateSpecificPersonalityReport };
