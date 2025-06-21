@@ -280,6 +280,75 @@ Generate 25 final placeholder fields:
   return await callChatGPTAPI(prompt, "Final Coverage");
 }
 
+// CALL 4: Advanced Content (41 placeholders) - Complete Template Coverage
+async function generateAdvancedChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate advanced transformation content for a ${userData.personalityType} - ${userData.personalityName} to complete their comprehensive report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype, Wing ${userData.wingInfluence}
+
+Generate 41 advanced content fields for complete template coverage:
+
+{
+  "HERO_JOURNEY_INTRO": "Introduction to their specific hero's journey as this personality type",
+  "TRANSFORMATION_PROMISE": "Promise of transformation specific to this personality type",
+  "CURRENT_REALITY_SUMMARY": "Summary of their current reality and struggles",
+  "FUTURE_VISION_SUMMARY": "Vision of their transformed future state",
+  
+  "STAGE_TRANSITION_1": "Transition description from Stage 1 to Stage 2",
+  "STAGE_TRANSITION_2": "Transition description from Stage 2 to Stage 3", 
+  "STAGE_TRANSITION_3": "Transition description from Stage 3 to Stage 4",
+  "STAGE_TRANSITION_4": "Transition description from Stage 4 to Stage 5",
+  "STAGE_TRANSITION_5": "Transition description from Stage 5 to Stage 6",
+  
+  "CHALLENGE_PATTERN_1": "First major challenge pattern for this personality type",
+  "CHALLENGE_PATTERN_2": "Second major challenge pattern they face",
+  "CHALLENGE_PATTERN_3": "Third challenge pattern specific to this type",
+  "CHALLENGE_SOLUTION_1": "Solution approach for first challenge pattern",
+  "CHALLENGE_SOLUTION_2": "Solution approach for second challenge pattern", 
+  "CHALLENGE_SOLUTION_3": "Solution approach for third challenge pattern",
+  
+  "WHEEL_ENVIRONMENT_BEFORE": "Current environment and living space challenges",
+  "WHEEL_ENVIRONMENT_AFTER": "Transformed environment and space after program",
+  "WHEEL_GROWTH_BEFORE": "Current personal growth and learning patterns",
+  "WHEEL_GROWTH_AFTER": "Transformed growth mindset and learning capacity",
+  "WHEEL_SPIRITUALITY_BEFORE": "Current spiritual or meaning-making challenges",
+  "WHEEL_SPIRITUALITY_AFTER": "Transformed spiritual connection and purpose",
+  
+  "RESISTANCE_BREAKTHROUGH_1": "How they overcome their first major resistance",
+  "RESISTANCE_BREAKTHROUGH_2": "How they overcome their second major resistance",
+  "RESISTANCE_BREAKTHROUGH_3": "How they overcome their third major resistance",
+  
+  "WEEK_10_MILESTONE": "Final week transformation milestone achievement",
+  "POST_PROGRAM_MONTH_1": "First month after program completion outcomes",
+  "POST_PROGRAM_MONTH_6": "Six month sustained transformation results",
+  "POST_PROGRAM_YEAR_1": "One year transformation maintenance success",
+  
+  "FAMILY_TRANSFORMATION": "How their transformation impacts family dynamics",
+  "WORK_TRANSFORMATION": "How their transformation impacts work relationships",
+  "COMMUNITY_TRANSFORMATION": "How their transformation impacts community connections",
+  
+  "LEADERSHIP_EVOLUTION": "Evolution of their leadership style and approach",
+  "INFLUENCE_EXPANSION": "Expansion of their positive influence on others",
+  "LEGACY_CREATION": "Legacy they create through their transformation",
+  
+  "FINAL_INVITATION": "Final compelling invitation to begin their journey",
+  "URGENCY_MESSAGE": "Message about the urgency of starting now",
+  "SUPPORT_PROMISE": "Promise of support throughout their journey",
+  
+  "CTA_PRIMARY_FINAL": "Primary call-to-action for enrollment",
+  "CTA_SECONDARY_FINAL": "Secondary call-to-action with alternative approach",
+  "GUARANTEE_MESSAGE": "Guarantee or confidence statement about results",
+  
+  "CLOSING_INSPIRATION": "Final inspirational message for this personality type",
+  "TRANSFORMATION_VISION": "Ultimate vision of who they can become",
+  "SUCCESS_CERTAINTY": "Statement of certainty about their success potential"
+}`;
+
+  return await callChatGPTAPI(prompt, "Advanced Content");
+}
+
 // CALL 6: Timeline & Additional Cards (25 placeholders)
 async function generateTimelineCardsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
   const prompt = `You are an expert personality transformation coach. Generate timeline progression and additional challenge cards for a ${userData.personalityType} - ${userData.personalityName} transformation report.
