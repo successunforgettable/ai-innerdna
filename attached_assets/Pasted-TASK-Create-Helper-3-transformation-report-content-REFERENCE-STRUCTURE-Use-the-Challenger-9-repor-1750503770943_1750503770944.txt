@@ -1,0 +1,75 @@
+TASK: Create Helper 3 transformation report content
+
+REFERENCE STRUCTURE: Use the Challenger 9 report as your template for word count, tone, and section lengths
+
+PERSONALITY TYPE: Helper 3
+- Core: People-focused helper with image/success obsession
+- Drive: Helps others while maintaining successful, valuable image
+- Fear: Being seen as ordinary, unsuccessful, or unneeded
+- 3 Influence: Adds achievement drive, competitiveness, image management to helping
+- Struggles: Performance pressure while serving, helping to look good vs. authentic care
+
+CONTENT REQUIRED:
+
+1. STAGE 1 - ORDINARY WORLD CONTENT:
+   - Opening description (match Challenger 9 word count)
+   - Stats section (keep 60% Average State, 40% Below Average labels)
+   - 4 cards describing Helper 3 patterns:
+     * Taking care of others (while needing recognition)
+     * Being the helpful one (but feeling unappreciated)  
+     * Image management (looking successful while serving)
+     * Performance helping (exhaustion from proving worth)
+   - 8 Wheel of Life descriptions (keep same percentages: 40%, 35%, 30%, 25%, 30%, 35%, 45%, 20%):
+     * Career, Finances, Relationships, Mental State, Physical Health, Social Life, Environment, Personal Growth
+
+2. STAGE 2 - CALL TO ADVENTURE:
+   - Brain-heart disconnect description for Helper 3
+   - 4 cards about Helper 3 specific issues:
+     * Approval-dependent helping
+     * Image exhaustion 
+     * Performative service
+     * Success pressure in relationships
+
+3. STAGE 3 - REFUSAL OF THE CALL:
+   - Helper 3 resistance patterns
+   - Before/after comparison lists (4 items each)
+
+4. TESTIMONIALS (4 total needed):
+   - Professional titles appropriate for Helper 3s (executives, consultants, team leaders, etc.)
+   - Quotes about transforming from performative to authentic helping
+   - Names that sound professional and credible
+
+5. STAGES 4-11 CONTENT:
+   - Each stage description adapted for Helper 3 journey
+   - Keep same structure as Challenger 9
+   - Focus on transformation from image-driven helping to authentic service
+
+TERMINOLOGY RULES:
+✅ USE: "Helper 3", "3 influence", "good/bad mood states", "Self-Preservation/Social/One-to-One"
+❌ NEVER USE: "Enneagram", "Type 2w3", "wings", "integration/disintegration", numbered types
+
+TONE: Authoritative but empathetic, transformation-focused, specific to Helper 3 lived experience
+
+FORMAT: Provide content in clearly labeled sections ready for HTML insertion:
+
+STAGE 1 OPENING:
+[Content here]
+
+STAGE 1 CARDS:
+Card 1: [Title] - [Description]
+Card 2: [Title] - [Description]
+...
+
+WHEEL OF LIFE:
+Career (40%): [Description]
+Finances (35%): [Description]
+...
+
+TESTIMONIALS:
+1. "[Quote]" - [Name], [Professional Title]
+2. "[Quote]" - [Name], [Professional Title]
+...
+
+Continue this format for all stages and sections.
+
+QUALITY CHECK: Ensure content feels authentic to someone who helps others but struggles with image pressure and performance anxiety around their value and success.

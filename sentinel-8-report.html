@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel 8 Transformation Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+            to { text-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .disconnect-message {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 215, 0, 0.1));
+            border: 2px solid var(--orange);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+            animation: alertPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes alertPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6); }
+        }
+
+        .disconnect-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        .journey-stage {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .stage-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 215, 0, 0.1);
+            position: absolute;
+            top: -2rem;
+            left: 2rem;
+            z-index: 1;
+        }
+
+        .stage-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+            margin-bottom: 1rem;
+        }
+
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .challenge-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .challenge-icon {
+            font-size: 3rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .challenge-title {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .challenge-description {
+            color: var(--light-purple-text);
+            line-height: 1.6;
+        }
+
+        .wheel-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .wheel-chart {
+            width: 400px;
+            height: 400px;
+        }
+
+        .wheel-legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .legend-text {
+            color: var(--light-purple-text);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-quote {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .transformation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .transformation-column {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .transformation-title {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .transformation-list {
+            list-style: none;
+        }
+
+        .transformation-list li {
+            color: var(--light-purple-text);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .transformation-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: bold;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .transformation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel-legend {
+                grid-template-columns: 1fr;
+            }
+            
+            .stage-number {
+                font-size: 4rem;
+                top: 0;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Beyond Control: The Sentinel's Journey to Protective Leadership</h1>
+                <p class="hero-subtitle">Transform your protective instincts from control to empowerment</p>
+                
+                <div class="disconnect-message">
+                    <div class="disconnect-title">PROTECTIVE CONTROL DETECTED</div>
+                    <p>Your brain wants to protect through control, but your heart knows true protection comes through empowerment. This disconnect is exhausting those you love most.</p>
+                </div>
+                
+                <a href="#stage1" class="cta-button">Begin Your Transformation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stage 1: The Ordinary World -->
+    <section class="journey-stage" id="stage1">
+        <div class="container">
+            <div class="stage-number">01</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordinary World</h2>
+                <p class="stage-description">
+                    Living in a world where your protective instincts have become controlling barriers that push away those you seek to protect. Your self-preservation focus drives constant vigilance, while your sexual blind spot creates distance in intimate relationships. The very strength meant to shelter others has become a cage.
+                </p>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">60%</div>
+                        <div class="stat-label">Destructive State</div>
+                        <p>Your protective control often manifests as aggressive dominance that pushes away those you're trying to protect.</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">40%</div>
+                        <div class="stat-label">Good State</div>
+                        <p>When balanced, your strength becomes protective empowerment that builds security through trust and shared responsibility.</p>
+                    </div>
+                </div>
+
+                <!-- Challenge Cards -->
+                <div class="challenge-grid">
+                    <div class="challenge-card">
+                        <div class="challenge-icon"><i class="fas fa-fist-raised"></i></div>
+                        <h3 class="challenge-title">Controlling Protection</h3>
+                        <p class="challenge-description">Your need to control every variable creates the very insecurity you're trying to prevent, suffocating those under your protection.</p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="challenge-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="challenge-title">Hypervigilant Authority</h3>
+                        <p class="challenge-description">Constant alertness for threats exhausts your energy and creates tension in relationships that should feel safe.</p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="challenge-icon"><i class="fas fa-bolt"></i></div>
+                        <h3 class="challenge-title">Aggressive Boundaries</h3>
+                        <p class="challenge-description">Your 8 wing intensity turns protective boundaries into walls that isolate rather than secure your loved ones.</p>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="challenge-icon"><i class="fas fa-heart-broken"></i></div>
+                        <h3 class="challenge-title">Intimacy Avoidance</h3>
+                        <p class="challenge-description">Sexual blind spot creates distance in close relationships, focusing on security over emotional depth and vulnerability.</p>
+                    </div>
+                </div>
+
+                <!-- Wheel of Life -->
+                <div class="wheel-container">
+                    <canvas id="wheelChart" class="wheel-chart"></canvas>
+                </div>
+
+                <div class="wheel-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF6B35;"></div>
+                        <div class="legend-text"><strong>Career (75%):</strong> Your leadership centers on protective authority and building secure systems, though control needs sometimes create workplace tension with team members.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FFD700;"></div>
+                        <div class="legend-text"><strong>Finances (65%):</strong> Financial security is paramount for your self-preservation focus, driving careful resource management and protective financial planning for worst-case scenarios.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #00D4FF;"></div>
+                        <div class="legend-text"><strong>Health (40%):</strong> Health often suffers from chronic stress and hypervigilance, as constant alertness for threats takes a toll on your protective energy systems.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #9333EA;"></div>
+                        <div class="legend-text"><strong>Family (55%):</strong> Family bonds are intense but sometimes strained by your protective control, as loved ones feel both secure and suffocated by your authority.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #A855F7;"></div>
+                        <div class="legend-text"><strong>Social (45%):</strong> Social connections focus on loyalty and protection rather than intimacy, with your sexual blind spot creating challenges in deeper emotional bonding.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #6B46C1;"></div>
+                        <div class="legend-text"><strong>Personal Growth (50%):</strong> Growth emerges through learning to protect without controlling, developing trust while maintaining healthy boundaries and appropriate authority.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #EC4899;"></div>
+                        <div class="legend-text"><strong>Recreation (30%):</strong> Recreation takes a backseat to protective responsibilities, as your self-preservation focus prioritizes security and vigilance over leisure activities.</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #10B981;"></div>
+                        <div class="legend-text"><strong>Contribution (70%):</strong> Your contribution centers on protecting and empowering others to be strong, though finding the balance between guidance and control remains an ongoing challenge.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="journey-stage">
+        <div class="container">
+            <h2 class="stage-title" style="text-align: center; margin-bottom: 4rem;">Transformation Stories</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"I used to micromanage every aspect of my team's work thinking I was protecting them from failure. Learning to delegate with trust rather than control transformed my leadership and actually made us more secure as a unit."</p>
+                    <div class="testimonial-author">Marcus R., Security Director</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"My protective instincts were suffocating my family. This journey taught me that real protection means empowering others to be strong, not controlling every variable in their environment."</p>
+                    <div class="testimonial-author">Angela T., Operations Manager</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"I was so focused on building security systems that I forgot about building relationships. Learning to balance authority with vulnerability changed everything about how I connect with people."</p>
+                    <div class="testimonial-author">James K., Risk Management Executive</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Breaking through my sexual blind spot was terrifying but liberating. I discovered that emotional intimacy actually strengthens the security I was trying to build through control alone."</p>
+                    <div class="testimonial-author">Diana M., Emergency Response Coordinator</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
+        <div class="container">
+            <div class="stage-number">02</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Call to Adventure</h2>
+                <p class="stage-description">
+                    Recognition that your protective control has become the very threat you're defending against, pushing away those you seek to protect. The moment when your hypervigilance creates the insecurity you fear most.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stage 3: Meeting the Mentor -->
+    <section class="journey-stage" id="stage3">
+        <div class="container">
+            <div class="stage-number">03</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Meeting the Mentor</h2>
+                <p class="stage-description">
+                    Discovering mentors who teach protective leadership without domination, showing how to guide and strengthen others rather than control them. Learning that true security comes through empowered allies, not controlled subjects.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stage 4: Crossing the Threshold -->
+    <section class="journey-stage" id="stage4">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Crossing the Threshold</h2>
+                <p class="stage-description">
+                    Taking the courageous step to trust others with responsibility while maintaining protective oversight, learning to delegate without abandoning your guardian role. Discovering that shared strength creates greater security than isolated control.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stage 5: Tests and Trials -->
+    <section class="journey-stage" id="stage5">
+        <div class="container">
+            <div class="stage-number">05</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Tests and Trials</h2>
+                <p class="stage-description">
+                    Confronting situations that test your ability to protect without controlling, learning to respond with strength rather than reactive aggression. Facing your sexual blind spot and developing capacity for vulnerable intimacy.
+                </p>
+
+                <div class="transformation-grid">
+                    <div class="transformation-column">
+                        <h3 class="transformation-title">Current Challenges</h3>
+                        <ul class="transformation-list">
+                            <li>Compulsive need to control protective outcomes</li>
+                            <li>Hypervigilant exhaustion from constant threat assessment</li>
+                            <li>Aggressive boundaries that isolate rather than secure</li>
+                        </ul>
+                    </div>
+                    <div class="transformation-column">
+                        <h3 class="transformation-title">Your Potential</h3>
+                        <ul class="transformation-list">
+                            <li>Protective leadership that empowers others' strength</li>
+                            <li>Strategic vigilance balanced with trust and delegation</li>
+                            <li>Secure boundaries that welcome rather than exclude</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stage 6: The Return -->
+    <section class="journey-stage" id="stage6">
+        <div class="container">
+            <div class="stage-number">06</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Return</h2>
+                <p class="stage-description">
+                    Returning as a transformed Sentinel 8 who protects through empowerment rather than control, creating security through trust and shared strength. Your authority now builds up rather than locks down, fostering resilience in those you guard.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="journey-stage" style="text-align: center; padding: 8rem 0;">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 2rem;">
+                Your Sentinel Journey Awaits
+            </h2>
+            <p style="font-size: 1.4rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Transform your protective control into empowering leadership that creates true security through strength shared rather than hoarded. Your journey from dominance to guardianship begins now.
+            </p>
+            <a href="#" class="cta-button" style="font-size: 1.4rem; padding: 2rem 4rem;">
+                Begin Your Transformation
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Wheel of Life Chart
+        const ctx = document.getElementById('wheelChart').getContext('2d');
+        const wheelChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Career', 'Finances', 'Health', 'Family', 'Social', 'Personal Growth', 'Recreation', 'Contribution'],
+                datasets: [{
+                    data: [75, 65, 40, 55, 45, 50, 30, 70],
+                    backgroundColor: [
+                        '#FF6B35',
+                        '#FFD700',
+                        '#00D4FF',
+                        '#9333EA',
+                        '#A855F7',
+                        '#6B46C1',
+                        '#EC4899',
+                        '#10B981'
+                    ],
+                    borderWidth: 0,
+                    borderRadius: 5,
+                    spacing: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(107, 70, 193, 0.9)',
+                        titleColor: '#FFD700',
+                        bodyColor: '#E9D5FF',
+                        borderColor: '#FFD700',
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        displayColors: false
+                    }
+                },
+                cutout: '40%'
+            }
+        });
+
+        // Smooth scrolling for CTA button
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
