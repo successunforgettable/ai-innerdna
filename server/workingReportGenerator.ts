@@ -1,5 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  timeout: 30000
+});
 
 interface AssessmentData {
   personalityType: number;
@@ -12,7 +18,7 @@ interface AssessmentData {
 }
 
 export async function generateWorkingReport(assessmentData?: Partial<AssessmentData>): Promise<string> {
-  // Use default Sentinel 6 data if none provided
+  // Assessment data processing (technical only)
   const testData: AssessmentData = {
     personalityType: 6,
     personalityName: "Sentinel 6",
@@ -24,26 +30,12 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
     ...assessmentData
   };
 
-  // Copy exact content generation from working-solution.js
-  const contentData: Record<string, string> = {
-    PERSONALITY_TYPE: testData.personalityName || "Sentinel 6",
-    HERO_SUBTITLE: "Your Path from Anxious to Security",
-    STAGE1_OPENING: "You are a Sentinel 6 - naturally alert to danger and focused on security.",
-    CARD1_TITLE: "Constant Vigilance",
-    CARD1_DESCRIPTION: "You scan for threats and problems, but this hypervigilance drains your energy.",
-    CARD2_TITLE: "Seeking Security", 
-    CARD2_DESCRIPTION: "You crave certainty and support, but often feel alone in your concerns.",
-    TESTIMONIAL1_QUOTE: "I realized my anxiety was actually my superpower once I learned to manage it properly.",
-    TESTIMONIAL1_AUTHOR: "Sarah M., Sentinel 6 Graduate",
-    WARNING_TEXT: "Your anxious patterns are creating unnecessary limitations in your life.",
-    INSIGHT_TEXT: "Transform anxiety into authentic security by building trust in yourself.",
-    TRANSFORMATION_SUMMARY: "Complete Sentinel 6 transformation from anxiety to authentic security.",
-    MOTIVATIONAL_QUOTE: "Your security comes from trusting your ability to handle whatever comes.",
-    CRITICAL_CHOICE_TEXT: "Choose growth over anxious comfort. Choose action over endless analysis.",
-    FINAL_CALL_TO_ACTION: "Step into your transformed Sentinel 6 life today."
-  };
-
-  // Use the exact template injection that works
+  // ChatGPT generates ALL content via API
+  console.log('Starting ChatGPT content generation for:', testData.personalityName);
+  const contentData = await generateContentViaAPI(testData);
+  console.log('Content generation completed, proceeding with template injection');
+  
+  // Technical template injection only
   const template = fs.readFileSync('./challenger_template.html', 'utf8');
   let html = template;
   
@@ -53,6 +45,42 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
 
   const filename = 'sentinel-6-working.html';
   fs.writeFileSync(filename, html);
-  
   return path.resolve(filename);
+}
+
+async function generateContentViaAPI(data: AssessmentData): Promise<Record<string, string>> {
+  try {
+    console.log('🤖 Calling ChatGPT API for content generation...');
+    
+    const prompt = `Generate transformation report content for ${data.personalityName}:
+    - Dominant state: ${data.dominantState?.name} (${data.dominantState?.percentage}%)
+    - Secondary state: ${data.secondaryState?.name} (${data.secondaryState?.percentage}%)
+    - Dominant subtype: ${data.dominantSubtype}
+    
+    Create content for these key placeholders:
+    PERSONALITY_TYPE, HERO_SUBTITLE, STAGE1_OPENING, CARD1_TITLE, CARD1_DESCRIPTION, 
+    CARD2_TITLE, CARD2_DESCRIPTION, TESTIMONIAL1_QUOTE, TESTIMONIAL1_AUTHOR, 
+    WARNING_TEXT, INSIGHT_TEXT, TRANSFORMATION_SUMMARY, MOTIVATIONAL_QUOTE, 
+    CRITICAL_CHOICE_TEXT, FINAL_CALL_TO_ACTION
+    
+    Return valid JSON only with these exact keys.`;
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 4000,
+      temperature: 0.7
+    });
+
+    const content = completion.choices[0].message.content || '{}';
+    console.log('✅ ChatGPT API response received, content length:', content.length);
+    
+    const parsedContent = JSON.parse(content);
+    console.log('📝 Generated content keys:', Object.keys(parsedContent));
+    
+    return parsedContent;
+  } catch (error) {
+    console.error('❌ ChatGPT API Error:', error);
+    throw new Error(`ChatGPT API failed: ${error}`);
+  }
 }
