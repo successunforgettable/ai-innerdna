@@ -1,0 +1,189 @@
+// Add this to server/index.ts BEFORE any Vite middleware
+// This ensures Express handles the route before Vite can intercept it
+
+import express from 'express';
+import path from 'path';
+
+const app = express();
+
+// CRITICAL: Add report routes FIRST, before any Vite middleware
+app.post('/api/generate-custom-report', async (req, res) => {
+  try {
+    const { assessmentData } = req.body;
+    
+    // Generate personalized HTML content
+    const personalizedHTML = await generatePersonalizedReport(assessmentData);
+    
+    // Set proper headers to bypass Vite completely
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    
+    // Send raw HTML directly
+    res.send(personalizedHTML);
+  } catch (error) {
+    console.error('Report generation error:', error);
+    res.status(500).json({ error: 'Failed to generate report' });
+  }
+});
+
+// Alternative approach: Create a dedicated static file route
+app.get('/reports/:reportId', async (req, res) => {
+  try {
+    const { reportId } = req.params;
+    
+    // Generate or fetch the report HTML
+    const reportHTML = await getReportHTML(reportId);
+    
+    // Serve as raw HTML with proper headers
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.send(reportHTML);
+  } catch (error) {
+    res.status(404).send('<h1>Report Not Found</h1>');
+  }
+});
+
+// Another approach: Use a different port entirely for reports
+const reportsApp = express();
+reportsApp.use(express.json());
+
+reportsApp.post('/generate', async (req, res) => {
+  const { assessmentData } = req.body;
+  const reportHTML = await generatePersonalizedReport(assessmentData);
+  
+  res.setHeader('Content-Type', 'text/html');
+  res.send(reportHTML);
+});
+
+// Start reports server on different port
+reportsApp.listen(5001, () => {
+  console.log('Reports server running on http://localhost:5001');
+});
+
+// THEN add your other middleware and Vite config
+if (process.env.NODE_ENV === 'development') {
+  const { createServer } = await import('vite');
+  const vite = await createServer({
+    server: { middlewareMode: true }
+  });
+  app.use(vite.ssrMiddleware);
+}
+
+// Your existing routes go here...
+
+async function generatePersonalizedReport(assessmentData) {
+  // Your AI generation logic here
+  const personalizedContent = await createPersonalizedContent(assessmentData);
+  
+  // Read the Challenger 9 template
+  const templatePath = path.join(__dirname, '../reports/challenger-template.html');
+  let template = await fs.readFile(templatePath, 'utf-8');
+  
+  // Replace placeholders with personalized content
+  template = template.replace(/{{PERSONALITY_TYPE}}/g, getPersonalityName(assessmentData.primaryType));
+  template = template.replace(/{{WING_INFLUENCE}}/g, assessmentData.wing);
+  // Add more replacements for personalized content...
+  
+  return template;
+}
+
+// CLIENT-SIDE: Update your Results.tsx component
+const handleGenerateReport = async () => {
+  try {
+    // Option 1: Use the bypassed route
+    const response = await fetch('/api/generate-custom-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assessmentData })
+    });
+    
+    if (response.ok) {
+      const htmlContent = await response.text();
+      
+      // Open in new window with blob URL to avoid Vite interference
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const newWindow = window.open(url, '_blank');
+      
+      // Clean up blob URL after window opens
+      if (newWindow) {
+        newWindow.addEventListener('load', () => {
+          URL.revokeObjectURL(url);
+        });
+      }
+    }
+    
+    // Option 2: Use different port
+    // const response = await fetch('http://localhost:5001/generate', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ assessmentData })
+    // });
+    
+    // Option 3: Generate report ID and use static route
+    // const reportId = await generateReportId(assessmentData);
+    // window.open(`/reports/${reportId}`, '_blank');
+    
+  } catch (error) {
+    console.error('Error generating report:', error);
+    alert('Failed to generate report');
+  }
+};
+
+// RECOMMENDED SOLUTION: Use express.static for a reports directory
+// Create a /public/reports folder and serve static HTML files
+
+app.use('/reports', express.static(path.join(__dirname, '../public/reports'), {
+  setHeaders: (res) => {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache');
+  }
+}));
+
+// Generate reports as static files
+app.post('/api/generate-static-report', async (req, res) => {
+  try {
+    const { assessmentData } = req.body;
+    
+    // Generate unique filename
+    const reportId = generateUniqueId();
+    const filename = `${reportId}.html`;
+    
+    // Generate personalized HTML
+    const reportHTML = await generatePersonalizedReport(assessmentData);
+    
+    // Save to static directory
+    const filePath = path.join(__dirname, '../public/reports', filename);
+    await fs.writeFile(filePath, reportHTML);
+    
+    // Return URL to static file
+    res.json({ 
+      success: true, 
+      reportUrl: `/reports/${filename}`,
+      reportId 
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to generate static report' });
+  }
+});
+
+// Client-side for static approach
+const handleGenerateStaticReport = async () => {
+  try {
+    const response = await fetch('/api/generate-static-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assessmentData })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      // Open the static HTML file - Vite won't intercept this
+      window.open(result.reportUrl, '_blank');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
