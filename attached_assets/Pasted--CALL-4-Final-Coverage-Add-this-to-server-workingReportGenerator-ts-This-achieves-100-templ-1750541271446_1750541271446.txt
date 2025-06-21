@@ -1,0 +1,180 @@
+// CALL 4: Final Coverage - Add this to server/workingReportGenerator.ts
+// This achieves 100% template coverage (131 placeholders total)
+
+// CALL 4: Advanced Content (40+ placeholders) - Add to your existing file
+async function generateAdvancedChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate advanced transformation content for a ${userData.personalityType} - ${userData.personalityName} to complete their comprehensive report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype, Wing ${userData.wingInfluence}
+
+Generate 41 advanced content fields for complete template coverage:
+
+{
+  "HERO_JOURNEY_INTRO": "Introduction to their specific hero's journey as this personality type",
+  "TRANSFORMATION_PROMISE": "Promise of transformation specific to this personality type",
+  "CURRENT_REALITY_SUMMARY": "Summary of their current reality and struggles",
+  "FUTURE_VISION_SUMMARY": "Vision of their transformed future state",
+  
+  "STAGE_TRANSITION_1": "Transition description from Stage 1 to Stage 2",
+  "STAGE_TRANSITION_2": "Transition description from Stage 2 to Stage 3", 
+  "STAGE_TRANSITION_3": "Transition description from Stage 3 to Stage 4",
+  "STAGE_TRANSITION_4": "Transition description from Stage 4 to Stage 5",
+  "STAGE_TRANSITION_5": "Transition description from Stage 5 to Stage 6",
+  
+  "CHALLENGE_PATTERN_1": "First major challenge pattern for this personality type",
+  "CHALLENGE_PATTERN_2": "Second major challenge pattern they face",
+  "CHALLENGE_PATTERN_3": "Third challenge pattern specific to this type",
+  "CHALLENGE_SOLUTION_1": "Solution approach for first challenge pattern",
+  "CHALLENGE_SOLUTION_2": "Solution approach for second challenge pattern", 
+  "CHALLENGE_SOLUTION_3": "Solution approach for third challenge pattern",
+  
+  "WHEEL_ENVIRONMENT_BEFORE": "Current environment and living space challenges",
+  "WHEEL_ENVIRONMENT_AFTER": "Transformed environment and space after program",
+  "WHEEL_GROWTH_BEFORE": "Current personal growth and learning patterns",
+  "WHEEL_GROWTH_AFTER": "Transformed growth mindset and learning capacity",
+  "WHEEL_SPIRITUALITY_BEFORE": "Current spiritual or meaning-making challenges",
+  "WHEEL_SPIRITUALITY_AFTER": "Transformed spiritual connection and purpose",
+  
+  "RESISTANCE_BREAKTHROUGH_1": "How they overcome their first major resistance",
+  "RESISTANCE_BREAKTHROUGH_2": "How they overcome their second major resistance",
+  "RESISTANCE_BREAKTHROUGH_3": "How they overcome their third major resistance",
+  
+  "WEEK_10_MILESTONE": "Final week transformation milestone achievement",
+  "POST_PROGRAM_MONTH_1": "First month after program completion outcomes",
+  "POST_PROGRAM_MONTH_6": "Six month sustained transformation results",
+  "POST_PROGRAM_YEAR_1": "One year transformation maintenance success",
+  
+  "FAMILY_TRANSFORMATION": "How their transformation impacts family dynamics",
+  "WORK_TRANSFORMATION": "How their transformation impacts work relationships",
+  "COMMUNITY_TRANSFORMATION": "How their transformation impacts community connections",
+  
+  "LEADERSHIP_EVOLUTION": "Evolution of their leadership style and approach",
+  "INFLUENCE_EXPANSION": "Expansion of their positive influence on others",
+  "LEGACY_CREATION": "Legacy they create through their transformation",
+  
+  "FINAL_INVITATION": "Final compelling invitation to begin their journey",
+  "URGENCY_MESSAGE": "Message about the urgency of starting now",
+  "SUPPORT_PROMISE": "Promise of support throughout their journey",
+  
+  "CTA_PRIMARY_FINAL": "Primary call-to-action for enrollment",
+  "CTA_SECONDARY_FINAL": "Secondary call-to-action with alternative approach",
+  "GUARANTEE_MESSAGE": "Guarantee or confidence statement about results",
+  
+  "CLOSING_INSPIRATION": "Final inspirational message for this personality type",
+  "TRANSFORMATION_VISION": "Ultimate vision of who they can become",
+  "SUCCESS_CERTAINTY": "Statement of certainty about their success potential"
+}`;
+
+  return await callChatGPTAPI(prompt, "Advanced Content");
+}
+
+// UPDATE: Modified main function to include Call 4
+// Replace the existing generateMultiChatGPTReport function with this updated version:
+
+export async function generateMultiChatGPTReport(assessmentData: any): Promise<string | null> {
+  try {
+    console.log("🚀 Starting 4-CALL ChatGPT content generation for COMPLETE COVERAGE...");
+    
+    const userData: UserData = {
+      personalityType: `Type ${assessmentData.results?.personalityType || 6}`,
+      personalityName: getPersonalityName(assessmentData.results?.personalityType || 6),
+      wingInfluence: assessmentData.results?.wingInfluence || 7,
+      moodStates: {
+        primary: { name: "Anxious & Worried", percentage: 65 },
+        secondary: { name: "Focused & Determined", percentage: 35 }
+      },
+      subtype: assessmentData.results?.subtype || "Self-Preservation"
+    };
+    
+    // Execute all 4 ChatGPT API calls sequentially
+    console.log("📞 Call 1: Core Content...");
+    const coreContent = await generateCoreChatGPTContent(userData);
+    if (!coreContent) {
+      console.error("❌ Core content generation failed");
+      return null;
+    }
+    console.log(`✅ Call 1 completed: ${Object.keys(coreContent).length} fields`);
+    
+    console.log("📞 Call 2: Additional Testimonials...");
+    const testimonialsContent = await generateTestimonialsChatGPTContent(userData);
+    if (!testimonialsContent) {
+      console.log("⚠️ Call 2 failed, continuing with available content");
+    } else {
+      console.log(`✅ Call 2 completed: ${Object.keys(testimonialsContent).length} fields`);
+    }
+    
+    console.log("📞 Call 3: Transformation Metrics...");
+    const metricsContent = await generateMetricsChatGPTContent(userData);
+    if (!metricsContent) {
+      console.log("⚠️ Call 3 failed, continuing with available content");
+    } else {
+      console.log(`✅ Call 3 completed: ${Object.keys(metricsContent).length} fields`);
+    }
+    
+    console.log("📞 Call 4: Advanced Content (Final Coverage)...");
+    const advancedContent = await generateAdvancedChatGPTContent(userData);
+    if (!advancedContent) {
+      console.log("⚠️ Call 4 failed, continuing with available content");
+    } else {
+      console.log(`✅ Call 4 completed: ${Object.keys(advancedContent).length} fields`);
+    }
+    
+    // Combine ALL ChatGPT content from all 4 calls
+    const allChatGPTContent = {
+      ...coreContent,
+      ...(testimonialsContent || {}),
+      ...(metricsContent || {}),
+      ...(advancedContent || {})
+    };
+    
+    const totalFields = Object.keys(allChatGPTContent).length;
+    const coveragePercent = Math.round((totalFields / 131) * 100);
+    
+    console.log(`🎯 TOTAL ChatGPT CONTENT: ${totalFields} fields`);
+    console.log(`📊 TEMPLATE COVERAGE: ${coveragePercent}%`);
+    
+    // Calculate progress percentages (technical only)
+    const progressPercentages = calculateDynamicProgressPercentages(userData.moodStates);
+    
+    // Read and process template
+    const templatePath = path.join(process.cwd(), 'challenger_template.html');
+    let template = await fs.readFile(templatePath, 'utf-8');
+    
+    // Inject ALL ChatGPT content
+    Object.entries(allChatGPTContent).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    // Inject progress percentages
+    Object.entries(progressPercentages).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    // Count remaining empty placeholders
+    const remainingPlaceholders = (template.match(/\{\{[^}]+\}\}/g) || []).length;
+    const actualCoverage = Math.round(((131 - remainingPlaceholders) / 131) * 100);
+    
+    console.log(`🏆 FINAL RESULTS:`);
+    console.log(`   • Total ChatGPT fields: ${totalFields}`);
+    console.log(`   • Template coverage: ${actualCoverage}%`);
+    console.log(`   • Remaining placeholders: ${remainingPlaceholders}`);
+    
+    if (actualCoverage >= 95) {
+      console.log(`🎉 SUCCESS: Near-complete template coverage achieved!`);
+    } else if (actualCoverage >= 80) {
+      console.log(`✅ EXCELLENT: Strong template coverage achieved!`);
+    } else {
+      console.log(`📈 GOOD: Significant improvement in template coverage!`);
+    }
+    
+    return template;
+    
+  } catch (error) {
+    console.error("❌ 4-call ChatGPT generation failed:", error);
+    return null;
+  }
+}

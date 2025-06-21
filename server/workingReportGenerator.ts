@@ -280,6 +280,85 @@ Generate 25 final placeholder fields:
   return await callChatGPTAPI(prompt, "Final Coverage");
 }
 
+// CALL 6: Timeline & Additional Cards (25 placeholders)
+async function generateTimelineCardsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate timeline progression and additional challenge cards for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 25 timeline and card fields:
+
+{
+  "TIMELINE1_TITLE": "Timeline milestone 1 title for this personality transformation",
+  "TIMELINE1_DESCRIPTION": "Description of week 1-2 transformation progress for this type",
+  "TIMELINE2_TITLE": "Timeline milestone 2 title for this personality journey",
+  "TIMELINE2_DESCRIPTION": "Description of week 3-4 transformation progress for this type",
+  "TIMELINE3_TITLE": "Timeline milestone 3 title for this personality evolution",
+  "TIMELINE3_DESCRIPTION": "Description of week 5-6 transformation progress for this type",
+  "TIMELINE4_TITLE": "Timeline milestone 4 title for this personality breakthrough",
+  "TIMELINE4_DESCRIPTION": "Description of week 7-8 transformation progress for this type",
+  "TIMELINE5_TITLE": "Timeline milestone 5 title for this personality mastery",
+  "TIMELINE5_DESCRIPTION": "Description of week 9-10 transformation progress for this type",
+  "TIMELINE6_TITLE": "Timeline milestone 6 title for this personality integration",
+  "TIMELINE6_DESCRIPTION": "Description of week 11-12 transformation progress for this type",
+  
+  "CARD16_TITLE": "16th challenge card title for this personality type",
+  "CARD16_DESCRIPTION": "Description of 16th transformation opportunity for this type",
+  "CARD17_TITLE": "17th challenge card title for this personality",
+  "CARD17_DESCRIPTION": "Description of 17th growth edge for this type",
+  "CARD18_TITLE": "18th challenge card title for this personality",
+  "CARD18_DESCRIPTION": "Description of 18th breakthrough potential for this type",
+  
+  "MOTIVATIONAL_QUOTE": "Inspiring motivational quote relevant to this personality type's journey",
+  "CRITICAL_CHOICE_TEXT": "Description of the critical choice this personality type faces now",
+  "CHOICE_MOTIVATION": "Motivation for making the transformation choice for this type",
+  "TRANSFORMATION_URGENCY": "Urgency message about beginning transformation for this personality",
+  "LEGACY_MESSAGE": "Message about the legacy this personality type can create",
+  "FUTURE_VISION": "Vision of this personality type's transformed future self",
+  "POTENTIAL_UNLOCKED": "Description of potential unlocked through transformation"
+}`;
+
+  return await callChatGPTAPI(prompt, "Timeline & Cards");
+}
+
+// CALL 7: Final Complete Coverage (20 placeholders)
+async function generateFinalCompleteChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  const prompt = `You are an expert personality transformation coach. Generate the final content pieces to achieve 100% template coverage for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+
+CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
+
+User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+
+Generate 20 final completion fields:
+
+{
+  "CLOSING_MESSAGE": "Powerful closing message for this personality type's transformation",
+  "NEXT_STEPS": "Clear next steps for this personality to begin transformation",
+  "SUPPORT_AVAILABLE": "Description of support available during transformation journey",
+  "COMMUNITY_MESSAGE": "Message about joining the transformation community",
+  "MENTORSHIP_PROMISE": "Promise about mentorship and guidance provided",
+  "RESULTS_GUARANTEE": "Guarantee about transformation results for this personality type",
+  "INVESTMENT_VALUE": "Value proposition of investing in transformation",
+  "TIME_COMMITMENT": "Time commitment required for transformation success",
+  "DIFFICULTY_ACKNOWLEDGMENT": "Acknowledgment of transformation difficulty for this type",
+  "COURAGE_REQUIRED": "Message about courage required for this personality's transformation",
+  "BREAKTHROUGH_PROMISE": "Promise about breakthrough moments this type will experience",
+  "LIFE_CHANGE_SCOPE": "Scope of life changes this personality can expect",
+  "RELATIONSHIP_IMPACT": "Impact transformation will have on this type's relationships",
+  "CAREER_TRANSFORMATION": "Career transformation this personality type can achieve",
+  "INNER_PEACE_PROMISE": "Promise of inner peace through heart-brain coherence",
+  "AUTHENTIC_POWER": "Description of authentic power this type will develop",
+  "LEADERSHIP_EVOLUTION": "Evolution in leadership capacity for this personality",
+  "FINAL_INVITATION": "Final compelling invitation to begin transformation journey",
+  "CONTACT_INFORMATION": "Contact information for transformation program enrollment",
+  "ENROLLMENT_DETAILS": "Details about enrollment process and next steps"
+}`;
+
+  return await callChatGPTAPI(prompt, "Final Complete Coverage");
+}
+
 // Shared ChatGPT API call function
 async function callChatGPTAPI(prompt: string, contentType: string): Promise<Record<string, string> | null> {
   try {
@@ -426,13 +505,27 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
       console.log("⚠️ Final coverage generation failed, continuing with available content");
     }
     
+    console.log("📞 Calling Timeline & Cards...");
+    const timelineContent = await generateTimelineCardsChatGPTContent(userData);
+    if (!timelineContent) {
+      console.log("⚠️ Timeline generation failed, continuing with available content");
+    }
+    
+    console.log("📞 Calling Final Complete Coverage...");
+    const completeContent = await generateFinalCompleteChatGPTContent(userData);
+    if (!completeContent) {
+      console.log("⚠️ Complete coverage generation failed, continuing with available content");
+    }
+    
     // Combine all successful ChatGPT content
     const allChatGPTContent = {
       ...coreContent,
       ...(cardsContent || {}),
       ...(testimonialsContent || {}),
       ...(missingContent || {}),
-      ...(finalContent || {})
+      ...(finalContent || {}),
+      ...(timelineContent || {}),
+      ...(completeContent || {})
     };
     
     const totalFields = Object.keys(allChatGPTContent).length;
