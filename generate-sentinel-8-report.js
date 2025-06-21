@@ -3,8 +3,8 @@ import fs from 'fs';
 
 const openai = new OpenAI({ 
   apiKey: process.env.OPENAI_API_KEY,
-  timeout: 120000,
-  maxRetries: 3
+  timeout: 30000,
+  maxRetries: 2
 });
 
 async function generateSentinel8Content() {

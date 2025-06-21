@@ -2,8 +2,8 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({ 
   apiKey: process.env.OPENAI_API_KEY,
-  timeout: 120000, // 2 minutes timeout
-  maxRetries: 3
+  timeout: 30000, // 30 seconds timeout
+  maxRetries: 2
 });
 
 interface SentinelAssessmentData {
