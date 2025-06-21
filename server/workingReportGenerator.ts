@@ -52,18 +52,29 @@ async function generateContentViaAPI(data: AssessmentData): Promise<Record<strin
   try {
     console.log('🤖 Calling ChatGPT API for content generation...');
     
-    const prompt = `Generate transformation report content for ${data.personalityName}:
+    const prompt = `You are a JSON content generator. Generate transformation report content for ${data.personalityName} with these specifications:
     - Dominant state: ${data.dominantState?.name} (${data.dominantState?.percentage}%)
     - Secondary state: ${data.secondaryState?.name} (${data.secondaryState?.percentage}%)
     - Dominant subtype: ${data.dominantSubtype}
     
-    Create content for these key placeholders:
-    PERSONALITY_TYPE, HERO_SUBTITLE, STAGE1_OPENING, CARD1_TITLE, CARD1_DESCRIPTION, 
-    CARD2_TITLE, CARD2_DESCRIPTION, TESTIMONIAL1_QUOTE, TESTIMONIAL1_AUTHOR, 
-    WARNING_TEXT, INSIGHT_TEXT, TRANSFORMATION_SUMMARY, MOTIVATIONAL_QUOTE, 
-    CRITICAL_CHOICE_TEXT, FINAL_CALL_TO_ACTION
-    
-    Return valid JSON only with these exact keys.`;
+    Return ONLY a valid JSON object with these exact keys (no markdown, no explanations):
+    {
+      "PERSONALITY_TYPE": "${data.personalityName}",
+      "HERO_SUBTITLE": "transformation subtitle here",
+      "STAGE1_OPENING": "opening paragraph here",
+      "CARD1_TITLE": "challenge card title",
+      "CARD1_DESCRIPTION": "challenge description",
+      "CARD2_TITLE": "second challenge title", 
+      "CARD2_DESCRIPTION": "second challenge description",
+      "TESTIMONIAL1_QUOTE": "success quote",
+      "TESTIMONIAL1_AUTHOR": "testimonial author",
+      "WARNING_TEXT": "warning message",
+      "INSIGHT_TEXT": "transformation insight",
+      "TRANSFORMATION_SUMMARY": "complete summary",
+      "MOTIVATIONAL_QUOTE": "inspiring quote",
+      "CRITICAL_CHOICE_TEXT": "critical decision text",
+      "FINAL_CALL_TO_ACTION": "final action statement"
+    }`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
@@ -74,8 +85,21 @@ async function generateContentViaAPI(data: AssessmentData): Promise<Record<strin
 
     const content = completion.choices[0].message.content || '{}';
     console.log('✅ ChatGPT API response received, content length:', content.length);
+    console.log('Raw content preview:', content.substring(0, 200));
     
-    const parsedContent = JSON.parse(content);
+    // Extract JSON from markdown code blocks if present
+    let jsonContent = content;
+    if (content.includes('```')) {
+      // Remove markdown code block markers
+      jsonContent = content.replace(/```json\s*/g, '').replace(/```\s*/g, '');
+    }
+    
+    // Clean up any remaining formatting issues
+    jsonContent = jsonContent.trim();
+    
+    console.log('Cleaned JSON preview:', jsonContent.substring(0, 200));
+    
+    const parsedContent = JSON.parse(jsonContent);
     console.log('📝 Generated content keys:', Object.keys(parsedContent));
     
     return parsedContent;
