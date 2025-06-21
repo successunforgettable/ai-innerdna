@@ -282,6 +282,50 @@
             left: 0;
         }
 
+        .testimonials-section {
+            padding: 6rem 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border-left: 4px solid var(--gold);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-quote {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--light-purple-text);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .testimonial-details {
+            color: var(--cyan);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
         @media (max-width: 768px) {
             .hero-title { font-size: 3rem; }
             .stage-title { font-size: 2.5rem; }
@@ -483,6 +527,54 @@
                 <p class="stage-description">
                     Returning to your world as a transformed leader who creates positive change through compassionate wisdom rather than harsh criticism.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="stage-title" style="text-align: center; margin-bottom: 2rem;">
+                Transformation Stories
+            </h2>
+            <p style="text-align: center; font-size: 1.2rem; color: var(--light-purple-text); margin-bottom: 4rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Real Helper 3s share their journey from image-driven helping to authentic service
+            </p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "As a Helper 3, I was constantly juggling the need to be perfect in everyone's eyes. The burnout from maintaining this image was overwhelming. Through my transformation journey, I learned to release the pressure of being admired at all times. Now, I find fulfillment in authenticity rather than applause, and it's liberating."
+                    </p>
+                    <div class="testimonial-author">Sarah M.</div>
+                    <div class="testimonial-details">Marketing Director, 30s</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "I used to help others just to hear 'thank you' and receive accolades, but it left me feeling empty. My Helper 3 journey taught me to embrace helping without expecting anything in return. This shift has brought genuine joy to my interactions, and I've realized that true service is its own reward."
+                    </p>
+                    <div class="testimonial-author">Michael K.</div>
+                    <div class="testimonial-details">Team Leader, 40s</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "For years, my helping behaviors were driven by an unspoken competition with those around me. Breaking free from this competitive helping pattern was challenging, but transformative. Now, I work collaboratively, focusing on the collective good rather than personal triumphs, and my relationships are thriving."
+                    </p>
+                    <div class="testimonial-author">Jennifer L.</div>
+                    <div class="testimonial-details">HR Manager, 30s</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "My Helper 3 pattern had me stuck in a cycle of performance-based helping, always aiming for success markers. Through my transformation, I've discovered the beauty of authentic service, where my efforts are guided by genuine care rather than metrics. It's been a profound shift that's enriched my personal and professional life."
+                    </p>
+                    <div class="testimonial-author">David R.</div>
+                    <div class="testimonial-details">Project Manager, 40s</div>
+                </div>
             </div>
         </div>
     </section>
