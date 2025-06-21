@@ -1,9 +1,4 @@
-import OpenAI from 'openai';
-
-async function generatePersonalityContent(parsedData) {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-  const prompt = `ROLE: You are an expert personality transformation coach creating content for a personalized report.
+const prompt = `ROLE: You are an expert personality transformation coach creating content for a personalized report.
 
 ORIGINAL CHALLENGER TEMPLATE EXAMPLES (STUDY THESE PATTERNS):
 
@@ -40,11 +35,11 @@ STYLE GUIDELINES FROM CHALLENGER TEMPLATE:
 - Balance of strength acknowledgment with vulnerability invitation
 
 CLIENT ASSESSMENT DATA:
-- Personality: ${parsedData.personalityName}
-- Influence: ${parsedData.influence}
-- Dominant State: ${parsedData.dominantState.name} (${parsedData.dominantState.percentage}%)
-- Secondary State: ${parsedData.secondaryState.name} (${parsedData.secondaryState.percentage}%)
-- Dominant Subtype: ${parsedData.dominantSubtype}
+- Personality: \${parsedData.personalityName}
+- Influence: \${parsedData.influence}
+- Dominant State: \${parsedData.dominantState.name} (\${parsedData.dominantState.percentage}%)
+- Secondary State: \${parsedData.secondaryState.name} (\${parsedData.secondaryState.percentage}%)
+- Dominant Subtype: \${parsedData.dominantSubtype}
 
 CRITICAL RULES:
 1. NEVER use: "Enneagram", "Type 1/2/3", "Wing", "Integration", "Disintegration"
@@ -62,21 +57,9 @@ CONTENT REQUIREMENTS:
 
 Generate content for ALL placeholders following Challenger quality and style:
 {
-  "PERSONALITY_TYPE": "${parsedData.personalityName}",
+  "PERSONALITY_TYPE": "\${parsedData.personalityName}",
   "HERO_SUBTITLE": "[Follow Challenger subtitle pattern but for this personality]",
-  "STAGE1_OPENING": "[Follow Challenger opening style but for this personality's reality]",
-  // ... all content sections
+  "STAGE1_OPENING": "[Follow Challenger opening style but for this personality's reality]"
 }
 
 Return ONLY valid JSON. No explanations.`;
-
-  const response = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
-    max_tokens: 4000
-  });
-  
-  return JSON.parse(response.choices[0].message.content);
-}
-
-export { generatePersonalityContent };

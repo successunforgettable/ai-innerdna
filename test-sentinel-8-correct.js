@@ -1,4 +1,5 @@
-const { generateCompleteReport } = require('./reportGenerator');
+import { generateCompleteReport } from './reportGenerator.js';
+import fs from 'fs';
 
 // Exact Sentinel 8 assessment data
 const sentinelAssessmentData = {
@@ -24,7 +25,6 @@ async function testSentinelCorrectGeneration() {
     
     if (result.success) {
       // Save the report
-      const fs = require('fs');
       fs.writeFileSync('test-sentinel-8-correct.html', result.report);
       console.log('✅ ChatGPT-generated Sentinel 8 report saved');
       console.log('📊 Data should show: 60% destructive, 35% confidence, low wheel scores');

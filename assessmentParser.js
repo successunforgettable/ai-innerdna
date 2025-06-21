@@ -24,4 +24,4 @@ function parseAssessmentData(rawAssessmentData) {
   };
 }
 
-module.exports = { parseAssessmentData };
+export { parseAssessmentData };
