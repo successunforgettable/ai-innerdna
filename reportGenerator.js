@@ -2,9 +2,9 @@
 // CONNECTS COMPONENTS: Parser → ChatGPT API → Template Injection
 // ALL CONTENT CREATED BY CHATGPT VIA API KEY - NOT THIS FILE
 
-const { parseAssessmentData } = require('./assessmentParser');
-const { generatePersonalityContent } = require('./contentGenerator');
-const { injectContentIntoTemplate } = require('./templateInjector');
+import { parseAssessmentData } from './assessmentParser.js';
+import { generatePersonalityContent } from './contentGenerator.js';
+import { injectContentIntoTemplate } from './templateInjector.js';
 
 async function generatePersonalizedReport(rawAssessmentData) {
   // NO CONTENT CREATION - ONLY ORCHESTRATION
@@ -44,7 +44,7 @@ function generateSpecificPersonalityReport(personalityType, stateDistribution, s
 }
 
 // NO CONTENT CREATION - ONLY ORCHESTRATION FUNCTIONS
-module.exports = { 
+export { 
   generatePersonalizedReport, 
   generateSpecificPersonalityReport 
 };

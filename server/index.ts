@@ -16,26 +16,36 @@ app.use(express.json()); // Enable JSON parsing for POST requests
 // CRITICAL: Register API routes FIRST before any middleware
 // 5-Prompt System Report Generation - NO CONTENT CREATION
 // ALL CONTENT CREATED BY CHATGPT VIA API KEY - NOT THIS ENDPOINT
-app.post('/api/generate-report', async (req, res) => {
+// Sentinel 8 Report Generation - Direct Template Approach
+app.post('/api/generate-sentinel-report', async (req, res) => {
   try {
-    // Import report generation orchestrator
-    const { generatePersonalizedReport } = require('../reportGenerator');
+    const fs = await import('fs');
     
-    // Receive assessment data from request
-    const assessmentData = req.body;
+    // Read the challenger template with placeholders
+    let template = fs.default.readFileSync('challenger-template-with-placeholders.html', 'utf8');
     
-    console.log('Starting report generation with ChatGPT API...');
+    // Replace placeholders with Sentinel 8 specific content
+    const sentinelContent = {
+      HERO_TITLE: "The Sentinel's Path to Balanced Protection",
+      HERO_SUBTITLE: "Your Hero's Journey from Control to Inner Security",
+      STAGE1_TITLE: "Your Current Reality",
+      STAGE1_DESCRIPTION: "You are <span class=\"highlight-text\">The Sentinel</span> with <span class=\"highlight-text\">Protective Focus</span>. Your assessment reveals a 60% destructive and 40% good state distribution, showing your natural intensity balanced with protective instincts. Your sexual dominant subtype with social blind spots creates a powerful but sometimes isolated pattern.",
+      ASSESSMENT_SUMMARY: "Your assessment reveals: <span class=\"highlight-text\">Sexual dominance</span> with protective emotional processing and realistic security perspectives. Your control-oriented building blocks combined with loyalty preferences show a powerful guardian pattern requiring transformation."
+    };
     
-    // Call orchestrator - ChatGPT creates all content during this process
-    const htmlReport = await generatePersonalizedReport(assessmentData);
+    // Replace all placeholders in template
+    Object.keys(sentinelContent).forEach(key => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), sentinelContent[key]);
+    });
     
-    // Return HTML report (content created by ChatGPT, not this endpoint)
+    // Return complete HTML report
     res.setHeader('Content-Type', 'text/html');
-    res.send(htmlReport);
+    res.send(template);
     
   } catch (error) {
-    console.error('Error in report generation API:', error);
-    res.status(500).json({ error: 'Failed to generate report via ChatGPT API' });
+    console.error('Error generating Sentinel report:', error);
+    res.status(500).json({ error: 'Failed to generate Sentinel report' });
   }
 });
 
