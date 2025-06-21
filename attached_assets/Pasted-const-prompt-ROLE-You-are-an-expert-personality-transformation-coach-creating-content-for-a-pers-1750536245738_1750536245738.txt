@@ -1,9 +1,4 @@
-const OpenAI = require('openai');
-
-async function generatePersonalityContent(parsedData) {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-  const prompt = `ROLE: You are an expert personality transformation coach creating content for a personalized report.
+const prompt = `ROLE: You are an expert personality transformation coach creating content for a personalized report.
 
 ORIGINAL CHALLENGER TEMPLATE EXAMPLES (STUDY THESE PATTERNS):
 
@@ -69,14 +64,3 @@ Generate content for ALL placeholders following Challenger quality and style:
 }
 
 Return ONLY valid JSON. No explanations.`;
-
-  const response = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
-    max_tokens: 4000
-  });
-  
-  return JSON.parse(response.choices[0].message.content);
-}
-
-module.exports = { generatePersonalityContent };
