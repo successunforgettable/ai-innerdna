@@ -1,0 +1,85 @@
+TASK: Create a personalized transformation report using the exact Challenger 9 template design but with content dynamically generated based on user's assessment data.
+
+CRITICAL DESIGN REQUIREMENTS - NO DEVIATIONS ALLOWED:
+✅ Use 100% identical CSS, layout, and structure from Challenger 9 template
+✅ Same colors: --primary-purple: #6B46C1, --gold: #FFD700, --cyan: #00D4FF, --orange: #FF6B35  
+✅ Same animations, floating elements (⚡💫🌟✨), fonts (Inter/Playfair Display)
+✅ Same 11-stage hero's journey structure with identical stage numbers and layouts
+✅ Same brain-heart SVG visualizations, card grids, progress bars, testimonials
+✅ Same CTA button styles, timeline structure, Wheel of Life 8-area grid
+✅ Same before/after sections, section dividers, hover effects
+
+FORBIDDEN: Do NOT change visual design, layout, colors, animations, or structure
+
+DATA-DRIVEN CONTENT PERSONALIZATION:
+
+INPUT DATA STRUCTURE:
+{
+  personalityType: "Challenger", // Helper, Achiever, Individualist, etc.
+  influence: "9", // the influence number
+  primaryState: "average", // good, average, or destructive  
+  primaryStatePercentage: 40,
+  secondaryState: "destructive", 
+  secondaryStatePercentage: 60,
+  dominantSubtype: "self-preservation",
+  secondSubtype: "one-to-one", 
+  blindSubtype: "social"
+}
+
+CONTENT GENERATION RULES:
+
+1. ANALYZE USER'S EXACT PATTERN:
+   - Challenger 9 vs Challenger 7 = different struggles (peace vs enthusiasm conflicts)
+   - 60% destructive vs 60% good state = completely different life experience
+   - Self-pres dominant vs social dominant = different focus areas and challenges
+
+2. STATE-BASED CONTENT ADAPTATION:
+   - 60%+ good state: "You operate from strength and clarity most of the time..."
+   - 60%+ average state: "You function well but feel reactive and pressured..." 
+   - 60%+ destructive state: "You're experiencing significant stress and overwhelm..."
+
+3. SUBTYPE-SPECIFIC CONTENT:
+   - Self-Preservation dominant: Focus on security, routines, personal needs, resource management
+   - Social dominant: Focus on group dynamics, belonging, status, community connections  
+   - One-to-One dominant: Focus on intense relationships, chemistry, personal influence
+
+4. PERSONALITY + INFLUENCE COMBINATIONS:
+   - Challenger 9: Power + peace-seeking = exhaustion from conflict vs desire for harmony
+   - Challenger 7: Power + enthusiasm = restlessness, scattered energy, avoiding limitations
+   - Helper 2: Service + people-pleasing = burnout from over-giving and approval-seeking
+   
+5. FORBIDDEN TERMINOLOGY:
+   Never use: "Enneagram", "Type 1/2/3", "wings", "arrows", "integration/disintegration"
+   Always use: "Challenger 9", "Helper 2", "influence", "good/bad mood states"
+
+6. PERSONALIZED EXAMPLES:
+
+   Challenger 9 (40% average, 60% destructive, self-pres dominant):
+   "You step forward when others step back, but lately you feel exhausted by constant conflict. Your need for control wars with your desire for peace, leaving you drained and isolated. Your focus on personal security makes you withdraw when overwhelmed."
+
+   vs 
+
+   Challenger 7 (60% good, 40% average, social dominant):
+   "You lead with infectious energy and optimism, inspiring others through your vision and enthusiasm. Your challenge is staying focused when excitement turns to restlessness. Your social awareness helps you rally groups but can scatter your energy."
+
+7. TESTIMONIALS MUST MATCH USER'S PATTERN:
+   - Use names/titles appropriate for personality type
+   - Reflect their actual state distribution in testimonial content
+   - Show transformation journey relevant to their specific metrics
+
+8. WHEEL OF LIFE PROGRESS BARS:
+   - Use actual assessment percentages for each life area
+   - Keep same 8 areas but adjust descriptions to match their state/subtype pattern
+
+9. TRANSFORMATION JOURNEY:
+   - Stage content must reflect their specific combination of metrics
+   - Address their actual lived experience, not generic patterns
+   - Show realistic transformation path based on their starting point
+
+QUALITY CHECK:
+- Does content feel personally written for THIS specific user?
+- Are struggles and solutions authentic to their exact pattern?
+- Does the transformation journey address their specific metric combination?
+- Is visual design 100% identical to Challenger template?
+
+Generate a complete, personalized report that feels like it was written specifically for someone with these exact assessment results while maintaining identical visual format.

@@ -154,46 +154,113 @@ function getPersonalizedContent(primaryType: string, wing?: string) {
 
 async function generateAIContent(assessmentData: AssessmentData) {
   try {
+    // Map assessment data to detailed prompt format
+    const personalityType = getPersonalityName(assessmentData.primaryType);
+    const influence = assessmentData.wing;
+    
+    // Calculate state distribution from color states
+    const colorStates = assessmentData.colorStates || [];
+    const primaryState = colorStates.length > 0 ? colorStates[0] : { state: "average", percentage: 50 };
+    const secondaryState = colorStates.length > 1 ? colorStates[1] : { state: "average", percentage: 50 };
+    
+    // Determine dominant subtype from detail tokens
+    const tokens = assessmentData.detailTokens || { social: 3, selfPreservation: 3, sexual: 4 };
+    const subtypeScores = {
+      social: tokens.social || 0,
+      selfPreservation: tokens.selfPreservation || 0,
+      sexual: tokens.sexual || 0
+    };
+    
+    const dominantSubtype = Object.entries(subtypeScores).reduce((a, b) => 
+      subtypeScores[a[0] as keyof typeof subtypeScores] > subtypeScores[b[0] as keyof typeof subtypeScores] ? a : b
+    )[0];
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
         {
           role: "system",
-          content: `You are a personality transformation expert creating personalized hero's journey reports. Generate compelling content based on assessment data without using forbidden terminology (Type 1-9, Wing, Enneagram). Focus on transformation patterns, life challenges, and growth opportunities. Respond in JSON format.`
+          content: `You are a personality transformation expert creating personalized hero's journey reports using the exact Challenger template design. 
+
+CRITICAL DESIGN REQUIREMENTS - NO DEVIATIONS ALLOWED:
+✅ Use 100% identical structure from Challenger template
+✅ Same 11-stage hero's journey structure
+✅ Content must be personalized based on user's exact assessment data
+
+FORBIDDEN TERMINOLOGY:
+Never use: "Enneagram", "Type 1/2/3", "wings", "arrows", "integration/disintegration"
+Always use: "${personalityType}", "influence", "good/average/destructive states"
+
+Respond in JSON format with deeply personalized content.`
         },
         {
           role: "user",
-          content: `Generate a personalized transformation report for someone with these characteristics:
-          - Core Pattern: ${assessmentData.primaryType} (1=Perfectionist/Reformer, 2=Helper, 3=Achiever, etc.)
-          - Influence: ${assessmentData.wing}
-          - Foundation Data: ${JSON.stringify(assessmentData.foundationStones)}
-          - Building Blocks: ${JSON.stringify(assessmentData.buildingBlocks)}
-          - Color States: ${JSON.stringify(assessmentData.colorStates)}
-          - Detail Tokens: ${JSON.stringify(assessmentData.detailTokens)}
+          content: `Create a personalized transformation report using the exact Challenger template design but with content dynamically generated based on user's assessment data.
 
-          Return JSON with personalized content based on their specific assessment data:
-          {
-            "heroTitle": "Specific transformation journey title",
-            "heroSubtitle": "Inspiring subtitle about their path",
-            "currentStateDescription": "Description of their current challenges based on assessment",
-            "challengeCards": [
-              {"title": "Challenge 1", "description": "Based on their patterns"},
-              {"title": "Challenge 2", "description": "Based on their patterns"},
-              {"title": "Challenge 3", "description": "Based on their patterns"}
-            ],
-            "lifeAreas": [
-              {"area": "Career", "icon": "fas fa-briefcase", "description": "Current state based on assessment", "percentage": 45},
-              {"area": "Relationships", "icon": "fas fa-heart", "description": "Current state based on assessment", "percentage": 38},
-              {"area": "Health", "icon": "fas fa-dumbbell", "description": "Current state based on assessment", "percentage": 42},
-              {"area": "Finances", "icon": "fas fa-dollar-sign", "description": "Current state based on assessment", "percentage": 40},
-              {"area": "Personal Growth", "icon": "fas fa-seedling", "description": "Current state based on assessment", "percentage": 35}
-            ],
-            "beforeAfter": {
-              "before": ["Current struggle based on assessment", "Current struggle 2", "Current struggle 3"],
-              "after": ["Future transformation based on potential", "Future transformation 2", "Future transformation 3"]
-            },
-            "callToAction": "Compelling call to action for their specific transformation"
-          }`
+INPUT DATA ANALYSIS:
+- Personality Type: ${personalityType}
+- Influence: ${influence}
+- Primary State: ${primaryState.state} (${primaryState.percentage}%)
+- Secondary State: ${secondaryState.state} (${secondaryState.percentage}%)
+- Dominant Subtype: ${dominantSubtype}
+- Foundation Stones: ${JSON.stringify(assessmentData.foundationStones)}
+- Building Blocks: ${JSON.stringify(assessmentData.buildingBlocks)}
+- Color State Distribution: ${JSON.stringify(assessmentData.colorStates)}
+- Detail Token Distribution: ${JSON.stringify(assessmentData.detailTokens)}
+
+CONTENT GENERATION RULES:
+
+1. ANALYZE USER'S EXACT PATTERN:
+   - ${personalityType} ${influence} = specific combination of core drives and influences
+   - ${primaryState.percentage}% ${primaryState.state} state = their current life experience level
+   - ${dominantSubtype} dominant = their primary focus area and challenges
+
+2. STATE-BASED CONTENT ADAPTATION:
+   - ${primaryState.percentage}%+ ${primaryState.state} state: Adjust content tone and challenges accordingly
+   - Address their specific lived experience, not generic patterns
+
+3. SUBTYPE-SPECIFIC CONTENT:
+   - ${dominantSubtype} dominant: Focus content on their primary drive area
+   - Self-preservation: Security, routines, personal needs, resource management
+   - Social: Group dynamics, belonging, status, community connections  
+   - Sexual: Intense relationships, chemistry, personal influence
+
+4. PERSONALIZED EXAMPLES must reflect their ${personalityType} ${influence} pattern with ${primaryState.percentage}% ${primaryState.state} state and ${dominantSubtype} focus.
+
+Return JSON with personalized content:
+{
+  "heroTitle": "Specific transformation journey title for ${personalityType} ${influence}",
+  "heroSubtitle": "Inspiring subtitle reflecting their ${primaryState.state} state journey", 
+  "currentStateDescription": "Description reflecting ${primaryState.percentage}% ${primaryState.state}, ${secondaryState.percentage}% ${secondaryState.state} distribution",
+  "stageDescriptions": [
+    "Stage 1: Ordinary world description matching their exact pattern",
+    "Stage 2: Call to adventure for ${personalityType} ${influence}",
+    "Stage 3: Meeting mentor relevant to their ${dominantSubtype} focus",
+    "Stage 4: Crossing threshold specific to their state distribution",
+    "Stage 5: Tests and trials for their exact combination",
+    "Stage 6: Transformation specific to their pattern"
+  ],
+  "challengeCards": [
+    {"title": "Challenge 1 for ${personalityType} ${influence}", "description": "Based on ${dominantSubtype} focus"},
+    {"title": "Challenge 2 for ${personalityType} ${influence}", "description": "Based on ${primaryState.state} state patterns"},
+    {"title": "Challenge 3 for ${personalityType} ${influence}", "description": "Based on their specific metrics"}
+  ],
+  "lifeAreas": [
+    {"area": "Career", "icon": "fas fa-briefcase", "description": "Career state for ${personalityType} with ${dominantSubtype} focus", "percentage": 45},
+    {"area": "Relationships", "icon": "fas fa-heart", "description": "Relationship patterns for ${personalityType} ${influence}", "percentage": 38},
+    {"area": "Health", "icon": "fas fa-dumbbell", "description": "Health approach for ${dominantSubtype} dominant", "percentage": 42},
+    {"area": "Finances", "icon": "fas fa-dollar-sign", "description": "Financial patterns for ${personalityType}", "percentage": 40},
+    {"area": "Personal Growth", "icon": "fas fa-seedling", "description": "Growth path for ${primaryState.state} state", "percentage": 35}
+  ],
+  "beforeAfter": {
+    "before": ["Current struggle specific to ${primaryState.percentage}% ${primaryState.state} state", "Struggle 2 for ${personalityType} ${influence}", "Challenge 3 for ${dominantSubtype} dominant"],
+    "after": ["Transformation 1 for ${personalityType} potential", "Growth 2 specific to their pattern", "Future 3 based on their exact metrics"]
+  },
+  "callToAction": "Compelling call to action for ${personalityType} ${influence} with ${dominantSubtype} focus",
+  "testimonials": [
+    {"name": "Name appropriate for ${personalityType}", "title": "Title reflecting their pattern", "content": "Testimonial matching ${primaryState.state} state experience"}
+  ]
+}`
         }
       ],
       response_format: { type: "json_object" }
@@ -202,6 +269,11 @@ async function generateAIContent(assessmentData: AssessmentData) {
     return JSON.parse(response.choices[0].message.content || '{}');
   } catch (error) {
     console.error('Error generating AI content:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      assessmentData: JSON.stringify(assessmentData, null, 2)
+    });
     // Fallback to predefined content
     return getPersonalizedContent(assessmentData.primaryType, assessmentData.wing);
   }
@@ -215,8 +287,14 @@ export async function generateCustomReport(assessmentData: AssessmentData): Prom
     const personalityDescription = getPersonalityDescription(assessmentData.primaryType);
 
     // Generate AI-powered personalized content based on assessment data
+    console.log('Starting AI content generation for:', assessmentData);
     const aiContent = await generateAIContent(assessmentData);
-    console.log('Generated AI content:', { heroTitle: aiContent.heroTitle, heroSubtitle: aiContent.heroSubtitle });
+    console.log('AI content generation completed:', { 
+      heroTitle: aiContent.heroTitle, 
+      heroSubtitle: aiContent.heroSubtitle,
+      hasStageDescriptions: !!aiContent.stageDescriptions,
+      challengeCardsCount: aiContent.challengeCards?.length || 0
+    });
 
     return {
       heroTitle: aiContent.heroTitle || `${personalityName} Transformation Journey`,
