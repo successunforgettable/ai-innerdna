@@ -1,10 +1,4 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY,
-  timeout: 30000, // 30 seconds timeout
-  maxRetries: 2
-});
+import { makeOpenAIRequest } from './openaiClient';
 
 interface SentinelAssessmentData {
   personalityType: string;
@@ -98,7 +92,7 @@ Return as valid JSON object with all sections clearly structured.`;
 
     console.log('Generating Sentinel 8 report with OpenAI GPT-4o...');
     
-    const response = await openai.chat.completions.create({
+    const response = await makeOpenAIRequest({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
         {
