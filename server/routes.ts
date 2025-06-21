@@ -836,20 +836,21 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       }
 
       console.log('Generating working transformation report...');
-      const result = await generateWorkingTransformationReport(assessmentData);
+      const result = await generateWorkingReport(assessmentData);
       
-      if (result.success) {
+      if (result && fs.existsSync(result)) {
+        const html = fs.readFileSync(result, 'utf8');
         res.json({
           success: true,
-          reportHtml: result.html,
-          size: result.size,
-          contentFields: result.contentFields,
+          reportHtml: html,
+          size: html.length,
+          contentFields: Object.keys(html.match(/\{\{.*?\}\}/g) || []).length,
           message: 'Working transformation report generated successfully'
         });
       } else {
         res.status(500).json({
           success: false,
-          error: result.error || 'Failed to generate report'
+          error: 'Failed to generate report'
         });
       }
       
@@ -874,7 +875,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       };
 
       console.log('Testing working transformation report...');
-      const result = await generateWorkingTransformationReport(testData);
+      const result = await generateWorkingReport(testData);
       
       if (result.success) {
         // Save report to file for viewing

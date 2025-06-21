@@ -167,20 +167,21 @@ app.post('/api/generate-working-report', async (req, res) => {
     }
 
     console.log('Generating working transformation report...');
-    const result = await generateWorkingTransformationReport(assessmentData);
+    const resultPath = await generateWorkingReport(assessmentData);
     
-    if (result.success) {
+    if (resultPath && fs.existsSync(resultPath)) {
+      const html = fs.readFileSync(resultPath, 'utf8');
       res.json({
         success: true,
-        reportHtml: result.html,
-        size: result.size,
-        contentFields: result.contentFields,
+        reportHtml: html,
+        size: html.length,
+        contentFields: Object.keys(html.match(/\{\{.*?\}\}/g) || []).length,
         message: 'Working transformation report generated successfully'
       });
     } else {
       res.status(500).json({
         success: false,
-        error: result.error || 'Failed to generate report'
+        error: 'Failed to generate report'
       });
     }
     
@@ -204,22 +205,21 @@ app.get('/test-working-report', async (req, res) => {
     };
 
     console.log('Testing working transformation report...');
-    const result = await generateWorkingTransformationReport(testData);
+    const resultPath = await generateWorkingReport(testData);
     
-    if (result.success) {
-      const filename = 'test-working-report.html';
-      fs.writeFileSync(filename, result.html!);
+    if (resultPath && fs.existsSync(resultPath)) {
+      const html = fs.readFileSync(resultPath, 'utf8');
       
       res.send(`
         <h1>Working Transformation Report Test</h1>
         <p>Report generated successfully!</p>
-        <p>Size: ${result.size} bytes</p>
-        <p>Content fields: ${result.contentFields}</p>
+        <p>Size: ${html.length} bytes</p>
+        <p>File: ${resultPath}</p>
         <p><a href="/view-working-report" target="_blank">View Generated Report</a></p>
         <p><a href="/api/generate-working-report" target="_blank">API Endpoint</a></p>
       `);
     } else {
-      res.status(500).send(`Report generation failed: ${result.error}`);
+      res.status(500).send(`Report generation failed: Unable to generate file`);
     }
     
   } catch (error) {
@@ -756,10 +756,8 @@ function addRecentNotification(notification: any) {
       console.log('Generating working transformation report...');
       const result = await generateWorkingReport({
         personalityType: 6,
-        wing: 5,
         colorStates: [{name: "Anxious", percentage: 60}, {name: "Secure", percentage: 40}],
-        detailTokens: {selfPreservation: 3, sexual: 2, social: 5},
-        confidence: 35
+        detailTokens: {selfPreservation: 3, sexual: 2, social: 5}
       });
       
       if (result.success) {
@@ -786,20 +784,21 @@ function addRecentNotification(notification: any) {
   app.post('/api/generate-working-report', async (req, res) => {
     try {
       const assessmentData = req.body;
-      const result = await generateWorkingTransformationReport(assessmentData);
+      const result = await generateWorkingReport(assessmentData);
       
-      if (result.success) {
+      if (result && fs.existsSync(result)) {
+        const html = fs.readFileSync(result, 'utf8');
         res.json({
           success: true,
-          reportHtml: result.html,
-          size: result.size,
-          contentFields: result.contentFields,
+          reportHtml: html,
+          size: html.length,
+          contentFields: Object.keys(html.match(/\{\{.*?\}\}/g) || []).length,
           message: 'Working transformation report generated successfully'
         });
       } else {
         res.status(500).json({
           success: false,
-          error: result.error || 'Failed to generate report'
+          error: 'Failed to generate report'
         });
       }
     } catch (error) {
