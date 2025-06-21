@@ -255,6 +255,15 @@ function addRecentNotification(notification: any) {
     }
   });
 
+  // Static file routes that must be registered BEFORE the catch-all route
+  app.get("/helper-3-report", (req, res) => {
+    res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
+  });
+
+  app.get("/challenger-fixed", (req, res) => {
+    res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
+  });
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";

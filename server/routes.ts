@@ -484,7 +484,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
 
   // Serve the Helper 3 personalized report as static file
   app.get("/helper-3-report", (req, res) => {
-    res.sendFile(path.join(__dirname, '../helper-3-personalized-report.html'));
+    res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
   });
 
   // AI-generated personalized report route - Perfectionist 9 example
