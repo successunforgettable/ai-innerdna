@@ -1,0 +1,99 @@
+{
+  "heroTitle": "From Guardian's Grip to Empowering Shield: The Sentinel 8 Transformation",
+  "brainHeartDisconnect": "PROTECTIVE CONTROL CONFLICT DETECTED",
+  "stage1Description": "Living in constant vigilance, the Sentinel 8 operates from a fortress of control, believing that absolute authority over their environment equals safety. They protect others through dominance, mistaking suffocating oversight for genuine care. This ordinary world feels secure but breeds isolation and resentment from those they aim to shield.",
+  "challengeCards": [
+    {
+      "title": "Control vs Protection Paradox",
+      "description": "Your protective instincts manifest as controlling behaviors that push away the very people you're trying to shield. The harder you grip, the more resistance you create, making everyone less safe.",
+      "icon": "fas fa-shield-alt"
+    },
+    {
+      "title": "Authority Without Trust",
+      "description": "You lead through force rather than inspiration, creating compliance instead of genuine loyalty. Your team follows orders but doesn't believe in your vision, weakening your actual protective power.",
+      "icon": "fas fa-crown"
+    },
+    {
+      "title": "Vulnerability Armor",
+      "description": "Your fear of being controlled has built impenetrable walls around your heart. This armor that protects you from manipulation also blocks the intimate connections that would truly strengthen your guard.",
+      "icon": "fas fa-user-shield"
+    },
+    {
+      "title": "Resource Hoarding Trap",
+      "description": "Your self-preservation focus drives you to accumulate security at others' expense. This creates scarcity thinking that actually makes your protected circle more vulnerable to real threats.",
+      "icon": "fas fa-vault"
+    }
+  ],
+  "wheelOfLife": [
+    {
+      "area": "Career",
+      "percentage": 65,
+      "description": "Strong professional authority but struggles with team dynamics. Your protective leadership style creates results but burns out subordinates and limits long-term organizational health."
+    },
+    {
+      "area": "Relationships",
+      "percentage": 45,
+      "description": "Difficulty maintaining intimate bonds due to sexual subtype blindness. You excel at broad protection but struggle with one-on-one emotional depth and vulnerable personal connections."
+    },
+    {
+      "area": "Health",
+      "percentage": 70,
+      "description": "Self-preservation focus maintains physical security and resources well. You prioritize health as a protective asset but may neglect emotional and spiritual wellness aspects."
+    },
+    {
+      "area": "Finance",
+      "percentage": 80,
+      "description": "Excellent financial security and resource management. Your protective instincts excel at building safety nets, emergency funds, and long-term security systems for your inner circle."
+    },
+    {
+      "area": "Personal Growth",
+      "percentage": 40,
+      "description": "Growth feels threatening to established control systems. You resist change that might compromise security, missing opportunities for evolution that would actually strengthen your protective abilities."
+    },
+    {
+      "area": "Family",
+      "percentage": 55,
+      "description": "Strong provider and protector but family may feel suffocated. Your protective love manifests as control, creating rebellion rather than gratitude from those you're trying to keep safe."
+    },
+    {
+      "area": "Recreation",
+      "percentage": 35,
+      "description": "Relaxation feels like letting guard down. Your protective vigilance makes genuine leisure difficult, as you're always scanning for threats even during supposed downtime."
+    },
+    {
+      "area": "Contribution",
+      "percentage": 75,
+      "description": "Natural guardian of community and values. You excel at protecting larger groups and causes, though your methods may sometimes alienate the very people you're trying to serve."
+    }
+  ],
+  "testimonials": [
+    {
+      "quote": "I learned that true protection means empowering others to protect themselves, not controlling every aspect of their lives. My team is stronger now because they trust my guidance rather than fear my authority.",
+      "name": "Marcus Rodriguez",
+      "title": "Security Director"
+    },
+    {
+      "quote": "The transformation taught me that vulnerability isn't weakness—it's the foundation of real strength. Opening my heart didn't compromise my protective abilities; it multiplied them exponentially.",
+      "name": "Sarah Chen",
+      "title": "Crisis Management Consultant"
+    },
+    {
+      "quote": "I discovered my greatest protection came from building trust, not walls. When people believe in your vision instead of fearing your power, they become willing guardians themselves.",
+      "name": "David Thompson",
+      "title": "Emergency Response Coordinator"
+    },
+    {
+      "quote": "Moving from scarcity to abundance thinking revolutionized my leadership. I realized that sharing power actually multiplied my protective influence across the entire organization.",
+      "name": "Dr. Amanda Foster",
+      "title": "Healthcare Administrator"
+    }
+  ],
+  "heroJourneyStages": {
+    "stage2": "The crisis arrives when your protective control backfires spectacularly. Those you've tried to shield rebel against your authority, or a real threat emerges that your rigid systems cannot handle. The call reveals that your greatest strength—protection—has become your greatest weakness through misapplication of power.",
+    "stage3": "You resist abandoning control systems that have historically provided security. Every suggestion to loosen your grip feels like betrayal of your protective duty. The fear of vulnerability and loss of authority creates massive internal resistance to any transformation that might compromise your guardian role.",
+    "stage4": "A wise guide appears who embodies balanced authority—protective strength without controlling dominance. They demonstrate how genuine leadership empowers others rather than diminishing them. This mentor shows you that true protection comes from building capability in others, not dependence on your control.",
+    "stage5": "You make the terrifying choice to trust others with real responsibility and authority. This threshold crossing requires releasing control over outcomes while maintaining accountability for protection. You discover that shared power actually multiplies your protective capabilities exponentially.",
+    "stage6": "Each test challenges your new leadership style under pressure. Crisis situations tempt you back to old controlling patterns, but you practice empowering responses instead. You learn to protect through guidance, support, and trust-building rather than dominance and micromanagement."
+  },
+  "callToAction": "Your protective power is meant to create guardians, not dependents. Transform your grip into guidance, your control into empowerment. The world needs Sentinel 8s who build protective communities through trust, not fear. Your authority becomes truly unshakeable when others choose to follow rather than simply comply."
+}
