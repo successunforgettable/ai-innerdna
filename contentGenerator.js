@@ -23,7 +23,8 @@ async function generateContentWithRetry(parsedData, maxRetries = 3) {
 
 async function generateContent(parsedData) {
   const openai = new OpenAI({ 
-    apiKey: process.env.OPENAI_API_KEY
+    apiKey: process.env.OPENAI_API_KEY,
+    timeout: 60000  // 60 seconds
   });
 
   const prompt = `Generate transformation report content for ${parsedData.personalityName} with ${parsedData.dominantState.name} state (${parsedData.dominantState.percentage}%). 
