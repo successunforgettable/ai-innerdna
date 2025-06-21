@@ -10,7 +10,7 @@ import { generatePersonalizedReport, generateQuickInsight } from "./aiReportServ
 import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_clean";
 import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
-import { generateWorkingTransformationReport } from "./workingReportGenerator";
+import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
 import fs from "fs";
 

@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { generateSentinelCopy } from "./sentinelCopyGenerator";
-import { generateWorkingTransformationReport } from "./workingReportGenerator";
+import { generateWorkingReport } from "./workingReportGenerator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -754,7 +754,7 @@ function addRecentNotification(notification: any) {
   app.get('/test-working-report', async (req, res) => {
     try {
       console.log('Generating working transformation report...');
-      const result = await generateWorkingTransformationReport({
+      const result = await generateWorkingReport({
         personalityType: 6,
         wing: 5,
         colorStates: [{name: "Anxious", percentage: 60}, {name: "Secure", percentage: 40}],
