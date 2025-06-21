@@ -52,34 +52,53 @@ async function generateContentViaAPI(data: AssessmentData): Promise<Record<strin
   try {
     console.log('🤖 Calling ChatGPT API for content generation...');
     
-    const prompt = `You are a JSON content generator. Generate transformation report content for ${data.personalityName} with these specifications:
-    - Dominant state: ${data.dominantState?.name} (${data.dominantState?.percentage}%)
-    - Secondary state: ${data.secondaryState?.name} (${data.secondaryState?.percentage}%)
-    - Dominant subtype: ${data.dominantSubtype}
-    
-    Return ONLY a valid JSON object with these exact keys (no markdown, no explanations):
-    {
-      "PERSONALITY_TYPE": "${data.personalityName}",
-      "HERO_SUBTITLE": "transformation subtitle here",
-      "STAGE1_OPENING": "opening paragraph here",
-      "CARD1_TITLE": "challenge card title",
-      "CARD1_DESCRIPTION": "challenge description",
-      "CARD2_TITLE": "second challenge title", 
-      "CARD2_DESCRIPTION": "second challenge description",
-      "TESTIMONIAL1_QUOTE": "success quote",
-      "TESTIMONIAL1_AUTHOR": "testimonial author",
-      "WARNING_TEXT": "warning message",
-      "INSIGHT_TEXT": "transformation insight",
-      "TRANSFORMATION_SUMMARY": "complete summary",
-      "MOTIVATIONAL_QUOTE": "inspiring quote",
-      "CRITICAL_CHOICE_TEXT": "critical decision text",
-      "FINAL_CALL_TO_ACTION": "final action statement"
-    }`;
+    const prompt = `Create comprehensive transformation report content for ${data.personalityName} with ${data.dominantState?.percentage}% ${data.dominantState?.name} state and ${data.dominantSubtype} subtype focus.
+
+You must generate content for ALL 26 placeholders below. Return complete JSON with actual content (not placeholder text):
+
+{
+  "PERSONALITY_TYPE": "${data.personalityName}",
+  "HERO_SUBTITLE": "actual transformation tagline here",
+  "STAGE1_OPENING": "actual current reality paragraph for ${data.personalityName}",
+  "STAGE1_DESCRIPTION": "detailed current state analysis paragraph",
+  "STAGE2_OPENING": "call to adventure paragraph",
+  "STAGE3_OPENING": "refusal of call paragraph", 
+  "STAGE4_OPENING": "meeting mentor paragraph",
+  "CARD1_TITLE": "primary challenge title",
+  "CARD1_DESCRIPTION": "15-30 word challenge description",
+  "CARD2_TITLE": "core pattern title",
+  "CARD2_DESCRIPTION": "15-30 word pattern description",
+  "CARD3_TITLE": "emotional state title", 
+  "CARD3_DESCRIPTION": "15-30 word emotional description",
+  "CARD4_TITLE": "behavioral pattern title",
+  "CARD4_DESCRIPTION": "15-30 word behavioral description",
+  "TESTIMONIAL1_QUOTE": "20-40 word transformation quote",
+  "TESTIMONIAL1_AUTHOR": "Name, Professional Title",
+  "TESTIMONIAL2_QUOTE": "20-40 word breakthrough quote", 
+  "TESTIMONIAL2_AUTHOR": "Name, Professional Title",
+  "TESTIMONIAL3_QUOTE": "20-40 word results quote",
+  "TESTIMONIAL3_AUTHOR": "Name, Professional Title",
+  "WHEEL_CAREER_BEFORE": "current career state description",
+  "WHEEL_CAREER_AFTER": "transformed career state description",
+  "WHEEL_RELATIONSHIPS_BEFORE": "current relationship patterns",
+  "WHEEL_RELATIONSHIPS_AFTER": "transformed relationship approach",
+  "WHEEL_MENTAL_BEFORE": "current mental state with ${data.dominantState?.name}",
+  "WHEEL_MENTAL_AFTER": "transformed mental clarity description",
+  "WARNING_TEXT": "warning about staying stuck in ${data.dominantState?.name} patterns",
+  "INSIGHT_TEXT": "key transformation insight for ${data.personalityName}",
+  "INVITATION_TEXT": "invitation to transform ${data.dominantState?.name} into strength",
+  "TRANSFORMATION_SUMMARY": "complete transformation summary",
+  "MOTIVATIONAL_QUOTE": "inspiring motivational quote",
+  "CRITICAL_CHOICE_TEXT": "critical decision moment text",
+  "FINAL_CALL_TO_ACTION": "final compelling action statement"
+}
+
+Generate ALL 32 fields with real content. Return only valid JSON.`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 4000,
+      max_tokens: 8000,
       temperature: 0.7
     });
 

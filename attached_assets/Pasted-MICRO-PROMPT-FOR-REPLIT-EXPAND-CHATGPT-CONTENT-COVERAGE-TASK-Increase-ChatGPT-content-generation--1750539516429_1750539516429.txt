@@ -1,0 +1,51 @@
+MICRO-PROMPT FOR REPLIT - EXPAND CHATGPT CONTENT COVERAGE
+TASK: Increase ChatGPT content generation to cover more placeholders
+RULE: Generate content for all visible sections of the transformation report
+CONSTRAINT: Maintain ChatGPT API approach, expand content scope systematically
+Update the ChatGPT prompt to generate more comprehensive content:
+typescriptasync function generateContentViaAPI(data: AssessmentData): Promise<Record<string, string>> {
+  const prompt = `Generate comprehensive transformation report content for ${data.personalityName} with ${data.dominantState.percentage}% ${data.dominantState.name} state and ${data.dominantSubtype} subtype focus.
+
+Create this complete JSON structure:
+{
+  "PERSONALITY_TYPE": "${data.personalityName}",
+  "HERO_SUBTITLE": "[transformation journey tagline]",
+  "STAGE1_OPENING": "[current reality description for ${data.personalityName}]",
+  "STAGE1_DESCRIPTION": "[detailed current state analysis]",
+  "STAGE2_OPENING": "[call to adventure description]",
+  "STAGE3_OPENING": "[refusal of call description]",
+  "STAGE4_OPENING": "[meeting mentor description]",
+  
+  "CARD1_TITLE": "[primary challenge]",
+  "CARD1_DESCRIPTION": "[15-30 words]",
+  "CARD2_TITLE": "[core pattern]", 
+  "CARD2_DESCRIPTION": "[15-30 words]",
+  "CARD3_TITLE": "[emotional state]",
+  "CARD3_DESCRIPTION": "[15-30 words]",
+  "CARD4_TITLE": "[behavioral pattern]",
+  "CARD4_DESCRIPTION": "[15-30 words]",
+  
+  "TESTIMONIAL1_QUOTE": "[transformation quote 20-40 words]",
+  "TESTIMONIAL1_AUTHOR": "[Name], [Professional Title]",
+  "TESTIMONIAL2_QUOTE": "[breakthrough quote 20-40 words]",
+  "TESTIMONIAL2_AUTHOR": "[Name], [Professional Title]",
+  "TESTIMONIAL3_QUOTE": "[results quote 20-40 words]",
+  "TESTIMONIAL3_AUTHOR": "[Name], [Professional Title]",
+  
+  "WHEEL_CAREER_BEFORE": "[current career state for ${data.personalityName}]",
+  "WHEEL_CAREER_AFTER": "[transformed career state]",
+  "WHEEL_RELATIONSHIPS_BEFORE": "[current relationship patterns]",
+  "WHEEL_RELATIONSHIPS_AFTER": "[transformed relationship approach]",
+  "WHEEL_MENTAL_BEFORE": "[current mental state with ${data.dominantState.name}]",
+  "WHEEL_MENTAL_AFTER": "[transformed mental clarity]",
+  
+  "WARNING_TEXT": "[warning about staying stuck in ${data.dominantState.name} patterns]",
+  "INSIGHT_TEXT": "[key insight for ${data.personalityName} transformation]",
+  "INVITATION_TEXT": "[invitation to transform ${data.dominantState.name} into strength]"
+}
+
+Return ONLY the JSON object. No markdown, no explanations.`;
+
+  // ... rest of function remains the same
+}
+Expand the content generation to cover more sections while maintaining the proven ChatGPT API approach.RetryClaude can make mistakes. Please double-check responses.
