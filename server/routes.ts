@@ -488,6 +488,11 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
   });
 
+  // Serve the Sentinel 8 report (copy from Challenger 9 template)
+  app.get("/sentinel-8-report", (req, res) => {
+    res.sendFile(path.join(__dirname, '../sentinel-8-challenger-copy.html'));
+  });
+
   // AI-generated personalized report route - Perfectionist 9 example
   app.get("/ai-reformer-report", async (req, res) => {
     try {
