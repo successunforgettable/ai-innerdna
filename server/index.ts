@@ -11,6 +11,33 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(express.json()); // Enable JSON parsing for POST requests
+
+// CRITICAL: Register API routes FIRST before any middleware
+// 5-Prompt System Report Generation - NO CONTENT CREATION
+// ALL CONTENT CREATED BY CHATGPT VIA API KEY - NOT THIS ENDPOINT
+app.post('/api/generate-report', async (req, res) => {
+  try {
+    // Import report generation orchestrator
+    const { generatePersonalizedReport } = require('../reportGenerator');
+    
+    // Receive assessment data from request
+    const assessmentData = req.body;
+    
+    console.log('Starting report generation with ChatGPT API...');
+    
+    // Call orchestrator - ChatGPT creates all content during this process
+    const htmlReport = await generatePersonalizedReport(assessmentData);
+    
+    // Return HTML report (content created by ChatGPT, not this endpoint)
+    res.setHeader('Content-Type', 'text/html');
+    res.send(htmlReport);
+    
+  } catch (error) {
+    console.error('Error in report generation API:', error);
+    res.status(500).json({ error: 'Failed to generate report via ChatGPT API' });
+  }
+});
 
 // CRITICAL: Register static report routes FIRST before any middleware
 app.get("/api/generate-sentinel-copy", async (req, res) => {
