@@ -531,6 +531,55 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // AI-generated personalized report route - Helper 3 example (40% good, 60% destructive, sexual dominant)
+  app.get("/ai-helper-report", async (req, res) => {
+    try {
+      const helperAssessmentData = {
+        primaryType: "2",
+        confidence: 85,
+        wing: "3",
+        foundationStones: [
+          {
+            setIndex: 1,
+            stoneIndex: 0,
+            context: "When helping others,",
+            statements: ["I give my all", "I anticipate their needs", "I make myself indispensable"]
+          }
+        ],
+        buildingBlocks: [
+          {
+            name: "Ambitious Helper",
+            wing: "3"
+          }
+        ],
+        colorStates: [
+          {
+            state: "Destructive",
+            percentage: 60
+          },
+          {
+            state: "Good", 
+            percentage: 40
+          }
+        ],
+        detailTokens: {
+          social: 2,
+          selfPreservation: 1,  // Blind spot
+          sexual: 7  // Dominant
+        }
+      };
+
+      console.log('Generating AI-powered personalized report for Helper 3 (60% destructive, sexual dominant)...');
+      const reportData = await generateCustomReport(helperAssessmentData);
+      const htmlReport = generateCustomReportHTML(reportData);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlReport);
+    } catch (error) {
+      console.error('Error generating AI helper report:', error);
+      res.status(500).send('Error generating AI-powered helper report');
+    }
+  });
+
   // AI-generated personalized report route - Achiever 2 example  
   app.get("/ai-achiever-report", async (req, res) => {
     try {
