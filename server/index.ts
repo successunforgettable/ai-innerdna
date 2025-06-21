@@ -28,7 +28,7 @@ app.get("/api/generate-sentinel-copy", async (req, res) => {
 // Serve the Sentinel 8 report using unique pattern to bypass Vite
 app.get("/view-sentinel-8", (req, res) => {
   try {
-    const htmlContent = fs.readFileSync('sentinel-8-challenger-copy.html', 'utf8');
+    const htmlContent = fs.readFileSync('sentinel-8-exact-challenger-copy.html', 'utf8');
     res.setHeader('Content-Type', 'text/html');
     res.send(htmlContent);
   } catch (error) {
