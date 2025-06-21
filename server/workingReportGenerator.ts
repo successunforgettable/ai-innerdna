@@ -19,12 +19,31 @@ export async function generateWorkingTransformationReport(inputData: AssessmentD
   try {
     console.log('Generating working transformation report...');
     
-    // Parse assessment data
-    const parsedData = parseAssessmentData(inputData);
+    // Parse assessment data directly
+    const personalityNames = ['Perfectionist', 'Helper', 'Achiever', 'Artist', 'Investigator', 'Sentinel 6', 'Adventurer', 'Challenger', 'Peacemaker'];
+    const personalityName = personalityNames[inputData.personalityType - 1] || 'Sentinel 6';
+    
+    const dominantState = inputData.colorStates?.[0] || {name: "Anxious", percentage: 60};
+    const secondaryState = inputData.colorStates?.[1] || {name: "Secure", percentage: 40};
+    
+    // Determine dominant subtype
+    const tokens = inputData.detailTokens || {selfPreservation: 3, sexual: 2, social: 5};
+    let dominantSubtype = 'Social';
+    if (tokens.selfPreservation > tokens.sexual && tokens.selfPreservation > tokens.social) {
+      dominantSubtype = 'Self-Preservation';
+    } else if (tokens.sexual > tokens.social) {
+      dominantSubtype = 'Sexual';
+    }
+    
+    const parsedData = {
+      personalityName,
+      dominantState,
+      secondaryState,
+      dominantSubtype,
+      confidence: inputData.confidence || 35
+    };
+    
     console.log(`Assessment parsed for: ${parsedData.personalityName}`);
-
-    // Calculate progress percentages
-    const percentages = calculateProgressPercentages(parsedData);
 
     // Create comprehensive content (ChatGPT-style output)
     const contentData = {
@@ -89,7 +108,7 @@ export async function generateWorkingTransformationReport(inputData: AssessmentD
     
     console.log(`Complete content prepared: ${Object.keys(allContent).length} fields`);
     
-    // Generate final report using proven template injection
+    // Generate final report using direct template injection
     const html = injectContentIntoTemplate(allContent);
     
     console.log('Working transformation report generated successfully');
@@ -108,6 +127,92 @@ export async function generateWorkingTransformationReport(inputData: AssessmentD
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
+}
+
+function generateCompleteReport(contentData: any): string {
+  // Read the challenger template
+  let template: string;
+  try {
+    template = fs.readFileSync('./challenger_template.html', 'utf8');
+  } catch (error) {
+    console.error('Could not read challenger template, using fallback');
+    template = createFallbackTemplate();
+  }
+  
+  // Replace all placeholders in template
+  Object.keys(contentData).forEach(key => {
+    if (key !== 'assessmentData') {
+      const placeholder = `{{${key}}}`;
+      const value = contentData[key];
+      template = template.replace(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), value);
+    }
+  });
+  
+  console.log('Template injection completed');
+  return template;
+}
+
+function createFallbackTemplate(): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{PERSONALITY_TYPE}} Transformation Journey</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #6B46C1, #9333EA); color: white; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .hero { text-align: center; padding: 50px 0; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h2 { font-size: 1.5rem; margin-bottom: 2rem; }
+        .section { margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; }
+        .card { background: rgba(255,255,255,0.1); padding: 20px; margin: 20px 0; border-radius: 10px; }
+        .testimonial { font-style: italic; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>The {{PERSONALITY_TYPE}} Transformation Journey</h1>
+            <h2>{{HERO_SUBTITLE}}</h2>
+            <p>{{HERO_JOURNEY_TEXT}}</p>
+        </div>
+        
+        <div class="section">
+            <h3>Your Current Reality</h3>
+            <p>{{STAGE1_OPENING}}</p>
+            
+            <div class="card">
+                <h4>{{CARD1_TITLE}}</h4>
+                <p>{{CARD1_DESCRIPTION}}</p>
+            </div>
+            
+            <div class="card">
+                <h4>{{CARD2_TITLE}}</h4>
+                <p>{{CARD2_DESCRIPTION}}</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>Transformation Insights</h3>
+            <p>{{WARNING_TEXT}}</p>
+            <p>{{INSIGHT_TEXT}}</p>
+            <p>{{TRANSFORMATION_SUMMARY}}</p>
+        </div>
+        
+        <div class="testimonial">
+            <p>"{{TESTIMONIAL1_QUOTE}}"</p>
+            <p><strong>- {{TESTIMONIAL1_AUTHOR}}</strong></p>
+        </div>
+        
+        <div class="section">
+            <h3>Your Call to Action</h3>
+            <p>{{FINAL_CALL_TO_ACTION}}</p>
+            <p>{{INCREDIBLE_YOU_TEXT}}</p>
+        </div>
+    </div>
+</body>
+</html>`;
 }
 
 function generateSystematicContent(data: any) {

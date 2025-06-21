@@ -750,6 +750,76 @@ function addRecentNotification(notification: any) {
     throw err;
   });
 
+  // Working transformation report routes - BEFORE Vite middleware
+  app.get('/test-working-report', async (req, res) => {
+    try {
+      console.log('Generating working transformation report...');
+      const result = await generateWorkingTransformationReport({
+        personalityType: 6,
+        wing: 5,
+        colorStates: [{name: "Anxious", percentage: 60}, {name: "Secure", percentage: 40}],
+        detailTokens: {selfPreservation: 3, sexual: 2, social: 5},
+        confidence: 35
+      });
+      
+      if (result.success) {
+        // Save report to file for viewing
+        const filename = 'test-working-report.html';
+        fs.writeFileSync(filename, result.html!);
+        
+        res.send(`
+          <h1>Working Transformation Report Test</h1>
+          <p>Report generated successfully!</p>
+          <p>Size: ${result.size} bytes</p>
+          <p>Content fields: ${result.contentFields}</p>
+          <p><a href="/view-working-report" target="_blank">View Generated Report</a></p>
+        `);
+      } else {
+        res.status(500).send(`Report generation failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Working report generation failed:', error);
+      res.status(500).send('Report generation failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    }
+  });
+
+  app.post('/api/generate-working-report', async (req, res) => {
+    try {
+      const assessmentData = req.body;
+      const result = await generateWorkingTransformationReport(assessmentData);
+      
+      if (result.success) {
+        res.json({
+          success: true,
+          reportHtml: result.html,
+          size: result.size,
+          contentFields: result.contentFields,
+          message: 'Working transformation report generated successfully'
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: result.error || 'Failed to generate report'
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  app.get('/view-working-report', (req, res) => {
+    const reportPath = './test-working-report.html';
+    
+    if (fs.existsSync(reportPath)) {
+      res.sendFile(path.resolve(reportPath));
+    } else {
+      res.status(404).send('Working report not found. <a href="/test-working-report">Generate Test Report</a>');
+    }
+  });
+
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
