@@ -1,0 +1,320 @@
+// server/workingReportGenerator.ts - Expanded ChatGPT Content Generation
+// Based on technical specification and current working system
+
+interface ExpandedContentRequest {
+  personalityType: string;
+  personalityName: string;
+  wingInfluence: number;
+  moodStates: {
+    primary: { name: string; percentage: number };
+    secondary: { name: string; percentage: number };
+  };
+  subtype: string;
+}
+
+function createExpandedChatGPTPrompt(userData: ExpandedContentRequest): string {
+  return `You are an expert personality transformation coach creating a comprehensive hero's journey report for a ${userData.personalityType} - ${userData.personalityName} with ${userData.subtype} subtype.
+
+CRITICAL: Respond ONLY with valid JSON containing the exact field names specified below. Do not include any markdown formatting, explanations, or additional text.
+
+User Profile:
+- Personality Type: ${userData.personalityType} - ${userData.personalityName}
+- Wing Influence: ${userData.wingInfluence}
+- Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
+- Secondary Mood State: ${userData.moodStates.secondary.name} (${userData.moodStates.secondary.percentage}%)
+- Subtype: ${userData.subtype}
+
+Generate content for these 45 fields in valid JSON format:
+
+{
+  "PERSONALITY_TYPE": "Type ${userData.personalityType.split(' ')[1]} - ${userData.personalityName}",
+  "HERO_SUBTITLE": "Your Hero's Path to Heart-Brain Mastery",
+  
+  "STAGE1_OPENING": "Compelling opening about their ordinary world struggles",
+  "STAGE2_OPENING": "Discovery of heart-brain disconnect revelation", 
+  "STAGE3_OPENING": "Resistance to vulnerability and change",
+  "STAGE4_OPENING": "Meeting The Incredible You mentorship system",
+  "STAGE5_OPENING": "Crossing threshold into transformation",
+  "STAGE6_OPENING": "Facing tests and trials during journey",
+  "STAGE7_OPENING": "Core ordeal and breakthrough moment",
+  "STAGE8_OPENING": "Reward of heart-brain coherence achieved",
+  "STAGE9_OPENING": "Integration into real-world leadership",
+  "STAGE10_OPENING": "Complete resurrection and transformation",
+  "STAGE11_OPENING": "Return with gift of authentic leadership",
+  
+  "CARD1_TITLE": "Taking Charge",
+  "CARD1_DESCRIPTION": "Leadership burden they carry secretly",
+  "CARD2_TITLE": "Being the Strong One", 
+  "CARD2_DESCRIPTION": "Strength others rely on but feels unsupported",
+  "CARD3_TITLE": "Wanting Peace",
+  "CARD3_DESCRIPTION": "Inner conflict between action and harmony",
+  "CARD4_TITLE": "Push and Pause",
+  "CARD4_DESCRIPTION": "Tension between moving forward and holding back",
+  
+  "CARD5_TITLE": "Tense Relationships",
+  "CARD5_DESCRIPTION": "Defensive patterns creating distance",
+  "CARD6_TITLE": "Low Emotional Bandwidth", 
+  "CARD6_DESCRIPTION": "Running on empty emotionally",
+  "CARD7_TITLE": "Chronic Restlessness",
+  "CARD7_DESCRIPTION": "Constant unsettled feeling despite achievements",
+  "CARD8_TITLE": "Control-Based Decisions",
+  "CARD8_DESCRIPTION": "Choosing power over intuition and wisdom",
+  
+  "TESTIMONIAL1_QUOTE": "Authentic quote about realizing heart-brain disconnect",
+  "TESTIMONIAL1_AUTHOR": "Sarah M., ${userData.personalityName} Graduate",
+  "TESTIMONIAL2_QUOTE": "Quote about breakthrough in transformation process", 
+  "TESTIMONIAL2_AUTHOR": "Marcus T., CEO & ${userData.personalityName} Graduate",
+  "TESTIMONIAL3_QUOTE": "Quote about leading from presence not pressure",
+  "TESTIMONIAL3_AUTHOR": "Jennifer L., ${userData.personalityName} Graduate",
+  
+  "WHEEL_CAREER_BEFORE": "Respected but not fulfilled leadership reality",
+  "WHEEL_CAREER_AFTER": "Leading from presence with effortless influence",
+  "WHEEL_FINANCES_BEFORE": "Self-reliant provider with constant money pressure", 
+  "WHEEL_FINANCES_AFTER": "Clear financial decisions with calm confidence",
+  "WHEEL_RELATIONSHIPS_BEFORE": "Leading but not feeling emotionally safe",
+  "WHEEL_RELATIONSHIPS_AFTER": "Creating safety and connection, attracting followers",
+  "WHEEL_MENTAL_BEFORE": "Constantly alert mind but tired and pressured",
+  "WHEEL_MENTAL_AFTER": "Sharp clarity without pressure, calm assertiveness",
+  "WHEEL_PHYSICAL_BEFORE": "Chronic tension, sleep issues, power mode stuck on",
+  "WHEEL_PHYSICAL_AFTER": "Improved sleep, dissolved stress, body supporting mission",
+  "WHEEL_SOCIAL_BEFORE": "Selective connections feeling like burdens", 
+  "WHEEL_SOCIAL_AFTER": "Softened presence attracting deeper trust and quality",
+  
+  "WARNING_TEXT": "Most people stop here. Insight without integration leads to more frustration.",
+  "INSIGHT_TEXT": "You now have insight. But transformation requires action.",
+  "INVITATION_TEXT": "Trust inner calm over external control. Receive help as power, not weakness."
+}`;
+}
+
+// Enhanced API call function with better error handling
+async function generateExpandedChatGPTContent(userData: ExpandedContentRequest): Promise<Record<string, string>> {
+  try {
+    const prompt = createExpandedChatGPTPrompt(userData);
+    
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert personality transformation coach. Respond only with valid JSON containing the exact field names requested. Do not include markdown formatting or explanations.'
+          },
+          {
+            role: 'user', 
+            content: prompt
+          }
+        ],
+        max_tokens: 3000, // Increased for more content
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const content = data.choices[0]?.message?.content;
+
+    if (!content) {
+      throw new Error('No content received from OpenAI API');
+    }
+
+    // Enhanced JSON parsing to handle markdown code blocks
+    let jsonContent = content.trim();
+    
+    // Remove markdown code blocks if present
+    if (jsonContent.startsWith('```json')) {
+      jsonContent = jsonContent.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+    } else if (jsonContent.startsWith('```')) {
+      jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '');
+    }
+
+    try {
+      const parsedContent = JSON.parse(jsonContent);
+      console.log(`✅ Successfully parsed expanded ChatGPT content: ${Object.keys(parsedContent).length} keys`);
+      return parsedContent;
+    } catch (parseError) {
+      console.error('❌ JSON parsing failed:', parseError);
+      console.error('Raw content:', content);
+      throw new Error('Failed to parse ChatGPT response as JSON');
+    }
+
+  } catch (error) {
+    console.error('❌ ChatGPT content generation failed:', error);
+    
+    // Fallback content generation for expanded scope
+    return generateExpandedFallbackContent(userData);
+  }
+}
+
+// Fallback content for when ChatGPT API fails
+function generateExpandedFallbackContent(userData: ExpandedContentRequest): Record<string, string> {
+  return {
+    PERSONALITY_TYPE: `${userData.personalityType} - ${userData.personalityName}`,
+    HERO_SUBTITLE: "Your Hero's Path to Heart-Brain Mastery",
+    
+    STAGE1_OPENING: `You are a ${userData.personalityType} - wired for control, strength, and protection. You step forward when others step back. But this is your current reality...`,
+    STAGE2_OPENING: "A critical discovery: Your emotional patterns suggest low coherence between your cognitive mind and the 40,000+ sensory neurons in your heart.",
+    STAGE3_OPENING: `Your ${userData.subtype} subtype makes you crave stability but fear vulnerability. This is why most ${userData.personalityName}s stay stuck...`,
+    STAGE4_OPENING: 'Enter "The Incredible You" - your guide to heart-brain reactivation and nervous system transformation.',
+    STAGE5_OPENING: 'The moment you commit to "The Incredible You", everything changes. You\'re no longer the same person who was stuck in survival mode.',
+    STAGE6_OPENING: "The 10-week journey will challenge you to break through old patterns and embrace your authentic power.",
+    STAGE7_OPENING: "The deepest moment of transformation - facing the core of your heart-brain disconnect and choosing coherence over control.",
+    STAGE8_OPENING: "Heart-brain coherence achieved. You now lead from presence, not pressure.",
+    STAGE9_OPENING: "Week 10: Integrating your new patterns into everyday leadership and life decisions.",
+    STAGE10_OPENING: `You have been completely transformed. The ${userData.personalityName} who was stuck in survival mode is gone. The Incredible You has emerged.`,
+    STAGE11_OPENING: "You now return to your world with the gift of heart-brain mastery - not just for yourself, but for everyone you lead and love.",
+    
+    CARD1_TITLE: "Taking Charge",
+    CARD1_DESCRIPTION: "You lead from the front, but secretly feel exhausted by the constant responsibility.",
+    CARD2_TITLE: "Being the Strong One",
+    CARD2_DESCRIPTION: "Others rely on your strength, but you rarely feel supported or understood.",
+    CARD3_TITLE: "Wanting Peace", 
+    CARD3_DESCRIPTION: `Your ${userData.wingInfluence} influence craves harmony, yet you seem to attract conflict everywhere.`,
+    CARD4_TITLE: "Push and Pause",
+    CARD4_DESCRIPTION: "Inner tension between taking action and holding back has built walls around your heart.",
+    
+    CARD5_TITLE: "Tense Relationships",
+    CARD5_DESCRIPTION: "Your defensive patterns create distance in the connections you crave most.",
+    CARD6_TITLE: "Low Emotional Bandwidth",
+    CARD6_DESCRIPTION: "You're running on empty, unable to access the full spectrum of your emotional intelligence.",
+    CARD7_TITLE: "Chronic Restlessness", 
+    CARD7_DESCRIPTION: "Despite your achievements, you feel constantly unsettled and irritated.",
+    CARD8_TITLE: "Control-Based Decisions",
+    CARD8_DESCRIPTION: "You make choices from power and control rather than intuition and wisdom.",
+    
+    TESTIMONIAL1_QUOTE: "I realized I was leading from survival mode, not strength. My heart and brain were completely disconnected.",
+    TESTIMONIAL1_AUTHOR: `Sarah M., ${userData.personalityName} Graduate`,
+    TESTIMONIAL2_QUOTE: "The Incredible You didn't just give me tools - it gave me back my authentic power. I lead from presence now, not pressure.",
+    TESTIMONIAL2_AUTHOR: `Marcus T., CEO & ${userData.personalityName} Graduate`,
+    TESTIMONIAL3_QUOTE: "Week 6 was brutal - I wanted to quit. But my mentor reminded me that this was exactly where the breakthrough happens. They were right.",
+    TESTIMONIAL3_AUTHOR: `Jennifer L., ${userData.personalityName} Graduate`,
+    
+    WHEEL_CAREER_BEFORE: "You are respected but not fulfilled. People follow your strength, but you don't feel seen.",
+    WHEEL_CAREER_AFTER: "You no longer lead from force, but from presence. Influence expands effortlessly.",
+    WHEEL_FINANCES_BEFORE: "You're a self-reliant provider, but the pressure of money feels constant. You hoard or overspend as control responses.",
+    WHEEL_FINANCES_AFTER: "Financial decisions feel clear. No more scarcity panic. You invest with calm, receive with gratitude.",
+    WHEEL_RELATIONSHIPS_BEFORE: "You lead, but you don't feel emotionally safe. Trust is rare. Intimacy feels threatening.",
+    WHEEL_RELATIONSHIPS_AFTER: "You create safety, not control. Your energy invites love, not resistance.",
+    WHEEL_MENTAL_BEFORE: "Your mind is constantly alert — but tired. You rarely feel peace.",
+    WHEEL_MENTAL_AFTER: "Sharp clarity without pressure. Calm assertiveness replaces reactivity.",
+    WHEEL_PHYSICAL_BEFORE: "Chronic tension, tightness, sleep issues. Power mode never turns off.",
+    WHEEL_PHYSICAL_AFTER: "Sleep improves. Stress dissolves. Your body supports your mission.",
+    WHEEL_SOCIAL_BEFORE: "You connect selectively. Most relationships feel like burdens or transactions.",
+    WHEEL_SOCIAL_AFTER: "Your presence softens. People trust you more deeply. You attract quality.",
+    
+    WARNING_TEXT: "This is where most people stop. Insight without integration leads to more frustration.",
+    INSIGHT_TEXT: "You now have insight. But transformation requires action.",
+    INVITATION_TEXT: "Trust inner calm over external control. Receive help as power, not weakness. Build relationships where you can just be."
+  };
+}
+
+// Updated report generation function with expanded content
+export async function generateExpandedTransformationReport(assessmentData: any): Promise<string> {
+  try {
+    console.log("🚀 Starting expanded transformation report generation...");
+    
+    // Extract user data from assessment
+    const userData: ExpandedContentRequest = {
+      personalityType: `Type ${assessmentData.results?.personalityType || 6}`,
+      personalityName: getPersonalityName(assessmentData.results?.personalityType || 6),
+      wingInfluence: assessmentData.results?.wingInfluence || 7,
+      moodStates: {
+        primary: { name: "Anxious & Worried", percentage: 65 },
+        secondary: { name: "Focused & Determined", percentage: 35 }
+      },
+      subtype: assessmentData.results?.subtype || "Self-Preservation"
+    };
+    
+    // Generate expanded ChatGPT content (45 fields instead of 15)
+    const chatGPTContent = await generateExpandedChatGPTContent(userData);
+    
+    // Calculate dynamic progress percentages
+    const progressPercentages = calculateDynamicProgressPercentages(userData.moodStates);
+    
+    // Read and process template
+    const templatePath = path.join(process.cwd(), 'challenger_template.html');
+    let template = await fs.readFile(templatePath, 'utf-8');
+    
+    // Inject all content including expanded ChatGPT content
+    const allContent = {
+      ...chatGPTContent,
+      ...progressPercentages,
+      // Additional systematic content for remaining placeholders
+      ...generateSystematicContent(userData)
+    };
+    
+    // Replace all 131 placeholders
+    Object.entries(allContent).forEach(([key, value]) => {
+      const placeholder = `{{${key}}}`;
+      template = template.replace(new RegExp(placeholder, 'g'), value);
+    });
+    
+    console.log(`✅ Expanded report generated successfully with ${Object.keys(allContent).length} content fields`);
+    return template;
+    
+  } catch (error) {
+    console.error("❌ Expanded report generation failed:", error);
+    throw error;
+  }
+}
+
+function getPersonalityName(type: number): string {
+  const names = {
+    1: "Perfectionist", 2: "Helper", 3: "Achiever", 4: "Individualist",
+    5: "Investigator", 6: "Loyalist", 7: "Enthusiast", 8: "Challenger", 9: "Peacemaker"
+  };
+  return names[type] || "Challenger";
+}
+
+function calculateDynamicProgressPercentages(moodStates: any): Record<string, string> {
+  // Based on percentageCalculator.js logic from technical specification
+  const primaryPercentage = moodStates.primary.percentage;
+  const isAnxious = moodStates.primary.name.includes("Anxious") || moodStates.primary.name.includes("Worried");
+  
+  if (isAnxious || primaryPercentage < 50) {
+    return {
+      CAREER_PERCENTAGE: "21%", FINANCES_PERCENTAGE: "18%", RELATIONSHIPS_PERCENTAGE: "15%",
+      MENTAL_PERCENTAGE: "12%", PHYSICAL_PERCENTAGE: "18%", SOCIAL_PERCENTAGE: "20%",
+      ENVIRONMENT_PERCENTAGE: "25%", GROWTH_PERCENTAGE: "10%"
+    };
+  } else {
+    return {
+      CAREER_PERCENTAGE: "40%", FINANCES_PERCENTAGE: "35%", RELATIONSHIPS_PERCENTAGE: "30%",
+      MENTAL_PERCENTAGE: "25%", PHYSICAL_PERCENTAGE: "30%", SOCIAL_PERCENTAGE: "35%", 
+      ENVIRONMENT_PERCENTAGE: "45%", GROWTH_PERCENTAGE: "20%"
+    };
+  }
+}
+
+function generateSystematicContent(userData: ExpandedContentRequest): Record<string, string> {
+  // Generate content for remaining placeholders not covered by ChatGPT
+  return {
+    // Additional stage content
+    STAGE_BREAKDOWN_TEXT: "Your transformation journey unfolds across 11 distinct stages, each building upon the last.",
+    TRANSFORMATION_TIMELINE: "10 weeks of guided transformation with lifetime benefits.",
+    
+    // Success metrics
+    SUCCESS_METRIC_1: "100% Heart-Brain Coherence",
+    SUCCESS_METRIC_2: "360° Life Transformation", 
+    SUCCESS_METRIC_3: "Authentic Power Restoration",
+    
+    // Call to action elements
+    CTA_PRIMARY: "Begin The Incredible You Journey",
+    CTA_SECONDARY: "Start Your Transformation Today",
+    
+    // Additional testimonials
+    TESTIMONIAL4_QUOTE: "I am not the same person who started this program. My family, my team, my entire life has transformed.",
+    TESTIMONIAL4_AUTHOR: `Robert K., Fortune 500 CEO & ${userData.personalityName} Graduate`,
+    
+    // Footer content
+    FOOTER_MESSAGE: "Your incredible future is waiting.",
+    CONTACT_INFO: "The choice is yours. You can continue as you are, or you can become The Incredible You."
+  };
+}
