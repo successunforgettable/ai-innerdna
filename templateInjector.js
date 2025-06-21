@@ -11,7 +11,7 @@ function injectContentIntoTemplate(chatgptGeneratedContent) {
   
   try {
     // Load template with placeholders
-    const templatePath = path.join(__dirname, 'challenger_template.html');
+    const templatePath = path.join(__dirname, 'challenger-template-with-placeholders.html');
     let htmlTemplate = fs.readFileSync(templatePath, 'utf8');
     
     // Mechanical find/replace operation only
