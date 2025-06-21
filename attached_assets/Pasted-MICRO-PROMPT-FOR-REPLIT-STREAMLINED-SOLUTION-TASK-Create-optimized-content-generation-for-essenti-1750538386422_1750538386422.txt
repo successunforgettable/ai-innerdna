@@ -1,0 +1,63 @@
+MICRO-PROMPT FOR REPLIT - STREAMLINED SOLUTION
+TASK: Create optimized content generation for essential placeholders only
+RULE: Generate key content that makes reports readable
+CONSTRAINT: Focus on visible content, use fallbacks for less critical placeholders
+Create optimized content generator:
+javascript// Create streamlined-generator.js
+const { OpenAI } = require('openai');
+const fs = require('fs');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  timeout: 30000
+});
+
+async function generateStreamlinedContent(parsedData) {
+  // Generate only essential visible content
+  const essentialPrompt = `Generate content for ${parsedData.personalityName} transformation report:
+  {
+    "PERSONALITY_TYPE": "${parsedData.personalityName}",
+    "HERO_SUBTITLE": "Your Path from ${parsedData.dominantState.name} to Transformation",
+    "STAGE1_OPENING": "Current reality description for ${parsedData.personalityName}",
+    "STAGE1_DESCRIPTION": "Detailed current state analysis",
+    "CARD1_TITLE": "Primary Challenge",
+    "CARD1_DESCRIPTION": "Main challenge description",
+    "CARD2_TITLE": "Core Pattern", 
+    "CARD2_DESCRIPTION": "Core pattern description",
+    "TESTIMONIAL1_QUOTE": "Transformation testimonial quote",
+    "TESTIMONIAL1_AUTHOR": "Professional Name, Title"
+  }`;
+
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "user", content: essentialPrompt }],
+    max_tokens: 1500,
+    temperature: 0.7
+  });
+
+  const essentialContent = JSON.parse(completion.choices[0].message.content);
+  
+  // Add fallback content for remaining placeholders
+  const fallbackContent = generateFallbacks(parsedData);
+  
+  return { ...essentialContent, ...fallbackContent };
+}
+
+function generateFallbacks(parsedData) {
+  const fallbacks = {};
+  
+  // Generate systematic fallbacks for all missing placeholders
+  for (let i = 3; i <= 20; i++) {
+    fallbacks[`CARD${i}_TITLE`] = `${parsedData.personalityName} Pattern ${i}`;
+    fallbacks[`CARD${i}_DESCRIPTION`] = `Key insight for ${parsedData.personalityName} development.`;
+  }
+  
+  for (let i = 2; i <= 10; i++) {
+    fallbacks[`STAGE${i}_OPENING`] = `Stage ${i} of the ${parsedData.personalityName} transformation journey.`;
+  }
+  
+  return fallbacks;
+}
+
+module.exports = { generateStreamlinedContent };
+Create this streamlined approach that generates essential content via ChatGPT and uses systematic fallbacks for the rest.
