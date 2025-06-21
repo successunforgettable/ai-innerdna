@@ -1,6 +1,6 @@
-const { parseAssessmentData } = require('./assessmentParser');
-const { generatePersonalityContent } = require('./contentGenerator');
-const { injectContentIntoTemplate } = require('./templateInjector');
+import { parseAssessmentData } from './assessmentParser.js';
+import { generatePersonalityContent } from './contentGenerator.js';
+import { injectContentIntoTemplate } from './templateInjector.js';
 
 async function generateCompleteReport(rawAssessmentData) {
   try {
@@ -14,4 +14,4 @@ async function generateCompleteReport(rawAssessmentData) {
   }
 }
 
-module.exports = { generateCompleteReport };
+export { generateCompleteReport };

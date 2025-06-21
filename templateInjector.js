@@ -1,5 +1,5 @@
-const fs = require('fs');
-const { calculateProgressPercentages } = require('./calculateProgressPercentages');
+import fs from 'fs';
+import { calculateProgressPercentages } from './calculateProgressPercentages.js';
 
 function injectContentIntoTemplate(contentData) {
   let template = fs.readFileSync('./challenger_template.html', 'utf8');
@@ -28,4 +28,4 @@ function injectContentIntoTemplate(contentData) {
   return template;
 }
 
-module.exports = { injectContentIntoTemplate };
+export { injectContentIntoTemplate };

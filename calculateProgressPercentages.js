@@ -29,4 +29,4 @@ function calculateProgressPercentages(parsedData) {
   return { before: beforePercentages, after: afterPercentages };
 }
 
-module.exports = { calculateProgressPercentages };
+export { calculateProgressPercentages };
