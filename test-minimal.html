@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sentinel 6 Transformation Journey - Your Hero's Path to Heart-Brain Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .journey-stage {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .stage-number {
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .stage-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--light-purple-text);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 4rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+        }
+
+        .neural-network {
+            width: 100%;
+            height: 300px;
+            margin: 3rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+        }
+
+        .wheel-of-life {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .life-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .before-section {
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--orange);
+        }
+
+        .after-section {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--cyan);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 4rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gold), var(--cyan));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-left: 60%;
+            width: 35%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 5%;
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-content {
+                margin-left: 10% !important;
+                width: 80% !important;
+            }
+        }
+
+        .brain-heart-visual {
+            width: 100%;
+            height: 400px;
+            margin: 3rem 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The Sentinel 6<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Transitioning from a State of Anxiety to a Place of Security</p>
+            <a href="#stage1" class="cta-button">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Stage 1: The Ordinary World -->
+    <section class="journey-stage" id="stage1">
+        <div class="container">
+            <div class="stage-number">01</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordinary World</h2>
+                <p class="stage-description">Test stage opening</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">60%</span>
+                        <span class="stat-label">{{STAT1_DESCRIPTION}}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">40%</span>
+                        <span class="stat-label">{{STAT2_DESCRIPTION}}</span>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-crown"></i></div>
+                        <h3 class="card-title">Test Challenge</h3>
+                        <p>Test challenge description</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="card-title">Test Growth</h3>
+                        <p>Test growth description</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h3 class="card-title">{{CARD3_TITLE}}</h3>
+                        <p>{{CARD3_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <h3 class="card-title">{{CARD4_TITLE}}</h3>
+                        <p>{{CARD4_DESCRIPTION}}</p>
+                    </div>
+                </div>
+
+                <div class="wheel-of-life">
+                    <div class="life-area">
+                        <h4><i class="fas fa-briefcase" style="color: var(--gold);"></i> Career</h4>
+                        <p>{{WHEEL_CAREER_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 21%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-dollar-sign" style="color: var(--gold);"></i> Finances</h4>
+                        <p>{{WHEEL_FINANCES_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 18%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-heart" style="color: var(--gold);"></i> Relationships</h4>
+                        <p>{{WHEEL_RELATIONSHIPS_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-brain" style="color: var(--gold);"></i> Mental State</h4>
+                        <p>{{WHEEL_MENTAL_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 12%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-dumbbell" style="color: var(--gold);"></i> Physical Health</h4>
+                        <p>{{WHEEL_PHYSICAL_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 15%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-users" style="color: var(--gold);"></i> Social Life</h4>
+                        <p>{{WHEEL_SOCIAL_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 18%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-home" style="color: var(--gold);"></i> Environment</h4>
+                        <p>{{WHEEL_ENVIRONMENT_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 24%;"></div>
+                        </div>
+                    </div>
+                    <div class="life-area">
+                        <h4><i class="fas fa-seedling" style="color: var(--gold);"></i> Personal Growth</h4>
+                        <p>{{WHEEL_GROWTH_BEFORE}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 9%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
+        <div class="container">
+            <div class="stage-number">02</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Call to Adventure</h2>
+                <p class="stage-description">Test stage 2</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Brain -->
+                        <g transform="translate(100, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#FF6B35" stroke-width="3" opacity="0.7"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.5"/>
+                            <circle cx="80" cy="80" r="30" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.3"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FF6B35" font-size="14" font-weight="bold">BRAIN</text>
+                            <!-- Disconnected signals -->
+                            <line x1="150" y1="80" x2="200" y2="80" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.5">
+                                <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="150" y1="60" x2="200" y2="60" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.3">
+                                <animate attributeName="opacity" values="0.1;0.6;0.1" dur="2.5s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="150" y1="100" x2="200" y2="100" stroke="#FF6B35" stroke-width="2" stroke-dasharray="10,5" opacity="0.4">
+                                <animate attributeName="opacity" values="0.1;0.7;0.1" dur="1.8s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+                        
+                        <!-- Heart -->
+                        <g transform="translate(350, 150)">
+                            <path d="M80,60 C80,40 60,20 40,20 C20,20 0,40 0,60 C0,80 40,120 80,140 C120,120 160,80 160,60 C160,40 140,20 120,20 C100,20 80,40 80,60 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="3" opacity="0.7"/>
+                            <path d="M80,70 C80,55 65,40 50,40 C35,40 20,55 20,70 C20,85 50,115 80,130 C110,115 140,85 140,70 C140,55 125,40 110,40 C95,40 80,55 80,70 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="2" opacity="0.5"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">HEART</text>
+                        </g>
+                        
+                        <!-- Disconnect indicator -->
+                        <text x="300" y="200" text-anchor="middle" fill="#FF6B35" font-size="24" font-weight="bold" opacity="0.8">
+                            DISCONNECT DETECTED
+                            <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-exclamation-triangle" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD5_TITLE}}</h3>
+                        <p>{{CARD5_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-battery-empty" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD6_TITLE}}</h3>
+                        <p>{{CARD6_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-tornado" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD7_TITLE}}</h3>
+                        <p>{{CARD7_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gavel" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD8_TITLE}}</h3>
+                        <p>{{CARD8_DESCRIPTION}}</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">This transformation changed my life</p>
+                    <p class="testimonial-author">Test Author</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 3: Refusal of the Call -->
+    <section class="journey-stage" id="stage3">
+        <div class="container">
+            <div class="stage-number">03</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Refusal of the Call</h2>
+                <p class="stage-description">Test stage 3</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-lock" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD9_TITLE}}</h3>
+                        <p>{{CARD9_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-fire" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD10_TITLE}}</h3>
+                        <p>{{CARD10_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-shield" style="color: var(--orange);"></i></div>
+                        <h3 class="card-title">{{CARD11_TITLE}}</h3>
+                        <p>{{CARD11_DESCRIPTION}}</p>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-times-circle"></i> The Familiar Struggle</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> {{BEFORE1}}</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> {{BEFORE2}}</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> {{BEFORE3}}</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--orange);"></i> {{BEFORE4}}</li>
+                        </ul>
+                    </div>
+                    <div class="after-section">
+                        <h3><i class="fas fa-lightbulb"></i> The Invitation</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> {{AFTER1}}</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> {{AFTER2}}</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> {{AFTER3}}</li>
+                            <li><i class="fas fa-arrow-right" style="color: var(--cyan);"></i> {{AFTER4}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        <span class="danger-indicator">Test warning message</span><br>
+                        Test insight message
+                    </p>
+                    <p style="font-size: 1.3rem; color: var(--gold);">
+                        {{INVITATION_TEXT}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 4: Meeting the Mentor -->
+    <section class="journey-stage" id="stage4">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Meeting the Mentor</h2>
+                <p class="stage-description">{{STAGE4_OPENING}}</p>
+                
+                <div style="text-align: center; margin: 4rem 0;">
+                    <div style="background: linear-gradient(45deg, var(--gold), var(--cyan)); border-radius: 50%; width: 200px; height: 200px; margin: 0 auto 2rem auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem;">The Incredible You</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text);">Your 10-Week Guided System for Complete Transformation</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-brain" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">{{CARD12_TITLE}}</h3>
+                        <p>{{CARD12_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">{{CARD13_TITLE}}</h3>
+                        <p>{{CARD13_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">{{CARD14_TITLE}}</h3>
+                        <p>{{CARD14_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-infinity" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">{{CARD15_TITLE}}</h3>
+                        <p>{{CARD15_DESCRIPTION}}</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">{{TESTIMONIAL2_QUOTE}}</p>
+                    <p class="testimonial-author">{{TESTIMONIAL2_AUTHOR}}</p>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <a href="#stage5" class="cta-button">Accept the Mentorship</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 5: Crossing the Threshold -->
+    <section class="journey-stage" id="stage5">
+        <div class="container">
+            <div class="stage-number">05</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Crossing the Threshold</h2>
+                <p class="stage-description">{{STAGE5_OPENING}}</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">{{TIMELINE1_TITLE}}</h4>
+                            <p>{{TIMELINE1_DESCRIPTION}}</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">{{TIMELINE2_TITLE}}</h4>
+                            <p>{{TIMELINE2_DESCRIPTION}}</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">{{TIMELINE3_TITLE}}</h4>
+                            <p>{{TIMELINE3_DESCRIPTION}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">10</span>
+                        <span class="stat-label">Weeks of Transformation</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">24/7</span>
+                        <span class="stat-label">Expert Support</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--cyan);">∞</span>
+                        <span class="stat-label">Lifetime Benefits</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        {{MOTIVATIONAL_QUOTE}}
+                    </p>
+                    <a href="#stage6" class="cta-button">Take the First Step</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 6: Tests & Trials -->
+    <section class="journey-stage" id="stage6">
+        <div class="container">
+            <div class="stage-number">06</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Tests & Trials</h2>
+                <p class="stage-description">{{STAGE6_OPENING}}</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-mountain" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD16_TITLE}}</h3>
+                        <p>{{CARD16_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-compass" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD17_TITLE}}</h3>
+                        <p>{{CARD17_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-trophy" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD18_TITLE}}</h3>
+                        <p>{{CARD18_DESCRIPTION}}</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">{{TESTIMONIAL3_QUOTE}}</p>
+                    <p class="testimonial-author">{{TESTIMONIAL3_AUTHOR}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 7: The Ordeal -->
+    <section class="journey-stage" id="stage7">
+        <div class="container">
+            <div class="stage-number">07</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordeal</h2>
+                <p class="stage-description">{{STAGE7_OPENING}}</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Transformation visualization -->
+                        <g transform="translate(100, 100)">
+                            <!-- Old pattern -->
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#FF6B35" stroke-width="3" opacity="0.3"/>
+                            <text x="80" y="180" text-anchor="middle" fill="#FF6B35" font-size="12">Old Pattern</text>
+                        </g>
+                        
+                        <!-- Breakthrough moment -->
+                        <g transform="translate(250, 50)">
+                            <circle cx="50" cy="50" r="40" fill="var(--gold)" opacity="0.8">
+                                <animate attributeName="r" values="40;60;40" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x="50" y="120" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">BREAKTHROUGH</text>
+                        </g>
+                        
+                        <!-- New pattern -->
+                        <g transform="translate(400, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.8"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.6"/>
+                            <text x="80" y="180" text-anchor="middle" fill="#00D4FF" font-size="12">New Pattern</text>
+                        </g>
+                        
+                        <!-- Connection lines -->
+                        <line x1="170" y1="180" x2="230" y2="120" stroke="var(--gold)" stroke-width="3" opacity="0.8"/>
+                        <line x1="320" y1="120" x2="380" y2="180" stroke="var(--gold)" stroke-width="3" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: rgba(255, 107, 53, 0.1); border-radius: 20px; border: 2px solid var(--orange);">
+                    <h3 style="color: var(--orange); font-size: 2rem; margin-bottom: 2rem;">The Critical Choice</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        {{CRITICAL_CHOICE_TEXT}}
+                    </p>
+                    <p style="font-size: 1.1rem; color: var(--gold);">
+                        {{CHOICE_MOTIVATION}}
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">{{TESTIMONIAL4_QUOTE}}</p>
+                    <p class="testimonial-author">{{TESTIMONIAL4_AUTHOR}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 8: The Reward -->
+    <section class="journey-stage" id="stage8">
+        <div class="container">
+            <div class="stage-number">08</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Reward</h2>
+                <p class="stage-description">{{STAGE8_OPENING}}</p>
+                
+                <div class="brain-heart-visual">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Connected brain and heart -->
+                        <g transform="translate(150, 100)">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.8"/>
+                            <circle cx="80" cy="80" r="50" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.6"/>
+                            <circle cx="80" cy="80" r="30" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.4"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#00D4FF" font-size="14" font-weight="bold">BRAIN</text>
+                        </g>
+                        
+                        <!-- Heart -->
+                        <g transform="translate(300, 150)">
+                            <path d="M80,60 C80,40 60,20 40,20 C20,20 0,40 0,60 C0,80 40,120 80,140 C120,120 160,80 160,60 C160,40 140,20 120,20 C100,20 80,40 80,60 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="3" opacity="0.8"/>
+                            <path d="M80,70 C80,55 65,40 50,40 C35,40 20,55 20,70 C20,85 50,115 80,130 C110,115 140,85 140,70 C140,55 125,40 110,40 C95,40 80,55 80,70 Z" 
+                                  fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6"/>
+                            <text x="80" y="85" text-anchor="middle" fill="#FFD700" font-size="14" font-weight="bold">HEART</text>
+                        </g>
+                        
+                        <!-- Connection lines - flowing energy -->
+                        <g>
+                            <line x1="300" y1="180" x2="380" y2="230" stroke="var(--cyan)" stroke-width="4" opacity="0.8">
+                                <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="310" y1="175" x2="390" y2="225" stroke="var(--gold)" stroke-width="3" opacity="0.6">
+                                <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="290" y1="185" x2="370" y2="235" stroke="var(--cyan)" stroke-width="3" opacity="0.7">
+                                <animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+                        
+                        <!-- Coherence indicator -->
+                        <text x="300" y="350" text-anchor="middle" fill="#00D4FF" font-size="20" font-weight="bold" opacity="0.9">
+                            COHERENCE ACHIEVED
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="wheel-of-life">
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-briefcase" style="color: var(--cyan);"></i> Career</h4>
+                        <p>{{WHEEL_CAREER_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-dollar-sign" style="color: var(--cyan);"></i> Finances</h4>
+                        <p>{{WHEEL_FINANCES_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-heart" style="color: var(--cyan);"></i> Relationships</h4>
+                        <p>{{WHEEL_RELATIONSHIPS_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-brain" style="color: var(--cyan);"></i> Mental State</h4>
+                        <p>{{WHEEL_MENTAL_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-dumbbell" style="color: var(--cyan);"></i> Physical Health</h4>
+                        <p>{{WHEEL_PHYSICAL_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-users" style="color: var(--cyan);"></i> Social Life</h4>
+                        <p>{{WHEEL_SOCIAL_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 88%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-home" style="color: var(--cyan);"></i> Environment</h4>
+                        <p>{{WHEEL_ENVIRONMENT_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                    <div class="life-area" style="border-left-color: var(--cyan);">
+                        <h4><i class="fas fa-seedling" style="color: var(--cyan);"></i> Personal Growth</h4>
+                        <p>{{WHEEL_GROWTH_AFTER}}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, var(--cyan), var(--gold));"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">{{TESTIMONIAL5_QUOTE}}</p>
+                    <p class="testimonial-author">{{TESTIMONIAL5_AUTHOR}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 9: The Road Back -->
+    <section class="journey-stage" id="stage9">
+        <div class="container">
+            <div class="stage-number">09</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Road Back</h2>
+                <p class="stage-description">{{STAGE9_OPENING}}</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">{{TIMELINE4_TITLE}}</h4>
+                            <p>{{TIMELINE4_DESCRIPTION}}</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">{{TIMELINE5_TITLE}}</h4>
+                            <p>{{TIMELINE5_DESCRIPTION}}</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4 style="color: var(--gold);">{{TIMELINE6_TITLE}}</h4>
+                            <p>{{TIMELINE6_DESCRIPTION}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0;">
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                        Test transformation summary
+                    </p>
+                    <p style="font-size: 1.3rem; color: var(--gold);">
+                        {{INCREDIBLE_YOU_TEXT}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 10: Resurrection -->
+    <section class="journey-stage" id="stage10">
+        <div class="container">
+            <div class="stage-number">10</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Resurrection</h2>
+                <p class="stage-description">{{STAGE10_OPENING}}</p>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">100%</span>
+                        <span class="stat-label">Heart-Brain Coherence</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">∞</span>
+                        <span class="stat-label">Authentic Power</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: var(--gold);">360°</span>
+                        <span class="stat-label">Life Transformation</span>
+                    </div>
+                </div>
+
+                <div class="before-after">
+                    <div class="before-section">
+                        <h3><i class="fas fa-skull"></i> The Old You (Dead)</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> {{RESURRECTION_BEFORE1}}</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> {{RESURRECTION_BEFORE2}}</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> {{RESURRECTION_BEFORE3}}</li>
+                            <li><i class="fas fa-times" style="color: var(--orange);"></i> {{RESURRECTION_BEFORE4}}</li>
+                        </ul>
+                    </div>
+                    <div class="after-section">
+                        <h3><i class="fas fa-phoenix-alt"></i> The Incredible You (Reborn)</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> {{RESURRECTION_AFTER1}}</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> {{RESURRECTION_AFTER2}}</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> {{RESURRECTION_AFTER3}}</li>
+                            <li><i class="fas fa-check" style="color: var(--cyan);"></i> {{RESURRECTION_AFTER4}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">{{TESTIMONIAL6_QUOTE}}</p>
+                    <p class="testimonial-author">{{TESTIMONIAL6_AUTHOR}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 11: Return with Elixir -->
+    <section class="journey-stage" id="stage11">
+        <div class="container">
+            <div class="stage-number">11</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Return with Elixir</h2>
+                <p class="stage-description">{{STAGE11_OPENING}}</p>
+                
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-crown" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD19_TITLE}}</h3>
+                        <p>{{CARD19_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-heart" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD20_TITLE}}</h3>
+                        <p>{{CARD20_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD21_TITLE}}</h3>
+                        <p>{{CARD21_DESCRIPTION}}</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-gift" style="color: var(--gold);"></i></div>
+                        <h3 class="card-title">{{CARD22_TITLE}}</h3>
+                        <p>{{CARD22_DESCRIPTION}}</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 4rem; background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.2)); border-radius: 20px; border: 2px solid var(--gold);">
+                    <h3 style="color: var(--gold); font-size: 3rem; margin-bottom: 2rem;">Your Hero's Journey Awaits</h3>
+                    <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem;">
+                        {{HERO_JOURNEY_TEXT}}
+                    </p>
+                    
+                    <div style="margin: 3rem 0;">
+                        <p style="font-size: 1.2rem; color: var(--orange); margin-bottom: 1rem;">⚠️ Warning: Most People Stop Here</p>
+                        <p style="font-size: 1.1rem; color: var(--light-purple-text); margin-bottom: 2rem;">
+                            {{WARNING_COMPLETION_TEXT}}
+                        </p>
+                    </div>
+
+                    <a href="#begin-journey" class="cta-button" style="font-size: 1.5rem; padding: 25px 50px; margin: 20px;">
+                        Begin The Incredible You Journey
+                    </a>
+                    
+                    <p style="font-size: 1rem; color: var(--light-purple-text); margin-top: 2rem;">
+                        {{FINAL_ENCOURAGEMENT}}
+                    </p>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">{{TESTIMONIAL7_QUOTE}}</p>
+                    <p class="testimonial-author">{{TESTIMONIAL7_AUTHOR}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                The Choice is Yours
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                {{FINAL_CHOICE_TEXT}}
+            </p>
+            <p style="font-size: 1.8rem; color: var(--gold); margin-bottom: 4rem; font-weight: 700;">
+                {{FINAL_TRANSFORMATION_TEXT}}
+            </p>
+            
+            <div style="margin: 4rem 0;">
+                <a href="#contact" class="cta-button" style="font-size: 1.8rem; padding: 30px 60px; margin: 20px;">
+                    <i class="fas fa-rocket"></i> Start Your Transformation Today
+                </a>
+            </div>
+            
+            <p style="font-size: 1.2rem; color: var(--light-purple-text);">
+                {{FINAL_CALL_TO_ACTION}}
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate progress bars when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressFill = entry.target.querySelector('.progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = progressFill.style.width;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.progress-bar').forEach(bar => {
+            observer.observe(bar);
+        });
+
+        // Add floating animation to elements
+        function createFloatingElements() {
+            const floatingContainer = document.querySelector('.floating-elements');
+            const colors = ['var(--gold)', 'var(--cyan)', 'var(--orange)'];
+            const symbols = ['✨', '⚡', '💫', '🌟', '💎', '🔥'];
+            
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                element.style.color = colors[Math.floor(Math.random() * colors.length)];
+                element.style.top = Math.random() * 100 + '%';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                element.style.animationDelay = '-' + Math.random() * 6 + 's';
+                element.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                floatingContainer.appendChild(element);
+            }
+        }
+
+        // Initialize floating elements
+        createFloatingElements();
+
+        // Add pulse animation to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.6s infinite';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+    </script>
+</body>
+</html>
