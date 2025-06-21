@@ -6,6 +6,10 @@ async function generateCompleteReport(rawAssessmentData) {
   try {
     const parsedData = parseAssessmentData(rawAssessmentData);
     const contentData = await generatePersonalityContent(parsedData);
+    
+    // Add assessment data for percentage calculation
+    contentData.assessmentData = parsedData;
+    
     const finalReport = injectContentIntoTemplate(contentData);
     
     return { success: true, report: finalReport };
