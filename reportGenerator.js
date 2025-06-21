@@ -1,37 +1,17 @@
-async function generatePersonalizedReport(rawAssessmentData) {
-  const { parseAssessmentData } = require('./assessmentParser');
-  const { generatePersonalityContent } = require('./contentGenerator');
-  const { injectContentIntoTemplate } = require('./templateInjector');
-  
+const { parseAssessmentData } = require('./assessmentParser');
+const { generatePersonalityContent } = require('./contentGenerator');
+const { injectContentIntoTemplate } = require('./templateInjector');
+
+async function generateCompleteReport(rawAssessmentData) {
   try {
-    // Step 1: Parse assessment data
     const parsedData = parseAssessmentData(rawAssessmentData);
+    const contentData = await generatePersonalityContent(parsedData);
+    const finalReport = injectContentIntoTemplate(contentData);
     
-    // Step 2: Generate content via ChatGPT
-    const generatedContent = await generatePersonalityContent(parsedData);
-    
-    // Step 3: Inject content into template
-    const finalReport = injectContentIntoTemplate(generatedContent);
-    
-    return finalReport;
+    return { success: true, report: finalReport };
   } catch (error) {
-    console.error('Error generating personalized report:', error);
-    throw error;
+    return { success: false, error: error.message };
   }
 }
 
-function generateSpecificPersonalityReport(personalityType, stateDistribution, subtype) {
-  // This function generates reports for specific personality configurations
-  // Used for creating targeted reports like Sentinel 8, Helper 3, etc.
-  const mockAssessmentData = {
-    personalityType: personalityType,
-    wing: personalityType === 8 ? 9 : personalityType + 1,
-    colorStates: stateDistribution,
-    detailTokens: subtype,
-    confidence: 35
-  };
-  
-  return generatePersonalizedReport(mockAssessmentData);
-}
-
-module.exports = { generatePersonalizedReport, generateSpecificPersonalityReport };
+module.exports = { generateCompleteReport };
