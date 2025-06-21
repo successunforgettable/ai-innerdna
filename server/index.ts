@@ -91,10 +91,10 @@ app.get("/sentinel-8-report", (req, res) => {
   }
 });
 
-// Serve the completed Sentinel 8 report
+// Serve the accurate ChatGPT-generated Sentinel 8 report
 app.get("/view-sentinel-8", (req, res) => {
   try {
-    const htmlContent = fs.readFileSync('sentinel-8-report.html', 'utf8');
+    const htmlContent = fs.readFileSync('sentinel-8-accurate-report.html', 'utf8');
     res.setHeader('Content-Type', 'text/html');
     res.send(htmlContent);
   } catch (error) {
