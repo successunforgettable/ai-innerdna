@@ -8,6 +8,7 @@ import { hashPassword, verifyPassword, generateToken, generateResetToken } from 
 import { sendPasswordRecoveryEmail } from "./emailService";
 import { generatePersonalizedReport, generateQuickInsight } from "./aiReportService";
 import { generateCustomReport, generateCustomReportHTML } from "./customReportGenerator_clean";
+import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -631,6 +632,19 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error) {
       console.error('Error generating AI achiever report:', error);
       res.status(500).send('Error generating AI-powered achiever report');
+    }
+  });
+
+  // Generate Sentinel 8 copy from Challenger 9 template
+  app.get("/api/generate-sentinel-copy", async (req, res) => {
+    try {
+      console.log('Starting Sentinel 8 copy generation from Challenger 9 template...');
+      const sentinelContent = await generateSentinelCopy();
+      res.setHeader('Content-Type', 'text/html');
+      res.send(sentinelContent);
+    } catch (error) {
+      console.error('Error generating Sentinel 8 copy:', error);
+      res.status(500).json({ error: "Failed to generate Sentinel 8 copy" });
     }
   });
 

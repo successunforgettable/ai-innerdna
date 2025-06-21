@@ -5,6 +5,7 @@ import { createServer } from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { generateSentinelCopy } from "./sentinelCopyGenerator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,6 +13,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // CRITICAL: Register static report routes FIRST before any middleware
+app.get("/api/generate-sentinel-copy", async (req, res) => {
+  try {
+    console.log('Starting Sentinel 8 copy generation from Challenger 9 template...');
+    const sentinelContent = await generateSentinelCopy();
+    res.setHeader('Content-Type', 'text/html');
+    res.send(sentinelContent);
+  } catch (error) {
+    console.error('Error generating Sentinel 8 copy:', error);
+    res.status(500).json({ error: "Failed to generate Sentinel 8 copy" });
+  }
+});
+
 app.get("/api/report/helper-3", (req, res) => {
   const htmlContent = `<!DOCTYPE html>
 <html lang="en">
