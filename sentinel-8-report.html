@@ -3,22 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentinel 8 Transformation Journey</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>From Guardian's Grip to Empowering Shield: The Sentinel 8 Transformation</title>
     <style>
-        :root {
-            --primary-purple: #6B46C1;
-            --mid-purple: #9333EA;
-            --light-purple: #A855F7;
-            --gold: #FFD700;
-            --cyan: #00D4FF;
-            --orange: #FF6B35;
-            --white: #FFFFFF;
-            --light-purple-text: #E9D5FF;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -26,699 +12,493 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
-            color: var(--white);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
 
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .header {
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
         }
 
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 8rem);
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 2rem;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
-            to { text-shadow: 0 0 50px rgba(255, 215, 0, 0.8); }
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            color: var(--light-purple-text);
-            margin-bottom: 3rem;
-            font-weight: 300;
-            opacity: 0.9;
-        }
-
-        .disconnect-message {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 215, 0, 0.1));
-            border: 2px solid var(--orange);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 3rem 0;
-            backdrop-filter: blur(10px);
-            animation: alertPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes alertPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6); }
-        }
-
-        .disconnect-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--orange);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1.5rem 3rem;
-            background: linear-gradient(135deg, var(--gold), var(--orange));
-            color: var(--primary-purple);
-            text-decoration: none;
-            border-radius: 50px;
+        .header h1 {
+            font-size: 3rem;
             font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
             font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            opacity: 0.9;
+            font-weight: 300;
         }
 
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        .disconnect-alert {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
         }
 
-        .journey-stage {
-            padding: 8rem 0;
-            position: relative;
+        .disconnect-alert h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
-        .stage-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 8rem;
-            font-weight: 900;
-            color: rgba(255, 215, 0, 0.1);
-            position: absolute;
-            top: -2rem;
-            left: 2rem;
-            z-index: 1;
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
         }
 
         .stage-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .stage-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-
-        .stage-description {
-            font-size: 1.3rem;
-            color: var(--light-purple-text);
-            margin-bottom: 3rem;
-            max-width: 800px;
+            font-size: 1.1rem;
             line-height: 1.8;
+            color: #555;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-value {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1.2rem;
-            color: var(--light-purple-text);
-            margin-bottom: 1rem;
-        }
-
-        .challenge-grid {
+        .challenges-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .challenge-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transform: translateY(0);
             transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .challenge-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        .challenge-icon {
-            font-size: 3rem;
-            color: var(--orange);
-            margin-bottom: 1rem;
+        .challenge-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
         }
 
-        .challenge-title {
-            font-size: 1.5rem;
-            color: var(--gold);
-            margin-bottom: 1rem;
+        .challenge-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
-        .challenge-description {
-            color: var(--light-purple-text);
-            line-height: 1.6;
-        }
-
-        .wheel-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 4rem 0;
-            position: relative;
-        }
-
-        .wheel-chart {
-            width: 400px;
-            height: 400px;
-        }
-
-        .wheel-legend {
+        .wheel-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .wheel-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 1rem;
+        .wheel-item:hover {
+            transform: scale(1.05);
         }
 
-        .legend-text {
-            color: var(--light-purple-text);
+        .wheel-percentage {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .wheel-area {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .wheel-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
         }
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
         }
 
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .testimonial {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        .testimonial:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
 
         .testimonial-quote {
-            font-size: 1.2rem;
-            color: var(--light-purple-text);
+            font-size: 1.1rem;
             font-style: italic;
-            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
             line-height: 1.6;
         }
 
         .testimonial-author {
-            color: var(--gold);
             font-weight: 600;
+            color: #34495e;
         }
 
-        .transformation-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin: 3rem 0;
+        .testimonial-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
         }
 
-        .transformation-column {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .journey-stages {
+            margin-top: 20px;
+        }
+
+        .stage {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .stage:hover {
+            transform: translateX(10px);
+        }
+
+        .stage-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .stage-description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #2c3e50;
+            text-align: center;
+            padding: 40px;
             border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        .transformation-title {
-            font-size: 1.8rem;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border: none;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .transformation-list {
-            list-style: none;
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
-        .transformation-list li {
-            color: var(--light-purple-text);
-            margin-bottom: 1rem;
-            padding-left: 2rem;
-            position: relative;
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .transformation-list li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: var(--orange);
-            font-weight: bold;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--orange));
-            opacity: 0.1;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .floating-element:nth-child(1) {
-            width: 100px;
-            height: 100px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            top: 60%;
-            right: 10%;
-            animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(3) {
-            width: 80px;
-            height: 80px;
-            bottom: 20%;
-            left: 15%;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
         }
 
         @media (max-width: 768px) {
-            .transformation-grid {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .challenges-grid,
+            .wheel-grid,
+            .testimonials-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .wheel-legend {
-                grid-template-columns: 1fr;
-            }
-            
-            .stage-number {
-                font-size: 4rem;
-                top: 0;
-            }
-            
-            .stage-title {
-                font-size: 2.5rem;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Floating Elements -->
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
+    <div class="container">
+        <header class="header">
+            <h1>From Guardian's Grip to Empowering Shield</h1>
+            <p class="subtitle">The Sentinel 8 Transformation Journey</p>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-background"></div>
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Beyond Control: The Sentinel's Journey to Protective Leadership</h1>
-                <p class="hero-subtitle">Transform your protective instincts from control to empowerment</p>
-                
-                <div class="disconnect-message">
-                    <div class="disconnect-title">PROTECTIVE CONTROL DETECTED</div>
-                    <p>Your brain wants to protect through control, but your heart knows true protection comes through empowerment. This disconnect is exhausting those you love most.</p>
-                </div>
-                
-                <a href="#stage1" class="cta-button">Begin Your Transformation</a>
-            </div>
+        <div class="disconnect-alert">
+            <h2><i class="fas fa-exclamation-triangle"></i> PROTECTIVE CONTROL CONFLICT DETECTED</h2>
+            <p>Your protective instincts have evolved into controlling patterns that push away those you seek to protect</p>
         </div>
-    </section>
 
-    <!-- Stage 1: The Ordinary World -->
-    <section class="journey-stage" id="stage1">
-        <div class="container">
-            <div class="stage-number">01</div>
+        <section class="section">
+            <h2><i class="fas fa-seedling"></i> Stage 1: The Ordinary World</h2>
             <div class="stage-content">
-                <h2 class="stage-title">The Ordinary World</h2>
-                <p class="stage-description">
-                    Living in a world where your protective instincts have become controlling barriers that push away those you seek to protect. Your self-preservation focus drives constant vigilance, while your sexual blind spot creates distance in intimate relationships. The very strength meant to shelter others has become a cage.
-                </p>
+                <p>Living in constant vigilance, the Sentinel 8 operates from a fortress of control, believing that absolute authority over their environment equals safety. They protect others through dominance, mistaking suffocating oversight for genuine care. This ordinary world feels secure but breeds isolation and resentment from those they aim to shield.</p>
+            </div>
+        </section>
 
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">60%</div>
-                        <div class="stat-label">Destructive State</div>
-                        <p>Your protective control often manifests as aggressive dominance that pushes away those you're trying to protect.</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">40%</div>
-                        <div class="stat-label">Good State</div>
-                        <p>When balanced, your strength becomes protective empowerment that builds security through trust and shared responsibility.</p>
-                    </div>
+        <section class="section">
+            <h2><i class="fas fa-mountain"></i> Core Challenges</h2>
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Control vs Protection Paradox</h3>
+                    <p>Your protective instincts manifest as controlling behaviors that push away the very people you're trying to shield. The harder you grip, the more resistance you create, making everyone less safe.</p>
                 </div>
-
-                <!-- Challenge Cards -->
-                <div class="challenge-grid">
-                    <div class="challenge-card">
-                        <div class="challenge-icon"><i class="fas fa-fist-raised"></i></div>
-                        <h3 class="challenge-title">Controlling Protection</h3>
-                        <p class="challenge-description">Your need to control every variable creates the very insecurity you're trying to prevent, suffocating those under your protection.</p>
-                    </div>
-                    <div class="challenge-card">
-                        <div class="challenge-icon"><i class="fas fa-shield-alt"></i></div>
-                        <h3 class="challenge-title">Hypervigilant Authority</h3>
-                        <p class="challenge-description">Constant alertness for threats exhausts your energy and creates tension in relationships that should feel safe.</p>
-                    </div>
-                    <div class="challenge-card">
-                        <div class="challenge-icon"><i class="fas fa-bolt"></i></div>
-                        <h3 class="challenge-title">Aggressive Boundaries</h3>
-                        <p class="challenge-description">Your 8 wing intensity turns protective boundaries into walls that isolate rather than secure your loved ones.</p>
-                    </div>
-                    <div class="challenge-card">
-                        <div class="challenge-icon"><i class="fas fa-heart-broken"></i></div>
-                        <h3 class="challenge-title">Intimacy Avoidance</h3>
-                        <p class="challenge-description">Sexual blind spot creates distance in close relationships, focusing on security over emotional depth and vulnerability.</p>
-                    </div>
+                <div class="challenge-card">
+                    <i class="fas fa-crown"></i>
+                    <h3>Authority Without Trust</h3>
+                    <p>You lead through force rather than inspiration, creating compliance instead of genuine loyalty. Your team follows orders but doesn't believe in your vision, weakening your actual protective power.</p>
                 </div>
-
-                <!-- Wheel of Life -->
-                <div class="wheel-container">
-                    <canvas id="wheelChart" class="wheel-chart"></canvas>
+                <div class="challenge-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Vulnerability Armor</h3>
+                    <p>Your fear of being controlled has built impenetrable walls around your heart. This armor that protects you from manipulation also blocks the intimate connections that would truly strengthen your guard.</p>
                 </div>
-
-                <div class="wheel-legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #FF6B35;"></div>
-                        <div class="legend-text"><strong>Career (75%):</strong> Your leadership centers on protective authority and building secure systems, though control needs sometimes create workplace tension with team members.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #FFD700;"></div>
-                        <div class="legend-text"><strong>Finances (65%):</strong> Financial security is paramount for your self-preservation focus, driving careful resource management and protective financial planning for worst-case scenarios.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #00D4FF;"></div>
-                        <div class="legend-text"><strong>Health (40%):</strong> Health often suffers from chronic stress and hypervigilance, as constant alertness for threats takes a toll on your protective energy systems.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #9333EA;"></div>
-                        <div class="legend-text"><strong>Family (55%):</strong> Family bonds are intense but sometimes strained by your protective control, as loved ones feel both secure and suffocated by your authority.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #A855F7;"></div>
-                        <div class="legend-text"><strong>Social (45%):</strong> Social connections focus on loyalty and protection rather than intimacy, with your sexual blind spot creating challenges in deeper emotional bonding.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #6B46C1;"></div>
-                        <div class="legend-text"><strong>Personal Growth (50%):</strong> Growth emerges through learning to protect without controlling, developing trust while maintaining healthy boundaries and appropriate authority.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #EC4899;"></div>
-                        <div class="legend-text"><strong>Recreation (30%):</strong> Recreation takes a backseat to protective responsibilities, as your self-preservation focus prioritizes security and vigilance over leisure activities.</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: #10B981;"></div>
-                        <div class="legend-text"><strong>Contribution (70%):</strong> Your contribution centers on protecting and empowering others to be strong, though finding the balance between guidance and control remains an ongoing challenge.</div>
-                    </div>
+                <div class="challenge-card">
+                    <i class="fas fa-vault"></i>
+                    <h3>Resource Hoarding Trap</h3>
+                    <p>Your self-preservation focus drives you to accumulate security at others' expense. This creates scarcity thinking that actually makes your protected circle more vulnerable to real threats.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Testimonials -->
-    <section class="journey-stage">
-        <div class="container">
-            <h2 class="stage-title" style="text-align: center; margin-bottom: 4rem;">Transformation Stories</h2>
-            
+        <section class="section">
+            <h2><i class="fas fa-chart-pie"></i> Life Areas Assessment</h2>
+            <div class="wheel-grid">
+                <div class="wheel-item">
+                    <div class="wheel-percentage">65%</div>
+                    <div class="wheel-area">Career</div>
+                    <div class="wheel-description">Strong professional authority but struggles with team dynamics. Your protective leadership style creates results but burns out subordinates and limits long-term organizational health.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">45%</div>
+                    <div class="wheel-area">Relationships</div>
+                    <div class="wheel-description">Difficulty maintaining intimate bonds due to sexual subtype blindness. You excel at broad protection but struggle with one-on-one emotional depth and vulnerable personal connections.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">70%</div>
+                    <div class="wheel-area">Health</div>
+                    <div class="wheel-description">Self-preservation focus maintains physical security and resources well. You prioritize health as a protective asset but may neglect emotional and spiritual wellness aspects.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">80%</div>
+                    <div class="wheel-area">Finance</div>
+                    <div class="wheel-description">Excellent financial security and resource management. Your protective instincts excel at building safety nets, emergency funds, and long-term security systems for your inner circle.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">40%</div>
+                    <div class="wheel-area">Personal Growth</div>
+                    <div class="wheel-description">Growth feels threatening to established control systems. You resist change that might compromise security, missing opportunities for evolution that would actually strengthen your protective abilities.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">55%</div>
+                    <div class="wheel-area">Family</div>
+                    <div class="wheel-description">Strong provider and protector but family may feel suffocated. Your protective love manifests as control, creating rebellion rather than gratitude from those you're trying to keep safe.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">35%</div>
+                    <div class="wheel-area">Recreation</div>
+                    <div class="wheel-description">Relaxation feels like letting guard down. Your protective vigilance makes genuine leisure difficult, as you're always scanning for threats even during supposed downtime.</div>
+                </div>
+                <div class="wheel-item">
+                    <div class="wheel-percentage">75%</div>
+                    <div class="wheel-area">Contribution</div>
+                    <div class="wheel-description">Natural guardian of community and values. You excel at protecting larger groups and causes, though your methods may sometimes alienate the very people you're trying to serve.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2><i class="fas fa-comments"></i> Transformation Stories</h2>
             <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"I used to micromanage every aspect of my team's work thinking I was protecting them from failure. Learning to delegate with trust rather than control transformed my leadership and actually made us more secure as a unit."</p>
-                    <div class="testimonial-author">Marcus R., Security Director</div>
+                <div class="testimonial">
+                    <div class="testimonial-quote">"I learned that true protection means empowering others to protect themselves, not controlling every aspect of their lives. My team is stronger now because they trust my guidance rather than fear my authority."</div>
+                    <div class="testimonial-author">Marcus Rodriguez</div>
+                    <div class="testimonial-title">Security Director</div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"My protective instincts were suffocating my family. This journey taught me that real protection means empowering others to be strong, not controlling every variable in their environment."</p>
-                    <div class="testimonial-author">Angela T., Operations Manager</div>
+                <div class="testimonial">
+                    <div class="testimonial-quote">"The transformation taught me that vulnerability isn't weakness—it's the foundation of real strength. Opening my heart didn't compromise my protective abilities; it multiplied them exponentially."</div>
+                    <div class="testimonial-author">Sarah Chen</div>
+                    <div class="testimonial-title">Crisis Management Consultant</div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"I was so focused on building security systems that I forgot about building relationships. Learning to balance authority with vulnerability changed everything about how I connect with people."</p>
-                    <div class="testimonial-author">James K., Risk Management Executive</div>
+                <div class="testimonial">
+                    <div class="testimonial-quote">"I discovered my greatest protection came from building trust, not walls. When people believe in your vision instead of fearing your power, they become willing guardians themselves."</div>
+                    <div class="testimonial-author">David Thompson</div>
+                    <div class="testimonial-title">Emergency Response Coordinator</div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"Breaking through my sexual blind spot was terrifying but liberating. I discovered that emotional intimacy actually strengthens the security I was trying to build through control alone."</p>
-                    <div class="testimonial-author">Diana M., Emergency Response Coordinator</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stage 2: The Call to Adventure -->
-    <section class="journey-stage" id="stage2">
-        <div class="container">
-            <div class="stage-number">02</div>
-            <div class="stage-content">
-                <h2 class="stage-title">The Call to Adventure</h2>
-                <p class="stage-description">
-                    Recognition that your protective control has become the very threat you're defending against, pushing away those you seek to protect. The moment when your hypervigilance creates the insecurity you fear most.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stage 3: Meeting the Mentor -->
-    <section class="journey-stage" id="stage3">
-        <div class="container">
-            <div class="stage-number">03</div>
-            <div class="stage-content">
-                <h2 class="stage-title">Meeting the Mentor</h2>
-                <p class="stage-description">
-                    Discovering mentors who teach protective leadership without domination, showing how to guide and strengthen others rather than control them. Learning that true security comes through empowered allies, not controlled subjects.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stage 4: Crossing the Threshold -->
-    <section class="journey-stage" id="stage4">
-        <div class="container">
-            <div class="stage-number">04</div>
-            <div class="stage-content">
-                <h2 class="stage-title">Crossing the Threshold</h2>
-                <p class="stage-description">
-                    Taking the courageous step to trust others with responsibility while maintaining protective oversight, learning to delegate without abandoning your guardian role. Discovering that shared strength creates greater security than isolated control.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stage 5: Tests and Trials -->
-    <section class="journey-stage" id="stage5">
-        <div class="container">
-            <div class="stage-number">05</div>
-            <div class="stage-content">
-                <h2 class="stage-title">Tests and Trials</h2>
-                <p class="stage-description">
-                    Confronting situations that test your ability to protect without controlling, learning to respond with strength rather than reactive aggression. Facing your sexual blind spot and developing capacity for vulnerable intimacy.
-                </p>
-
-                <div class="transformation-grid">
-                    <div class="transformation-column">
-                        <h3 class="transformation-title">Current Challenges</h3>
-                        <ul class="transformation-list">
-                            <li>Compulsive need to control protective outcomes</li>
-                            <li>Hypervigilant exhaustion from constant threat assessment</li>
-                            <li>Aggressive boundaries that isolate rather than secure</li>
-                        </ul>
-                    </div>
-                    <div class="transformation-column">
-                        <h3 class="transformation-title">Your Potential</h3>
-                        <ul class="transformation-list">
-                            <li>Protective leadership that empowers others' strength</li>
-                            <li>Strategic vigilance balanced with trust and delegation</li>
-                            <li>Secure boundaries that welcome rather than exclude</li>
-                        </ul>
-                    </div>
+                <div class="testimonial">
+                    <div class="testimonial-quote">"Moving from scarcity to abundance thinking revolutionized my leadership. I realized that sharing power actually multiplied my protective influence across the entire organization."</div>
+                    <div class="testimonial-author">Dr. Amanda Foster</div>
+                    <div class="testimonial-title">Healthcare Administrator</div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Stage 6: The Return -->
-    <section class="journey-stage" id="stage6">
-        <div class="container">
-            <div class="stage-number">06</div>
-            <div class="stage-content">
-                <h2 class="stage-title">The Return</h2>
-                <p class="stage-description">
-                    Returning as a transformed Sentinel 8 who protects through empowerment rather than control, creating security through trust and shared strength. Your authority now builds up rather than locks down, fostering resilience in those you guard.
-                </p>
+        <section class="section">
+            <h2><i class="fas fa-route"></i> The Hero's Journey: Stages of Transformation</h2>
+            <div class="journey-stages">
+                <div class="stage">
+                    <div class="stage-number">Stage 2: The Call to Adventure</div>
+                    <div class="stage-description">The crisis arrives when your protective control backfires spectacularly. Those you've tried to shield rebel against your authority, or a real threat emerges that your rigid systems cannot handle. The call reveals that your greatest strength—protection—has become your greatest weakness through misapplication of power.</div>
+                </div>
+                <div class="stage">
+                    <div class="stage-number">Stage 3: Refusal of the Call</div>
+                    <div class="stage-description">You resist abandoning control systems that have historically provided security. Every suggestion to loosen your grip feels like betrayal of your protective duty. The fear of vulnerability and loss of authority creates massive internal resistance to any transformation that might compromise your guardian role.</div>
+                </div>
+                <div class="stage">
+                    <div class="stage-number">Stage 4: Meeting the Mentor</div>
+                    <div class="stage-description">A wise guide appears who embodies balanced authority—protective strength without controlling dominance. They demonstrate how genuine leadership empowers others rather than diminishing them. This mentor shows you that true protection comes from building capability in others, not dependence on your control.</div>
+                </div>
+                <div class="stage">
+                    <div class="stage-number">Stage 5: Crossing the Threshold</div>
+                    <div class="stage-description">You make the terrifying choice to trust others with real responsibility and authority. This threshold crossing requires releasing control over outcomes while maintaining accountability for protection. You discover that shared power actually multiplies your protective capabilities exponentially.</div>
+                </div>
+                <div class="stage">
+                    <div class="stage-number">Stage 6: Tests and Trials</div>
+                    <div class="stage-description">Each test challenges your new leadership style under pressure. Crisis situations tempt you back to old controlling patterns, but you practice empowering responses instead. You learn to protect through guidance, support, and trust-building rather than dominance and micromanagement.</div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Call to Action -->
-    <section class="journey-stage" style="text-align: center; padding: 8rem 0;">
-        <div class="container">
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 2rem;">
-                Your Sentinel Journey Awaits
-            </h2>
-            <p style="font-size: 1.4rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                Transform your protective control into empowering leadership that creates true security through strength shared rather than hoarded. Your journey from dominance to guardianship begins now.
-            </p>
-            <a href="#" class="cta-button" style="font-size: 1.4rem; padding: 2rem 4rem;">
-                Begin Your Transformation
-            </a>
+        <div class="cta-section">
+            <h2><i class="fas fa-rocket"></i> Your Transformation Awaits</h2>
+            <p class="cta-text">Your protective power is meant to create guardians, not dependents. Transform your grip into guidance, your control into empowerment. The world needs Sentinel 8s who build protective communities through trust, not fear. Your authority becomes truly unshakeable when others choose to follow rather than simply comply.</p>
+            <a href="#start-journey" class="cta-button">Begin Your Transformation Journey</a>
         </div>
-    </section>
+    </div>
 
     <script>
-        // Wheel of Life Chart
-        const ctx = document.getElementById('wheelChart').getContext('2d');
-        const wheelChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Career', 'Finances', 'Health', 'Family', 'Social', 'Personal Growth', 'Recreation', 'Contribution'],
-                datasets: [{
-                    data: [75, 65, 40, 55, 45, 50, 30, 70],
-                    backgroundColor: [
-                        '#FF6B35',
-                        '#FFD700',
-                        '#00D4FF',
-                        '#9333EA',
-                        '#A855F7',
-                        '#6B46C1',
-                        '#EC4899',
-                        '#10B981'
-                    ],
-                    borderWidth: 0,
-                    borderRadius: 5,
-                    spacing: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(107, 70, 193, 0.9)',
-                        titleColor: '#FFD700',
-                        bodyColor: '#E9D5FF',
-                        borderColor: '#FFD700',
-                        borderWidth: 1,
-                        cornerRadius: 10,
-                        displayColors: false
-                    }
-                },
-                cutout: '40%'
-            }
-        });
+        // Add smooth scrolling animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        // Smooth scrolling for CTA button
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('animate-in');
                 }
             });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .challenge-card, .wheel-item, .testimonial, .stage').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add parallax effect to header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            header.style.transform = `translateY(${scrolled * 0.5}px)`;
         });
     </script>
 </body>
