@@ -52,59 +52,53 @@ async function generateContentViaAPI(data: AssessmentData): Promise<Record<strin
   try {
     console.log('🤖 Calling ChatGPT API for content generation...');
     
-    const prompt = `Create comprehensive transformation report content for ${data.personalityName} with ${data.dominantState?.percentage}% ${data.dominantState?.name} state and ${data.dominantSubtype} subtype focus.
+    const prompt = `You are generating content for a ${data.personalityName} transformation report. You MUST generate ALL of these exact fields:
 
-You must generate content for ALL 26 placeholders below. Return complete JSON with actual content (not placeholder text):
-
+REQUIRED JSON STRUCTURE (generate ALL fields):
 {
   "PERSONALITY_TYPE": "${data.personalityName}",
-  "HERO_SUBTITLE": "actual transformation tagline here",
-  "STAGE1_OPENING": "actual current reality paragraph for ${data.personalityName}",
-  "STAGE1_DESCRIPTION": "detailed current state analysis paragraph",
-  "STAGE2_OPENING": "call to adventure paragraph",
-  "STAGE3_OPENING": "refusal of call paragraph", 
-  "STAGE4_OPENING": "meeting mentor paragraph",
+  "HERO_SUBTITLE": "transformation tagline here",
+  "STAGE1_OPENING": "current reality description here",
+  "STAGE1_DESCRIPTION": "detailed analysis here", 
+  "STAGE2_OPENING": "call to adventure here",
+  "STAGE3_OPENING": "refusal description here",
+  "STAGE4_OPENING": "mentor meeting here",
   "CARD1_TITLE": "primary challenge title",
-  "CARD1_DESCRIPTION": "15-30 word challenge description",
+  "CARD1_DESCRIPTION": "15-30 word description",
   "CARD2_TITLE": "core pattern title",
-  "CARD2_DESCRIPTION": "15-30 word pattern description",
-  "CARD3_TITLE": "emotional state title", 
-  "CARD3_DESCRIPTION": "15-30 word emotional description",
-  "CARD4_TITLE": "behavioral pattern title",
-  "CARD4_DESCRIPTION": "15-30 word behavioral description",
-  "TESTIMONIAL1_QUOTE": "20-40 word transformation quote",
+  "CARD2_DESCRIPTION": "15-30 word description", 
+  "CARD3_TITLE": "emotional state title",
+  "CARD3_DESCRIPTION": "15-30 word description",
+  "CARD4_TITLE": "behavioral pattern title", 
+  "CARD4_DESCRIPTION": "15-30 word description",
+  "TESTIMONIAL1_QUOTE": "20-40 word testimonial quote",
   "TESTIMONIAL1_AUTHOR": "Name, Professional Title",
-  "TESTIMONIAL2_QUOTE": "20-40 word breakthrough quote", 
+  "TESTIMONIAL2_QUOTE": "20-40 word testimonial quote", 
   "TESTIMONIAL2_AUTHOR": "Name, Professional Title",
-  "TESTIMONIAL3_QUOTE": "20-40 word results quote",
+  "TESTIMONIAL3_QUOTE": "20-40 word testimonial quote",
   "TESTIMONIAL3_AUTHOR": "Name, Professional Title",
-  "WHEEL_CAREER_BEFORE": "current career state description",
-  "WHEEL_CAREER_AFTER": "transformed career state description",
+  "WHEEL_CAREER_BEFORE": "current career state",
+  "WHEEL_CAREER_AFTER": "transformed career state",
   "WHEEL_RELATIONSHIPS_BEFORE": "current relationship patterns",
-  "WHEEL_RELATIONSHIPS_AFTER": "transformed relationship approach",
+  "WHEEL_RELATIONSHIPS_AFTER": "transformed relationships",
   "WHEEL_MENTAL_BEFORE": "current mental state with ${data.dominantState?.name}",
-  "WHEEL_MENTAL_AFTER": "transformed mental clarity description",
-  "WARNING_TEXT": "warning about staying stuck in ${data.dominantState?.name} patterns",
-  "INSIGHT_TEXT": "key transformation insight for ${data.personalityName}",
-  "INVITATION_TEXT": "invitation to transform ${data.dominantState?.name} into strength",
-  "TRANSFORMATION_SUMMARY": "complete transformation summary",
-  "MOTIVATIONAL_QUOTE": "inspiring motivational quote",
-  "CRITICAL_CHOICE_TEXT": "critical decision moment text",
-  "FINAL_CALL_TO_ACTION": "final compelling action statement"
+  "WHEEL_MENTAL_AFTER": "transformed mental clarity",
+  "WARNING_TEXT": "warning about staying stuck",
+  "INSIGHT_TEXT": "key transformation insight", 
+  "INVITATION_TEXT": "invitation to transform"
 }
 
-Generate ALL 32 fields with real content. Return only valid JSON.`;
+Generate exactly this structure with appropriate ${data.personalityName} content. Return ONLY the complete JSON object.`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 8000,
-      temperature: 0.7
+      max_tokens: 4000, // Increased token limit
+      temperature: 0.5  // Lower temperature for more consistent structure
     });
 
     const content = completion.choices[0].message.content || '{}';
     console.log('✅ ChatGPT API response received, content length:', content.length);
-    console.log('Raw content preview:', content.substring(0, 200));
     
     // Extract JSON from markdown code blocks if present
     let jsonContent = content;
@@ -116,10 +110,18 @@ Generate ALL 32 fields with real content. Return only valid JSON.`;
     // Clean up any remaining formatting issues
     jsonContent = jsonContent.trim();
     
-    console.log('Cleaned JSON preview:', jsonContent.substring(0, 200));
-    
+    // Add validation to ensure all expected keys are present
     const parsedContent = JSON.parse(jsonContent);
+    const expectedKeys = 28; // Total expected keys
+    const actualKeys = Object.keys(parsedContent).length;
+    
+    console.log(`📊 Content coverage: ${actualKeys}/${expectedKeys} placeholders generated`);
     console.log('📝 Generated content keys:', Object.keys(parsedContent));
+    
+    if (actualKeys < expectedKeys) {
+      console.log('⚠️ Incomplete response, missing keys:', 
+        ['STAGE2_OPENING', 'STAGE3_OPENING', 'STAGE4_OPENING'].filter(key => !parsedContent[key]));
+    }
     
     return parsedContent;
   } catch (error) {
