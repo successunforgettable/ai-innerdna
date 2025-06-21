@@ -482,6 +482,55 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     res.sendFile(path.join(__dirname, '../challenger-template-fixed.html'));
   });
 
+  // AI-generated personalized report route
+  app.get("/ai-reformer-report", async (req, res) => {
+    try {
+      const reformerAssessmentData = {
+        primaryType: "1",
+        confidence: 88,
+        wing: "9",
+        foundationStones: [
+          {
+            setIndex: 0,
+            stoneIndex: 2,
+            context: "When making decisions,",
+            statements: ["I consider what is right", "I focus on improvement", "I aim for perfection"]
+          }
+        ],
+        buildingBlocks: [
+          {
+            name: "Principled Reformer",
+            wing: "9"
+          }
+        ],
+        colorStates: [
+          {
+            state: "Order",
+            percentage: 70
+          },
+          {
+            state: "Peace", 
+            percentage: 30
+          }
+        ],
+        detailTokens: {
+          social: 4,
+          selfPreservation: 4,
+          sexual: 2
+        }
+      };
+
+      console.log('Generating AI-powered personalized report...');
+      const reportData = await generateCustomReport(reformerAssessmentData);
+      const htmlReport = generateCustomReportHTML(reportData);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlReport);
+    } catch (error) {
+      console.error('Error generating AI report:', error);
+      res.status(500).send('Error generating AI-powered report');
+    }
+  });
+
   app.post("/api/generate-custom-report-data", async (req, res) => {
     try {
       const { assessmentData } = req.body;
