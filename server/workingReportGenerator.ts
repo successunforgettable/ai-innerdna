@@ -632,6 +632,85 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
   }
 }
 
+// CALL 8: Final 24 Placeholders for 100% Coverage
+async function generateFinal24PlaceholdersChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
+  try {
+    console.log("🤖 Calling ChatGPT API for FINAL 24 PLACEHOLDERS...");
+    
+    const prompt = `ROLE: You are an expert transformation coach creating the FINAL 24 missing placeholders for ${userData.personalityType} - ${userData.personalityName} transformation report.
+
+CRITICAL: Generate EXACTLY these 24 remaining placeholders for 100% template coverage:
+
+REQUIRED JSON STRUCTURE:
+{
+  "CARD19_TITLE": "Challenge card 19 title",
+  "CARD19_DESCRIPTION": "Challenge card 19 description (2-3 sentences)",
+  "CARD20_TITLE": "Challenge card 20 title", 
+  "CARD20_DESCRIPTION": "Challenge card 20 description (2-3 sentences)",
+  "CARD21_TITLE": "Challenge card 21 title",
+  "CARD21_DESCRIPTION": "Challenge card 21 description (2-3 sentences)",
+  "CARD22_TITLE": "Challenge card 22 title",
+  "CARD22_DESCRIPTION": "Challenge card 22 description (2-3 sentences)",
+  "RESURRECTION_BEFORE1": "Life before transformation aspect 1",
+  "RESURRECTION_BEFORE2": "Life before transformation aspect 2", 
+  "RESURRECTION_BEFORE3": "Life before transformation aspect 3",
+  "RESURRECTION_BEFORE4": "Life before transformation aspect 4",
+  "RESURRECTION_AFTER1": "Life after transformation aspect 1",
+  "RESURRECTION_AFTER2": "Life after transformation aspect 2",
+  "RESURRECTION_AFTER3": "Life after transformation aspect 3", 
+  "RESURRECTION_AFTER4": "Life after transformation aspect 4",
+  "TRANSFORMATION_SUMMARY": "Complete transformation overview (3-4 sentences)",
+  "INCREDIBLE_YOU_TEXT": "Empowering self-recognition text (2-3 sentences)",
+  "HERO_JOURNEY_TEXT": "Hero's journey completion text (3-4 sentences)",
+  "FINAL_CALL_TO_ACTION": "Powerful call to action (2-3 sentences)",
+  "FINAL_CHOICE_TEXT": "Decision moment text (2-3 sentences)",
+  "FINAL_ENCOURAGEMENT": "Final motivational message (2-3 sentences)",
+  "FINAL_TRANSFORMATION_TEXT": "Ultimate transformation description (3-4 sentences)",
+  "WARNING_COMPLETION_TEXT": "Gentle warning about completing journey (2-3 sentences)"
+}
+
+USER CONTEXT: ${userData.personalityName} with ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%) and ${userData.moodStates.secondary.name} (${userData.moodStates.secondary.percentage}%), ${userData.subtype} subtype.
+
+Generate profound, transformational content for Type 6 anxiety-to-security journey completion.`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 3000,
+      temperature: 0.7,
+    });
+
+    const content = response.choices[0].message.content?.trim();
+    if (!content) {
+      console.error("❌ Empty response from ChatGPT API");
+      return null;
+    }
+
+    console.log(`✅ Final 24 Placeholders API response: ${content.length} characters`);
+
+    let parsedContent;
+    try {
+      // Handle potential markdown formatting
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      const jsonString = jsonMatch ? jsonMatch[0] : content;
+      parsedContent = JSON.parse(jsonString);
+      
+      const fieldCount = Object.keys(parsedContent).length;
+      console.log(`✅ Final 24 Placeholders generated: ${fieldCount} fields`);
+      
+      return parsedContent;
+    } catch (parseError) {
+      console.error("❌ Failed to parse ChatGPT response as JSON:", parseError);
+      console.error("Raw response:", content);
+      return null;
+    }
+    
+  } catch (error) {
+    console.error("❌ Failed to generate final 24 placeholders:", error);
+    return null;
+  }
+}
+
 // Keep the original single-call function as backup
 export async function generateTransformationReport(assessmentData: any): Promise<string | null> {
   console.log("🔄 Using single-call backup generation...");
