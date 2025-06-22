@@ -18,21 +18,23 @@ export async function generateCompleteStyledReport(typeId) {
   const hrvBaseline = getHRVBaseline(typeId);
   const personalityName = getPersonalityName(typeId);
   
-  // Replace dynamic content placeholders - Step by step approach
-  htmlContent = htmlContent
-    // First replace the JavaScript animation target
-    .replace('const target = 78;', `const target = ${heartPercentage};`)
-    // Then replace HTML element content
-    .replace('<span id="heartPercentage">78</span>', `<span id="heartPercentage">${heartPercentage}</span>`)
-    .replace('<span id="heartPercentage2">78</span>', `<span id="heartPercentage2">${heartPercentage}</span>`)
-    // Replace personality type references
-    .replace(/The Type 8 Challenger/g, `The ${personalityName}`)
-    .replace(/TYPE 8 CHALLENGER/g, personalityName.toUpperCase())
-    .replace(/THE Challenger/g, `THE ${personalityName}`)
-    // Replace remaining percentage and HRV references
-    .replace(/78%/g, `${heartPercentage}%`)
-    .replace(/22ms/g, `${hrvBaseline}ms`)
-    .replace(/Your HRV: 22ms/g, `Your HRV: ${hrvBaseline}ms`);
+  // Replace dynamic content placeholders - Multiple replacement passes
+  // Pass 1: JavaScript animation target (with exact whitespace)
+  htmlContent = htmlContent.replace(/const target = 78;/g, `const target = ${heartPercentage};`);
+  
+  // Pass 2: HTML span elements (exact match)
+  htmlContent = htmlContent.replace(/<span id="heartPercentage">78<\/span>/g, `<span id="heartPercentage">${heartPercentage}</span>`);
+  htmlContent = htmlContent.replace(/<span id="heartPercentage2">78<\/span>/g, `<span id="heartPercentage2">${heartPercentage}</span>`);
+  
+  // Pass 3: Personality type references
+  htmlContent = htmlContent.replace(/The Type 8 Challenger/g, `The ${personalityName}`);
+  htmlContent = htmlContent.replace(/TYPE 8 CHALLENGER/g, personalityName.toUpperCase());
+  htmlContent = htmlContent.replace(/THE Challenger/g, `THE ${personalityName}`);
+  
+  // Pass 4: Remaining percentage and HRV references
+  htmlContent = htmlContent.replace(/78%/g, `${heartPercentage}%`);
+  htmlContent = htmlContent.replace(/22ms/g, `${hrvBaseline}ms`);
+  htmlContent = htmlContent.replace(/Your HRV: 22ms/g, `Your HRV: ${hrvBaseline}ms`);
   
   // Generate filename
   const timestamp = Date.now();
