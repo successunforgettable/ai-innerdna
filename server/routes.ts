@@ -13,6 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
+import EmergencyReportGenerator from '../emergency-report-generator.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -958,6 +959,31 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       res.sendFile(path.resolve(reportPath));
     } else {
       res.status(404).send('Working report not found. <a href="/test-working-report">Generate Test Report</a>');
+    }
+  });
+
+  // Emergency Report Generator - Reads from markdown files
+  app.get('/api/emergency-report/:userId', async (req, res) => {
+    try {
+      const generator = new EmergencyReportGenerator();
+      const result = await generator.generateReport({
+        personalityType: parseInt(req.params.userId) || 1,
+        userId: parseInt(req.params.userId)
+      });
+      
+      const fileName = `emergency-report-${req.params.userId}-${Date.now()}.html`;
+      const fs = require('fs');
+      fs.writeFileSync(fileName, result.html);
+      
+      res.json({
+        success: true,
+        fileName: fileName,
+        metadata: result.metadata,
+        files_location: 'public/9 types reports/',
+        system: 'EMERGENCY TEMPLATE - UNLIMITED SCALE'
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   });
 
