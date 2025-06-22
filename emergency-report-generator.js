@@ -1620,7 +1620,7 @@ function getTestimonials(typeId) {
         profession: 'Marketing Director',
         beforeHRV: '18',
         afterHRV: '75',
-        image: 'https://images.unsplash.com/photo-1494790108755-2616b2e7d6e8?w=100&h=100&fit=crop&crop=face',
+        image: 'https://randomuser.me/api/portraits/women/44.jpg',
         quote1: 'I started The Incredible You program with an HRV of just 18ms. I was that executive who looked successful on the outside but felt like drowning inside.',
         quote2: 'Within 10 weeks, my HRV was consistently above 75ms. My husband said it was like living with a completely different person. I went from snapping at my kids to enjoying our evening routine.'
       },
@@ -1629,7 +1629,7 @@ function getTestimonials(typeId) {
         profession: 'Entrepreneur',
         beforeHRV: '14',
         afterHRV: '82',
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+        image: 'https://randomuser.me/api/portraits/men/32.jpg',
         quote1: 'My HRV measurement was eye-opening - only 14ms when I started. I was running three businesses but felt like running on fumes.',
         quote2: 'By week 8, my HRV hit 82ms and I was making decisions 5x faster than before. My revenue doubled while my work hours decreased.'
       },
@@ -1638,7 +1638,7 @@ function getTestimonials(typeId) {
         profession: 'Single Mom',
         beforeHRV: '21',
         afterHRV: '68',
-        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+        image: 'https://randomuser.me/api/portraits/women/68.jpg',
         quote1: 'Starting with 21ms HRV, I was that mom who looked like she had it together but was secretly falling apart. The constant vigilance was exhausting.',
         quote2: 'The coherence work didn\'t just give me energy back (HRV now 68ms) - it gave me clarity about what actually mattered. Everything improved: career, health, even dating.'
       }

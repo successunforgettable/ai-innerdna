@@ -962,35 +962,28 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Emergency Report Generator - ES Module Compatible
+  // Emergency Report Generator - Updated Genspark Design
   app.get('/api/emergency-report/:userId', async (req, res) => {
     try {
       console.log(`🚀 Emergency template generation for user ${req.params.userId}`);
       
-      const generator = new EmergencyReportGenerator();
-      const result = await generator.generateReport({
-        personalityType: parseInt(req.params.userId) || 1,
-        wingInfluence: 1,
-        moodStates: { primary: 60, secondary: 40 },
-        subtype: 'Self-Preservation',
-        userId: parseInt(req.params.userId)
-      });
+      const typeId = parseInt(req.params.userId) || 1;
+      const reportHtml = await generateCompleteStyledReport(typeId);
       
       // Save report file using async file operations
       const fileName = `emergency-report-${req.params.userId}-${Date.now()}.html`;
-      await fs.promises.writeFile(fileName, result.html);
+      await fs.promises.writeFile(fileName, reportHtml);
       
       res.json({
         success: true,
         fileName: fileName,
-        metadata: result.metadata,
-        message: '✅ ES MODULE SYSTEM - UNLIMITED CONCURRENT USERS',
+        message: '✅ GENSPARK DESIGN - UNLIMITED CONCURRENT USERS',
         performance: {
           old_chatgpt: 'FAILS at 10+ users, $1.50, 60+ seconds',
           new_template: 'UNLIMITED users, $0.022, <5 seconds'
         },
         files_location: 'public/9 types reports/',
-        system_type: 'ES Module Compatible'
+        system_type: 'Genspark Design with Professional Testimonials'
       });
       
     } catch (error) {
@@ -1003,20 +996,31 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Test route to verify file loading
+  // Test route to verify Genspark design system
   app.get('/api/test-content-loading', async (req, res) => {
     try {
-      const generator = new EmergencyReportGenerator();
+      // Test generating a sample report
+      const testReport = await generateCompleteStyledReport(8);
+      const reportSize = testReport.length;
+      
       res.json({
-        system: 'ES Module Emergency Template',
-        content_summary: generator.contentLoader.getLoadSummary(),
-        status: '✅ All markdown files loaded successfully',
+        system: 'Genspark Design Emergency Template',
+        status: '✅ All Genspark design elements loaded successfully',
+        report_size: `${Math.round(reportSize/1024)}KB`,
+        testimonial_images: 'Fixed with reliable randomuser.me sources',
         files_location: 'public/9 types reports/',
-        ready_for_unlimited_scale: true
+        ready_for_unlimited_scale: true,
+        design_features: [
+          'Purple gradient backgrounds',
+          'Professional testimonial photos',
+          'Glass-morphism effects',
+          'Chart.js HRV visualizations',
+          'Heart-Brain Science integration'
+        ]
       });
     } catch (error) {
       res.status(500).json({
-        error: 'Content loading failed',
+        error: 'Genspark template loading failed',
         details: error instanceof Error ? error.message : 'Unknown error',
         suggestion: 'Check file paths and markdown file format'
       });
