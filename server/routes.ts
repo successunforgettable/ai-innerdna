@@ -13,7 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
-import { EmergencyReportGenerator } from '../emergency-report-generator.js';
+import { generateStyledReport } from '../enhanced_report_generator.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -1023,20 +1023,22 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Emergency Report Viewer - Direct HTML output using exact Challenger template
+  // Enhanced Report Viewer - Dynamic HRV and heart neuron analysis
   app.get('/api/emergency-view/:typeId', async (req, res) => {
     try {
-      const generator = new EmergencyReportGenerator();
-      const result = await generator.generateReport({
-        personalityType: parseInt(req.params.typeId) || 1,
-        userId: parseInt(req.params.typeId) + 1000
-      });
+      const typeId = parseInt(req.params.typeId);
       
+      if (typeId < 1 || typeId > 9) {
+        return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
+      }
+      
+      const html = await generateStyledReport(typeId);
       res.setHeader('Content-Type', 'text/html');
-      res.send(result.html);
+      res.send(html);
+      
     } catch (error) {
-      console.error('Emergency view error:', error);
-      res.status(500).send(`<h1>Error: ${error.message}</h1>`);
+      console.error('Error generating emergency report:', error);
+      res.status(500).json({ error: 'Failed to generate report' });
     }
   });
 
