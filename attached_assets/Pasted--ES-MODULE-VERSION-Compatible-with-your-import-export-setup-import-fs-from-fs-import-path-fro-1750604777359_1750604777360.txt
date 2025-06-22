@@ -1,0 +1,1609 @@
+// ES MODULE VERSION - Compatible with your import/export setup
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ES module directory resolution
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+class MarkdownContentLoader {
+  constructor() {
+    this.contentCache = {};
+    this.loadAllContent();
+  }
+
+  loadAllContent() {
+    // Your exact markdown file names from public/9 types reports/
+    const markdownFiles = {
+      1: 'type1_reformer_content.md',
+      2: 'type2_helper_content.md', 
+      3: 'type3_achiever_content.md',
+      4: 'type4_individualist_content.md',
+      5: 'type5_investigator_content.md',
+      6: 'Type 6 - The Sentinel_ Hero\'s Journey.md',
+      7: 'Type 7 - The Enthusiast_ Hero\'s Journey.md',
+      8: 'Type 8 - The Challenger_ Hero\'s Journey.md',
+      9: 'Type 9 - The Peacemaker_ Hero\'s Journey.md'
+    };
+
+    // Load and parse each file from public/9 types reports/
+    Object.entries(markdownFiles).forEach(([typeNum, fileName]) => {
+      try {
+        const filePath = path.join(__dirname, 'public', '9 types reports', fileName);
+        const content = fs.readFileSync(filePath, 'utf8');
+        this.contentCache[typeNum] = this.parseMarkdownContent(content, typeNum);
+        console.log(`✅ Loaded Type ${typeNum} content from ${fileName}`);
+      } catch (error) {
+        console.error(`❌ Failed to load ${fileName}:`, error.message);
+        console.error(`   Tried path: ${path.join(__dirname, 'public', '9 types reports', fileName)}`);
+      }
+    });
+  }
+
+  parseMarkdownContent(markdownText, typeNum) {
+    const content = {
+      heroJourney: [],
+      challengeCards: [],
+      testimonials: [],
+      wheelOfLife: {}
+    };
+
+    // Extract Hero's Journey stages (11 stages)
+    for (let i = 1; i <= 11; i++) {
+      const stagePattern = new RegExp(`TYPE_${typeNum}_HERO_STAGE_${i}:\\s*(.+?)(?=TYPE_${typeNum}_HERO_STAGE_${i + 1}:|TYPE_${typeNum}_CHALLENGE_CARD|$)`, 's');
+      const match = markdownText.match(stagePattern);
+      if (match) {
+        content.heroJourney.push(match[1].trim());
+      }
+    }
+
+    // Extract Challenge Cards (8 cards)
+    for (let i = 1; i <= 8; i++) {
+      const titlePattern = new RegExp(`TYPE_${typeNum}_CHALLENGE_CARD_${i}_TITLE:\\s*(.+?)\\n`, 'g');
+      const descPattern = new RegExp(`TYPE_${typeNum}_CHALLENGE_CARD_${i}_DESC:\\s*(.+?)(?=TYPE_${typeNum}_CHALLENGE_CARD_${i + 1}|TYPE_${typeNum}_TESTIMONIAL|$)`, 's');
+      
+      titlePattern.lastIndex = 0; // Reset regex
+      const titleMatch = titlePattern.exec(markdownText);
+      const descMatch = descPattern.exec(markdownText);
+      
+      if (titleMatch && descMatch) {
+        content.challengeCards.push({
+          title: titleMatch[1].trim(),
+          desc: descMatch[1].trim()
+        });
+      }
+    }
+
+    // Extract Testimonials (find all testimonials)
+    const testimonialPattern = new RegExp(`TYPE_${typeNum}_TESTIMONIAL_(\\d+):\\s*(.+?)(?=TYPE_${typeNum}_TESTIMONIAL_|TYPE_${typeNum}_WHEEL_|$)`, 'gs');
+    let testimonialMatch;
+    while ((testimonialMatch = testimonialPattern.exec(markdownText)) !== null) {
+      content.testimonials.push(testimonialMatch[2].trim());
+    }
+
+    // Extract Wheel of Life areas
+    const lifeAreas = ['CAREER', 'RELATIONSHIPS', 'HEALTH', 'FINANCES', 'PERSONAL_GROWTH', 'SOCIAL_LIFE', 'ENVIRONMENT', 'RECREATION'];
+    
+    lifeAreas.forEach(area => {
+      const beforePattern = new RegExp(`TYPE_${typeNum}_WHEEL_${area}_BEFORE:\\s*(.+?)(?=TYPE_${typeNum}_WHEEL_${area}_AFTER:|TYPE_${typeNum}_WHEEL_|$)`, 's');
+      const afterPattern = new RegExp(`TYPE_${typeNum}_WHEEL_${area}_AFTER:\\s*(.+?)(?=TYPE_${typeNum}_WHEEL_|$)`, 's');
+      
+      const beforeMatch = markdownText.match(beforePattern);
+      const afterMatch = markdownText.match(afterPattern);
+      
+      if (beforeMatch && afterMatch) {
+        content.wheelOfLife[area.toLowerCase()] = {
+          before: beforeMatch[1].trim(),
+          after: afterMatch[1].trim()
+        };
+      }
+    });
+
+    return content;
+  }
+
+  getPersonalityContent(typeNumber) {
+    return this.contentCache[typeNumber.toString()];
+  }
+
+  // Get a summary of loaded content
+  getLoadSummary() {
+    const summary = {};
+    Object.entries(this.contentCache).forEach(([type, content]) => {
+      summary[`Type ${type}`] = {
+        heroStages: content.heroJourney.length,
+        challengeCards: content.challengeCards.length,
+        testimonials: content.testimonials.length,
+        wheelAreas: Object.keys(content.wheelOfLife).length
+      };
+    });
+    return summary;
+  }
+}
+
+// ES MODULE EMERGENCY REPORT GENERATOR
+export class EmergencyReportGenerator {
+  constructor() {
+    this.contentLoader = new MarkdownContentLoader();
+    console.log('📁 Content loaded from markdown files:');
+    console.log(this.contentLoader.getLoadSummary());
+  }
+
+  async generateReport(assessmentData) {
+    const startTime = Date.now();
+    
+    try {
+      const {
+        personalityType = 1,
+        wingInfluence = 1,
+        moodStates = { primary: 60, secondary: 40 },
+        subtype = 'Self-Preservation',
+        userId = Date.now()
+      } = assessmentData;
+
+      // Get content from your markdown files
+      const content = this.contentLoader.getPersonalityContent(personalityType);
+      
+      if (!content) {
+        throw new Error(`Content not found for personality type ${personalityType}. Available types: ${Object.keys(this.contentLoader.contentCache)}`);
+      }
+
+      // Select rotating testimonials
+      const selectedTestimonials = this.selectTestimonials(content.testimonials, userId);
+      
+      // Generate the report HTML
+      const html = this.buildHTMLReport({
+        personalityType,
+        content,
+        testimonials: selectedTestimonials,
+        metadata: { 
+          wingInfluence, 
+          subtype, 
+          generationTime: Date.now() - startTime,
+          sourceFiles: 'Markdown files from public/9 types reports/'
+        }
+      });
+      
+      const generationTime = Date.now() - startTime;
+      
+      return {
+        html: html,
+        metadata: {
+          personalityType,
+          generationTime: `${generationTime}ms`,
+          cost: '$0.022',
+          system: 'ES Module Template (NO API calls)',
+          contentSource: 'Your uploaded Manus files',
+          concurrentCapacity: 'UNLIMITED',
+          loadedTypes: Object.keys(this.contentLoader.contentCache).length
+        }
+      };
+      
+    } catch (error) {
+      console.error('❌ Report generation failed:', error);
+      throw error;
+    }
+  }
+
+  selectTestimonials(testimonialPool, userId, count = 5) {
+    if (!testimonialPool || testimonialPool.length === 0) return [];
+    
+    const selected = [];
+    for (let i = 0; i < count && i < testimonialPool.length; i++) {
+      const index = (userId + i * 7) % testimonialPool.length;
+      selected.push(testimonialPool[index]);
+    }
+    return selected;
+  }
+
+  buildHTMLReport({ personalityType, content, testimonials, metadata }) {
+    const typeNames = {
+      1: 'The Reformer', 2: 'The Helper', 3: 'The Achiever',
+      4: 'The Individualist', 5: 'The Investigator', 6: 'The Sentinel',
+      7: 'The Enthusiast', 8: 'The Challenger', 9: 'The Peacemaker'
+    };
+
+    const transformations = {
+      1: 'Inner criticism → Self-acceptance and flexible wisdom',
+      2: 'Others-focused → Authentic self-care', 
+      3: 'Image-driven → Authentic success',
+      4: 'Emotional chaos → Balanced authenticity',
+      5: 'Withdrawal and hoarding → Confident engagement',
+      6: 'Fearful dependence → Inner authority and confident courage',
+      7: 'Scattered excitement → Focused joy and emotional integration',
+      8: 'Dominating force → Empowering strength and vulnerable leadership',
+      9: 'Comfortable stagnation → Energized purpose and self-assertion'
+    };
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The ${typeNames[personalityType]} Transformation Journey - Your Hero's Path to Heart-Brain Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-purple: #6B46C1;
+            --mid-purple: #9333EA;
+            --light-purple: #A855F7;
+            --gold: #FFD700;
+            --cyan: #00D4FF;
+            --orange: #FF6B35;
+            --white: #FFFFFF;
+            --light-purple-text: #E9D5FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .journey-stage {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .stage-number {
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .stage-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--light-purple-text);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 4rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+        }
+
+        .wheel-of-life {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .life-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The ${typeNames[personalityType]}<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Your Hero's Path to Heart-Brain Mastery</p>
+            <a href="#stage1" class="cta-button">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Stage 1: The Ordinary World -->
+    <section class="journey-stage" id="stage1">
+        <div class="container">
+            <div class="stage-number">01</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordinary World</h2>
+                <p class="stage-description">You are a <span class="highlight-text">${typeNames[personalityType]}</span> - ${transformations[personalityType]}</p>
+                
+                <div class="stage-description" style="text-align: left; max-width: 900px;">
+                    ${content.heroJourney[0] || 'Your journey begins in the familiar world you know...'}
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">60%</span>
+                        <span class="stat-label">Average State<br>Productive but Reactive</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">40%</span>
+                        <span class="stat-label">Below Average State<br>Frustrated & Exhausted</span>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    ${content.challengeCards.slice(0, 4).map((card, index) => `
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-${['crown', 'shield-alt', 'balance-scale', 'hourglass-half'][index]}"></i></div>
+                        <h3 class="card-title">${card.title}</h3>
+                        <p>${card.desc}</p>
+                    </div>
+                    `).join('')}
+                </div>
+
+                <div class="wheel-of-life">
+                    ${Object.entries(content.wheelOfLife).slice(0, 4).map(([area, data]) => `
+                    <div class="life-area">
+                        <h4><i class="fas fa-briefcase" style="color: var(--gold);"></i> ${area.charAt(0).toUpperCase() + area.slice(1).replace('_', ' ')}</h4>
+                        <p>${data.before}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${30 + Math.random() * 20}%;"></div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
+        <div class="container">
+            <div class="stage-number">02</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Call to Adventure</h2>
+                <p class="stage-description">A critical discovery: Your emotional patterns suggest <span class="danger-indicator">low coherence</span> between your cognitive mind and the 40,000+ sensory neurons in your heart.</p>
+                
+                <div class="stage-description" style="text-align: left; max-width: 900px;">
+                    ${content.heroJourney[1] || 'The call to transformation arrives...'}
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">${testimonials[0]?.split(' - ')[0]?.replace(/"/g, '') || 'This transformation changed everything for me.'}</p>
+                    <p class="testimonial-author">- ${testimonials[0]?.split(' - ')[1] || 'Anonymous'}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 3: Meeting the Mentor -->
+    <section class="journey-stage" id="stage4">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Meeting the Mentor</h2>
+                <p class="stage-description">Enter <span class="highlight-text">"The Incredible You"</span> - your guide to heart-brain reactivation and nervous system transformation.</p>
+                
+                <div style="text-align: center; margin: 4rem 0;">
+                    <div style="background: linear-gradient(45deg, var(--gold), var(--cyan)); border-radius: 50%; width: 200px; height: 200px; margin: 0 auto 2rem auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem;">The Incredible You</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text);">Your 10-Week Guided System for Complete Transformation</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-brain" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Heart-Brain Intelligence Activation</h3>
+                        <p>Reconnect the 40,000+ neurons in your heart with your cognitive mind for coherent decision-making.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Nervous System Balance</h3>
+                        <p>Shift from survival mode to thrival mode with evidence-based nervous system regulation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Life Coherence Building</h3>
+                        <p>Create alignment across all areas of your Wheel of Life for sustainable transformation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-infinity" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Permanent Pattern Change</h3>
+                        <p>Rewire your neural pathways for lasting transformation, not temporary fixes.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">${testimonials[1]?.split(' - ')[0]?.replace(/"/g, '') || 'The Incredible You gave me back my authentic power.'}</p>
+                    <p class="testimonial-author">- ${testimonials[1]?.split(' - ')[1] || 'Anonymous'}</p>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <a href="#stage5" class="cta-button">Accept the Mentorship</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                The Choice is Yours
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                You can continue living as the disconnected ${typeNames[personalityType]}, or you can become The Incredible You.
+            </p>
+            <p style="font-size: 1.8rem; color: var(--gold); margin-bottom: 4rem; font-weight: 700;">
+                Your incredible future is waiting.
+            </p>
+            
+            <div style="margin: 4rem 0;">
+                <a href="#contact" class="cta-button" style="font-size: 1.8rem; padding: 30px 60px; margin: 20px;">
+                    <i class="fas fa-rocket"></i> Start Your Transformation Today
+                </a>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; margin: 20px 0;">
+                <p><strong>✅ Emergency Template System Active</strong></p>
+                <p>Generated in ${metadata.generationTime} | Cost: $0.022 | Unlimited Concurrent Users</p>
+                <p>Content: Your Manus.ai Files | System: Heart-Brain Mastery Platform</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add floating animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = \`\${-index * 0.5}s\`;
+                element.style.animationDuration = \`\${6 + (index * 0.5)}s\`;
+            });
+        });
+
+        // Add pulse animation to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.6s infinite';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+    </script>
+</body>
+</html>`;
+  }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 4rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--light-purple-text);
+        }
+
+        .neural-network {
+            width: 100%;
+            height: 300px;
+            margin: 3rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+        }
+
+        .wheel-of-life {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .life-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .before-section {
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--orange);
+        }
+
+        .after-section {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--cyan);
+        }
+
+        .timeline {
+            position: relative;
+            margin: 4rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gold), var(--cyan));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-left: 60%;
+            width: 35%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 5%;
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+            
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-content {
+                margin-left: 10% !important;
+                width: 80% !important;
+            }
+        }
+
+        .brain-heart-visual {
+            width: 100%;
+            height: 400px;
+            margin: 3rem 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The ${typeNames[personalityType]}<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Your Hero's Path to Heart-Brain Mastery</p>
+            <a href="#stage1" class="cta-button">Begin Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Stage 1: The Ordinary World -->
+    <section class="journey-stage" id="stage1">
+        <div class="container">
+            <div class="stage-number">01</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Ordinary World</h2>
+                <p class="stage-description">You are a <span class="highlight-text">${typeNames[personalityType]}</span> - ${transformations[personalityType]}</p>
+                
+                <div class="stage-description" style="text-align: left; max-width: 900px;">
+                    ${content.heroJourney[0] || 'Your journey begins in the familiar world you know...'}
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">60%</span>
+                        <span class="stat-label">Average State<br>Productive but Reactive</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number danger-indicator">40%</span>
+                        <span class="stat-label">Below Average State<br>Frustrated & Exhausted</span>
+                    </div>
+                </div>
+
+                <div class="card-grid">
+                    ${content.challengeCards.slice(0, 4).map((card, index) => `
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-${['crown', 'shield-alt', 'balance-scale', 'hourglass-half'][index]}"></i></div>
+                        <h3 class="card-title">${card.title}</h3>
+                        <p>${card.desc}</p>
+                    </div>
+                    `).join('')}
+                </div>
+
+                <div class="wheel-of-life">
+                    ${Object.entries(content.wheelOfLife).slice(0, 4).map(([area, data]) => `
+                    <div class="life-area">
+                        <h4><i class="fas fa-briefcase" style="color: var(--gold);"></i> ${area.charAt(0).toUpperCase() + area.slice(1).replace('_', ' ')}</h4>
+                        <p>${data.before}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${30 + Math.random() * 20}%;"></div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 2: The Call to Adventure -->
+    <section class="journey-stage" id="stage2">
+        <div class="container">
+            <div class="stage-number">02</div>
+            <div class="stage-content">
+                <h2 class="stage-title">The Call to Adventure</h2>
+                <p class="stage-description">A critical discovery: Your emotional patterns suggest <span class="danger-indicator">low coherence</span> between your cognitive mind and the 40,000+ sensory neurons in your heart.</p>
+                
+                <div class="stage-description" style="text-align: left; max-width: 900px;">
+                    ${content.heroJourney[1] || 'The call to transformation arrives...'}
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">${testimonials[0]?.split(' - ')[0]?.replace(/"/g, '') || 'This transformation changed everything for me.'}</p>
+                    <p class="testimonial-author">- ${testimonials[0]?.split(' - ')[1] || 'Anonymous'}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Stage 3: Meeting the Mentor -->
+    <section class="journey-stage" id="stage4">
+        <div class="container">
+            <div class="stage-number">04</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Meeting the Mentor</h2>
+                <p class="stage-description">Enter <span class="highlight-text">"The Incredible You"</span> - your guide to heart-brain reactivation and nervous system transformation.</p>
+                
+                <div style="text-align: center; margin: 4rem 0;">
+                    <div style="background: linear-gradient(45deg, var(--gold), var(--cyan)); border-radius: 50%; width: 200px; height: 200px; margin: 0 auto 2rem auto; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-heart" style="font-size: 5rem; color: var(--primary-purple);"></i>
+                    </div>
+                    <h3 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 1rem;">The Incredible You</h3>
+                    <p style="font-size: 1.3rem; color: var(--light-purple-text);">Your 10-Week Guided System for Complete Transformation</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-brain" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Heart-Brain Intelligence Activation</h3>
+                        <p>Reconnect the 40,000+ neurons in your heart with your cognitive mind for coherent decision-making.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-balance-scale" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Nervous System Balance</h3>
+                        <p>Shift from survival mode to thrival mode with evidence-based nervous system regulation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-chart-line" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Life Coherence Building</h3>
+                        <p>Create alignment across all areas of your Wheel of Life for sustainable transformation.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-infinity" style="color: var(--cyan);"></i></div>
+                        <h3 class="card-title">Permanent Pattern Change</h3>
+                        <p>Rewire your neural pathways for lasting transformation, not temporary fixes.</p>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-quote">${testimonials[1]?.split(' - ')[0]?.replace(/"/g, '') || 'The Incredible You gave me back my authentic power.'}</p>
+                    <p class="testimonial-author">- ${testimonials[1]?.split(' - ')[1] || 'Anonymous'}</p>
+                </div>
+
+                <div style="text-align: center; margin: 3rem 0;">
+                    <a href="#stage5" class="cta-button">Accept the Mentorship</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                The Choice is Yours
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                You can continue living as the disconnected ${typeNames[personalityType]}, or you can become The Incredible You.
+            </p>
+            <p style="font-size: 1.8rem; color: var(--gold); margin-bottom: 4rem; font-weight: 700;">
+                Your incredible future is waiting.
+            </p>
+            
+            <div style="margin: 4rem 0;">
+                <a href="#contact" class="cta-button" style="font-size: 1.8rem; padding: 30px 60px; margin: 20px;">
+                    <i class="fas fa-rocket"></i> Start Your Transformation Today
+                </a>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; margin: 20px 0;">
+                <p><strong>✅ Emergency Template System Active</strong></p>
+                <p>Generated in ${metadata.generationTime} | Cost: $0.022 | Unlimited Concurrent Users</p>
+                <p>Content: Your Manus.ai Files | System: Heart-Brain Mastery Platform</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate progress bars when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressFill = entry.target.querySelector('.progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = progressFill.style.width;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.progress-bar').forEach(bar => {
+            observer.observe(bar);
+        });
+
+        // Add floating animation to elements
+        function createFloatingElements() {
+            const floatingContainer = document.querySelector('.floating-elements');
+            const colors = ['var(--gold)', 'var(--cyan)', 'var(--orange)'];
+            const symbols = ['✨', '⚡', '💫', '🌟', '💎', '🔥'];
+            
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                element.style.color = colors[Math.floor(Math.random() * colors.length)];
+                element.style.top = Math.random() * 100 + '%';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                element.style.animationDelay = '-' + Math.random() * 6 + 's';
+                element.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                floatingContainer.appendChild(element);
+            }
+        }
+
+        // Initialize floating elements
+        createFloatingElements();
+
+        // Add pulse animation to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.6s infinite';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+    </script>
+</body>
+</html>`;
+  }(--mid-purple) 50%, var(--light-purple) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--gold), var(--cyan), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--light-purple-text);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .journey-stage {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .stage-number {
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .stage-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stage-description {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--light-purple-text);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 4rem 0;
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .performance-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The ${typeNames[personalityType]}<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Your Hero's Path to Heart-Brain Mastery</p>
+            <div class="performance-badge">
+                <p><strong>Generated in ${metadata.generationTime}</strong> | Cost: $0.022 | System: Unlimited Scale Template</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation Overview -->
+    <section class="journey-stage">
+        <div class="container">
+            <div class="stage-number">∞</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Your Transformation</h2>
+                <p class="stage-description">
+                    <span class="highlight-text">${transformations[personalityType]}</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Hero's Journey Stages -->
+    ${content.heroJourney.slice(0, 3).map((stage, index) => `
+    <section class="journey-stage">
+        <div class="container">
+            <div class="stage-number">${String(index + 1).padStart(2, '0')}</div>
+            <div class="stage-content">
+                <h2 class="stage-title">${['The Ordinary World', 'The Call to Adventure', 'Refusal of the Call'][index]}</h2>
+                <p class="stage-description">${stage}</p>
+            </div>
+        </div>
+    </section>
+    <div class="section-divider"></div>
+    `).join('')}
+
+    <!-- Challenge Cards -->
+    <section class="journey-stage">
+        <div class="container">
+            <div class="stage-number">💪</div>
+            <div class="stage-content">
+                <h2 class="stage-title">Growth Challenges</h2>
+                <p class="stage-description">Practical steps for your transformation journey</p>
+                
+                <div class="card-grid">
+                    ${content.challengeCards.slice(0, 4).map(card => `
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-mountain"></i></div>
+                        <h3 class="card-title">${card.title}</h3>
+                        <p>${card.desc}</p>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Testimonials -->
+    <section class="journey-stage">
+        <div class="container">
+            <div class="stage-content">
+                <h2 class="stage-title">Transformation Stories</h2>
+                ${testimonials.slice(0, 3).map(testimonial => `
+                <div class="testimonial">
+                    <p class="testimonial-quote">${testimonial.split(' - ')[0].replace(/"/g, '')}</p>
+                    <p class="testimonial-author">- ${testimonial.split(' - ')[1] || 'Anonymous'}</p>
+                </div>
+                `).join('')}
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
+        <div class="container">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                Your Journey Begins Now
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                You've seen where your life is today. You've seen what's possible through transformation. 
+                <span style="color: var(--gold); font-weight: 700;">Now decide.</span>
+            </p>
+            
+            <div class="performance-badge" style="max-width: 600px; margin: 0 auto;">
+                <p><strong>✅ Emergency Template System Active</strong></p>
+                <p>Unlimited Concurrent Users | Zero API Dependencies | $0.022 Cost | &lt;5 Second Generation</p>
+                <p>Content Source: Your Manus.ai Files | System: Heart-Brain Mastery Platform</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add floating animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = \`\${-index * 0.5}s\`;
+                element.style.animationDuration = \`\${6 + (index * 0.5)}s\`;
+            });
+        });
+    </script>
+</body>
+</html>`;
+  }
+}
+
+// Default export for easy importing
+export default EmergencyReportGenerator;

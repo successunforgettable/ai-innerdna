@@ -216,8 +216,7 @@ export class EmergencyReportGenerator {
       9: 'Comfortable stagnation → Energized purpose and self-assertion'
     };
 
-    return `
-<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -225,6 +224,7 @@ export class EmergencyReportGenerator {
     <title>The ${typeNames[personalityType]} Transformation Journey - Your Hero's Path to Heart-Brain Mastery</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary-purple: #6B46C1;
@@ -313,6 +313,25 @@ export class EmergencyReportGenerator {
             font-weight: 300;
         }
 
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--primary-purple);
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+        }
+
         .journey-stage {
             padding: 100px 0;
             position: relative;
@@ -379,11 +398,8 @@ export class EmergencyReportGenerator {
 
         .card-icon {
             font-size: 3rem;
+            color: var(--gold);
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--gold), var(--cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .card-title {
@@ -393,281 +409,380 @@ export class EmergencyReportGenerator {
             color: var(--gold);
         }
 
-        .card-description {
-            color: var(--light-purple-text);
-            line-height: 1.6;
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 4rem 0;
+            flex-wrap: wrap;
         }
 
-        .testimonial {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-left: 4px solid var(--gold);
-            font-style: italic;
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
             color: var(--light-purple-text);
         }
 
-        .wheel-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 3rem;
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold), var(--cyan));
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+        }
+
+        .wheel-of-life {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
             margin: 4rem 0;
         }
 
-        .wheel-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(45deg, var(--gold), var(--orange));
+        .life-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+        }
+
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-
-        .wheel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .wheel-area {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .wheel-area-title {
-            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--cyan);
         }
 
-        .before-after {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+        .danger-indicator {
+            color: var(--orange);
+            font-weight: 700;
+            animation: blink 2s infinite;
         }
 
-        .before, .after {
-            padding: 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
         }
 
-        .before {
-            background: rgba(255, 107, 53, 0.2);
-            border-left: 3px solid var(--orange);
-        }
-
-        .after {
-            background: rgba(0, 212, 255, 0.2);
-            border-left: 3px solid var(--cyan);
-        }
-
-        .performance-badge {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 215, 0, 0.9);
-            color: var(--primary-purple);
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            z-index: 1000;
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-        }
-
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 3rem 0;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--gold);
         }
 
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
         }
 
-        .emergency-badge {
-            background: linear-gradient(45deg, var(--gold), var(--orange));
-            color: var(--primary-purple);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            margin: 2rem 0;
-            display: inline-block;
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+
+        .brain-heart-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 4rem 0;
+            text-align: center;
+            border: 2px solid var(--orange);
+        }
+
+        .brain-heart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--orange);
+            margin-bottom: 2rem;
+            animation: blink 2s infinite;
+        }
+
+        .transformation-path {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .transformation-step {
+            flex: 1;
+            text-align: center;
+            min-width: 250px;
+            margin: 1rem;
+        }
+
+        .step-icon {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--cyan);
+            margin: 0 1rem;
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 3rem; }
-            .stage-title { font-size: 2.5rem; }
-            .stage-number { font-size: 4rem; }
-            .card-grid { grid-template-columns: 1fr; }
-            .before-after { grid-template-columns: 1fr; }
-            .performance-badge { position: relative; top: auto; right: auto; margin: 2rem 0; }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .wheel-of-life {
+                grid-template-columns: 1fr;
+            }
+            .transformation-path {
+                flex-direction: column;
+            }
+            .arrow {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="performance-badge">
-        ⚡ Generated in ${metadata.generationTime} | Cost: $0.022 | Scale: UNLIMITED
-    </div>
+    <!-- Floating Elements -->
+    <div class="floating-element"><i class="fas fa-star" style="font-size: 2rem; color: var(--gold);"></i></div>
+    <div class="floating-element"><i class="fas fa-heart" style="font-size: 2rem; color: var(--orange);"></i></div>
+    <div class="floating-element"><i class="fas fa-brain" style="font-size: 2rem; color: var(--cyan);"></i></div>
 
+    <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-background"></div>
-        <div class="hero-content">
-            <div class="container">
-                <h1 class="hero-title">${typeNames[personalityType]}</h1>
-                <p class="hero-subtitle">Your Hero's Journey to Heart-Brain Mastery</p>
-                <p class="hero-subtitle">${transformations[personalityType]}</p>
-                <div class="emergency-badge">
-                    Emergency Template System: UNLIMITED Scale
-                </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Heart-Brain Mastery</h1>
+                <p class="hero-subtitle">The ${typeNames[personalityType]} Transformation Journey</p>
+                <p class="stage-description">${transformations[personalityType]}</p>
             </div>
         </div>
     </section>
 
-    <section class="journey-stage">
-        <div class="stage-number">01</div>
+    <!-- Brain-Heart Disconnect Alert -->
+    <section class="brain-heart-section">
         <div class="container">
-            <div class="stage-content">
-                <h2 class="stage-title">Your Hero's Journey</h2>
-                <p class="stage-description">
-                    Every transformation follows the timeless pattern of the hero's journey. 
-                    Your path from your current patterns to heart-brain mastery unfolds through these sacred stages.
-                </p>
-                
-                <div class="card-grid">
-                    ${content.heroJourney.slice(0, 4).map((stage, index) => {
-                        const stageIcons = ['🌅', '📞', '❌', '👨‍🏫'];
-                        const stageTitles = [
-                            'The Ordinary World', 
-                            'The Call to Adventure', 
-                            'Refusal of the Call', 
-                            'Meeting the Mentor'
-                        ];
-                        return `
-                        <div class="card">
-                            <div class="card-icon">${stageIcons[index]}</div>
-                            <h3 class="card-title">${stageTitles[index]}</h3>
-                            <p class="card-description">${stage}</p>
-                        </div>
-                        `;
-                    }).join('')}
-                </div>
-                
-                <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                    <em>... and ${content.heroJourney.length - 4} more transformational stages in your complete journey</em>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="journey-stage">
-        <div class="stage-number">02</div>
-        <div class="container">
-            <div class="stage-content">
-                <h2 class="stage-title">Growth Challenges</h2>
-                <p class="stage-description">
-                    These challenges are designed to stretch you beyond your comfort zone 
-                    and accelerate your transformation to heart-brain mastery.
-                </p>
-                
-                <div class="card-grid">
-                    ${content.challengeCards.slice(0, 4).map(card => `
-                    <div class="card">
-                        <div class="card-icon">💪</div>
-                        <h3 class="card-title">${card.title}</h3>
-                        <p class="card-description">${card.desc}</p>
-                    </div>
-                    `).join('')}
-                </div>
-                
-                <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                    <em>... plus ${content.challengeCards.length - 4} more personalized challenge cards</em>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="wheel-section">
-        <div class="container">
-            <h2 class="wheel-title">Life Transformation Analysis</h2>
-            <div class="wheel-grid">
-                ${Object.entries(content.wheelOfLife).slice(0, 4).map(([area, data]) => `
-                <div class="wheel-area">
-                    <h3 class="wheel-area-title">${area.charAt(0).toUpperCase() + area.slice(1).replace('_', ' ')}</h3>
-                    <div class="before-after">
-                        <div class="before">
-                            <strong>Before:</strong><br>
-                            ${data.before}
-                        </div>
-                        <div class="after">
-                            <strong>After:</strong><br>
-                            ${data.after}
-                        </div>
-                    </div>
-                </div>
-                `).join('')}
-            </div>
-            <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                <em>... plus ${Object.keys(content.wheelOfLife).length - 4} more life areas analyzed</em>
+            <h2 class="brain-heart-title danger-indicator">
+                <i class="fas fa-exclamation-triangle"></i>
+                PERSONALITY PATTERN DETECTED
+            </h2>
+            <p class="stage-description">
+                Your current personality pattern shows a disconnect between heart wisdom and mind analysis. 
+                This transformation journey will guide you to integrate both for authentic power.
             </p>
         </div>
     </section>
 
+    <!-- Hero's Journey Stages -->
+    ${content.heroJourney.map((stage, index) => `
     <section class="journey-stage">
-        <div class="stage-number">03</div>
         <div class="container">
+            <div class="stage-number">${index + 1}</div>
             <div class="stage-content">
-                <h2 class="stage-title">Transformation Stories</h2>
-                <p class="stage-description">
-                    Real stories from others who have walked this path and achieved heart-brain mastery.
-                </p>
-                
-                ${testimonials.slice(0, 3).map(testimonial => `
-                <div class="testimonial">
-                    "${testimonial}"
+                <h2 class="stage-title">Stage ${index + 1}</h2>
+                <p class="stage-description">${stage}</p>
+            </div>
+        </div>
+    </section>
+    `).join('')}
+
+    <!-- Challenge Cards -->
+    <section class="journey-stage">
+        <div class="container">
+            <h2 class="stage-title">Transformation Challenges</h2>
+            <div class="card-grid">
+                ${content.challengeCards.map((card, index) => `
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3 class="card-title">${card.title}</h3>
+                    <p>${card.desc}</p>
                 </div>
                 `).join('')}
-                
-                <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                    <em>... plus ${content.testimonials.length - 3} more inspiring success stories</em>
-                </p>
             </div>
         </div>
     </section>
 
-    <footer class="footer">
+    <!-- Transformation Path -->
+    <section class="journey-stage">
         <div class="container">
-            <div class="footer-content">
-                <div class="emergency-badge">
-                    ✅ Emergency Template System Active
+            <h2 class="stage-title">Your Transformation Path</h2>
+            <div class="transformation-path">
+                <div class="transformation-step">
+                    <div class="step-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="highlight-text">Mind Patterns</h3>
+                    <p>Recognize limiting beliefs</p>
                 </div>
-                <p style="margin: 1rem 0; color: var(--light-purple-text);">
-                    <strong>System Performance:</strong> ${metadata.generationTime} generation | $0.022 cost | UNLIMITED concurrent users
-                </p>
-                <p style="color: var(--light-purple-text);">
-                    Content Source: ${metadata.sourceFiles} | Types Loaded: ${metadata.loadedTypes}/9
-                </p>
-                <p style="margin-top: 2rem; color: var(--light-purple-text); font-size: 0.9rem;">
-                    Traditional ChatGPT System: FAILS at 10+ users, $1.50+ cost, 60+ seconds<br>
-                    Emergency Template System: UNLIMITED users, $0.022 cost, &lt;5 seconds
-                </p>
+                <div class="arrow">→</div>
+                <div class="transformation-step">
+                    <div class="step-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="highlight-text">Heart Wisdom</h3>
+                    <p>Connect with authentic feelings</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="transformation-step">
+                    <div class="step-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="highlight-text">Integration</h3>
+                    <p>Achieve heart-brain mastery</p>
+                </div>
             </div>
         </div>
-    </footer>
+    </section>
+
+    <!-- Wheel of Life -->
+    <section class="journey-stage">
+        <div class="container">
+            <h2 class="stage-title">Life Transformation Areas</h2>
+            <div class="wheel-of-life">
+                ${Object.entries(content.wheelOfLife).map(([area, data]) => `
+                <div class="life-area">
+                    <h3 class="highlight-text">${area.charAt(0).toUpperCase() + area.slice(1).replace('_', ' ')}</h3>
+                    <p><strong>Before:</strong> ${data.before}</p>
+                    <p><strong>After:</strong> ${data.after}</p>
+                </div>
+                `).join('')}
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="journey-stage">
+        <div class="container">
+            <h2 class="stage-title">Transformation Stories</h2>
+            ${testimonials.map((testimonial, index) => `
+            <div class="testimonial">
+                <p class="testimonial-quote">"${testimonial}"</p>
+                <p class="testimonial-author">— ${typeNames[personalityType]} Transformation Graduate</p>
+            </div>
+            `).join('')}
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="journey-stage">
+        <div class="container">
+            <h2 class="stage-title">Your Journey Impact</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number">11</span>
+                    <span class="stat-label">Transformation Stages</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${content.challengeCards.length}</span>
+                    <span class="stat-label">Challenge Cards</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">${Object.keys(content.wheelOfLife).length}</span>
+                    <span class="stat-label">Life Areas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Growth Potential</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="hero-section" style="min-height: 60vh;">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="stage-title">Begin Your Transformation Today</h2>
+                <p class="hero-subtitle">Your journey to Heart-Brain Mastery starts now</p>
+                <a href="#" class="cta-button">
+                    <i class="fas fa-rocket"></i> Start Your Journey
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add scroll animations
+        window.addEventListener('scroll', () => {
+            const elements = document.querySelectorAll('.card, .life-area, .testimonial');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize elements
+        document.querySelectorAll('.card, .life-area, .testimonial').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(50px)';
+            element.style.transition = 'all 0.6s ease';
+        });
+
+        // Add progress bar animations
+        setTimeout(() => {
+            document.querySelectorAll('.progress-fill').forEach((bar, index) => {
+                const width = Math.random() * 60 + 40; // 40-100%
+                bar.style.width = width + '%';
+            });
+        }, 1000);
+    </script>
 </body>
 </html>`;
   }
 }
 
-// Default export for easy importing
+// Export for ES modules
 export default EmergencyReportGenerator;
