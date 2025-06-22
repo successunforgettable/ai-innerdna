@@ -13,7 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
-import { generateStyledReport } from '../enhanced_report_generator.js';
+import { generateCompleteStyledReport as generateStyledReport } from '../emergency-report-generator.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -1063,6 +1063,18 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error) {
       console.error('Error generating personalized report:', error);
       res.status(500).json({ error: 'Failed to generate personalized report' });
+    }
+  });
+
+  // Preview test genspark design
+  app.get('/api/preview-genspark', (req, res) => {
+    try {
+      const filePath = path.join(process.cwd(), 'public', 'test-genspark-design.html');
+      const htmlContent = fs.readFileSync(filePath, 'utf8');
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlContent);
+    } catch (error) {
+      res.status(404).json({ error: 'Test file not found' });
     }
   });
 
