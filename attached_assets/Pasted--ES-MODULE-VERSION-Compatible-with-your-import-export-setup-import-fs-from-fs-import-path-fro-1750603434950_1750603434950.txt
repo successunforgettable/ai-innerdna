@@ -21,7 +21,7 @@ class MarkdownContentLoader {
       3: 'type3_achiever_content.md',
       4: 'type4_individualist_content.md',
       5: 'type5_investigator_content.md',
-      6: 'Type 6 - The sentinal_ Hero\'s Journey.md',
+      6: 'Type 6 - The Sentinel_ Hero\'s Journey.md',
       7: 'Type 7 - The Enthusiast_ Hero\'s Journey.md',
       8: 'Type 8 - The Challenger_ Hero\'s Journey.md',
       9: 'Type 9 - The Peacemaker_ Hero\'s Journey.md'
@@ -379,11 +379,8 @@ export class EmergencyReportGenerator {
 
         .card-icon {
             font-size: 3rem;
+            color: var(--gold);
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--gold), var(--cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .card-title {
@@ -393,277 +390,203 @@ export class EmergencyReportGenerator {
             color: var(--gold);
         }
 
-        .card-description {
-            color: var(--light-purple-text);
-            line-height: 1.6;
-        }
-
         .testimonial {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-left: 4px solid var(--gold);
-            font-style: italic;
-            color: var(--light-purple-text);
-        }
-
-        .wheel-section {
-            background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: var(--light-purple-text);
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
             margin: 4rem 0;
         }
 
-        .wheel-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(45deg, var(--gold), var(--orange));
+        .highlight-text {
+            background: linear-gradient(45deg, var(--gold), var(--cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-
-        .wheel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .wheel-area {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .wheel-area-title {
-            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--cyan);
-        }
-
-        .before-after {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .before, .after {
-            padding: 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
-        }
-
-        .before {
-            background: rgba(255, 107, 53, 0.2);
-            border-left: 3px solid var(--orange);
-        }
-
-        .after {
-            background: rgba(0, 212, 255, 0.2);
-            border-left: 3px solid var(--cyan);
         }
 
         .performance-badge {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 215, 0, 0.9);
-            color: var(--primary-purple);
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-        }
-
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 3rem 0;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .emergency-badge {
-            background: linear-gradient(45deg, var(--gold), var(--orange));
-            color: var(--primary-purple);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            margin: 2rem 0;
-            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 3rem; }
-            .stage-title { font-size: 2.5rem; }
-            .stage-number { font-size: 4rem; }
-            .card-grid { grid-template-columns: 1fr; }
-            .before-after { grid-template-columns: 1fr; }
-            .performance-badge { position: relative; top: auto; right: auto; margin: 2rem 0; }
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .stage-title {
+                font-size: 2.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="performance-badge">
-        ⚡ Generated in ${metadata.generationTime} | Cost: $0.022 | Scale: UNLIMITED
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; color: var(--gold); font-size: 2rem;">⚡</div>
+        <div class="floating-element" style="top: 20%; right: 15%; color: var(--cyan); font-size: 1.5rem; animation-delay: -2s;">💫</div>
+        <div class="floating-element" style="bottom: 30%; left: 20%; color: var(--orange); font-size: 2.5rem; animation-delay: -4s;">🌟</div>
+        <div class="floating-element" style="bottom: 20%; right: 10%; color: var(--gold); font-size: 1.8rem; animation-delay: -1s;">✨</div>
     </div>
 
+    <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-background"></div>
         <div class="hero-content">
-            <div class="container">
-                <h1 class="hero-title">${typeNames[personalityType]}</h1>
-                <p class="hero-subtitle">Your Hero's Journey to Heart-Brain Mastery</p>
-                <p class="hero-subtitle">${transformations[personalityType]}</p>
-                <div class="emergency-badge">
-                    Emergency Template System: UNLIMITED Scale
-                </div>
+            <h1 class="hero-title">The ${typeNames[personalityType]}<br>Transformation Journey</h1>
+            <p class="hero-subtitle">Your Hero's Path to Heart-Brain Mastery</p>
+            <div class="performance-badge">
+                <p><strong>Generated in ${metadata.generationTime}</strong> | Cost: $0.022 | System: Unlimited Scale Template</p>
             </div>
         </div>
     </section>
 
+    <!-- Transformation Overview -->
     <section class="journey-stage">
-        <div class="stage-number">01</div>
         <div class="container">
+            <div class="stage-number">∞</div>
             <div class="stage-content">
-                <h2 class="stage-title">Your Hero's Journey</h2>
+                <h2 class="stage-title">Your Transformation</h2>
                 <p class="stage-description">
-                    Every transformation follows the timeless pattern of the hero's journey. 
-                    Your path from your current patterns to heart-brain mastery unfolds through these sacred stages.
-                </p>
-                
-                <div class="card-grid">
-                    ${content.heroJourney.slice(0, 4).map((stage, index) => {
-                        const stageIcons = ['🌅', '📞', '❌', '👨‍🏫'];
-                        const stageTitles = [
-                            'The Ordinary World', 
-                            'The Call to Adventure', 
-                            'Refusal of the Call', 
-                            'Meeting the Mentor'
-                        ];
-                        return `
-                        <div class="card">
-                            <div class="card-icon">${stageIcons[index]}</div>
-                            <h3 class="card-title">${stageTitles[index]}</h3>
-                            <p class="card-description">${stage}</p>
-                        </div>
-                        `;
-                    }).join('')}
-                </div>
-                
-                <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                    <em>... and ${content.heroJourney.length - 4} more transformational stages in your complete journey</em>
+                    <span class="highlight-text">${transformations[personalityType]}</span>
                 </p>
             </div>
         </div>
     </section>
 
+    <div class="section-divider"></div>
+
+    <!-- Hero's Journey Stages -->
+    ${content.heroJourney.slice(0, 3).map((stage, index) => `
     <section class="journey-stage">
-        <div class="stage-number">02</div>
         <div class="container">
+            <div class="stage-number">${String(index + 1).padStart(2, '0')}</div>
+            <div class="stage-content">
+                <h2 class="stage-title">${['The Ordinary World', 'The Call to Adventure', 'Refusal of the Call'][index]}</h2>
+                <p class="stage-description">${stage}</p>
+            </div>
+        </div>
+    </section>
+    <div class="section-divider"></div>
+    `).join('')}
+
+    <!-- Challenge Cards -->
+    <section class="journey-stage">
+        <div class="container">
+            <div class="stage-number">💪</div>
             <div class="stage-content">
                 <h2 class="stage-title">Growth Challenges</h2>
-                <p class="stage-description">
-                    These challenges are designed to stretch you beyond your comfort zone 
-                    and accelerate your transformation to heart-brain mastery.
-                </p>
+                <p class="stage-description">Practical steps for your transformation journey</p>
                 
                 <div class="card-grid">
                     ${content.challengeCards.slice(0, 4).map(card => `
                     <div class="card">
-                        <div class="card-icon">💪</div>
+                        <div class="card-icon"><i class="fas fa-mountain"></i></div>
                         <h3 class="card-title">${card.title}</h3>
-                        <p class="card-description">${card.desc}</p>
+                        <p>${card.desc}</p>
                     </div>
                     `).join('')}
                 </div>
-                
-                <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                    <em>... plus ${content.challengeCards.length - 4} more personalized challenge cards</em>
-                </p>
             </div>
         </div>
     </section>
 
-    <section class="wheel-section">
-        <div class="container">
-            <h2 class="wheel-title">Life Transformation Analysis</h2>
-            <div class="wheel-grid">
-                ${Object.entries(content.wheelOfLife).slice(0, 4).map(([area, data]) => `
-                <div class="wheel-area">
-                    <h3 class="wheel-area-title">${area.charAt(0).toUpperCase() + area.slice(1).replace('_', ' ')}</h3>
-                    <div class="before-after">
-                        <div class="before">
-                            <strong>Before:</strong><br>
-                            ${data.before}
-                        </div>
-                        <div class="after">
-                            <strong>After:</strong><br>
-                            ${data.after}
-                        </div>
-                    </div>
-                </div>
-                `).join('')}
-            </div>
-            <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                <em>... plus ${Object.keys(content.wheelOfLife).length - 4} more life areas analyzed</em>
-            </p>
-        </div>
-    </section>
+    <div class="section-divider"></div>
 
+    <!-- Testimonials -->
     <section class="journey-stage">
-        <div class="stage-number">03</div>
         <div class="container">
             <div class="stage-content">
                 <h2 class="stage-title">Transformation Stories</h2>
-                <p class="stage-description">
-                    Real stories from others who have walked this path and achieved heart-brain mastery.
-                </p>
-                
                 ${testimonials.slice(0, 3).map(testimonial => `
                 <div class="testimonial">
-                    "${testimonial}"
+                    <p class="testimonial-quote">${testimonial.split(' - ')[0].replace(/"/g, '')}</p>
+                    <p class="testimonial-author">- ${testimonial.split(' - ')[1] || 'Anonymous'}</p>
                 </div>
                 `).join('')}
-                
-                <p style="text-align: center; color: var(--light-purple-text); margin: 3rem 0; font-size: 1.2rem;">
-                    <em>... plus ${content.testimonials.length - 3} more inspiring success stories</em>
-                </p>
             </div>
         </div>
     </section>
 
-    <footer class="footer">
+    <!-- Final CTA Section -->
+    <section style="padding: 100px 0; text-align: center; background: linear-gradient(135deg, var(--primary-purple), var(--mid-purple));">
         <div class="container">
-            <div class="footer-content">
-                <div class="emergency-badge">
-                    ✅ Emergency Template System Active
-                </div>
-                <p style="margin: 1rem 0; color: var(--light-purple-text);">
-                    <strong>System Performance:</strong> ${metadata.generationTime} generation | $0.022 cost | UNLIMITED concurrent users
-                </p>
-                <p style="color: var(--light-purple-text);">
-                    Content Source: ${metadata.sourceFiles} | Types Loaded: ${metadata.loadedTypes}/9
-                </p>
-                <p style="margin-top: 2rem; color: var(--light-purple-text); font-size: 0.9rem;">
-                    Traditional ChatGPT System: FAILS at 10+ users, $1.50+ cost, 60+ seconds<br>
-                    Emergency Template System: UNLIMITED users, $0.022 cost, &lt;5 seconds
-                </p>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin-bottom: 2rem;">
+                Your Journey Begins Now
+            </h2>
+            <p style="font-size: 1.5rem; color: var(--light-purple-text); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                You've seen where your life is today. You've seen what's possible through transformation. 
+                <span style="color: var(--gold); font-weight: 700;">Now decide.</span>
+            </p>
+            
+            <div class="performance-badge" style="max-width: 600px; margin: 0 auto;">
+                <p><strong>✅ Emergency Template System Active</strong></p>
+                <p>Unlimited Concurrent Users | Zero API Dependencies | $0.022 Cost | &lt;5 Second Generation</p>
+                <p>Content Source: Your Manus.ai Files | System: Heart-Brain Mastery Platform</p>
             </div>
         </div>
-    </footer>
+    </section>
+
+    <script>
+        // Add floating animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = \`\${-index * 0.5}s\`;
+                element.style.animationDuration = \`\${6 + (index * 0.5)}s\`;
+            });
+        });
+    </script>
 </body>
 </html>`;
   }
