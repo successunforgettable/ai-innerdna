@@ -884,6 +884,8 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         confidence: 35
       };
 
+      console.log('=== ASSESSMENT DATA INVESTIGATION TEST ===');
+      console.log('Test data structure:', JSON.stringify(testData, null, 2));
       console.log('Testing working transformation report...');
       const result = await generateWorkingReport(testData);
       

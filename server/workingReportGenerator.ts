@@ -519,6 +519,17 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
   try {
     console.log("🚀 Starting MULTI-CALL ChatGPT content generation...");
     
+    // MICRO-PROMPT 1: Investigation - Log actual assessment data structure
+    console.log("=== 🔍 ASSESSMENT DATA INVESTIGATION ===");
+    console.log("🔍 Raw assessmentData:", JSON.stringify(assessmentData, null, 2));
+    console.log("🔍 Wing influence value:", assessmentData?.results?.wingInfluence);
+    console.log("🔍 Personality type:", assessmentData?.results?.personalityType);
+    console.log("🔍 Assessment data keys:", assessmentData ? Object.keys(assessmentData) : "No data");
+    console.log("🔍 Has results object:", !!assessmentData?.results);
+    console.log("🔍 Direct personalityType:", assessmentData?.personalityType);
+    console.log("🔍 Direct wing:", assessmentData?.wing);
+    console.log("=== END INVESTIGATION ===");
+    
     // Assessment data processing (technical only)
     const testData: AssessmentData = {
       personalityType: 6,
