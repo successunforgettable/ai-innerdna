@@ -1,6 +1,71 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+// Generate personalized heart neuron disconnect percentage
+async function getPersonalizedPercentage(userId, typeId) {
+  // Get from your assessment database
+  // Could be based on stress levels, response patterns, etc.
+  
+  try {
+    // In a real implementation, you would:
+    // 1. Query user's assessment data from storage
+    // 2. Analyze stress indicators from foundation stones responses
+    // 3. Factor in color state distributions (higher anxiety = higher disconnect)
+    // 4. Consider detail token patterns for emotional regulation
+    // 5. Apply personality-specific baselines
+    
+    // Example assessment-based calculation:
+    // const userData = await storage.getUser(userId);
+    // const assessmentData = userData?.assessmentData;
+    // 
+    // if (assessmentData) {
+    //   // Base percentage by personality type
+    //   const basePercentages = {
+    //     1: 75, // Reformers: perfectionism stress
+    //     2: 73, // Helpers: emotional depletion
+    //     3: 78, // Achievers: performance anxiety
+    //     4: 81, // Individualists: emotional chaos
+    //     5: 79, // Investigators: social withdrawal
+    //     6: 82, // Sentinels: anxiety patterns
+    //     7: 76, // Enthusiasts: scattered energy
+    //     8: 74, // Challengers: control stress
+    //     9: 80  // Peacemakers: self-abandonment
+    //   };
+    //   
+    //   let percentage = basePercentages[typeId] || 75;
+    //   
+    //   // Adjust based on color states (anxiety/stress indicators)
+    //   if (assessmentData.colorStates) {
+    //     const anxiousStates = ['anxious', 'overwhelmed', 'scattered'];
+    //     const stressLevel = Object.entries(assessmentData.colorStates)
+    //       .filter(([state]) => anxiousStates.includes(state))
+    //       .reduce((sum, [, value]) => sum + value, 0);
+    //     percentage += Math.floor(stressLevel * 0.1); // 10% increase per 100% stress
+    //   }
+    //   
+    //   // Adjust based on detail tokens (emotional regulation)
+    //   if (assessmentData.detailTokens) {
+    //     const selfCareTokens = assessmentData.detailTokens.selfPreservation || 0;
+    //     percentage -= Math.floor(selfCareTokens * 0.5); // Better self-care = lower disconnect
+    //   }
+    //   
+    //   return Math.max(65, Math.min(85, percentage)); // Keep in 65-85% range
+    // }
+    
+    // For now, keeping the random generation for demo
+    return Math.floor(Math.random() * 16) + 70;
+    
+  } catch (error) {
+    console.error('Error calculating personalized percentage:', error);
+    // Fallback to type-based baseline
+    const typeBaselines = {
+      1: 75, 2: 73, 3: 78, 4: 81, 5: 79,
+      6: 82, 7: 76, 8: 74, 9: 80
+    };
+    return typeBaselines[typeId] || 75;
+  }
+}
+
 // Generate random heart neuron disconnect percentage (70-85% range for urgency)
 function generateHeartNeuronPercentage() {
   return Math.floor(Math.random() * 16) + 70; // Random between 70-85
@@ -57,10 +122,12 @@ function getTypeDescription(typeId) {
 }
 
 // Main function to generate styled report
-export async function generateStyledReport(typeId) {
+export async function generateStyledReport(typeId, userId = null) {
   try {
     // Generate dynamic data
-    const heartNeuronPercentage = generateHeartNeuronPercentage();
+    const heartNeuronPercentage = userId ? 
+      await getPersonalizedPercentage(userId, typeId) : 
+      generateHeartNeuronPercentage();
     const hrvBaseline = generateHRVBaseline(typeId);
     const typeName = getPersonalityTypeName(typeId);
     const typeDescription = getTypeDescription(typeId);

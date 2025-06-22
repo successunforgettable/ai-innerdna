@@ -1042,6 +1042,30 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // Personalized Enhanced Report Viewer - Uses assessment data for heart neuron percentages
+  app.get('/api/personalized-view/:typeId/:userId', async (req, res) => {
+    try {
+      const typeId = parseInt(req.params.typeId);
+      const userId = parseInt(req.params.userId);
+      
+      if (typeId < 1 || typeId > 9) {
+        return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
+      }
+      
+      if (!userId || userId < 1) {
+        return res.status(400).json({ error: 'Invalid user ID.' });
+      }
+      
+      const html = await generateStyledReport(typeId, userId);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+      
+    } catch (error) {
+      console.error('Error generating personalized report:', error);
+      res.status(500).json({ error: 'Failed to generate personalized report' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
