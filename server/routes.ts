@@ -832,6 +832,34 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // Three Challenger Report Viewing Routes
+  app.get('/view-challenger-7-destructive', (req, res) => {
+    try {
+      const reportContent = fs.readFileSync('./challenger-7-destructive-sexual.html', 'utf8');
+      res.send(reportContent);
+    } catch (error) {
+      res.status(404).send('Challenger 7 Destructive Sexual report not found');
+    }
+  });
+
+  app.get('/view-challenger-9-destructive', (req, res) => {
+    try {
+      const reportContent = fs.readFileSync('./challenger-9-destructive-social.html', 'utf8');
+      res.send(reportContent);
+    } catch (error) {
+      res.status(404).send('Challenger 9 Destructive Social report not found');
+    }
+  });
+
+  app.get('/view-challenger-7-good', (req, res) => {
+    try {
+      const reportContent = fs.readFileSync('./challenger-7-good-sexual.html', 'utf8');
+      res.send(reportContent);
+    } catch (error) {
+      res.status(404).send('Challenger 7 Good Sexual report not found');
+    }
+  });
+
   // Working Transformation Report Routes
   app.post('/api/generate-working-report', async (req, res) => {
     try {
