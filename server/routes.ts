@@ -13,6 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
+// @ts-ignore
 import EmergencyReportGenerator from '../emergency-report-generator.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -972,7 +973,6 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       });
       
       const fileName = `emergency-report-${req.params.userId}-${Date.now()}.html`;
-      const fs = require('fs');
       fs.writeFileSync(fileName, result.html);
       
       res.json({
@@ -983,7 +983,25 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         system: 'EMERGENCY TEMPLATE - UNLIMITED SCALE'
       });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('Emergency report error:', error);
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  });
+
+  // Emergency Report Viewer - Direct HTML output
+  app.get('/api/emergency-view/:userId', async (req, res) => {
+    try {
+      const generator = new EmergencyReportGenerator();
+      const result = await generator.generateReport({
+        personalityType: parseInt(req.params.userId) || 1,
+        userId: parseInt(req.params.userId)
+      });
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(result.html);
+    } catch (error) {
+      console.error('Emergency view error:', error);
+      res.status(500).send(`<h1>Error generating emergency report</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
     }
   });
 
