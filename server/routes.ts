@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
-import { insertUserSchema, type AssessmentData } from "@shared/schema";
+import { insertUserSchema, insertContactRequestSchema, type AssessmentData } from "@shared/schema";
 import { hashPassword, verifyPassword, generateToken, generateResetToken } from "./auth";
 
 import { sendPasswordRecoveryEmail } from "./emailService";

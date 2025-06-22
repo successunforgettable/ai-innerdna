@@ -1,4 +1,4 @@
-import { users, reports, type User, type InsertUser, type Report, type InsertReport } from "@shared/schema";
+import { users, reports, contactRequests, type User, type InsertUser, type Report, type InsertReport, type ContactRequest, type InsertContactRequest } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
@@ -15,6 +15,10 @@ export interface IStorage {
   createReport(report: InsertReport): Promise<Report>;
   getUserReports(userId: number): Promise<Report[]>;
   getReport(id: number): Promise<Report | undefined>;
+  
+  // Contact request operations
+  createContactRequest(contactRequest: InsertContactRequest): Promise<ContactRequest>;
+  getAllContactRequests(): Promise<ContactRequest[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -79,6 +83,18 @@ export class DatabaseStorage implements IStorage {
   async getReport(id: number): Promise<Report | undefined> {
     const [report] = await db.select().from(reports).where(eq(reports.id, id));
     return report || undefined;
+  }
+
+  async createContactRequest(insertContactRequest: InsertContactRequest): Promise<ContactRequest> {
+    const [contactRequest] = await db
+      .insert(contactRequests)
+      .values(insertContactRequest)
+      .returning();
+    return contactRequest;
+  }
+
+  async getAllContactRequests(): Promise<ContactRequest[]> {
+    return await db.select().from(contactRequests);
   }
 }
 
