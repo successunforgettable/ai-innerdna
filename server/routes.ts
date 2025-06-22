@@ -1104,6 +1104,19 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // View existing generated report
+  app.get('/api/view-challenger-report', (req, res) => {
+    try {
+      const filePath = path.join(process.cwd(), 'emergency-report-8-1750623435962.html');
+      const htmlContent = fs.readFileSync(filePath, 'utf8');
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlContent);
+    } catch (error) {
+      console.error('Error viewing report:', error);
+      res.status(404).json({ error: 'Report not found' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
