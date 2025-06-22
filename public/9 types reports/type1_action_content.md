@@ -25,7 +25,7 @@ When your heart neurons are offline, you experience:
 - Practice pause-and-feel moments before major decisions
 
 **Week 3-4: Integration Training**
-- Heart-focused breathing techniques specifically for Type 1 patterns
+- Heart-focused breathing techniques specifically for Reformer patterns
 - Building tolerance for "good enough" decisions
 
 **Week 5-6: Implementation**
