@@ -550,8 +550,8 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
     };
     
     const userData: UserData = {
-      personalityType: `Type ${testData.personalityType}`,
-      personalityName: testData.personalityName || "Sentinel 6",
+      personalityType: `Type ${assessmentData?.personalityType || testData.personalityType}`,
+      personalityName: getPersonalityName(assessmentData?.personalityType || testData.personalityType),
       wingInfluence: validateWing(assessmentData?.personalityType || 6, assessmentData?.wing || 7),
       moodStates: {
         primary: { name: testData.dominantState?.name || "Anxious", percentage: testData.dominantState?.percentage || 65 },
