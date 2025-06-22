@@ -7,7 +7,7 @@ function getGensparkTemplateBase() {
   return fs.readFileSync(templatePath, 'utf8');
 }
 
-export async function generateCompleteStyledReport(typeId) {
+export async function generateCompleteStyledReport(typeId, calendlyUsername = 'your-calendly-username') {
   console.log(`🚀 New Genspark template generation for user ${typeId}`);
   
   // Get the base template
@@ -66,6 +66,9 @@ export async function generateCompleteStyledReport(typeId) {
   htmlContent = htmlContent.replace(/78%/g, `${heartPercentage}%`);
   htmlContent = htmlContent.replace(/22ms/g, `${hrvBaseline}ms`);
   htmlContent = htmlContent.replace(/Your HRV: 22ms/g, `Your HRV: ${hrvBaseline}ms`);
+  
+  // Pass 5: Calendly URL replacement
+  htmlContent = htmlContent.replace(/CALENDLY_USERNAME_PLACEHOLDER/g, calendlyUsername);
   
   // Generate filename
   const timestamp = Date.now();
