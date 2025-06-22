@@ -1,49 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'wouter';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useAssessment } from '@/context/AssessmentContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'wouter';
 import ContinueButton from '@/components/ContinueButton';
-import { TowerVisualization } from '@/components/TowerVisualization';
 import Token from '@/components/Detail/Token';
+import { subtypeDescriptions, type PersonalityType, type SubtypeKey } from '@/utils/subtypeDescriptions';
 import '@/styles/detail-phase.css';
-
-// Enhanced Page Animations - exact from ColorPhase
-const pageVariants = {
-  initial: { 
-    opacity: 0, 
-    y: 20,
-    scale: 0.98
-  },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.4, 0, 0.2, 1],
-      staggerChildren: 0.1
-    }
-  },
-  exit: { 
-    opacity: 0, 
-    y: -20,
-    scale: 0.98,
-    transition: {
-      duration: 0.3
-    }
-  }
-};
-
-const containerVariants = {
-  initial: { opacity: 0 },
-  animate: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
 
 interface TokenDistribution {
   self: number;
@@ -52,7 +14,7 @@ interface TokenDistribution {
 }
 
 const DetailPhase = () => {
-  const { assessmentData, setAssessmentData } = useAssessment();
+  const { assessmentData, setAssessmentData, setCurrentScreen } = useAssessment();
   const [, setLocation] = useLocation();
   
   const [tokenDistribution, setTokenDistribution] = useState<TokenDistribution>({
@@ -66,31 +28,44 @@ const DetailPhase = () => {
   const isComplete = totalTokens === 10;
 
   const handleTokenDrop = (containerId: string) => {
-    if (remainingTokens <= 0) return;
-
-    setTokenDistribution(prev => {
-      const newDistribution = { ...prev };
-      if (containerId === 'self') newDistribution.self += 1;
-      else if (containerId === 'oneToOne') newDistribution.oneToOne += 1;
-      else if (containerId === 'social') newDistribution.social += 1;
-      return newDistribution;
-    });
+    if (remainingTokens > 0) {
+      setTokenDistribution(prev => ({
+        ...prev,
+        [containerId]: prev[containerId as keyof TokenDistribution] + 1
+      }));
+    }
   };
 
   const handleContainerClick = (containerId: string) => {
-    if (remainingTokens <= 0) return;
-    handleTokenDrop(containerId);
+    if (remainingTokens > 0) {
+      handleTokenDrop(containerId);
+    }
   };
 
-  const handleTokenRemove = (containerId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setTokenDistribution(prev => {
-      const newDistribution = { ...prev };
-      if (containerId === 'self' && newDistribution.self > 0) newDistribution.self -= 1;
-      else if (containerId === 'oneToOne' && newDistribution.oneToOne > 0) newDistribution.oneToOne -= 1;
-      else if (containerId === 'social' && newDistribution.social > 0) newDistribution.social -= 1;
-      return newDistribution;
+  const handleTokenRemove = (containerId: string) => {
+    const currentCount = tokenDistribution[containerId as keyof TokenDistribution];
+    if (currentCount > 0) {
+      setTokenDistribution(prev => ({
+        ...prev,
+        [containerId]: prev[containerId as keyof TokenDistribution] - 1
+      }));
+    }
+  };
+
+  const handleContinue = () => {
+    const detailTokens = [
+      { category: 'Self-Preservation', token: `${tokenDistribution.self} tokens` },
+      { category: 'One-to-One', token: `${tokenDistribution.oneToOne} tokens` },
+      { category: 'Social', token: `${tokenDistribution.social} tokens` }
+    ];
+
+    setAssessmentData({
+      ...assessmentData,
+      detailTokens
     });
+
+    setCurrentScreen('results');
+    setLocation('/results');
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -102,38 +77,61 @@ const DetailPhase = () => {
     handleTokenDrop(containerId);
   };
 
-  const handleContinue = () => {
-    const updatedData = {
-      ...assessmentData,
-      detailTokens: [
-        { category: 'self', token: tokenDistribution.self.toString() },
-        { category: 'oneToOne', token: tokenDistribution.oneToOne.toString() },
-        { category: 'social', token: tokenDistribution.social.toString() }
-      ]
-    };
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    },
+    exit: { opacity: 0, y: -20 }
+  };
 
-    setAssessmentData(updatedData);
-    setLocation('/results');
+  // Check if previous phases are completed
+  const hasFoundation = assessmentData.foundationStones && assessmentData.foundationStones.length > 0;
+  const hasBuildingBlocks = assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0;
+  const hasColorStates = assessmentData.colorStates && assessmentData.colorStates.length > 0;
+
+  // Get the user's personality type from assessment data
+  let userPersonalityType: PersonalityType = 'Type 1';
+  
+  if (assessmentData.result?.primaryType) {
+    // Convert stored primaryType (e.g., "4") to PersonalityType format (e.g., "Type 4")
+    userPersonalityType = `Type ${assessmentData.result.primaryType}` as PersonalityType;
+  }
+  const typeData = subtypeDescriptions[userPersonalityType];
+
+  // Only require typeData if we actually have a personality type, otherwise use default
+  const safeTypeData = typeData || {
+    'Self-Preservation': ['Focus on security and stability'],
+    Sexual: ['Focus on intensity and connection'],
+    Social: ['Focus on community and belonging']
   };
 
   const containers = [
     {
       id: 'self',
       title: 'Self-Preservation Focus',
-      emoji: '🛡️',
-      description: 'Energy devoted to personal security, comfort, and maintaining your environment'
+      emoji: '🔒',
+      subtypeKey: 'Self-Preservation' as SubtypeKey,
+      descriptions: safeTypeData['Self-Preservation'] || []
     },
     {
       id: 'oneToOne',
-      title: 'One-to-One Focus',
+      title: 'One-to-One Focus', 
       emoji: '🔥',
-      description: 'Energy devoted to intense personal connections and intimate relationships'
+      subtypeKey: 'Sexual' as SubtypeKey,
+      descriptions: safeTypeData.Sexual || []
     },
     {
       id: 'social',
       title: 'Social Focus',
       emoji: '🧱',
-      description: 'Energy devoted to group dynamics, community belonging, and social awareness'
+      subtypeKey: 'Social' as SubtypeKey,
+      descriptions: safeTypeData.Social || []
     }
   ];
 
@@ -147,321 +145,271 @@ const DetailPhase = () => {
     >
       <div className="detail-phase-header">
         <h1 className="detail-phase__title">Distribute Your Energy</h1>
-        <p className="detail-phase__subtitle">Place 10 tokens across the three areas based on where you naturally focus your energy</p>
+        <p className="detail-phase__subtitle">Drag or click any container to place all 10 tokens across the three areas based on where you naturally focus your energy</p>
       </div>
       
-      <div className="detail-phase-content">
-        {/* Left Column - Token Distribution Section */}
-        <div className="left-column">
-          {/* Progress Counter */}
-          <div className="progress-counter">
-            <div className="progress-text">
-              Total: {totalTokens}/10 • Remaining: {remainingTokens}
-              {totalTokens === 10 && (
-                <span className="validation-message success ml-2">✓ Complete</span>
-              )}
-              {totalTokens > 10 && (
-                <span className="validation-message warning ml-2">⚠ Over limit</span>
-              )}
-            </div>
-          </div>
-
-          {/* Available Tokens Section */}
-          <div className="glass-container token-container">
-            <h3 className="section-title">Available Tokens</h3>
-            <div className="token-pool">
-              {Array.from({ length: remainingTokens }).map((_, index) => (
-                <Token
-                  key={`token-${index}`}
-                  onDrop={handleTokenDrop}
-                />
-              ))}
-              {remainingTokens === 0 && (
-                <p className="section-description italic">All tokens distributed</p>
-              )}
-            </div>
-          </div>
-
-          {/* Three Distribution Containers */}
-          <div className="containers-section">
-            {containers.map((container) => (
-              <div 
-                key={container.id}
-                className="glass-container energy-container"
-                data-container-id={container.id}
-                onClick={() => handleContainerClick(container.id)}
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, container.id)}
-              >
-                <div className="container-header">
-                  <div>
-                    <h4 className="container-title">
-                      {container.emoji} {container.title}
-                    </h4>
-                    <p className="container-description">
-                      {container.description}
-                    </p>
-                  </div>
-                  <span className="token-count">
-                    Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
-                  </span>
-                </div>
-
-                {/* Container interaction area with tokens or add instruction */}
-                <div 
-                  className="container-interaction-area mt-2 p-3 rounded border border-white/20 hover:border-white/40 cursor-pointer transition-all duration-200 min-h-[60px] flex items-center justify-center"
-                  onClick={() => handleContainerClick(container.id)}
-                >
-                  {tokenDistribution[container.id as keyof TokenDistribution] > 0 ? (
-                    <div className="container-tokens-display">
-                      {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
-                        <div
-                          key={index}
-                          className="token container-token"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleTokenRemove(container.id, e);
-                          }}
-                          title="Click to remove token"
-                        />
-                      ))}
-                    </div>
-                  ) : remainingTokens > 0 ? (
-                    <div className="text-white/50 text-xs italic text-center">
-                      Click to add token or drag token here
-                    </div>
-                  ) : (
-                    <div className="text-white/30 text-xs italic text-center">
-                      No tokens available
-                    </div>
-                  )}
-                </div>
-              </div>
+      <div className="detail-phase-content-single">
+        {/* Available Tokens Section - Compact */}
+        <div className="glass-container token-container-compact">
+          <h3 className="section-title">Available Tokens</h3>
+          <div className="token-pool-compact">
+            {Array.from({ length: remainingTokens }).map((_, index) => (
+              <Token
+                key={`token-${index}`}
+                onDrop={handleTokenDrop}
+              />
             ))}
+            <span className="token-count-display">
+              {remainingTokens}/10 Remaining
+            </span>
           </div>
-
-          {/* Continue Button */}
-          {isComplete && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-8"
-            >
-              <ContinueButton
-                canProceed={isComplete}
-                onContinue={handleContinue}
-              >
-                Continue to Results
-              </ContinueButton>
-            </motion.div>
-          )}
         </div>
 
-        {/* Right Column - Tower Visualization Section */}
-        <div className="right-column">
+        {/* Three Distribution Containers - Horizontal Layout */}
+        <div className="containers-section-horizontal">
+          {containers.map((container) => (
+            <div 
+              key={container.id}
+              className="glass-container energy-container"
+              data-container-id={container.id}
+              onClick={() => handleContainerClick(container.id)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, container.id)}
+            >
+              <div className="container-header">
+                <div>
+                  <h4 className="container-title">
+                    {container.emoji} {container.title}
+                  </h4>
+                  <div className="subtype-descriptions">
+                    {container.descriptions.map((description, index) => (
+                      <p key={index} className="subtype-description">
+                        {description}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                <div className="token-count">
+                  Tokens: {tokenDistribution[container.id as keyof TokenDistribution]}
+                </div>
+              </div>
+              
+              <div className="tokens-display">
+                {Array.from({ length: tokenDistribution[container.id as keyof TokenDistribution] }).map((_, index) => (
+                  <div 
+                    key={index} 
+                    className="placed-token clickable-token" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleTokenRemove(container.id);
+                    }}
+                    title="Click to remove token"
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tower Visualization Section - Bottom */}
+        <div className="tower-section-bottom">
           <div className="glass-container tower-container">
             <h3 className="tower-title">Your Tower</h3>
             
-            {/* Visual Tower Building - Continuation of previous phases */}
             <div className="tower-building-view">
-              
               {/* Detail Tokens Layer (Top - Current) */}
               <motion.div 
-                className="tower-layer current-layer cursor-pointer"
-                initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2, ease: "easeOut" }
-                }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 0.3,
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 30
-                }}
+                className="tower-layer current-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
                 style={{
                   width: '120px',
                   height: '40px',
-                  background: 'rgba(245, 158, 11, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(245, 158, 11, 0.3)',
+                  background: 'linear-gradient(135deg, #ef4444, #dc2626)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '4px',
-                  boxShadow: '0 8px 32px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative',
-                  transition: 'all 0.2s ease-out'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(245, 158, 11, 0.25)';
-                  e.currentTarget.style.border = '1px solid rgba(245, 158, 11, 0.5)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(245, 158, 11, 0.15)';
-                  e.currentTarget.style.border = '1px solid rgba(245, 158, 11, 0.3)';
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+                  margin: '0 auto 4px auto'
                 }}
               >
-                <span className="text-orange-300 text-xs font-semibold">
+                <span style={{ 
+                  color: '#000000', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  textAlign: 'center'
+                }}>
+                  Subtypes
+                  <br />
                   {totalTokens}/10
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-400/10 to-amber-400/10 rounded-lg" />
               </motion.div>
 
               {/* Color States Layer */}
               <motion.div 
-                className="tower-layer completed-layer cursor-pointer"
-                initial={{ opacity: 0, y: -15, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                whileHover={{ 
-                  scale: 1.03,
-                  y: -2,
-                  transition: { duration: 0.2, ease: "easeOut" }
-                }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.2,
-                  type: "spring",
-                  stiffness: 250,
-                  damping: 25
-                }}
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
                 style={{
-                  width: '150px',
-                  height: '50px',
-                  background: 'rgba(139, 92, 246, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(139, 92, 246, 0.3)',
+                  width: '140px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '4px',
-                  boxShadow: '0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative',
-                  transition: 'all 0.2s ease-out'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.25)';
-                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.5)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(139, 92, 246, 0.15)';
-                  e.currentTarget.style.border = '1px solid rgba(139, 92, 246, 0.3)';
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+                  margin: '0 auto 4px auto'
                 }}
               >
-                <span className="text-purple-300 text-xs font-semibold">
-                  Colors
+                <span style={{ 
+                  color: '#000000', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  textAlign: 'center'
+                }}>
+                  States
+                  <br />
+                  Complete
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 to-violet-400/10 rounded-lg" />
               </motion.div>
 
               {/* Building Blocks Layer */}
               <motion.div 
-                className="tower-layer completed-layer cursor-pointer"
-                initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -1,
-                  transition: { duration: 0.2, ease: "easeOut" }
-                }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: 0.1,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 20
-                }}
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
                 style={{
-                  width: '180px',
-                  height: '60px',
-                  background: 'rgba(6, 182, 212, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
+                  width: '160px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '4px',
-                  boxShadow: '0 8px 32px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative',
-                  transition: 'all 0.2s ease-out'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(6, 182, 212, 0.25)';
-                  e.currentTarget.style.border = '1px solid rgba(6, 182, 212, 0.5)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(6, 182, 212, 0.15)';
-                  e.currentTarget.style.border = '1px solid rgba(6, 182, 212, 0.3)';
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+                  margin: '0 auto 4px auto'
                 }}
               >
-                <span className="text-cyan-300 text-xs font-semibold">
-                  Building
+                <span style={{ 
+                  color: '#000000', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  textAlign: 'center'
+                }}>
+                  {assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0 ? assessmentData.buildingBlocks[0].name : 'Building Block'}
+                  <br />
+                  {assessmentData.buildingBlocks && assessmentData.buildingBlocks.length > 0 ? assessmentData.buildingBlocks[0].wing || 'Complete' : 'Complete'}
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-teal-400/10 rounded-lg" />
               </motion.div>
 
               {/* Foundation Layer */}
               <motion.div 
-                className="tower-layer completed-layer cursor-pointer"
-                initial={{ opacity: 0, y: -5, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                whileHover={{ 
-                  scale: 1.01,
-                  y: -1,
-                  transition: { duration: 0.2, ease: "easeOut" }
-                }}
-                transition={{ 
-                  duration: 0.3, 
-                  type: "spring",
-                  stiffness: 150,
-                  damping: 15
-                }}
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
                 style={{
-                  width: '210px',
-                  height: '70px',
-                  background: 'rgba(34, 197, 94, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(34, 197, 94, 0.3)',
+                  width: '180px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #10b981, #047857)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 8px 32px rgba(34, 197, 94, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                  position: 'relative',
-                  transition: 'all 0.2s ease-out'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(34, 197, 94, 0.25)';
-                  e.currentTarget.style.border = '1px solid rgba(34, 197, 94, 0.5)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(34, 197, 94, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(34, 197, 94, 0.15)';
-                  e.currentTarget.style.border = '1px solid rgba(34, 197, 94, 0.3)';
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(34, 197, 94, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+                  marginBottom: '4px',
+                  margin: '0 auto 4px auto'
                 }}
               >
-                <span className="text-green-300 text-xs font-semibold">
-                  Foundation
+                <span style={{ 
+                  color: '#000000', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  textAlign: 'center'
+                }}>
+                  {userPersonalityType}
+                  <br />
+                  Complete
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-emerald-400/10 rounded-lg" />
               </motion.div>
 
+              {/* Base Layer - Blue */}
+              <motion.div 
+                className="tower-layer completed-layer"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: -0.1 }}
+                style={{
+                  width: '200px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto'
+                }}
+              >
+                <span style={{ 
+                  color: '#000000', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  textAlign: 'center'
+                }}>
+                  Foundation
+                  <br />
+                  Complete
+                </span>
+              </motion.div>
             </div>
           </div>
         </div>
+
+        {/* Navigation Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-8 flex justify-center items-center w-full gap-8"
+        >
+          <motion.button
+            className="btn-primary"
+            onClick={() => {
+              setCurrentScreen('color-phase');
+              setLocation('/color-phase');
+            }}
+            whileHover={{ 
+              scale: 1.05,
+              y: -2,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ 
+              scale: 0.95,
+              y: 0,
+              transition: { duration: 0.1 }
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              transition: { delay: 0.8, duration: 0.4 }
+            }}
+          >
+            ← Back to Color Phase
+          </motion.button>
+          
+          {isComplete && (
+            <ContinueButton
+              canProceed={isComplete}
+              onContinue={handleContinue}
+            >
+              Continue to Results
+            </ContinueButton>
+          )}
+        </motion.div>
       </div>
     </motion.div>
   );
