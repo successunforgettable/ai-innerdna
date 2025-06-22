@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
+import fs from "fs";
 import { storage } from "./storage";
 import { insertUserSchema, type AssessmentData } from "@shared/schema";
 import { hashPassword, verifyPassword, generateToken, generateResetToken } from "./auth";
@@ -12,7 +13,6 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
-import fs from "fs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -833,29 +833,38 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
   });
 
   // Three Challenger Report Viewing Routes
-  app.get('/view-challenger-7-destructive', (req, res) => {
+  app.get('/api/report/challenger-7-destructive', (req, res) => {
     try {
-      const reportContent = fs.readFileSync('./challenger-7-destructive-sexual.html', 'utf8');
+      const reportPath = path.join(process.cwd(), 'challenger-7-destructive-sexual.html');
+      const reportContent = fs.readFileSync(reportPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html');
       res.send(reportContent);
     } catch (error) {
+      console.error('Error loading Challenger 7 Destructive report:', error);
       res.status(404).send('Challenger 7 Destructive Sexual report not found');
     }
   });
 
-  app.get('/view-challenger-9-destructive', (req, res) => {
+  app.get('/api/report/challenger-9-destructive', (req, res) => {
     try {
-      const reportContent = fs.readFileSync('./challenger-9-destructive-social.html', 'utf8');
+      const reportPath = path.join(process.cwd(), 'challenger-9-destructive-social.html');
+      const reportContent = fs.readFileSync(reportPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html');
       res.send(reportContent);
     } catch (error) {
+      console.error('Error loading Challenger 9 Destructive report:', error);
       res.status(404).send('Challenger 9 Destructive Social report not found');
     }
   });
 
-  app.get('/view-challenger-7-good', (req, res) => {
+  app.get('/api/report/challenger-7-good', (req, res) => {
     try {
-      const reportContent = fs.readFileSync('./challenger-7-good-sexual.html', 'utf8');
+      const reportPath = path.join(process.cwd(), 'challenger-7-good-sexual.html');
+      const reportContent = fs.readFileSync(reportPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html');
       res.send(reportContent);
     } catch (error) {
+      console.error('Error loading Challenger 7 Good report:', error);
       res.status(404).send('Challenger 7 Good Sexual report not found');
     }
   });
