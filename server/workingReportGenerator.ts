@@ -560,6 +560,12 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
       subtype: testData.dominantSubtype || "Self-Preservation"
     };
     
+    console.log('✅ UserData Created:', {
+      personalityType: userData.personalityType,
+      personalityName: userData.personalityName,
+      wingInfluence: userData.wingInfluence
+    });
+    
     // Execute ChatGPT API calls sequentially to avoid rate limits
     console.log("📞 Calling Core Content...");
     const coreContent = await generateCoreChatGPTContent(userData);
