@@ -968,7 +968,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       console.log(`🚀 Emergency template generation for user ${req.params.userId}`);
       
       const typeId = parseInt(req.params.userId) || 1;
-      const reportHtml = await generateStyledReport(typeId);
+      const reportHtml = await generateCompleteStyledReport(typeId);
       
       // Save report file using async file operations
       const fileName = `emergency-report-${req.params.userId}-${Date.now()}.html`;
@@ -1000,7 +1000,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
   app.get('/api/test-content-loading', async (req, res) => {
     try {
       // Test generating a sample report
-      const testReport = await generateStyledReport(8);
+      const testReport = await generateCompleteStyledReport(8);
       const reportSize = testReport.length;
       
       res.json({
@@ -1036,7 +1036,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
       }
       
-      const html = await generateStyledReport(typeId);
+      const html = await generateCompleteStyledReport(typeId);
       res.setHeader('Content-Type', 'text/html');
       res.send(html);
       
@@ -1060,7 +1060,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         return res.status(400).json({ error: 'Invalid user ID.' });
       }
       
-      const html = await generateStyledReport(typeId, userId);
+      const html = await generateCompleteStyledReport(typeId);
       res.setHeader('Content-Type', 'text/html');
       res.send(html);
       

@@ -1675,6 +1675,3 @@ function getTestimonials(typeId) {
   };
   return testimonials[typeId] || testimonials[8];
 }
-
-// Export the main function for server integration
-export { generateCompleteStyledReport };
