@@ -45,6 +45,15 @@ export async function generateCompleteStyledReport(typeId) {
   // Remove remaining "THE TYPE X" patterns
   htmlContent = htmlContent.replace(/THE TYPE \d+/g, `THE ${personalityName.toUpperCase()}`);
   
+  // Fix title tag and header content - specific patterns
+  htmlContent = htmlContent.replace(/THE TYPE \d+ [^:]+:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/The Type \d+ [^:]+:/g, `The ${personalityName}:`);
+  htmlContent = htmlContent.replace(/TYPE \d+ [^:]+:/g, `${personalityName.toUpperCase()}:`);
+  
+  // Fix the specific "TYPE 8 CHALLENGER:" pattern in the hero section
+  htmlContent = htmlContent.replace(/THE TYPE 8 CHALLENGER:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 8 CHALLENGER:/g, `${personalityName.toUpperCase()}:`);
+  
   // Pass 4: Remaining percentage and HRV references
   htmlContent = htmlContent.replace(/78%/g, `${heartPercentage}%`);
   htmlContent = htmlContent.replace(/22ms/g, `${hrvBaseline}ms`);
