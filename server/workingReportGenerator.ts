@@ -586,6 +586,14 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
       console.log("⚠️ Complete coverage generation failed, continuing with available content");
     }
     
+    console.log("📞 Call 8: FINAL 24 PLACEHOLDERS (100% Coverage)...");
+    const final24Content = await generateFinal24PlaceholdersChatGPTContent(userData);
+    if (!final24Content) {
+      console.log("⚠️ Call 8 failed, continuing with available content");
+    } else {
+      console.log(`✅ Call 8 completed: ${Object.keys(final24Content).length} fields`);
+    }
+    
     // Combine all successful ChatGPT content
     const allChatGPTContent = {
       ...coreContent,
@@ -594,7 +602,8 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
       ...(missingContent || {}),
       ...(finalContent || {}),
       ...(timelineContent || {}),
-      ...(completeContent || {})
+      ...(completeContent || {}),
+      ...(final24Content || {})
     };
     
     const totalFields = Object.keys(allChatGPTContent).length;
