@@ -43,17 +43,8 @@ export async function generateCompleteStyledReport(typeId) {
   // Save file
   fs.writeFileSync(fileName, htmlContent);
   
-  return {
-    success: true,
-    fileName: fileName,
-    message: "✅ NEW GENSPARK DESIGN - UNLIMITED CONCURRENT USERS",
-    performance: {
-      old_chatgpt: "FAILS at 10+ users, $1.50, 60+ seconds",
-      new_template: "UNLIMITED users, $0.022, <5 seconds"
-    },
-    files_location: "public/test-genspark-design.html",
-    system_type: "New Genspark Design with Advanced Features"
-  };
+  // Return HTML content directly for viewing
+  return htmlContent;
 }
 
 function getHRVBaseline(typeId) {
