@@ -7,7 +7,7 @@ function getGensparkTemplateBase() {
   return fs.readFileSync(templatePath, 'utf8');
 }
 
-export async function generateCompleteStyledReport(typeId, calendlyUsername = 'your-calendly-username') {
+export async function generateCompleteStyledReport(typeId, userData = null, calendlyUsername = 'your-calendly-username') {
   console.log(`🚀 New Genspark template generation for user ${typeId}`);
   
   // Get the base template
@@ -69,6 +69,22 @@ export async function generateCompleteStyledReport(typeId, calendlyUsername = 'y
   
   // Pass 5: Calendly URL replacement
   htmlContent = htmlContent.replace(/CALENDLY_USERNAME_PLACEHOLDER/g, calendlyUsername);
+  
+  // Pass 6: User data placeholders for contact form
+  if (userData) {
+    htmlContent = htmlContent.replace(/USER_FIRSTNAME_PLACEHOLDER/g, userData.firstName || '');
+    htmlContent = htmlContent.replace(/USER_LASTNAME_PLACEHOLDER/g, userData.lastName || '');
+    htmlContent = htmlContent.replace(/USER_EMAIL_PLACEHOLDER/g, userData.email || '');
+    htmlContent = htmlContent.replace(/USER_PHONE_PLACEHOLDER/g, userData.phoneNumber || '');
+    htmlContent = htmlContent.replace(/PERSONALITY_TYPE_PLACEHOLDER/g, personalityName);
+  } else {
+    // Clear placeholders if no user data
+    htmlContent = htmlContent.replace(/USER_FIRSTNAME_PLACEHOLDER/g, '');
+    htmlContent = htmlContent.replace(/USER_LASTNAME_PLACEHOLDER/g, '');
+    htmlContent = htmlContent.replace(/USER_EMAIL_PLACEHOLDER/g, '');
+    htmlContent = htmlContent.replace(/USER_PHONE_PLACEHOLDER/g, '');
+    htmlContent = htmlContent.replace(/PERSONALITY_TYPE_PLACEHOLDER/g, personalityName);
+  }
   
   // Generate filename
   const timestamp = Date.now();

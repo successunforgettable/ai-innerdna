@@ -971,7 +971,7 @@
                             <i class="fas fa-arrow-right ml-3"></i>
                         </button>
                         
-                        <button onclick="Calendly.initPopupWidget({url: 'https://calendly.com/CALENDLY_USERNAME_PLACEHOLDER'});" class="btn-secondary text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-all duration-300">
+                        <button onclick="openContactForm()" class="btn-secondary text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-all duration-300">
                             <i class="fas fa-phone mr-2"></i>
                             Schedule a Discovery Call
                         </button>
@@ -1016,6 +1016,70 @@
         <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full opacity-10 animate-pulse"></div>
         <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-yellow-500 rounded-full opacity-10 animate-pulse delay-1000"></div>
         <div class="absolute top-1/2 right-1/3 w-32 h-32 bg-blue-500 rounded-full opacity-10 animate-pulse delay-2000"></div>
+    </div>
+
+    <!-- Contact Form Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden items-center justify-center">
+        <div class="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-filter backdrop-blur-xl border border-purple-400/30 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-yellow-400 mb-2">
+                    <i class="fas fa-heart text-red-400 mr-2"></i>
+                    Activate Your Heart Connection
+                </h3>
+                <p class="text-purple-200">Let's schedule your transformation call</p>
+            </div>
+
+            <form id="contactForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-purple-200 text-sm font-medium mb-2">First Name</label>
+                        <input type="text" id="firstName" required 
+                               class="w-full px-4 py-3 bg-white/10 border border-purple-400/30 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm">
+                    </div>
+                    <div>
+                        <label class="block text-purple-200 text-sm font-medium mb-2">Last Name</label>
+                        <input type="text" id="lastName" required 
+                               class="w-full px-4 py-3 bg-white/10 border border-purple-400/30 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-purple-200 text-sm font-medium mb-2">Email Address</label>
+                    <input type="email" id="email" required 
+                           class="w-full px-4 py-3 bg-white/10 border border-purple-400/30 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm">
+                </div>
+
+                <div>
+                    <label class="block text-purple-200 text-sm font-medium mb-2">Phone Number</label>
+                    <input type="tel" id="phoneNumber" required 
+                           class="w-full px-4 py-3 bg-white/10 border border-purple-400/30 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/20 backdrop-blur-sm">
+                </div>
+
+                <div class="flex space-x-4 pt-4">
+                    <button type="button" onclick="closeContactForm()" 
+                            class="flex-1 px-6 py-3 bg-gray-600/50 text-white rounded-lg hover:bg-gray-600/70 transition-all duration-300 font-medium">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:scale-105">
+                        <i class="fas fa-heart mr-2"></i>
+                        Yes, I Want to Activate My Heart
+                    </button>
+                </div>
+            </form>
+
+            <div id="successMessage" class="hidden text-center">
+                <div class="text-green-400 text-6xl mb-4">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-yellow-400 mb-2">Request Submitted!</h3>
+                <p class="text-purple-200 mb-4">We'll contact you within 24 hours to schedule your heart activation call.</p>
+                <button onclick="closeContactForm()" 
+                        class="px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300">
+                    Close
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1260,6 +1324,64 @@
             document.querySelectorAll('.fade-in').forEach(el => {
                 observer.observe(el);
             });
+        });
+
+        // Contact Form Functions
+        function openContactForm() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Pre-populate with user data placeholders (will be replaced by emergency generator)
+            document.getElementById('firstName').value = 'USER_FIRSTNAME_PLACEHOLDER';
+            document.getElementById('lastName').value = 'USER_LASTNAME_PLACEHOLDER';
+            document.getElementById('email').value = 'USER_EMAIL_PLACEHOLDER';
+            document.getElementById('phoneNumber').value = 'USER_PHONE_PLACEHOLDER';
+        }
+
+        function closeContactForm() {
+            const modal = document.getElementById('contactModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+            document.getElementById('contactForm').classList.remove('hidden');
+            document.getElementById('successMessage').classList.add('hidden');
+        }
+
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                personalityType: 'PERSONALITY_TYPE_PLACEHOLDER',
+                heartPercentage: document.getElementById('heartPercentage').textContent + '%'
+            };
+
+            try {
+                const response = await fetch('/api/contact-requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('contactForm').classList.add('hidden');
+                    document.getElementById('successMessage').classList.remove('hidden');
+                } else {
+                    alert('Something went wrong. Please try again or contact support directly.');
+                }
+            } catch (error) {
+                alert('Something went wrong. Please try again or contact support directly.');
+            }
         });
     </script>
 </body>

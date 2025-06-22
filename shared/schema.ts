@@ -62,12 +62,20 @@ export const insertReportSchema = createInsertSchema(reports).omit({
   generatedAt: true,
 });
 
+export const insertContactRequestSchema = createInsertSchema(contactRequests).omit({
+  id: true,
+  submittedAt: true,
+  contacted: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Session = typeof sessions.$inferSelect;
 export type InsertSession = z.infer<typeof insertSessionSchema>;
 export type Report = typeof reports.$inferSelect;
 export type InsertReport = z.infer<typeof insertReportSchema>;
+export type ContactRequest = typeof contactRequests.$inferSelect;
+export type InsertContactRequest = z.infer<typeof insertContactRequestSchema>;
 
 // Assessment data types
 export type FoundationStoneSelection = {
