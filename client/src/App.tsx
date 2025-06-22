@@ -111,6 +111,7 @@ function Router() {
       <Route path="/reports" component={Reports} />
       <Route path="/reports-browser" component={ReportsBrowser} />
       <Route path="/reset-password" component={ResetPassword} />
+      <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
   );
