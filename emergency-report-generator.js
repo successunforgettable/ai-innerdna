@@ -197,7 +197,7 @@ export class EmergencyReportGenerator {
   buildHTMLReport({ personalityType, content, testimonials, metadata }) {
     const typeNames = {
       1: 'The Reformer', 2: 'The Helper', 3: 'The Achiever',
-      4: 'The Individualist', 5: 'The Investigator', 6: 'The Loyalist',
+      4: 'The Individualist', 5: 'The Investigator', 6: 'The Sentinel',
       7: 'The Enthusiast', 8: 'The Challenger', 9: 'The Peacemaker'
     };
 
