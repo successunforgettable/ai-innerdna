@@ -491,6 +491,16 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     res.sendFile(path.join(__dirname, '../helper-3-clean-report.html'));
   });
 
+  // Serve the 100% coverage Sentinel 6 report
+  app.get("/view-sentinel-6", (req, res) => {
+    const reportPath = path.join(process.cwd(), 'sentinel-6-working.html');
+    if (fs.existsSync(reportPath)) {
+      res.sendFile(reportPath);
+    } else {
+      res.status(404).send('Report not found');
+    }
+  });
+
   // ChatGPT content injection endpoint
   app.post("/api/inject-report-content", async (req, res) => {
     try {
