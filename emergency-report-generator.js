@@ -21,7 +21,7 @@ export async function generateCompleteStyledReport(typeId) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Type ${typeId} ${typeName}: Heart-Brain Connection Assessment Report</title>
+    <title>The ${typeName}: Heart-Brain Connection Assessment Report</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -213,7 +213,7 @@ export async function generateCompleteStyledReport(typeId) {
             </div>
             
             <h1 class="text-4xl md:text-7xl font-bold mb-6 fade-in">
-                THE TYPE ${typeId} ${typeName}:
+                THE ${typeName}:
                 <span class="block text-red-400 mt-2">YOUR HEART-BRAIN CONNECTION IS BROKEN</span>
             </h1>
             
@@ -1058,11 +1058,12 @@ export async function generateCompleteStyledReport(typeId) {
     console.error('Error generating complete report:', error);
     throw new Error(`Failed to generate report: ${error.message}`);
   }
-} animatePercentage() {
+
+  function animatePercentage() {
             const percentage1 = document.getElementById('heartPercentage');
             const percentage2 = document.getElementById('heartPercentage2');
             let current = 0;
-            const target = ${heartNeuronPercentage};
+            const target = \${heartNeuronPercentage};
             const increment = target / 100;
 
             const timer = setInterval(() => {
