@@ -2,12 +2,8 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
-import ReportHeader from '@/components/Results/ReportHeader';
-import TypeDescription from '@/components/Results/TypeDescription';
-import MoodStates from '@/components/Results/MoodStates';
 
 import { saveAssessmentData } from '@/lib/assessmentStorage';
-import { generateAndDisplayReport } from '@/utils/reportGenerator';
 import '@/styles/design-system.css';
 
 const Results = () => {
@@ -26,20 +22,6 @@ const Results = () => {
   const personalityName = primaryType ? getPersonalityName(primaryType) : undefined;
   const influenceNumber = buildingData?.[0]?.wing || '9'; // Show wing number, not block name
   const confidence = personalityResult?.confidence;
-
-  // Debug logging
-  console.log('Results Debug:', {
-    assessmentData,
-    foundationData,
-    buildingData,
-    colorData,
-    detailData,
-    personalityResult,
-    primaryType,
-    personalityName,
-    influenceNumber,
-    confidence
-  });
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -132,8 +114,30 @@ const Results = () => {
     }
   };
 
+  // Generate emergency report URL
+  const generateReportUrl = () => {
+    if (primaryType) {
+      window.open(`/api/emergency-view/${primaryType}`, '_blank');
+    }
+  };
+
   // Check if assessment is complete
   const hasValidData = primaryType && personalityName && confidence;
+
+  function getPersonalityName(typeId: number): string {
+    const names: { [key: number]: string } = {
+      1: "Reformer",
+      2: "Helper", 
+      3: "Achiever",
+      4: "Individualist",
+      5: "Investigator",
+      6: "Sentinel",
+      7: "Enthusiast",
+      8: "Challenger",
+      9: "Peacemaker"
+    };
+    return names[typeId] || "Challenger";
+  }
 
   return (
     <motion.div 
@@ -142,8 +146,6 @@ const Results = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-
-
       {/* Main Content */}
       <div className="max-w-6xl mx-auto">
         <motion.div 
@@ -158,311 +160,58 @@ const Results = () => {
               {/* Header */}
               <div className="text-center mb-12 results-header">
                 <h1 className="text-6xl font-bold text-yellow-400 mb-4 results-title">
-                  The {personalityName}
+                  Assessment Complete!
                 </h1>
-                <p className="text-xl text-white/80 mb-4 results-influence">
-                  Your influence: {influenceNumber}
+                <p className="text-xl text-white/80 mb-4">
+                  Your personalized transformation report is ready
                 </p>
-                <div className="text-lg text-green-400 results-confidence">
-                  High Confidence ({(confidence || 0) > 1 
-                    ? Math.round(confidence || 0) 
-                    : Math.round((confidence || 0) * 100)}%)
-                </div>
                 <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-6"></div>
               </div>
 
-              {/* Personality Description */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Inner DNA: The {personalityName}
-                </h3>
-                <TypeDescription 
-                  primaryType={primaryType!}
-                  typeName={personalityName!}
-                />
+              {/* Report Button */}
+              <div className="text-center mb-12">
+                <motion.button
+                  onClick={generateReportUrl}
+                  className="btn-primary bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  View Your Complete Report
+                </motion.button>
               </div>
 
-              {/* Mood States */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Mood States
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-green-500/20 rounded-lg p-6 border border-green-400/30 backdrop-blur-sm">
-                    <h4 className="text-xl font-semibold text-green-400 mb-3">
-                      When you're in a good mood
-                    </h4>
-                    <MoodStates 
-                      primaryType={primaryType!}
-                      moodType="good"
-                    />
-                  </div>
-                  
-                  <div className="bg-red-500/20 rounded-lg p-6 border border-red-400/30 backdrop-blur-sm">
-                    <h4 className="text-xl font-semibold text-red-400 mb-3">
-                      When you're in a bad mood
-                    </h4>
-                    <MoodStates 
-                      primaryType={primaryType!}
-                      moodType="bad"
-                    />
-                  </div>
-                </div>
+              {/* Navigation Buttons */}
+              <div className="flex justify-center gap-6 mt-12 mb-8">
+                <motion.button
+                  onClick={() => setLocation('/')}
+                  className="btn-secondary bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/20"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Back to Home
+                </motion.button>
               </div>
-
-              {/* Influence Description */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Influence: {influenceNumber}
-                </h3>
-                <p className="text-lg text-white/90 leading-relaxed">
-                  The {influenceNumber} influence brings a peaceful, harmonizing quality to your assertive nature. 
-                  You approach challenges through steady, measured means rather than pure force. This influence 
-                  helps you maintain relationships while still standing firm in your convictions.
-                </p>
-              </div>
-
-              {/* State Analysis */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Current State Distribution
-                </h3>
-                <div className="bg-white/5 rounded-lg p-6 border border-white/10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {(() => {
-                      // Extract actual state data from localStorage according to ColorPhase structure
-                      const savedAssessment = JSON.parse(localStorage.getItem('innerDnaAssessment') || '{}');
-                      const colorState = savedAssessment.colorState;
-                      
-                      if (colorData && colorData.length >= 2 && colorState?.distribution) {
-                        const primaryStatePercent = Math.round(colorState.distribution.primary);
-                        const secondaryStatePercent = Math.round(colorState.distribution.secondary);
-                        
-                        return (
-                          <>
-                            <div>
-                              <h4 className="text-lg font-semibold text-yellow-400 mb-2">Primary State</h4>
-                              <p className="text-white/80">{colorData[0]?.title}: {primaryStatePercent}%</p>
-                            </div>
-                            <div>
-                              <h4 className="text-lg font-semibold text-yellow-400 mb-2">Secondary State</h4>
-                              <p className="text-white/80">{colorData[1]?.title}: {secondaryStatePercent}%</p>
-                            </div>
-                          </>
-                        );
-                      }
-                      
-                      return (
-                        <div className="col-span-2">
-                          <p className="text-white/80">Complete the Color States phase to see your state distribution</p>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                  <p className="text-white/90 mt-4">
-                    {(() => {
-                      const savedAssessment = JSON.parse(localStorage.getItem('innerDnaAssessment') || '{}');
-                      const colorState = savedAssessment.colorState;
-                      
-                      if (colorData && colorData.length >= 2 && colorState?.distribution) {
-                        const primaryPercent = Math.round(colorState.distribution.primary);
-                        const primaryState = colorData[0]?.title;
-                        
-                        if (primaryPercent >= 60) {
-                          return `You tend to operate from a ${primaryState.toLowerCase()}, showing strong consistency in your emotional patterns.`;
-                        } else if (primaryPercent >= 40) {
-                          return `You tend to operate from a balanced but occasionally ${primaryState.toLowerCase()}, with access to healthier patterns when conditions are supportive.`;
-                        } else {
-                          return `Your energy alternates between different states, showing flexibility in how you respond to various situations.`;
-                        }
-                      }
-                      
-                      return 'Your state distribution will be analyzed based on your Color States selections.';
-                    })()}
-                  </p>
-                </div>
-              </div>
-
-              {/* Subtype Analysis */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Your Subtype Focus
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 subtype-grid">
-                  {(() => {
-                    // Calculate actual subtype percentages from detail token distribution according to spec
-                    if (!detailData || detailData.length === 0) {
-                      return (
-                        <div className="col-span-3">
-                          <p className="text-white/80">Complete the Detail Tokens phase to see your subtype focus</p>
-                        </div>
-                      );
-                    }
-                    
-                    // Extract token counts from the correct data structure
-                    const selfTokenData = detailData.find(item => item.category === 'Self-Preservation');
-                    const oneToOneTokenData = detailData.find(item => item.category === 'One-to-One');
-                    const socialTokenData = detailData.find(item => item.category === 'Social');
-                    
-                    // Parse token counts from "X tokens" format
-                    const selfTokens = selfTokenData ? parseInt(selfTokenData.token.split(' ')[0]) : 0;
-                    const oneToOneTokens = oneToOneTokenData ? parseInt(oneToOneTokenData.token.split(' ')[0]) : 0;
-                    const socialTokens = socialTokenData ? parseInt(socialTokenData.token.split(' ')[0]) : 0;
-                    const totalTokens = selfTokens + oneToOneTokens + socialTokens;
-                    
-                    // Calculate percentages based on actual token distribution
-                    const selfPercent = totalTokens > 0 ? Math.round((selfTokens / totalTokens) * 100) : 0;
-                    const oneToOnePercent = totalTokens > 0 ? Math.round((oneToOneTokens / totalTokens) * 100) : 0;
-                    const socialPercent = totalTokens > 0 ? Math.round((socialTokens / totalTokens) * 100) : 0;
-                    
-                    // Determine dominant subtype according to spec
-                    const dominantSubtype = selfPercent >= oneToOnePercent && selfPercent >= socialPercent ? 'self-preservation' :
-                                          oneToOnePercent >= socialPercent ? 'one-to-one' : 'social';
-                    
-                    return (
-                      <>
-                        <div className="bg-blue-500/20 rounded-lg p-4 border border-blue-400/30">
-                          <div className="flex items-center mb-2">
-                            <span className="text-2xl mr-2">🛡️</span>
-                            <h4 className="text-lg font-semibold text-blue-400">Self-Preservation</h4>
-                          </div>
-                          <p className="text-sm text-white/80">
-                            {selfPercent}% - Focus on personal security and routines
-                          </p>
-                        </div>
-                        
-                        <div className="bg-red-500/20 rounded-lg p-4 border border-red-400/30">
-                          <div className="flex items-center mb-2">
-                            <span className="text-2xl mr-2">🔥</span>
-                            <h4 className="text-lg font-semibold text-red-400">One-to-One</h4>
-                          </div>
-                          <p className="text-sm text-white/80">
-                            {oneToOnePercent}% - Focus on intense personal connections
-                          </p>
-                        </div>
-                        
-                        <div className="bg-green-500/20 rounded-lg p-4 border border-green-400/30">
-                          <div className="flex items-center mb-2">
-                            <span className="text-2xl mr-2">🧱</span>
-                            <h4 className="text-lg font-semibold text-green-400">Social</h4>
-                          </div>
-                          <p className="text-sm text-white/80">
-                            {socialPercent}% - Focus on group dynamics and community
-                          </p>
-                        </div>
-                        
-                        <div className="col-span-3 mt-4">
-                          <p className="text-white/90">
-                            Your energy is primarily focused on {dominantSubtype}, showing how you naturally prioritize and direct your attention.
-                          </p>
-                        </div>
-                      </>
-                    );
-                  })()}
-                </div>
-              </div>
-
-              {/* Growth Recommendations */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">
-                  Growth Recommendations
-                </h3>
-                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg p-6 border border-purple-400/30">
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="text-lg font-semibold text-purple-400 mb-2">For Personal Development:</h4>
-                      <p className="text-white/90">
-                        Practice vulnerability and emotional openness. Allow others to support you without 
-                        seeing it as weakness. Develop patience with those who process differently than you.
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-lg font-semibold text-purple-400 mb-2">In Relationships:</h4>
-                      <p className="text-white/90">
-                        Work on expressing your softer emotions and needs. Practice listening without 
-                        immediately moving to action or solutions. Show appreciation for others' contributions.
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-lg font-semibold text-purple-400 mb-2">At Work:</h4>
-                      <p className="text-white/90">
-                        Delegate more and trust others' capabilities. Practice collaborative decision-making. 
-                        Use your natural leadership to empower others rather than controlling outcomes.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Hero's Journey Report Button */}
-              <div className="mb-12">
-                <div className="bg-gradient-to-r from-gold/20 to-cyan/20 rounded-lg p-6 border border-gold/30 text-center">
-                  <h3 className="text-2xl font-bold text-yellow-400 mb-4">
-                    Your Complete Transformation Journey
-                  </h3>
-                  <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-                    Experience your personalized hero's journey report with stunning visuals, 
-                    interactive elements, and AI-powered insights based on your unique assessment results.
-                  </p>
-                  <button
-                    onClick={async () => {
-                      try {
-                        const result = await generateAndDisplayReport(assessmentData);
-                        if (result.success) {
-                          console.log('Report generated successfully:', result.message);
-                        }
-                      } catch (error: any) {
-                        console.error('Error generating report:', error);
-                        alert('Error generating report: ' + error.message);
-                      }
-                    }}
-                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-purple-900 font-bold text-lg rounded-full hover:from-yellow-300 hover:to-orange-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  >
-                    <i className="fas fa-magic mr-3"></i>
-                    Generate Hero's Journey Report
-                  </button>
-                </div>
-              </div>
-
-
             </>
           ) : (
             <div className="text-center">
-              <h1 className="text-6xl font-bold text-yellow-400 mb-8">
-                Complete Your Assessment
-              </h1>
-              <p className="text-white/80 text-xl mb-8">
-                Please complete the full Inner DNA assessment to see your personalized results.
+              <h2 className="text-3xl font-bold text-white mb-4">Assessment Incomplete</h2>
+              <p className="text-white/80 mb-8">
+                It looks like your assessment isn't complete yet. Please complete all phases to see your results.
               </p>
-              <p className="text-white/60 text-lg">
-                Go through Foundation Stones, Building Blocks, Color States, and Detail Tokens to generate your authentic personality profile.
-              </p>
+              <motion.button
+                onClick={() => setLocation('/')}
+                className="btn-primary bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Start Assessment
+              </motion.button>
             </div>
           )}
-          
         </motion.div>
       </div>
     </motion.div>
   );
-};
-
-// Helper function to get personality name (no prohibited terminology)
-const getPersonalityName = (primaryType: string): string => {
-  const personalityNames: Record<string, string> = {
-    '1': 'Reformer',
-    '2': 'Helper',
-    '3': 'Achiever',
-    '4': 'Individualist',
-    '5': 'Investigator',
-    '6': 'Sentinel',
-    '7': 'Enthusiast',
-    '8': 'Challenger',
-    '9': 'Peacemaker'
-  };
-  return personalityNames[primaryType] || 'Reformer';
 };
 
 export default Results;
