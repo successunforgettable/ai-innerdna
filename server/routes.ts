@@ -13,7 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
-import { generateCompleteStyledReport } from '../new-emergency-generator.js';
+import { generateCompleteStyledReport } from '../emergency-report-generator-new.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -1079,6 +1079,28 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       res.send(htmlContent);
     } catch (error) {
       res.status(404).json({ error: 'Test file not found' });
+    }
+  });
+
+  // Generate new Genspark report
+  app.post('/api/preview-genspark', async (req, res) => {
+    try {
+      const { typeId } = req.body;
+      const userId = typeId || 8;
+      
+      console.log(`🚀 Generating new Genspark report for type ${userId}`);
+      const reportResult = await generateCompleteStyledReport(userId);
+      
+      if (reportResult.success) {
+        const htmlContent = fs.readFileSync(reportResult.fileName, 'utf8');
+        res.setHeader('Content-Type', 'text/html');
+        res.send(htmlContent);
+      } else {
+        res.status(500).json({ error: 'Failed to generate report' });
+      }
+    } catch (error) {
+      console.error('Error generating new Genspark report:', error);
+      res.status(500).json({ error: 'Error generating new Genspark report' });
     }
   });
 
