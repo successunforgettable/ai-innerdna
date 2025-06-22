@@ -90,15 +90,15 @@ function getHRVBaseline(typeId) {
 
 function getPersonalityName(typeId) {
   const names = {
-    1: "Type 1 Reformer",
-    2: "Type 2 Helper", 
-    3: "Type 3 Achiever",
-    4: "Type 4 Individualist",
-    5: "Type 5 Investigator",
-    6: "Type 6 Sentinel",
-    7: "Type 7 Enthusiast",
-    8: "Type 8 Challenger",
-    9: "Type 9 Peacemaker"
+    1: "Reformer",
+    2: "Helper", 
+    3: "Achiever",
+    4: "Individualist",
+    5: "Investigator",
+    6: "Sentinel",
+    7: "Enthusiast",
+    8: "Challenger",
+    9: "Peacemaker"
   };
-  return names[typeId] || "Type 8 Challenger";
+  return names[typeId] || "Challenger";
 }
