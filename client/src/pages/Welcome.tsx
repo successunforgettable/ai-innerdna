@@ -273,7 +273,7 @@ export default function Welcome() {
             className={styles.tagline}
             variants={itemVariants}
           >
-            Discover Your Unique Inner DNA
+            Discover Your Unique Inner DNA using Ai
           </motion.div>
           
           {/* Notification Bell - Top Left */}
