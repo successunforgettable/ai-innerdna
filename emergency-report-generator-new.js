@@ -18,14 +18,20 @@ export async function generateCompleteStyledReport(typeId) {
   const hrvBaseline = getHRVBaseline(typeId);
   const personalityName = getPersonalityName(typeId);
   
-  // Replace dynamic content placeholders
+  // Replace dynamic content placeholders - Step by step approach
   htmlContent = htmlContent
+    // First replace the JavaScript animation target
+    .replace('const target = 78;', `const target = ${heartPercentage};`)
+    // Then replace HTML element content
+    .replace('<span id="heartPercentage">78</span>', `<span id="heartPercentage">${heartPercentage}</span>`)
+    .replace('<span id="heartPercentage2">78</span>', `<span id="heartPercentage2">${heartPercentage}</span>`)
+    // Replace personality type references
     .replace(/The Type 8 Challenger/g, `The ${personalityName}`)
     .replace(/TYPE 8 CHALLENGER/g, personalityName.toUpperCase())
+    .replace(/THE Challenger/g, `THE ${personalityName}`)
+    // Replace remaining percentage and HRV references
     .replace(/78%/g, `${heartPercentage}%`)
     .replace(/22ms/g, `${hrvBaseline}ms`)
-    .replace(/id="heartPercentage">78/g, `id="heartPercentage">${heartPercentage}`)
-    .replace(/id="heartPercentage2">78/g, `id="heartPercentage2">${heartPercentage}`)
     .replace(/Your HRV: 22ms/g, `Your HRV: ${hrvBaseline}ms`);
   
   // Generate filename
