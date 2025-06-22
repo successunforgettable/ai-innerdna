@@ -201,15 +201,15 @@ Generate 30 remaining placeholder fields:
   "SUCCESS_STORY_3": "Brief success story about sustainable change achievement",
   "SUCCESS_STORY_4": "Brief success story about leadership evolution", 
   "SUCCESS_STORY_5": "Brief success story about relationship breakthrough",
-  "BREAKTHROUGH_MOMENT_1": "Description of typical breakthrough moment for this personality type",
-  "BREAKTHROUGH_MOMENT_2": "Description of relationship breakthrough specific to this type",
+  "BREAKTHROUGH_MOMENT_1": "Description of typical breakthrough moment for this personality",
+  "BREAKTHROUGH_MOMENT_2": "Description of relationship breakthrough specific to their personality",
   
-  "STAT1_DESCRIPTION": "First statistical outcome description for this personality type",
-  "STAT2_DESCRIPTION": "Second statistical outcome description for this type",
-  "BRAIN_HEART_DISCONNECT": "Brain-heart disconnect message specific to this personality type",
+  "STAT1_DESCRIPTION": "First statistical outcome description for this personality",
+  "STAT2_DESCRIPTION": "Second statistical outcome description for their personality",
+  "BRAIN_HEART_DISCONNECT": "Brain-heart disconnect message specific to this personality",
   
   "HERO_TITLE": "Compelling hero title for this personality's transformation journey",
-  "CTA_BUTTON_TEXT": "Call-to-action button text for this personality type",
+  "CTA_BUTTON_TEXT": "Call-to-action button text for this personality",
   "FOOTER_MESSAGE": "Footer message about transformation potential",
   "TESTIMONIAL_HEADER": "Header text for testimonials section",
   "WHEEL_HEADER": "Header text for wheel of life section",
@@ -239,11 +239,11 @@ Generate 30 remaining placeholder fields:
 
 // CALL 5: Final Template Coverage (25 placeholders)
 async function generateFinalCoverageChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate the final content pieces for complete ${userData.personalityType} - ${userData.personalityName} template coverage.
+  const prompt = `You are an expert personality transformation coach. Generate the final content pieces for complete ${userData.personalityName} ${userData.wingInfluence} template coverage.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 25 final placeholder fields:
 
@@ -262,15 +262,15 @@ Generate 25 final placeholder fields:
   "STAGE11_DESCRIPTION": "Description for stage 11 transformation",
   
   "MILESTONE_1": "First transformation milestone for this personality",
-  "MILESTONE_2": "Second transformation milestone for this type",
+  "MILESTONE_2": "Second transformation milestone for their personality",
   "MILESTONE_3": "Third transformation milestone for this personality",
-  "MILESTONE_4": "Fourth transformation milestone for this type",
+  "MILESTONE_4": "Fourth transformation milestone for their personality",
   "MILESTONE_5": "Fifth transformation milestone for this personality",
   
-  "OUTCOME_1": "First transformation outcome for this personality type",
-  "OUTCOME_2": "Second transformation outcome for this type",
+  "OUTCOME_1": "First transformation outcome for this personality",
+  "OUTCOME_2": "Second transformation outcome for their personality",
   "OUTCOME_3": "Third transformation outcome for this personality",
-  "OUTCOME_4": "Fourth transformation outcome for this type",
+  "OUTCOME_4": "Fourth transformation outcome for their personality",
   "OUTCOME_5": "Fifth transformation outcome for this personality",
   
   "COMMITMENT_TEXT": "Text about commitment required for transformation",
@@ -283,17 +283,17 @@ Generate 25 final placeholder fields:
 
 // CALL 4: Advanced Content (41 placeholders) - Complete Template Coverage
 async function generateAdvancedChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate advanced transformation content for a ${userData.personalityType} - ${userData.personalityName} to complete their comprehensive report.
+  const prompt = `You are an expert personality transformation coach. Generate advanced transformation content for a ${userData.personalityName} ${userData.wingInfluence} to complete their comprehensive report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype, Wing ${userData.wingInfluence}
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 41 advanced content fields for complete template coverage:
 
 {
-  "HERO_JOURNEY_INTRO": "Introduction to their specific hero's journey as this personality type",
-  "TRANSFORMATION_PROMISE": "Promise of transformation specific to this personality type",
+  "HERO_JOURNEY_INTRO": "Introduction to their specific hero's journey as this personality",
+  "TRANSFORMATION_PROMISE": "Promise of transformation specific to this personality",
   "CURRENT_REALITY_SUMMARY": "Summary of their current reality and struggles",
   "FUTURE_VISION_SUMMARY": "Vision of their transformed future state",
   
@@ -303,9 +303,9 @@ Generate 41 advanced content fields for complete template coverage:
   "STAGE_TRANSITION_4": "Transition description from Stage 4 to Stage 5",
   "STAGE_TRANSITION_5": "Transition description from Stage 5 to Stage 6",
   
-  "CHALLENGE_PATTERN_1": "First major challenge pattern for this personality type",
+  "CHALLENGE_PATTERN_1": "First major challenge pattern for this personality",
   "CHALLENGE_PATTERN_2": "Second major challenge pattern they face",
-  "CHALLENGE_PATTERN_3": "Third challenge pattern specific to this type",
+  "CHALLENGE_PATTERN_3": "Third challenge pattern specific to their personality",
   "CHALLENGE_SOLUTION_1": "Solution approach for first challenge pattern",
   "CHALLENGE_SOLUTION_2": "Solution approach for second challenge pattern", 
   "CHALLENGE_SOLUTION_3": "Solution approach for third challenge pattern",
@@ -342,7 +342,7 @@ Generate 41 advanced content fields for complete template coverage:
   "CTA_SECONDARY_FINAL": "Secondary call-to-action with alternative approach",
   "GUARANTEE_MESSAGE": "Guarantee or confidence statement about results",
   
-  "CLOSING_INSPIRATION": "Final inspirational message for this personality type",
+  "CLOSING_INSPIRATION": "Final inspirational message for this personality",
   "TRANSFORMATION_VISION": "Ultimate vision of who they can become",
   "SUCCESS_CERTAINTY": "Statement of certainty about their success potential"
 }`;
@@ -352,41 +352,41 @@ Generate 41 advanced content fields for complete template coverage:
 
 // CALL 6: Timeline & Additional Cards (25 placeholders)
 async function generateTimelineCardsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate timeline progression and additional challenge cards for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+  const prompt = `You are an expert personality transformation coach. Generate timeline progression and additional challenge cards for a ${userData.personalityName} ${userData.wingInfluence} transformation report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 25 timeline and card fields:
 
 {
   "TIMELINE1_TITLE": "Timeline milestone 1 title for this personality transformation",
-  "TIMELINE1_DESCRIPTION": "Description of week 1-2 transformation progress for this type",
+  "TIMELINE1_DESCRIPTION": "Description of week 1-2 transformation progress for their personality",
   "TIMELINE2_TITLE": "Timeline milestone 2 title for this personality journey",
-  "TIMELINE2_DESCRIPTION": "Description of week 3-4 transformation progress for this type",
+  "TIMELINE2_DESCRIPTION": "Description of week 3-4 transformation progress for their personality",
   "TIMELINE3_TITLE": "Timeline milestone 3 title for this personality evolution",
-  "TIMELINE3_DESCRIPTION": "Description of week 5-6 transformation progress for this type",
+  "TIMELINE3_DESCRIPTION": "Description of week 5-6 transformation progress for their personality",
   "TIMELINE4_TITLE": "Timeline milestone 4 title for this personality breakthrough",
-  "TIMELINE4_DESCRIPTION": "Description of week 7-8 transformation progress for this type",
+  "TIMELINE4_DESCRIPTION": "Description of week 7-8 transformation progress for their personality",
   "TIMELINE5_TITLE": "Timeline milestone 5 title for this personality mastery",
-  "TIMELINE5_DESCRIPTION": "Description of week 9-10 transformation progress for this type",
+  "TIMELINE5_DESCRIPTION": "Description of week 9-10 transformation progress for their personality",
   "TIMELINE6_TITLE": "Timeline milestone 6 title for this personality integration",
-  "TIMELINE6_DESCRIPTION": "Description of week 11-12 transformation progress for this type",
+  "TIMELINE6_DESCRIPTION": "Description of week 11-12 transformation progress for their personality",
   
-  "CARD16_TITLE": "16th challenge card title for this personality type",
-  "CARD16_DESCRIPTION": "Description of 16th transformation opportunity for this type",
+  "CARD16_TITLE": "16th challenge card title for this personality",
+  "CARD16_DESCRIPTION": "Description of 16th transformation opportunity for their personality",
   "CARD17_TITLE": "17th challenge card title for this personality",
-  "CARD17_DESCRIPTION": "Description of 17th growth edge for this type",
+  "CARD17_DESCRIPTION": "Description of 17th growth edge for their personality",
   "CARD18_TITLE": "18th challenge card title for this personality",
-  "CARD18_DESCRIPTION": "Description of 18th breakthrough potential for this type",
+  "CARD18_DESCRIPTION": "Description of 18th breakthrough potential for their personality",
   
-  "MOTIVATIONAL_QUOTE": "Inspiring motivational quote relevant to this personality type's journey",
-  "CRITICAL_CHOICE_TEXT": "Description of the critical choice this personality type faces now",
-  "CHOICE_MOTIVATION": "Motivation for making the transformation choice for this type",
+  "MOTIVATIONAL_QUOTE": "Inspiring motivational quote relevant to this personality's journey",
+  "CRITICAL_CHOICE_TEXT": "Description of the critical choice this personality faces now",
+  "CHOICE_MOTIVATION": "Motivation for making the transformation choice for their personality",
   "TRANSFORMATION_URGENCY": "Urgency message about beginning transformation for this personality",
-  "LEGACY_MESSAGE": "Message about the legacy this personality type can create",
-  "FUTURE_VISION": "Vision of this personality type's transformed future self",
+  "LEGACY_MESSAGE": "Message about the legacy this personality can create",
+  "FUTURE_VISION": "Vision of this personality's transformed future self",
   "POTENTIAL_UNLOCKED": "Description of potential unlocked through transformation"
 }`;
 
@@ -395,11 +395,11 @@ Generate 25 timeline and card fields:
 
 // CALL 7: Final Complete Coverage (20 placeholders)
 async function generateFinalCompleteChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate the final content pieces to achieve 100% template coverage for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+  const prompt = `You are an expert personality transformation coach. Generate the final content pieces to achieve 100% template coverage for a ${userData.personalityName} ${userData.wingInfluence} transformation report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 20 final completion fields:
 
