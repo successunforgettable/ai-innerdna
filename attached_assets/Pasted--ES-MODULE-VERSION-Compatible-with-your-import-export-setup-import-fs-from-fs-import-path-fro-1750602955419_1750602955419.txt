@@ -21,13 +21,13 @@ class MarkdownContentLoader {
       3: 'type3_achiever_content.md',
       4: 'type4_individualist_content.md',
       5: 'type5_investigator_content.md',
-      6: 'Type 6 - The sentinal_ Hero\'s Journey.md',
+      6: 'Type 6 - The Sentinel_ Hero\'s Journey.md',
       7: 'Type 7 - The Enthusiast_ Hero\'s Journey.md',
       8: 'Type 8 - The Challenger_ Hero\'s Journey.md',
       9: 'Type 9 - The Peacemaker_ Hero\'s Journey.md'
     };
 
-    // Load and parse each file
+    // Load and parse each file from public/9 types reports/
     Object.entries(markdownFiles).forEach(([typeNum, fileName]) => {
       try {
         const filePath = path.join(__dirname, 'public', '9 types reports', fileName);
@@ -36,6 +36,7 @@ class MarkdownContentLoader {
         console.log(`✅ Loaded Type ${typeNum} content from ${fileName}`);
       } catch (error) {
         console.error(`❌ Failed to load ${fileName}:`, error.message);
+        console.error(`   Tried path: ${path.join(__dirname, 'public', '9 types reports', fileName)}`);
       }
     });
   }
@@ -62,6 +63,7 @@ class MarkdownContentLoader {
       const titlePattern = new RegExp(`TYPE_${typeNum}_CHALLENGE_CARD_${i}_TITLE:\\s*(.+?)\\n`, 'g');
       const descPattern = new RegExp(`TYPE_${typeNum}_CHALLENGE_CARD_${i}_DESC:\\s*(.+?)(?=TYPE_${typeNum}_CHALLENGE_CARD_${i + 1}|TYPE_${typeNum}_TESTIMONIAL|$)`, 's');
       
+      titlePattern.lastIndex = 0; // Reset regex
       const titleMatch = titlePattern.exec(markdownText);
       const descMatch = descPattern.exec(markdownText);
       
@@ -124,7 +126,7 @@ class MarkdownContentLoader {
 export class EmergencyReportGenerator {
   constructor() {
     this.contentLoader = new MarkdownContentLoader();
-    console.log('📁 Content loaded from your markdown files:');
+    console.log('📁 Content loaded from markdown files:');
     console.log(this.contentLoader.getLoadSummary());
   }
 
@@ -159,7 +161,7 @@ export class EmergencyReportGenerator {
           wingInfluence, 
           subtype, 
           generationTime: Date.now() - startTime,
-          sourceFiles: 'Your Manus markdown files'
+          sourceFiles: 'Markdown files from public/9 types reports/'
         }
       });
       
@@ -171,9 +173,10 @@ export class EmergencyReportGenerator {
           personalityType,
           generationTime: `${generationTime}ms`,
           cost: '$0.022',
-          system: 'Markdown File Template (NO API calls)',
+          system: 'ES Module Template (NO API calls)',
           contentSource: 'Your uploaded Manus files',
-          concurrentCapacity: 'UNLIMITED'
+          concurrentCapacity: 'UNLIMITED',
+          loadedTypes: Object.keys(this.contentLoader.contentCache).length
         }
       };
       
@@ -197,7 +200,7 @@ export class EmergencyReportGenerator {
   buildHTMLReport({ personalityType, content, testimonials, metadata }) {
     const typeNames = {
       1: 'The Reformer', 2: 'The Helper', 3: 'The Achiever',
-      4: 'The Individualist', 5: 'The Investigator', 6: 'The Loyalist',
+      4: 'The Individualist', 5: 'The Investigator', 6: 'The Sentinel',
       7: 'The Enthusiast', 8: 'The Challenger', 9: 'The Peacemaker'
     };
 
@@ -221,17 +224,26 @@ export class EmergencyReportGenerator {
         .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
         .before { background: #ffebee; padding: 10px; border-radius: 6px; }
         .after { background: #e8f5e8; padding: 10px; border-radius: 6px; }
+        .debug-info { background: #f0f0f0; padding: 10px; border-radius: 6px; margin: 10px 0; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Type ${personalityType} - ${typeNames[personalityType]}</h1>
         <p>Your Complete Transformation Journey</p>
-        <small>Generated from your Manus.ai content files</small>
+        <small>Generated from Manus.ai markdown files</small>
     </div>
 
     <div class="performance-badge">
-        ⚡ Generated in ${metadata.generationTime} | Cost: $0.022 | Source: ${metadata.contentSource}
+        ⚡ Generated in ${metadata.generationTime} | Cost: $0.022 | Types Loaded: ${metadata.loadedTypes}/9
+    </div>
+
+    <div class="debug-info">
+        <strong>System Status:</strong> ES Module Template | 
+        <strong>Hero Stages:</strong> ${content.heroJourney.length} | 
+        <strong>Challenge Cards:</strong> ${content.challengeCards.length} | 
+        <strong>Testimonials:</strong> ${content.testimonials.length} |
+        <strong>Wheel Areas:</strong> ${Object.keys(content.wheelOfLife).length}
     </div>
 
     <section class="hero-journey">
@@ -243,7 +255,7 @@ export class EmergencyReportGenerator {
         </div>
         `).join('')}
         <p style="text-align: center; color: #666; margin: 20px 0;">
-            <em>... and 7 more transformational stages in your complete journey</em>
+            <em>... and ${content.heroJourney.length - 4} more transformational stages in your complete journey</em>
         </p>
     </section>
 
@@ -256,7 +268,7 @@ export class EmergencyReportGenerator {
         </div>
         `).join('')}
         <p style="text-align: center; color: #666; margin: 20px 0;">
-            <em>... plus 4 more personalized challenge cards</em>
+            <em>... plus ${content.challengeCards.length - 4} more personalized challenge cards</em>
         </p>
     </section>
 
@@ -272,7 +284,7 @@ export class EmergencyReportGenerator {
         </div>
         `).join('')}
         <p style="text-align: center; color: #666; margin: 20px 0;">
-            <em>... plus 5 more life areas analyzed</em>
+            <em>... plus ${Object.keys(content.wheelOfLife).length - 3} more life areas analyzed</em>
         </p>
     </section>
 
@@ -282,17 +294,19 @@ export class EmergencyReportGenerator {
         <div class="testimonial">${testimonial}</div>
         `).join('')}
         <p style="text-align: center; color: #666; margin: 20px 0;">
-            <em>... plus many more inspiring success stories</em>
+            <em>... plus ${content.testimonials.length - 3} more inspiring success stories</em>
         </p>
     </section>
 
     <footer style="margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px; text-align: center;">
         <p><strong>✅ Emergency Template System Active</strong></p>
-        <p>Content: Your Manus.ai files | Speed: Instant | Scale: Unlimited | Cost: $0.022</p>
+        <p>Content: ${metadata.sourceFiles} | Speed: Instant | Scale: Unlimited | Cost: $0.022</p>
+        <p>System: ES Module Compatible | Concurrent Users: UNLIMITED</p>
     </footer>
 </body>
 </html>`;
   }
 }
 
+// Default export for easy importing
 export default EmergencyReportGenerator;
