@@ -180,17 +180,7 @@ const Results = () => {
                 </motion.button>
               </div>
 
-              {/* Navigation Buttons */}
-              <div className="flex justify-center gap-6 mt-12 mb-8">
-                <motion.button
-                  onClick={() => setLocation('/')}
-                  className="btn-secondary bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/20"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Back to Home
-                </motion.button>
-              </div>
+
             </>
           ) : (
             <div className="text-center">
