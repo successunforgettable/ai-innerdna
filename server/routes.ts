@@ -1023,20 +1023,20 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Emergency Report Viewer - Direct HTML output
-  app.get('/api/emergency-view/:userId', async (req, res) => {
+  // Emergency Report Viewer - Direct HTML output using exact Challenger template
+  app.get('/api/emergency-view/:typeId', async (req, res) => {
     try {
       const generator = new EmergencyReportGenerator();
       const result = await generator.generateReport({
-        personalityType: parseInt(req.params.userId) || 1,
-        userId: parseInt(req.params.userId)
+        personalityType: parseInt(req.params.typeId) || 1,
+        userId: parseInt(req.params.typeId) + 1000
       });
       
       res.setHeader('Content-Type', 'text/html');
       res.send(result.html);
     } catch (error) {
       console.error('Emergency view error:', error);
-      res.status(500).send(`<h1>Error generating emergency report</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+      res.status(500).send(`<h1>Error: ${error.message}</h1>`);
     }
   });
 
