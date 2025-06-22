@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useAssessment } from '@/context/AssessmentContext';
 import { motion } from 'framer-motion';
@@ -9,6 +9,8 @@ import '@/styles/design-system.css';
 const Results = () => {
   const [, setLocation] = useLocation();
   const { assessmentData, setCurrentScreen } = useAssessment();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [progress, setProgress] = useState(0);
   
   // Extract data from assessment context
   const foundationData = assessmentData.foundationStones;
@@ -114,10 +116,28 @@ const Results = () => {
     }
   };
 
-  // Generate emergency report URL
+  // Generate emergency report URL with loading animation
   const generateReportUrl = () => {
-    if (primaryType) {
-      window.open(`/api/emergency-view/${primaryType}`, '_blank');
+    if (primaryType && !isGenerating) {
+      setIsGenerating(true);
+      setProgress(0);
+      
+      // Simulate progress with intervals
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            // Open report after progress completes
+            setTimeout(() => {
+              window.open(`/api/emergency-view/${primaryType}`, '_blank');
+              setIsGenerating(false);
+              setProgress(0);
+            }, 500);
+            return 100;
+          }
+          return prev + (Math.random() * 15 + 5); // Random increment between 5-20%
+        });
+      }, 200); // Update every 200ms for smooth animation
     }
   };
 
@@ -168,16 +188,50 @@ const Results = () => {
                 <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mt-6"></div>
               </div>
 
-              {/* Report Button */}
-              <div className="text-center mb-12">
-                <motion.button
-                  onClick={generateReportUrl}
-                  className="btn-primary bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-xl"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Generate your personal Ai report
-                </motion.button>
+              {/* Report Button or Loading State */}
+              <div className="flex flex-col items-center mt-12 mb-8">
+                {!isGenerating ? (
+                  <motion.button
+                    onClick={generateReportUrl}
+                    className="btn-primary bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-4 px-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-xl"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Generate your personal Ai report
+                  </motion.button>
+                ) : (
+                  <div className="w-full max-w-md">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center mb-6"
+                    >
+                      <h3 className="text-2xl font-semibold text-white mb-2">
+                        Generating Your Report...
+                      </h3>
+                      <p className="text-white/80 text-lg">
+                        Creating your personalized transformation insights
+                      </p>
+                    </motion.div>
+                    
+                    {/* Progress Bar */}
+                    <div className="w-full bg-white/20 backdrop-blur-md rounded-full h-4 mb-4 overflow-hidden border border-white/30">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-inner"
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                      />
+                    </div>
+                    
+                    {/* Progress Percentage */}
+                    <div className="text-center">
+                      <span className="text-white font-bold text-2xl">
+                        {Math.round(progress)}%
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
 
 
