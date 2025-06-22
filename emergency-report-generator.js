@@ -21,7 +21,7 @@ class EmergencyReportGenerator {
       3: 'type3_achiever_content.md',
       4: 'type4_individualist_content.md',
       5: 'type5_investigator_content.md',
-      6: 'Type 6 - The Sentinel_ Hero\'s Journey.md',
+      6: 'Type 6 - The sentinal_ Hero\'s Journey.md',
       7: 'Type 7 - The Enthusiast_ Hero\'s Journey.md',
       8: 'Type 8 - The Challenger_ Hero\'s Journey.md',
       9: 'Type 9 - The Peacemaker_ Hero\'s Journey.md'
@@ -127,6 +127,8 @@ class EmergencyReportGenerator {
     const content = this.contentCache[typeNum];
     
     if (!content) {
+      console.log('Available content cache keys:', Object.keys(this.contentCache));
+      console.log(`Looking for type: ${typeNum}`);
       throw new Error(`No content found for personality type ${personalityType}`);
     }
 
