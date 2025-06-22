@@ -26,6 +26,16 @@ export const sessions = pgTable("sessions", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const reports = pgTable("reports", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").references(() => users.id),
+  reportType: text("report_type").notNull(), // 'emergency' or 'ai'
+  personalityType: text("personality_type").notNull(),
+  reportUrl: text("report_url").notNull(),
+  reportData: jsonb("report_data"), // Store the assessment data used to generate report
+  generatedAt: timestamp("generated_at").notNull().defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
 });
@@ -34,10 +44,17 @@ export const insertSessionSchema = createInsertSchema(sessions).omit({
   id: true,
 });
 
+export const insertReportSchema = createInsertSchema(reports).omit({
+  id: true,
+  generatedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Session = typeof sessions.$inferSelect;
 export type InsertSession = z.infer<typeof insertSessionSchema>;
+export type Report = typeof reports.$inferSelect;
+export type InsertReport = z.infer<typeof insertReportSchema>;
 
 // Assessment data types
 export type FoundationStoneSelection = {

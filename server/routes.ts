@@ -1117,6 +1117,109 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // Report management API routes
+  app.post('/api/reports', async (req, res) => {
+    try {
+      const { userId, reportType, personalityType, reportUrl, reportData } = req.body;
+      
+      if (!userId || !reportType || !personalityType || !reportUrl) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
+
+      const report = await storage.createReport({
+        userId,
+        reportType,
+        personalityType,
+        reportUrl,
+        reportData
+      });
+
+      res.json(report);
+    } catch (error) {
+      console.error('Error creating report:', error);
+      res.status(500).json({ error: 'Failed to create report' });
+    }
+  });
+
+  app.get('/api/users/:userId/reports', async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const reports = await storage.getUserReports(userId);
+      res.json(reports);
+    } catch (error) {
+      console.error('Error fetching user reports:', error);
+      res.status(500).json({ error: 'Failed to fetch reports' });
+    }
+  });
+
+  app.get('/api/reports/:id', async (req, res) => {
+    try {
+      const reportId = parseInt(req.params.id);
+      const report = await storage.getReport(reportId);
+      
+      if (!report) {
+        return res.status(404).json({ error: 'Report not found' });
+      }
+
+      res.json(report);
+    } catch (error) {
+      console.error('Error fetching report:', error);
+      res.status(500).json({ error: 'Failed to fetch report' });
+    }
+  });
+
+  // Generate and save emergency report
+  app.post('/api/generate-and-save-report', async (req, res) => {
+    try {
+      const { userId, personalityType } = req.body;
+      
+      if (!userId || !personalityType) {
+        return res.status(400).json({ error: 'Missing userId or personalityType' });
+      }
+
+      // Generate emergency report
+      const html = await generateCompleteStyledReport(personalityType);
+      
+      // Create unique report URL
+      const timestamp = Date.now();
+      const reportUrl = `/api/view-report/${timestamp}`;
+      const fileName = `emergency-report-${personalityType}-${timestamp}.html`;
+      
+      // Save report to file
+      fs.writeFileSync(fileName, html);
+      
+      // Save report to database
+      const report = await storage.createReport({
+        userId,
+        reportType: 'emergency',
+        personalityType: `Type ${personalityType}`,
+        reportUrl,
+        reportData: { personalityType, timestamp }
+      });
+
+      // Create route to serve this specific report
+      app.get(reportUrl, (req, res) => {
+        try {
+          res.setHeader('Content-Type', 'text/html');
+          res.send(html);
+        } catch (error) {
+          res.status(404).json({ error: 'Report not found' });
+        }
+      });
+
+      res.json({
+        success: true,
+        reportUrl,
+        reportId: report.id,
+        message: 'Report generated and saved successfully'
+      });
+
+    } catch (error) {
+      console.error('Error generating and saving report:', error);
+      res.status(500).json({ error: 'Failed to generate and save report' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
