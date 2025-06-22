@@ -117,7 +117,7 @@ const Results = () => {
   };
 
   // Generate emergency report URL with loading animation
-  const generateReportUrl = () => {
+  const generateReportUrl = async () => {
     if (primaryType && !isGenerating) {
       setIsGenerating(true);
       setProgress(0);
@@ -125,19 +125,64 @@ const Results = () => {
       // Simulate progress with intervals
       const interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            // Open report after progress completes
-            setTimeout(() => {
-              window.open(`/api/emergency-view/${primaryType}`, '_blank');
-              setIsGenerating(false);
-              setProgress(0);
-            }, 500);
-            return 100;
+          if (prev >= 95) {
+            // Stop at 95% until API call completes
+            return 95;
           }
           return prev + (Math.random() * 15 + 5); // Random increment between 5-20%
         });
       }, 200); // Update every 200ms for smooth animation
+
+      try {
+        // Get user data from localStorage
+        const userData = localStorage.getItem('userData');
+        if (!userData) {
+          throw new Error('User data not found');
+        }
+
+        const user = JSON.parse(userData);
+
+        // Generate and save report to database
+        const response = await fetch('/api/generate-and-save-report', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            personalityType: primaryType
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate report');
+        }
+
+        const result = await response.json();
+        
+        // Complete progress to 100%
+        setProgress(100);
+        clearInterval(interval);
+
+        // Open report in new tab
+        setTimeout(() => {
+          window.open(result.reportUrl, '_blank');
+          setIsGenerating(false);
+          setProgress(0);
+        }, 500);
+
+      } catch (error) {
+        console.error('Error generating report:', error);
+        clearInterval(interval);
+        
+        // Fallback to original behavior
+        setProgress(100);
+        setTimeout(() => {
+          window.open(`/api/emergency-view/${primaryType}`, '_blank');
+          setIsGenerating(false);
+          setProgress(0);
+        }, 500);
+      }
     }
   };
 
