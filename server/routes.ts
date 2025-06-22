@@ -13,7 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
-import { generateCompleteStyledReport } from '../emergency-report-generator.js';
+import { generateCompleteStyledReport } from '../new-emergency-generator.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
