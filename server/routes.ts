@@ -13,7 +13,7 @@ import { generateSentinelCopy } from "./sentinelCopyGenerator";
 import { generateSentinel8Content } from "./sentinelReportGenerator";
 import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
-import { generateCompleteStyledReport as generateStyledReport } from '../emergency-report-generator.js';
+import { generateCompleteStyledReport } from '../emergency-report-generator.js';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -968,7 +968,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       console.log(`🚀 Emergency template generation for user ${req.params.userId}`);
       
       const typeId = parseInt(req.params.userId) || 1;
-      const reportHtml = await generateCompleteStyledReport(typeId);
+      const reportHtml = await generateStyledReport(typeId);
       
       // Save report file using async file operations
       const fileName = `emergency-report-${req.params.userId}-${Date.now()}.html`;
@@ -1000,7 +1000,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
   app.get('/api/test-content-loading', async (req, res) => {
     try {
       // Test generating a sample report
-      const testReport = await generateCompleteStyledReport(8);
+      const testReport = await generateStyledReport(8);
       const reportSize = testReport.length;
       
       res.json({
