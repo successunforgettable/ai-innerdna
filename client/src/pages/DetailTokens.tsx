@@ -232,7 +232,11 @@ const DetailPhase: React.FC = () => {
             <h2 className="text-xl font-semibold text-white mb-6">Your Tower</h2>
             <TowerVisualization 
               title=""
-              data={{ tokenDistribution }}
+              blocks={assessmentData.buildingBlocks?.map(block => ({
+                gradient: block.gradient || 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                width: '100%',
+                height: '60px'
+              }))}
             />
           </div>
         </div>
