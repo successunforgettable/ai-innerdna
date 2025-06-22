@@ -26,10 +26,8 @@ export async function generateCompleteStyledReport(typeId) {
   htmlContent = htmlContent.replace(/<span id="heartPercentage">78<\/span>/g, `<span id="heartPercentage">${heartPercentage}</span>`);
   htmlContent = htmlContent.replace(/<span id="heartPercentage2">78<\/span>/g, `<span id="heartPercentage2">${heartPercentage}</span>`);
   
-  // Pass 3: Personality type references - Remove all "Type X" terminology
-  htmlContent = htmlContent.replace(/The Type 8 Challenger/g, `The ${personalityName}`);
-  htmlContent = htmlContent.replace(/TYPE 8 CHALLENGER/g, personalityName.toUpperCase());
-  htmlContent = htmlContent.replace(/THE Challenger/g, `THE ${personalityName}`);
+  // Pass 3: Personality type references - Replace only "THE CHALLENGER:" in header
+  htmlContent = htmlContent.replace(/THE CHALLENGER:/g, `THE ${personalityName.toUpperCase()}:`);
   
   // Remove ALL "Type X" references with comprehensive regex pattern
   htmlContent = htmlContent.replace(/Type \d+/g, personalityName);
