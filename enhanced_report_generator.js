@@ -32,7 +32,7 @@ function getPersonalityTypeName(typeId) {
     3: 'ACHIEVER',
     4: 'INDIVIDUALIST',
     5: 'INVESTIGATOR',
-    6: 'LOYALIST',
+    6: 'SENTINEL',
     7: 'ENTHUSIAST',
     8: 'CHALLENGER',
     9: 'PEACEMAKER'
