@@ -1,6 +1,3 @@
-import fs from 'fs/promises';
-import path from 'path';
-
 export async function generateCompleteStyledReport(typeId) {
   try {
     // Generate dynamic data
@@ -518,6 +515,7 @@ export async function generateCompleteStyledReport(typeId) {
                     </div>
                 </div>
 
+                <!-- Continue with all 5 protocol phases with same structure... -->
                 <!-- Weeks 5-6 -->
                 <div class="protocol-step glass-card rounded-2xl p-8">
                     <div class="flex items-center mb-6">
@@ -585,254 +583,359 @@ export async function generateCompleteStyledReport(typeId) {
                     <div class="grid md:grid-cols-4 gap-6">
                         <div>
                             <h4 class="text-lg font-bold text-purple-400 mb-3">Immediate Results</h4>
-                            <p class="text-sm">Heart-brain coherence becomes automatic. Inner authority is unshakeable.</p>
+                            <p class="text-sm">Heart-brain coherence is your new baseline. Old stress patterns feel foreign.</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-bold text-blue-400 mb-3">Breakthrough Results</h4>
-                            <p class="text-sm">Week 9: HRV reaches 75ms+. You enter the top 15% of human coherence levels.</p>
+                            <p class="text-sm">Week 9: HRV reaches optimal 75ms+ range. Recovery from stress is near-instant.</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-bold text-green-400 mb-3">Life-Changing Results</h4>
-                            <p class="text-sm">Week 10: Complete life transformation. You're unrecognizable from who you were 10 weeks ago.</p>
+                            <p class="text-sm">Week 10: You embody calm power. Others are magnetically drawn to your presence.</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-bold text-yellow-400 mb-3">Incredible Results</h4>
-                            <p class="text-sm">People ask what you did. You become an inspiration to everyone around you.</p>
+                            <p class="text-sm">The transformation is permanent. You've joined the 15% who live from coherence.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Before & After Coherence Section -->
-    <section class="py-16 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="section-divider mb-12"></div>
-            
-            <h2 class="text-4xl md:text-6xl font-bold text-center mb-12">BEFORE & AFTER: Heart-Brain Coherence Transformation</h2>
-            
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <div class="glass-card rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold mb-6 text-red-400 text-center">BEFORE: Disconnected State</h3>
-                    <div style="height: 250px;" class="mb-4">
-                        <canvas id="beforeCoherenceChart"></canvas>
-                    </div>
-                    <ul class="space-y-2 text-sm">
-                        <li class="flex items-center">
-                            <i class="fas fa-times text-red-400 mr-2"></i>
-                            Chaotic heart rhythm patterns
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-times text-red-400 mr-2"></i>
-                            Stress hormones dominating
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-times text-red-400 mr-2"></i>
-                            Poor decision-making capability
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-times text-red-400 mr-2"></i>
-                            Energy depletes quickly
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="glass-card rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold mb-6 text-green-400 text-center">AFTER: Coherent State</h3>
-                    <div style="height: 250px;" class="mb-4">
-                        <canvas id="afterCoherenceChart"></canvas>
-                    </div>
-                    <ul class="space-y-2 text-sm">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            Smooth, coherent heart rhythms
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            Optimal hormone balance
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            Enhanced cognitive function
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            Sustained energy all day
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="glass-card rounded-2xl p-8 text-center">
-                <h3 class="text-3xl font-bold mb-4 text-yellow-400">The transformation is measurable, trackable, and permanent.</h3>
-                <p class="text-xl mb-6">
-                    When you achieve heart-brain coherence, you're not just feeling better - you're literally operating from a higher level of human consciousness.
-                </p>
-                <div class="grid md:grid-cols-3 gap-6 text-center">
-                    <div>
-                        <h4 class="text-2xl font-bold text-purple-400 mb-2">400%</h4>
-                        <p class="text-sm">Improvement in decision-making speed</p>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-purple-400 mb-2">250%</h4>
-                        <p class="text-sm">Increase in stress resilience</p>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-purple-400 mb-2">180%</h4>
-                        <p class="text-sm">Enhanced emotional intelligence</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Real Results Section -->
-    <section class="py-16 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="section-divider mb-12"></div>
-            
-            <h2 class="text-4xl md:text-6xl font-bold text-center mb-12">REAL PEOPLE, REAL RESULTS</h2>
-            
-            <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
-                ${getTestimonials(typeId).map(testimonial => `
-                <div class="testimonial-card rounded-2xl p-6">
-                    <div class="flex items-center mb-4">
-                        <img src="${testimonial.image}" alt="${testimonial.name}" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h4 class="font-bold text-lg">${testimonial.name}</h4>
-                            <p class="text-sm text-gray-300">${testimonial.profession}</p>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm">HRV Before:</span>
-                            <span class="text-red-400 font-bold">${testimonial.beforeHRV}ms</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm">HRV After:</span>
-                            <span class="text-green-400 font-bold">${testimonial.afterHRV}ms</span>
-                        </div>
-                    </div>
-                    <blockquote class="text-sm mb-4 italic">
-                        "${testimonial.quote1}"
-                    </blockquote>
-                    <blockquote class="text-sm text-green-300 italic">
-                        "${testimonial.quote2}"
-                    </blockquote>
-                </div>
-                `).join('')}
             </div>
 
             <div class="text-center mt-12">
                 <button class="btn-primary text-black font-bold py-4 px-8 rounded-full text-xl hover:scale-105 transition-all duration-300">
-                    <i class="fas fa-play mr-2"></i>
-                    Start Your Transformation Today
+                    <i class="fas fa-rocket mr-2"></i>
+                    Start Your 10-Week Transformation
                     <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action Section -->
-    <section class="py-20 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="glass-card rounded-3xl p-12">
-                <h2 class="text-4xl md:text-6xl font-bold mb-8">
-                    Your Heart-Brain Transformation Starts <span class="text-yellow-400">NOW</span>
-                </h2>
-                
-                <p class="text-xl mb-8 leading-relaxed">
-                    You've seen the science. You've seen the results. You know that <strong class="text-red-400">${heartNeuronPercentage}% of your heart neurons are offline</strong> right now.
-                </p>
-                
-                <p class="text-lg mb-8">
-                    The question is: How much longer will you accept operating at ${operatingPercentage}% of your potential?
-                </p>
-
-                <div class="space-y-4 mb-12">
-                    <button class="btn-primary text-black font-bold py-6 px-12 rounded-full text-2xl hover:scale-105 transition-all duration-300 w-full md:w-auto">
-                        <i class="fas fa-heart mr-3"></i>
-                        ACTIVATE YOUR HEART-BRAIN CONNECTION
-                        <i class="fas fa-arrow-right ml-3"></i>
-                    </button>
+    <!-- Testimonials Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="section-divider mb-12"></div>
+            
+            <h2 class="text-4xl md:text-6xl font-bold text-center mb-12">REAL TRANSFORMATION STORIES</h2>
+            
+            <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                ${getTypeTestimonials(typeId).map((testimonial, index) => `
+                <div class="testimonial-card rounded-2xl p-8">
+                    <div class="text-center mb-6">
+                        <img src="${testimonial.image}" 
+                             alt="${testimonial.name}" class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                        <h3 class="text-xl font-bold">${testimonial.name}</h3>
+                        <p class="text-purple-400">${testimonial.profession}</p>
+                    </div>
                     
-                    <p class="text-sm text-gray-300">
-                        ⚡ Instant access to HRV protocols • 💫 10-week transformation system • 🌟 Heart-brain coherence mastery
-                    </p>
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-yellow-400 mb-2">HRV Transformation:</h4>
+                        <div class="flex justify-between items-center bg-gray-800 rounded-lg p-3">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-red-400">${testimonial.beforeHRV}ms</div>
+                                <div class="text-sm">Before</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-purple-400"></i>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-400">${testimonial.afterHRV}ms</div>
+                                <div class="text-sm">After</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <blockquote class="text-lg leading-relaxed mb-4">
+                        "${testimonial.quote1}"
+                    </blockquote>
+                    
+                    <blockquote class="text-lg leading-relaxed">
+                        "${testimonial.quote2}"
+                    </blockquote>
+                </div>
+                `).join('')}
+            </div>
+        </div>
+    </section>
+
+    <!-- Scientific Backing Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="section-divider mb-12"></div>
+            
+            <h2 class="text-4xl md:text-6xl font-bold text-center mb-12">THE SCIENCE BEHIND THE TRANSFORMATION</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 mb-12">
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Before: Heart-Brain Disconnection</h3>
+                    <div style="height: 300px;">
+                        <canvas id="beforeCoherenceChart"></canvas>
+                    </div>
+                    <div class="mt-6 space-y-3">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-red-400 rounded mr-3"></div>
+                            <span>Chaotic HRV Pattern (${hrvBaseline}ms average)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-yellow-400 rounded mr-3"></div>
+                            <span>${getTypeStressTrigger(typeId)}-Driven Responses</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-gray-400 rounded mr-3"></div>
+                            <span>Disconnected Neural Networks</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="border-t border-gray-600 pt-8">
-                    <p class="text-lg font-bold text-yellow-400 mb-4">
-                        Remember: Only 15% of people naturally achieve heart-brain coherence.
-                    </p>
-                    <p class="text-base">
-                        Will you be one of them, or will you continue operating with ${heartNeuronPercentage}% of your heart offline?
-                    </p>
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-center">After: Heart-Brain Coherence</h3>
+                    <div style="height: 300px;">
+                        <canvas id="afterCoherenceChart"></canvas>
+                    </div>
+                    <div class="mt-6 space-y-3">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-green-400 rounded mr-3"></div>
+                            <span>Coherent HRV Pattern (75ms+ average)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-blue-400 rounded mr-3"></div>
+                            <span>Wisdom-Based Decisions</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-purple-400 rounded mr-3"></div>
+                            <span>Integrated Neural Networks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-8 text-center">
+                <h3 class="text-3xl font-bold mb-6">Research-Backed Results</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <div class="text-4xl font-bold text-yellow-400 mb-2">300%</div>
+                        <p class="text-lg">Improvement in stress resilience</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-green-400 mb-2">250%</div>
+                        <p class="text-lg">Increase in decision-making speed</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-purple-400 mb-2">400%</div>
+                        <p class="text-lg">Enhancement in leadership presence</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Urgency Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="section-divider mb-12"></div>
+            
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-6xl font-bold mb-8 urgency-pulse">THE CRITICAL WINDOW: Why Timing Matters</h2>
+                
+                <div class="glass-card rounded-2xl p-8 max-w-4xl mx-auto mb-8">
+                    <div class="flex items-center justify-center mb-6">
+                        <i class="fas fa-exclamation-triangle text-red-400 text-4xl mr-4"></i>
+                        <h3 class="text-3xl font-bold text-red-400">CRITICAL RESEARCH FINDING</h3>
+                        <i class="fas fa-exclamation-triangle text-red-400 text-4xl ml-4"></i>
+                    </div>
+                    <p class="text-xl mb-4">
+                        Research shows: After age 40, heart-brain incoherence accelerates aging by <strong class="text-red-400">300%</strong>.
+                    </p>
+                    <p class="text-lg">
+                        The window for easy transformation is closing, but the incredible news is that people regularly achieve optimal HRV levels regardless of their starting point.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-red-400">If You Wait:</h3>
+                        <ul class="space-y-3 text-lg text-left">
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-400 mr-3 mt-1"></i>
+                                Neural pathways become more rigid each month
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-400 mr-3 mt-1"></i>
+                                ${getTypeStressTrigger(typeId)} patterns deepen and become harder to interrupt
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-400 mr-3 mt-1"></i>
+                                Health impacts compound exponentially
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-400 mr-3 mt-1"></i>
+                                Relationships may reach irreversible breaking points
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-green-400">If You Act Now:</h3>
+                        <ul class="space-y-3 text-lg text-left">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+                                Neural plasticity is still highly responsive
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+                                Transformation happens faster than ever expected
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+                                Health improvements create positive momentum
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-400 mr-3 mt-1"></i>
+                                Relationships heal and deepen beyond previous levels
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 max-w-4xl mx-auto">
+                    <h3 class="text-3xl font-bold mb-6">THE COHERENCE ADVANTAGE</h3>
+                    <p class="text-xl mb-6">
+                        When you achieve heart-brain coherence, you join an elite <strong class="text-purple-400">15%</strong> of the population who live from a completely different operating system.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        <div>
+                            <h4 class="text-xl font-bold text-yellow-400 mb-3">You'll Experience:</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-yellow-400 mr-2 mt-1"></i>
+                                    Unshakeable inner confidence
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-yellow-400 mr-2 mt-1"></i>
+                                    Effortless decision-making
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-yellow-400 mr-2 mt-1"></i>
+                                    ${getTypeCoherenceBenefit(typeId)}
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-yellow-400 mr-2 mt-1"></i>
+                                    Stress becomes fuel, not friction
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-purple-400 mb-3">Others Will Notice:</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-purple-400 mr-2 mt-1"></i>
+                                    Your calm authority in any situation
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-purple-400 mr-2 mt-1"></i>
+                                    Your ability to see solutions others miss
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-purple-400 mr-2 mt-1"></i>
+                                    Your authentic vulnerability and strength
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-purple-400 mr-2 mt-1"></i>
+                                    How safe and inspired they feel around you
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="section-divider mb-12"></div>
+            
+            <div class="text-center">
+                <h2 class="text-4xl md:text-6xl font-bold mb-8">THE INVITATION: Join the 15%</h2>
+                
+                <div class="glass-card rounded-2xl p-12 max-w-4xl mx-auto mb-12">
+                    <p class="text-2xl mb-8 leading-relaxed">
+                        Your heart-brain system is ready for the 10-week activation protocol. Your <strong class="text-yellow-400">40,000 heart neurons</strong> are waiting to come online.
+                    </p>
+                    
+                    <p class="text-3xl font-bold mb-8 text-purple-400">
+                        The only question is: are you ready to become incredible?
+                    </p>
+
+                    <div class="space-y-6 mb-12">
+                        <button class="btn-primary text-black font-bold py-6 px-12 rounded-full text-2xl hover:scale-105 transition-all duration-300 block w-full">
+                            <i class="fas fa-heart mr-3"></i>
+                            YES, I'M READY TO TRANSFORM MY LIFE
+                            <i class="fas fa-arrow-right ml-3"></i>
+                        </button>
+                        
+                        <button class="btn-secondary text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-all duration-300">
+                            <i class="fas fa-phone mr-2"></i>
+                            Schedule a Discovery Call
+                        </button>
+                    </div>
+
+                    <div class="border-t border-gray-600 pt-8">
+                        <h3 class="text-2xl font-bold mb-6">THE MOMENT OF TRUTH</h3>
+                        <p class="text-lg leading-relaxed mb-6">
+                            You have two choices right now. You can close this page and continue living with <span class="text-red-400">${heartNeuronPercentage}% of your heart neurons offline</span>, wondering what could have been. Or you can take the step that transforms everything.
+                        </p>
+                        
+                        <p class="text-xl font-bold text-yellow-400 mb-8">
+                            The coherent life is calling. Will you answer?
+                        </p>
+
+                        <div class="grid md:grid-cols-3 gap-6 text-sm">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-green-400 mr-2"></i>
+                                <span>100% Science-Backed</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-clock text-yellow-400 mr-2"></i>
+                                <span>10-Week Transformation</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-trophy text-purple-400 mr-2"></i>
+                                <span>Join the Elite 15%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-lg text-gray-300">
+                    Don't let another day pass with your heart-brain connection broken. Your incredible life is waiting.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full opacity-10 animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-yellow-500 rounded-full opacity-10 animate-pulse delay-1000"></div>
+        <div class="absolute top-1/2 right-1/3 w-32 h-32 bg-blue-500 rounded-full opacity-10 animate-pulse delay-2000"></div>
+    </div>
+
     <script>
-        // Create current HRV chart (chaotic)
-        function createCurrentHRVChart() {
-            const ctx = document.getElementById('currentHRVChart').getContext('2d');
-            const chaoticData = [];
-            for (let i = 0; i < 100; i++) {
-                chaoticData.push({
-                    x: i,
-                    y: ${hrvBaseline} + Math.random() * 30 - 15 + Math.sin(i * 0.3) * 10
-                });
-            }
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Current HRV',
-                        data: chaoticData,
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { display: false },
-                        y: { 
-                            display: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: 'white' }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-        }
-
-        // Create optimal HRV chart (coherent)
+        // Animate percentage on load
         function createOptimalHRVChart() {
             const ctx = document.getElementById('optimalHRVChart').getContext('2d');
             const coherentData = [];
-            for (let i = 0; i < 100; i++) {
-                coherentData.push({
-                    x: i,
-                    y: 75 + Math.sin(i * 0.2) * 8 + Math.random() * 4 - 2
-                });
+            for (let i = 0; i < 50; i++) {
+                coherentData.push(75 + Math.sin(i * 0.3) * 15);
             }
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
+                    labels: Array.from({length: 50}, (_, i) => i),
                     datasets: [{
-                        label: 'Optimal HRV',
+                        label: 'Optimal HRV (Coherent)',
                         data: coherentData,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -844,76 +947,184 @@ export async function generateCompleteStyledReport(typeId) {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
                     scales: {
-                        x: { display: false },
-                        y: { 
-                            display: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: 'white' }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
                     }
                 }
             });
         }
 
-        // Create before coherence chart
         function createBeforeCoherenceChart() {
             const ctx = document.getElementById('beforeCoherenceChart').getContext('2d');
             const beforeData = [];
-            for (let i = 0; i < 50; i++) {
-                beforeData.push({
-                    x: i,
-                    y: Math.random() * 60 + 20 + Math.sin(i * 0.5) * 15
-                });
+            for (let i = 0; i < 100; i++) {
+                beforeData.push(Math.random() * 50 + 10);
             }
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
+                    labels: Array.from({length: 100}, (_, i) => i),
                     datasets: [{
-                        label: 'Before',
+                        label: 'Before: Disconnected',
                         data: beforeData,
                         borderColor: '#ef4444',
                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        borderWidth: 2,
+                        borderWidth: 1,
                         fill: true,
-                        tension: 0.1
+                        pointRadius: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
                     scales: {
-                        x: { display: false },
-                        y: { display: false }
-                    },
-                    plugins: {
-                        legend: { display: false }
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
                     }
                 }
             });
         }
 
-        // Create after coherence chart
         function createAfterCoherenceChart() {
             const ctx = document.getElementById('afterCoherenceChart').getContext('2d');
             const afterData = [];
-            for (let i = 0; i < 50; i++) {
-                afterData.push({
-                    x: i,
-                    y: 70 + Math.sin(i * 0.15) * 12 + Math.random() * 6 - 3
-                });
+            for (let i = 0; i < 100; i++) {
+                afterData.push(75 + Math.sin(i * 0.1) * 10);
             }
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
+                    labels: Array.from({length: 100}, (_, i) => i),
                     datasets: [{
-                        label: 'After',
+                        label: 'After: Coherent',
                         data: afterData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            animatePercentage();
+            createCurrentHRVChart();
+            createOptimalHRVChart();
+            createBeforeCoherenceChart();
+            createAfterCoherenceChart();
+
+            // Fade in animation for elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>`;
+
+    return html;
+    
+  } catch (error) {
+    console.error('Error generating complete report:', error);
+    throw new Error(`Failed to generate report: ${error.message}`);
+  }
+} animatePercentage() {
+            const percentage1 = document.getElementById('heartPercentage');
+            const percentage2 = document.getElementById('heartPercentage2');
+            let current = 0;
+            const target = ${heartNeuronPercentage};
+            const increment = target / 100;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                percentage1.textContent = Math.floor(current);
+                percentage2.textContent = Math.floor(current);
+            }, 20);
+        }
+
+        // Generate HRV charts with dynamic data
+        function createCurrentHRVChart() {
+            const ctx = document.getElementById('currentHRVChart').getContext('2d');
+            const chaoticData = [];
+            const baseline = ${hrvBaseline};
+            for (let i = 0; i < 50; i++) {
+                chaoticData.push(baseline + (Math.random() - 0.5) * 20);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 50}, (_, i) => i),
+                    datasets: [{
+                        label: 'Current HRV (Chaotic)',
+                        data: chaoticData,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createOptimalHRVChart() {
+            const ctx = document.getElementById('optimalHRVChart').getContext('2d');
+            const coherentData = [];
+            for (let i = 0; i < 50; i++) {
+                coherentData.push(75 + Math.sin(i * 0.3) * 15);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 50}, (_, i) => i),
+                    datasets: [{
+                        label: 'Optimal HRV (Coherent)',
+                        data: coherentData,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         borderWidth: 2,
@@ -924,245 +1135,401 @@ export async function generateCompleteStyledReport(typeId) {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
                     scales: {
-                        x: { display: false },
-                        y: { display: false }
-                    },
-                    plugins: {
-                        legend: { display: false }
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
                     }
                 }
             });
         }
 
-        // Initialize all charts when page loads
+        function createBeforeCoherenceChart() {
+            const ctx = document.getElementById('beforeCoherenceChart').getContext('2d');
+            const beforeData = [];
+            for (let i = 0; i < 100; i++) {
+                beforeData.push(Math.random() * 50 + 10);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 100}, (_, i) => i),
+                    datasets: [{
+                        label: 'Before: Disconnected',
+                        data: beforeData,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 1,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createAfterCoherenceChart() {
+            const ctx = document.getElementById('afterCoherenceChart').getContext('2d');
+            const afterData = [];
+            for (let i = 0; i < 100; i++) {
+                afterData.push(75 + Math.sin(i * 0.1) * 10);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 100}, (_, i) => i),
+                    datasets: [{
+                        label: 'After: Coherent',
+                        data: afterData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            animatePercentage();
+            createCurrentHRVChart();
+            createOptimalHRVChart();
+            createBeforeCoherenceChart();
+            createAfterCoherenceChart();
+
+            // Fade in animation for elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script> createOptimalHRVChart() {
+            const ctx = document.getElementById('optimalHRVChart').getContext('2d');
+            const coherentData = [];
+            for (let i = 0; i < 50; i++) {
+                coherentData.push(75 + Math.sin(i * 0.3) * 15);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 50}, (_, i) => i),
+                    datasets: [{
+                        label: 'Optimal HRV (Coherent)',
+                        data: coherentData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createBeforeCoherenceChart() {
+            const ctx = document.getElementById('beforeCoherenceChart').getContext('2d');
+            const beforeData = [];
+            for (let i = 0; i < 100; i++) {
+                beforeData.push(Math.random() * 50 + 10);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 100}, (_, i) => i),
+                    datasets: [{
+                        label: 'Before: Disconnected',
+                        data: beforeData,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 1,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createAfterCoherenceChart() {
+            const ctx = document.getElementById('afterCoherenceChart').getContext('2d');
+            const afterData = [];
+            for (let i = 0; i < 100; i++) {
+                afterData.push(75 + Math.sin(i * 0.1) * 10);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 100}, (_, i) => i),
+                    datasets: [{
+                        label: 'After: Coherent',
+                        data: afterData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'white' } },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             createCurrentHRVChart();
             createOptimalHRVChart();
             createBeforeCoherenceChart();
             createAfterCoherenceChart();
+
+            // Fade in animation for elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
         });
     </script>
-
 </body>
 </html>`;
 
     return html;
     
   } catch (error) {
-    console.error('Error generating report:', error);
-    return `
-      <html>
-        <body style="font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: white;">
-          <h1>Report Generation Error</h1>
-          <p>Sorry, we encountered an error generating your personalized report.</p>
-          <p>Error: ${error.message}</p>
-        </body>
-      </html>
-    `;
+    console.error('Error generating complete report:', error);
+    throw new Error(`Failed to generate report: ${error.message}`);
   }
 }
 
-// Helper function to generate dynamic heart neuron percentage
+// Helper functions for type-specific content
 function generateHeartNeuronPercentage() {
-  // Generate a percentage between 70-85% for dramatic effect
-  return Math.floor(Math.random() * 16) + 70;
+  return Math.floor(Math.random() * 16) + 70; // Random between 70-85
 }
 
-// Helper function to generate HRV baseline based on personality type
 function generateHRVBaseline(typeId) {
-  const baselineMap = {
-    1: Math.floor(Math.random() * 8) + 15, // 15-22ms (perfectionist stress)
-    2: Math.floor(Math.random() * 8) + 12, // 12-19ms (helper depletion)
-    3: Math.floor(Math.random() * 8) + 18, // 18-25ms (achiever burnout)
-    4: Math.floor(Math.random() * 8) + 10, // 10-17ms (emotional chaos)
-    5: Math.floor(Math.random() * 8) + 8,  // 8-15ms (withdrawal stress)
-    6: Math.floor(Math.random() * 8) + 9,  // 9-16ms (anxiety patterns)
-    7: Math.floor(Math.random() * 8) + 11, // 11-18ms (scattered energy)
-    8: Math.floor(Math.random() * 8) + 16, // 16-23ms (intensity stress)
-    9: Math.floor(Math.random() * 8) + 7   // 7-14ms (avoidance patterns)
+  const baselineRanges = {
+    1: { min: 12, max: 22 }, // Reformer - perfectionist stress
+    2: { min: 14, max: 24 }, // Helper - people-pleasing depletion  
+    3: { min: 16, max: 26 }, // Achiever - performance anxiety
+    4: { min: 11, max: 21 }, // Individualist - emotional chaos
+    5: { min: 10, max: 20 }, // Investigator - withdrawal patterns
+    6: { min: 9, max: 19 },  // Loyalist - anxiety patterns
+    7: { min: 8, max: 18 },  // Enthusiast - scattered energy
+    8: { min: 15, max: 25 }, // Challenger - fight-or-flight
+    9: { min: 7, max: 17 }   // Peacemaker - merge/inertia
   };
-  return baselineMap[typeId] || 15;
+  
+  const range = baselineRanges[typeId] || { min: 10, max: 20 };
+  return Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
 }
 
-// Helper function to get personality type name
 function getPersonalityTypeName(typeId) {
   const typeNames = {
-    1: 'Reformer',
-    2: 'Helper', 
-    3: 'Achiever',
-    4: 'Individualist',
-    5: 'Investigator',
-    6: 'Sentinel',
-    7: 'Enthusiast',
-    8: 'Challenger',
-    9: 'Peacemaker'
+    1: 'REFORMER', 2: 'HELPER', 3: 'ACHIEVER', 4: 'INDIVIDUALIST', 5: 'INVESTIGATOR',
+    6: 'LOYALIST', 7: 'ENTHUSIAST', 8: 'CHALLENGER', 9: 'PEACEMAKER'
   };
-  return typeNames[typeId] || 'Challenger';
+  return typeNames[typeId] || 'UNKNOWN';
 }
 
-// Helper function to get type description
 function getTypeDescription(typeId) {
   const descriptions = {
-    1: 'The rational, idealistic type: principled, purposeful, self-controlled, and perfectionistic.',
-    2: 'The caring, interpersonal type: generous, demonstrative, people-pleasing, and possessive.',
-    3: 'The success-oriented, pragmatic type: adaptive, excelling, driven, and image-conscious.',
-    4: 'The sensitive, withdrawn type: expressive, dramatic, self-absorbed, and temperamental.',
-    5: 'The intense, cerebral type: perceptive, innovative, secretive, and isolated.',
-    6: 'The committed, security-oriented type: engaging, responsible, anxious, and suspicious.',
-    7: 'The spontaneous, versatile type: enthusiastic, productive, scattered, and undisciplined.',
-    8: 'The powerful, dominating type: self-confident, decisive, willful, and confrontational.',
-    9: 'The easygoing, self-effacing type: receptive, reassuring, complacent, and resigned.'
+    1: 'Why Your Life Feels So Exhausting', 2: 'Why Your Life Feels So Draining',
+    3: 'Why Your Life Feels So Empty', 4: 'Why Your Life Feels So Intense',
+    5: 'Why Your Life Feels So Depleting', 6: 'Why Your Life Feels So Anxious',
+    7: 'Why Your Life Feels So Scattered', 8: 'Why Your Life Feels So Hard',
+    9: 'Why Your Life Feels So Stuck'
   };
-  return descriptions[typeId] || descriptions[8];
+  return descriptions[typeId] || 'Why Your Life Feels Disconnected';
 }
 
-// Helper functions for type-specific content
 function getTypeAction(typeId) {
   const actions = {
-    1: 'perfect',
-    2: 'help',
-    3: 'achieve', 
-    4: 'create',
-    5: 'analyze',
-    6: 'secure',
-    7: 'explore',
-    8: 'control',
-    9: 'harmonize'
+    1: 'judge', 2: 'help', 3: 'achieve', 4: 'feel', 5: 'withdraw',
+    6: 'doubt', 7: 'escape', 8: 'lead', 9: 'merge'
   };
-  return actions[typeId] || 'control';
+  return actions[typeId] || 'react';
 }
 
 function getTypeStressState(typeId) {
   const states = {
-    1: 'criticism and judgment',
-    2: 'people-pleasing exhaustion',
-    3: 'performance anxiety',
-    4: 'emotional overwhelm',
-    5: 'mental overstimulation',
-    6: 'worry and doubt',
-    7: 'restless dissatisfaction',
-    8: 'aggressive control',
-    9: 'passive avoidance'
+    1: 'perfectionist stress mode', 2: 'people-pleasing mode', 3: 'performance anxiety mode',
+    4: 'emotional turbulence mode', 5: 'withdrawal mode', 6: 'anxiety mode',
+    7: 'scattered energy mode', 8: 'fight-or-flight mode', 9: 'merge mode'
   };
-  return states[typeId] || 'aggressive control';
+  return states[typeId] || 'stress mode';
 }
 
 function getTypeStressTrigger(typeId) {
   const triggers = {
-    1: 'perfectionist demands',
-    2: 'others\' needs',
-    3: 'image management',
-    4: 'emotional chaos',
-    5: 'information overload',
-    6: 'worst-case scenarios',
-    7: 'boredom and limitation',
-    8: 'loss of control',
-    9: 'conflict and pressure'
+    1: 'perfectionist criticism', 2: 'people-pleasing depletion', 3: 'performance pressure',
+    4: 'emotional intensity', 5: 'energy conservation', 6: 'anxiety',
+    7: 'scattered seeking', 8: 'stress', 9: 'inertia'
   };
-  return triggers[typeId] || 'loss of control';
+  return triggers[typeId] || 'stress';
 }
 
 function getTypeReaction(typeId) {
   const reactions = {
-    1: 'critical inner voice',
-    2: 'resentful giving',
-    3: 'image-focused anxiety',
-    4: 'emotional spiraling',
-    5: 'overwhelming withdrawal',
-    6: 'anxious overthinking',
-    7: 'scattered restlessness',
-    8: 'aggressive reactions',
-    9: 'stubborn resistance'
+    1: 'critical decision-making', 2: 'people-pleasing reactions', 3: 'performance anxiety',
+    4: 'emotional reactivity', 5: 'withdrawal responses', 6: 'anxious decision-making',
+    7: 'scattered reactions', 8: 'reactive decision-making', 9: 'avoidance patterns'
   };
-  return reactions[typeId] || 'aggressive reactions';
+  return reactions[typeId] || 'reactive responses';
 }
 
 function getTypeImprovement(typeId) {
   const improvements = {
-    1: 'less critical and more accepting',
-    2: 'caring for yourself while helping others',
-    3: 'authentic instead of image-focused',
-    4: 'emotionally stable and consistent',
-    5: 'engaging while maintaining boundaries',
-    6: 'confident in your decisions',
-    7: 'focused and completing projects',
-    8: 'powerful yet gentle',
-    9: 'assertive about your needs'
+    1: 'calmer and less critical', 2: 'more centered and boundaried', 3: 'more authentic and grounded',
+    4: 'more emotionally regulated', 5: 'more present and engaged', 6: 'calmer and more trusting',
+    7: 'more focused and present', 8: 'calmer', 9: 'more present and assertive'
   };
-  return improvements[typeId] || 'powerful yet gentle';
+  return improvements[typeId] || 'calmer';
 }
 
 function getTypeSpecificBenefit(typeId) {
   const benefits = {
-    1: 'Self-criticism',
-    2: 'Resentment toward those you help',
-    3: 'Imposter syndrome',
-    4: 'Emotional volatility',
-    5: 'Social exhaustion',
-    6: 'Chronic worry',
-    7: 'Project abandonment',
-    8: 'Relationship conflicts',
-    9: 'Procrastination patterns'
+    1: 'Perfectionist paralysis', 2: 'People-pleasing exhaustion', 3: 'Performance anxiety',
+    4: 'Emotional reactivity', 5: 'Social withdrawal', 6: 'Chronic anxiety',
+    7: 'Mental hyperactivity', 8: 'Emotional reactivity', 9: 'Procrastination'
   };
-  return benefits[typeId] || 'Relationship conflicts';
+  return benefits[typeId] || 'Emotional reactivity';
+}
+
+function getTypeCoherenceBenefit(typeId) {
+  const benefits = {
+    1: 'Excellence without perfectionist pressure', 2: 'Service without depletion', 3: 'Success with authentic fulfillment',
+    4: 'Emotional depth without chaos', 5: 'Engagement without energy drain', 6: 'Security from inner authority',
+    7: 'Focus without losing enthusiasm', 8: 'Magnetic leadership presence', 9: 'Action without conflict'
+  };
+  return benefits[typeId] || 'Natural confidence and clarity';
 }
 
 function getCareerImpacts(typeId) {
   const impacts = {
     1: [
-      'Perfectionism slows down productivity and decision-making',
-      'Criticism of others creates team tension and conflicts',
-      'High standards become impossible expectations for colleagues',
-      'Micromanagement tendencies limit team growth and innovation'
+      'Making career decisions from perfectionist fear, not excellence',
+      'Procrastinating on opportunities because they\'re not perfect',
+      'Burning out from trying to fix everything at work',
+      'Being passed over for promotions due to over-analysis'
     ],
     2: [
-      'Overcommitting to help others leads to burnout and resentment',
-      'Difficulty saying no results in taking on too much work',
-      'People-pleasing prevents authentic leadership and boundaries',
-      'Exhaustion from giving affects quality and consistency of work'
+      'Saying yes to opportunities that drain you to help others',
+      'Undervaluing your contributions and accepting less pay',
+      'Burning out from taking on everyone else\'s responsibilities',
+      'Being taken advantage of by colleagues who don\'t reciprocate'
     ],
     3: [
-      'Image management consumes energy that could go toward actual achievement',
-      'Fear of failure prevents taking necessary risks for growth',
-      'Workaholism damages relationships with colleagues and family',
-      'Success feels empty because it\'s disconnected from authentic values'
+      'Making fear-based career decisions instead of strategic ones',
+      'Struggling with imposter syndrome despite your competence',
+      'Earning less than your potential because you can\'t access full confidence',
+      'Burning out trying to prove yourself instead of leading from wisdom'
     ],
     4: [
-      'Emotional intensity creates workplace drama and unpredictability',
-      'Mood swings affect team morale and professional relationships',
-      'Taking things personally limits collaboration and feedback reception',
-      'Creative projects remain unfinished due to emotional overwhelm'
+      'Career decisions driven by emotional intensity instead of strategy',
+      'Inconsistent performance due to mood fluctuations',
+      'Struggling with workplace criticism and feedback',
+      'Missing opportunities because you feel too different or misunderstood'
     ],
     5: [
-      'Over-analyzing delays decision-making and slows progress',
-      'Avoiding meetings and collaboration limits career advancement',
-      'Hoarding information prevents effective teamwork and knowledge sharing',
-      'Withdrawal from office culture excludes you from opportunities'
+      'Avoiding opportunities that require too much interpersonal energy',
+      'Undervaluing your expertise because sharing feels depleting',
+      'Missing leadership roles due to withdrawal tendencies',
+      'Burning out from forced collaboration and meetings'
     ],
     6: [
-      'Seeking excessive approval slows down independent decision-making',
-      'Worst-case scenario thinking prevents taking calculated risks',
-      'Anxiety about authority creates tension with supervisors',
-      'Overthinking simple decisions wastes time and creates bottlenecks'
+      'Second-guessing career decisions due to chronic self-doubt',
+      'Avoiding risks that could advance your career',
+      'Seeking constant validation from supervisors',
+      'Staying in safe but unfulfilling jobs too long'
     ],
     7: [
-      'Starting multiple projects without finishing impacts credibility',
-      'Boredom with routine tasks leads to procrastination and delays',
-      'Difficulty with follow-through prevents building expertise',
-      'Scattered focus limits deep work and specialized skill development'
+      'Starting multiple projects but never finishing them',
+      'Getting bored with routine work even when it builds expertise',
+      'Struggling to focus during important meetings',
+      'Missing promotions due to lack of follow-through'
     ],
     8: [
-      'Aggressive communication style intimidates colleagues and subordinates',
-      'Control issues prevent effective delegation and team development',
-      'Impatience with others\' pace creates workplace tension',
-      'Difficulty accepting feedback limits personal and professional growth'
+      'Making fear-based career decisions instead of strategic ones',
+      'Struggling with imposter syndrome despite your competence',
+      'Earning less than your potential because you can\'t access your full confidence',
+      'Burning out trying to prove yourself instead of leading from wisdom'
     ],
     9: [
-      'Avoiding difficult conversations allows problems to escalate',
-      'Procrastination on important decisions creates missed opportunities',
-      'Passive-aggressive behavior confuses colleagues and creates tension',
-      'Resistance to change prevents adaptation to new systems and processes'
+      'Procrastinating on important career decisions',
+      'Avoiding self-advocacy and salary negotiations',
+      'Staying in comfortable but unfulfilling positions',
+      'Missing opportunities because you don\'t assert your value'
     ]
   };
   return impacts[typeId] || impacts[8];
@@ -1171,58 +1538,58 @@ function getCareerImpacts(typeId) {
 function getRelationshipImpacts(typeId) {
   const impacts = {
     1: [
-      'Critical attitude toward partner\'s imperfections creates distance',
-      'Difficulty accepting love when you don\'t feel "perfect enough"',
-      'Rigid expectations about how relationships "should" work',
-      'Resentment builds when others don\'t meet your high standards'
+      'Criticizing your partner instead of appreciating them',
+      'Creating tension by trying to improve your family',
+      'Friends feeling judged when they share problems',
+      'Your children feeling like they can never be good enough'
     ],
     2: [
-      'Giving without receiving creates resentment and emotional exhaustion',
-      'Difficulty expressing your own needs leads to feeling unseen',
-      'People-pleasing prevents authentic intimacy and connection',
-      'Martyrdom patterns make others feel guilty for accepting help'
+      'Giving so much that you become resentful when not appreciated',
+      'Attracting people who take advantage of your giving nature',
+      'Struggling to receive love and support from others',
+      'Your own needs getting completely overlooked in relationships'
     ],
     3: [
-      'Image management prevents genuine vulnerability and intimacy',
-      'Work success prioritized over relationship quality and time',
-      'Fear of showing weakness limits emotional connection with partner',
-      'Competitiveness enters the relationship, creating comparison dynamics'
+      'Pushing people away when you most need connection',
+      'Unable to be vulnerable even with those closest to you',
+      'Your intensity scares people before they see your heart',
+      'Feeling lonely despite being surrounded by people'
     ],
     4: [
-      'Emotional intensity overwhelms partners and pushes them away',
-      'Taking things personally creates drama in simple interactions',
-      'Need for deep connection exhausts partners with constant intensity',
-      'Mood swings create walking-on-eggshells dynamic for loved ones'
+      'Emotional intensity overwhelming your loved ones',
+      'Pushing people away when they get too close',
+      'Creating drama in relationships during emotional peaks',
+      'Partners feeling like they have to walk on eggshells'
     ],
     5: [
-      'Emotional withdrawal leaves partner feeling lonely and disconnected',
-      'Need for space often misinterpreted as rejection or lack of love',
-      'Difficulty expressing feelings creates distance and misunderstanding',
-      'Over-analyzing relationship dynamics prevents natural flow and intimacy'
+      'Withdrawing when relationships require emotional energy',
+      'Partners feeling shut out by your need for space',
+      'Difficulty maintaining consistent emotional presence',
+      'Friends feeling like you\'re not truly available'
     ],
     6: [
-      'Seeking constant reassurance exhausts partner and creates dependency',
-      'Anxiety about relationship security creates testing behaviors',
-      'Worst-case thinking creates problems that don\'t actually exist',
-      'Loyalty expectations become possessive and controlling patterns'
+      'Constant need for reassurance exhausting your partners',
+      'Testing relationships through worst-case scenarios',
+      'Difficulty trusting even those closest to you',
+      'Creating anxiety in family members through your worry'
     ],
     7: [
-      'Commitment issues prevent deep intimacy and long-term planning',
-      'Need for variety and excitement makes partner feel insufficient',
-      'Avoiding difficult relationship conversations prevents growth',
-      'FOMO about other opportunities creates instability in commitment'
+      'Partners feeling like they can\'t pin you down',
+      'Avoiding deep emotional conversations',
+      'Friends enjoying your energy but not feeling truly seen',
+      'Family feeling entertained but not genuinely connected'
     ],
     8: [
-      'Controlling behavior limits partner\'s autonomy and independence',
-      'Intensity overwhelms partners who need gentleness and softness',
-      'Difficulty showing vulnerability prevents emotional intimacy',
-      'Aggressive communication style creates fear rather than safety'
+      'Pushing people away when you most need connection',
+      'Unable to be vulnerable even with those closest to you',
+      'Your intensity scares people before they see your heart',
+      'Feeling lonely despite being surrounded by people'
     ],
     9: [
-      'Avoiding conflict prevents resolution of important relationship issues',
-      'Passive-aggressive behavior confuses partner and creates tension',
-      'Merging with partner\'s agenda loses your own identity and needs',
-      'Resistance to change prevents relationship growth and evolution'
+      'Family feeling like they don\'t know the real you',
+      'Avoiding conflict until resentment builds up',
+      'Partners feeling like they\'re in a relationship with a ghost',
+      'Children learning to ignore your needs because you don\'t express them'
     ]
   };
   return impacts[typeId] || impacts[8];
@@ -1231,58 +1598,58 @@ function getRelationshipImpacts(typeId) {
 function getHealthImpacts(typeId) {
   const impacts = {
     1: [
-      'Chronic tension from self-criticism creates physical stress and pain',
-      'Perfectionist eating habits lead to restrictive or obsessive patterns',
-      'High cortisol from constant self-judgment affects immune system',
-      'Sleep disrupted by repetitive thoughts about mistakes and improvements'
+      'Chronic tension from perfectionist vigilance',
+      'Sleep issues from analyzing everything',
+      'Digestive problems from holding in frustration',
+      'Headaches from mental strain and criticism'
     ],
     2: [
-      'Burnout from overgiving leads to chronic fatigue and exhaustion',
-      'Stress eating or food restriction based on others\' approval needs',
-      'Ignoring your body\'s signals while focusing on others\' needs',
-      'Depleted immune system from constant people-pleasing stress'
+      'Chronic exhaustion from constant giving',
+      'Autoimmune issues from self-neglect',
+      'Sleep problems from worrying about others',
+      'Weight fluctuations from emotional eating patterns'
     ],
     3: [
-      'Workaholism leads to sleep deprivation and chronic exhaustion',
-      'Stress from image management creates anxiety and digestive issues',
-      'Exercise becomes another performance metric rather than self-care',
-      'Ignoring health symptoms to maintain appearance of success'
+      'Chronic tension in your chest, shoulders, and jaw',
+      'Exhausted despite getting enough sleep',
+      'Your body aging faster due to chronic stress response',
+      'Needing stimulants to feel alert, depressants to calm down'
     ],
     4: [
-      'Emotional eating or food restriction based on mood fluctuations',
-      'Physical symptoms of anxiety and depression affect daily functioning',
-      'Irregular sleep patterns due to emotional intensity and overthinking',
-      'Self-harm tendencies through neglect of basic health needs'
+      'Physical exhaustion from emotional intensity',
+      'Sleep disrupted by emotional processing',
+      'Autoimmune issues from emotional stress',
+      'Energy crashes after emotional highs'
     ],
     5: [
-      'Sedentary lifestyle from withdrawal affects physical fitness and health',
-      'Irregular eating patterns due to disconnection from body signals',
-      'Sleep disrupted by mental overstimulation and information processing',
-      'Social isolation impacts mental health and overall life satisfaction'
+      'Chronic fatigue from energy conservation mode',
+      'Social interactions leaving you depleted for days',
+      'Sleep issues from isolation and disconnection',
+      'Physical tension from holding back engagement'
     ],
     6: [
-      'Chronic anxiety creates physical symptoms like headaches and muscle tension',
-      'Stress eating or loss of appetite during anxious periods',
-      'Sleep disrupted by worry and worst-case scenario thinking',
-      'Avoided medical checkups due to fear of bad news or judgment'
+      'Chronic muscle tension from constant vigilance',
+      'Digestive issues from chronic worry',
+      'Sleep problems from anxious thoughts',
+      'Frequent illnesses from stress-compromised immunity'
     ],
     7: [
-      'Scattered approach to health prevents consistent self-care routines',
-      'Impulsive eating or extreme diet changes without lasting commitment',
-      'High stimulation needs affect sleep quality and nervous system',
-      'Avoiding routine medical care due to boredom with health maintenance'
+      'Mental exhaustion from constant stimulation seeking',
+      'Sleep problems from overactive mind',
+      'Digestive issues from eating on-the-go',
+      'Energy crashes after excitement highs'
     ],
     8: [
-      'High stress from controlling behavior affects cardiovascular health',
-      'Intense lifestyle leads to burnout and physical exhaustion',
-      'Aggressive approach to fitness risks injury and overexertion',
-      'Ignoring body\'s limits and pushing through pain or fatigue'
+      'Chronic tension in your chest, shoulders, and jaw',
+      'Exhausted despite getting enough sleep',
+      'Your body is aging faster due to chronic stress response',
+      'Needing stimulants to feel alert, depressants to calm down'
     ],
     9: [
-      'Sedentary lifestyle from avoidance affects physical fitness and energy',
-      'Comfort eating patterns lead to weight gain and health issues',
-      'Procrastination on health decisions prevents preventive care',
-      'Avoiding exercise and movement due to inertia and resistance to change'
+      'Chronic fatigue from self-forgetting',
+      'Sleep issues from never truly relaxing into yourself',
+      'Digestive problems from ignoring body signals',
+      'Low energy from lack of authentic motivation'
     ]
   };
   return impacts[typeId] || impacts[8];
@@ -1291,58 +1658,58 @@ function getHealthImpacts(typeId) {
 function getFamilyImpacts(typeId) {
   const impacts = {
     1: [
-      'Critical attitude toward family members creates tension and distance',
-      'High expectations for family behavior cause disappointment and conflict',
-      'Difficulty enjoying family time due to focus on what needs fixing',
-      'Children feel they can never be good enough to earn approval'
+      'Your family gets your frustrated, critical energy',
+      'Children walking on eggshells to avoid your corrections',
+      'Home feeling like a place of constant improvement projects',
+      'Family activities becoming lessons instead of fun'
     ],
     2: [
-      'Over-functioning for family creates dependency and resentment',
-      'Difficulty receiving help makes family feel useless or rejected',
-      'Martyrdom creates guilt in family members for having needs',
-      'Burnout from giving affects availability for genuine connection'
+      'Your family gets your depleted emotional leftovers',
+      'Children learning they don\'t need to be independent',
+      'Home revolving around everyone else\'s needs but yours',
+      'Family taking your sacrifice for granted'
     ],
     3: [
-      'Work priorities often overshadow family time and presence',
-      'Image management affects authentic family relationships',
-      'Children learn love is conditional on achievement and success',
-      'Family becomes another area where performance and appearance matter'
+      'Your family gets your leftover energy, not your best self',
+      'You\'re the strong one but secretly craving support',
+      'Difficulty being present because your mind is always racing',
+      'Creating a protective environment that feels controlling to others'
     ],
     4: [
-      'Emotional intensity overwhelms family members and creates walking-on-eggshells dynamic',
-      'Mood swings affect family stability and children\'s sense of security',
-      'Need for deep emotional connection exhausts family members',
-      'Taking family interactions personally creates unnecessary drama'
+      'Family walking on eggshells around your emotional intensity',
+      'Your moods dominating family dynamics',
+      'Children learning to manage your emotions',
+      'Home feeling emotionally unpredictable'
     ],
     5: [
-      'Withdrawal from family activities creates distance and misunderstanding',
-      'Children feel rejected when you need space and alone time',
-      'Family feels shut out from your inner world and thoughts',
-      'Difficulty expressing affection leaves family feeling unloved'
+      'Family feeling shut out by your need for space',
+      'Children learning not to need you emotionally',
+      'Home feeling more like a retreat than connection space',
+      'Missing family moments due to energy conservation'
     ],
     6: [
-      'Anxiety about family safety creates overprotective and controlling behavior',
-      'Worst-case thinking creates unnecessary rules and restrictions',
-      'Seeking reassurance from family about decisions creates dependency',
-      'Loyalty expectations become possessive and limit family members\' independence'
+      'Family feeling exhausted by your worry and anxiety',
+      'Children absorbing your fears about the world',
+      'Home feeling tense due to constant threat-scanning',
+      'Over-protecting family members from imagined dangers'
     ],
     7: [
-      'Difficulty with routine family responsibilities and commitments',
-      'Need for stimulation makes regular family time feel boring',
-      'Starting family projects without finishing creates disappointment',
-      'Avoiding serious family conversations prevents deeper connection'
+      'Family competing for your scattered attention',
+      'Children feeling entertained but not truly seen',
+      'Home feeling chaotic due to your restless energy',
+      'Missing quiet family moments due to stimulation needs'
     ],
     8: [
-      'Controlling family dynamics limits members\' autonomy and growth',
-      'Aggressive communication style creates fear rather than respect',
-      'Intensity overwhelms sensitive family members',
-      'Difficulty showing vulnerability prevents emotional intimacy with family'
+      'Your family gets your leftover energy, not your best self',
+      'You\'re the strong one but secretly craving support',
+      'Difficulty being present because your mind is always racing',
+      'Creating a protective environment that feels controlling to others'
     ],
     9: [
-      'Avoiding family conflict prevents resolution of important issues',
-      'Passive-aggressive behavior confuses family members',
-      'Merging with family\'s agenda loses your own voice and needs',
-      'Resistance to family changes prevents adaptation and growth'
+      'Family feeling like they don\'t know the real you',
+      'Children learning that their needs matter more than yours',
+      'Home lacking your authentic personality and preferences',
+      'Family dynamics revolving around keeping peace'
     ]
   };
   return impacts[typeId] || impacts[8];
@@ -1351,83 +1718,83 @@ function getFamilyImpacts(typeId) {
 function getGrowthImpacts(typeId) {
   const impacts = {
     1: [
-      'Self-criticism prevents self-compassion and authentic self-acceptance',
-      'Perfectionism blocks learning from mistakes and taking creative risks',
-      'Judgment of others limits expansion of perspective and understanding',
-      'Rigid thinking prevents adaptation and growth in changing circumstances'
+      'Personal growth feeling like another standard to meet',
+      'Spiritual practices becoming perfectionist performances',
+      'Unable to celebrate progress due to focus on flaws',
+      'Growth happening in your head through criticism'
     ],
     2: [
-      'Focus on others\' needs prevents self-discovery and personal development',
-      'People-pleasing blocks authentic self-expression and boundary setting',
-      'Difficulty receiving prevents learning and growing from others\' wisdom',
-      'Martyrdom patterns prevent taking responsibility for your own happiness'
+      'Personal growth feeling selfish compared to helping others',
+      'Spiritual practices getting interrupted by others\' needs',
+      'Unable to sustain practices that focus on yourself',
+      'Growth happening for others through your support'
     ],
     3: [
-      'Image management prevents authentic self-exploration and vulnerability',
-      'Fear of failure limits taking risks necessary for genuine growth',
-      'External validation dependence prevents internal wisdom development',
-      'Success addiction blocks exploration of deeper meaning and purpose'
+      'Knowing you\'re capable of more but unable to access it',
+      'Spiritual practices feel empty because your heart is disconnected',
+      'Your inner critic is louder than your inner wisdom',
+      'Feeling like you\'re fighting life instead of flowing with it'
     ],
     4: [
-      'Emotional overwhelm prevents consistent personal development practices',
-      'Identity crisis cycles block stable sense of self and direction',
-      'Comparison with others prevents appreciation of unique gifts and path',
-      'Intensity exhausts energy needed for sustained growth and learning'
+      'Growth practices abandoned when they become routine',
+      'Spiritual seeking driven by emotional intensity',
+      'Unable to sustain progress through emotional crashes',
+      'Personal development feeling superficial'
     ],
     5: [
-      'Withdrawal from growth opportunities limits exposure to new perspectives',
-      'Over-analyzing prevents intuitive wisdom and gut-level knowing',
-      'Hoarding insights prevents sharing wisdom that could help others',
-      'Isolation blocks learning from community and relationship wisdom'
+      'Growth requiring too much energy to sustain',
+      'Spiritual practices feeling like obligations',
+      'Learning remaining intellectual instead of experiential',
+      'Avoiding growth communities due to energy demands'
     ],
     6: [
-      'Self-doubt prevents trusting inner wisdom and taking decisive action',
-      'Seeking external authority blocks development of internal guidance',
-      'Worst-case thinking prevents taking growth risks and opportunities',
-      'Anxiety about making wrong choices prevents any choices at all'
+      'Growth practices creating more anxiety about doing them wrong',
+      'Spiritual seeking driven by security needs',
+      'Unable to trust your own inner guidance',
+      'Personal development requiring external validation'
     ],
     7: [
-      'Scattered focus prevents deep mastery and specialized development',
-      'Avoiding commitment blocks sustained growth in any particular area',
-      'FOMO prevents appreciating and developing current gifts and opportunities',
-      'Surface-level exploration prevents deep transformation and wisdom'
+      'Starting multiple growth practices but abandoning them',
+      'Spiritual seeking driven by novelty instead of depth',
+      'Unable to sustain practices when they become routine',
+      'Personal development remaining mental instead of integrated'
     ],
     8: [
-      'Controlling behavior limits receptivity to feedback and new perspectives',
-      'Intensity prevents patience needed for gradual growth and development',
-      'Difficulty with vulnerability blocks emotional and spiritual development',
-      'Aggressive approach to growth prevents gentle, nurturing self-development'
+      'Knowing you\'re capable of more but unable to access it',
+      'Spiritual practices feel empty because your heart is disconnected',
+      'Your inner critic is louder than your inner wisdom',
+      'Feeling like you\'re fighting life instead of flowing with it'
     ],
     9: [
-      'Avoidance of discomfort prevents growth through necessary challenges',
-      'Procrastination on growth activities prevents consistent development',
-      'Merging with others\' paths prevents discovering your unique purpose',
-      'Resistance to change blocks evolution and adaptation to life\'s demands'
+      'Personal growth feeling too demanding compared to keeping peace',
+      'Spiritual practices lacking personal motivation',
+      'Unable to sustain practices that require self-assertion',
+      'Growth happening for others while you remain invisible'
     ]
   };
   return impacts[typeId] || impacts[8];
 }
 
-function getTestimonials(typeId) {
+function getTypeTestimonials(typeId) {
   const testimonials = {
     1: [
       {
-        name: 'Sarah, 39',
-        profession: 'Project Manager',
+        name: 'Robert, 44',
+        profession: 'Quality Control Manager',
         beforeHRV: '16',
-        afterHRV: '74',
-        image: 'https://images.unsplash.com/photo-1494790108755-2616b2e7d6e8?w=100&h=100&fit=crop&crop=face',
-        quote1: 'I started with 16ms HRV, completely consumed by perfectionist anxiety. Every project had to be flawless, which was exhausting my team.',
-        quote2: 'Within 10 weeks, my HRV reached 74ms. I learned to deliver excellence without perfectionism. My team started enjoying work again and our productivity increased.'
+        afterHRV: '78',
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+        quote1: 'I started The Incredible You program with an HRV of just 16ms - basically living in chronic perfectionist stress mode. My team was terrified of making mistakes around me.',
+        quote2: 'Within 10 weeks, my HRV was consistently above 78ms. My team stopped walking on eggshells and started coming to me with innovative ideas. My wife said I became excellent without being impossible.'
       },
       {
-        name: 'Michael, 44',
-        profession: 'Quality Assurance Manager',
-        beforeHRV: '22',
-        afterHRV: '71',
-        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-        quote1: 'My 22ms HRV revealed I was managing from criticism instead of guidance. I thought high standards meant harsh judgment.',
-        quote2: 'By week 8, my HRV hit 71ms and I was leading from wisdom instead of criticism. Quality improved because people felt safe to be excellent.'
+        name: 'Linda, 39',
+        profession: 'Project Manager',
+        beforeHRV: '13',
+        afterHRV: '81',
+        image: 'https://images.unsplash.com/photo-1494790108755-2616b2e7d6e8?w=100&h=100&fit=crop&crop=face',
+        quote1: 'My HRV of 13ms revealed I was living in constant critical mode. I thought I needed to catch every mistake to be valuable.',
+        quote2: 'By week 8, my HRV hit 81ms and I was leading from wisdom instead of criticism. Our quality improved because people felt safe to report issues.'
       },
       {
         name: 'David, 47',
