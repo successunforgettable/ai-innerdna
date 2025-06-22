@@ -32,13 +32,12 @@ interface UserData {
 
 // CALL 1: Core Content (45 placeholders) - Proven working system
 async function generateCoreChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach creating a comprehensive hero's journey report for a ${userData.personalityType} - ${userData.personalityName} with ${userData.subtype} subtype.
+  const prompt = `You are an expert personality transformation coach creating a comprehensive hero's journey report for a ${userData.personalityName} ${userData.wingInfluence} with ${userData.subtype} subtype.
 
 CRITICAL: Respond ONLY with valid JSON containing the exact field names specified below. Do not include any markdown formatting, explanations, or additional text.
 
 User Profile:
-- Personality Type: ${userData.personalityType} - ${userData.personalityName}
-- Wing Influence: ${userData.wingInfluence}
+- Personality: ${userData.personalityName} ${userData.wingInfluence}
 - Primary Mood State: ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%)
 - Secondary Mood State: ${userData.moodStates.secondary.name} (${userData.moodStates.secondary.percentage}%)
 - Subtype: ${userData.subtype}
@@ -49,54 +48,54 @@ Generate authentic, personalized content for these 45 fields in valid JSON forma
   "PERSONALITY_TYPE": "Type X - Name format for this specific personality",
   "HERO_SUBTITLE": "Inspiring subtitle about their transformation journey",
   
-  "STAGE1_OPENING": "Compelling opening about their ordinary world struggles as this personality type",
-  "STAGE2_OPENING": "Discovery of heart-brain disconnect revelation specific to this type", 
+  "STAGE1_OPENING": "Compelling opening about their ordinary world struggles as this personality",
+  "STAGE2_OPENING": "Discovery of heart-brain disconnect revelation specific to their patterns", 
   "STAGE3_OPENING": "Resistance to vulnerability and change typical of this personality",
   "STAGE4_OPENING": "Meeting The Incredible You mentorship system introduction",
-  "STAGE5_OPENING": "Crossing threshold into transformation for this type",
+  "STAGE5_OPENING": "Crossing threshold into transformation for their personality",
   "STAGE6_OPENING": "Facing tests and trials during journey specific to their patterns",
   "STAGE7_OPENING": "Core ordeal and breakthrough moment for this personality",
   "STAGE8_OPENING": "Reward of heart-brain coherence achieved in their context",
-  "STAGE9_OPENING": "Integration into real-world leadership for this type",
+  "STAGE9_OPENING": "Integration into real-world leadership for their personality",
   "STAGE10_OPENING": "Complete resurrection and transformation specific to them",
   "STAGE11_OPENING": "Return with gift of authentic leadership in their style",
   
-  "CARD1_TITLE": "First struggle card title for this personality type",
-  "CARD1_DESCRIPTION": "Description of first core struggle this type faces",
-  "CARD2_TITLE": "Second struggle card title specific to this type", 
+  "CARD1_TITLE": "First struggle card title for this personality",
+  "CARD1_DESCRIPTION": "Description of first core struggle they face",
+  "CARD2_TITLE": "Second struggle card title specific to their patterns", 
   "CARD2_DESCRIPTION": "Description of second core pattern they experience",
   "CARD3_TITLE": "Third struggle card title for this personality",
   "CARD3_DESCRIPTION": "Description of third challenge they typically have",
-  "CARD4_TITLE": "Fourth struggle card title relevant to this type",
+  "CARD4_TITLE": "Fourth struggle card title relevant to their patterns",
   "CARD4_DESCRIPTION": "Description of fourth pattern causing them pain",
   
   "CARD5_TITLE": "Fifth discovery card title about their disconnect",
   "CARD5_DESCRIPTION": "Description of fifth realization they need to make",
   "CARD6_TITLE": "Sixth discovery card title about their patterns", 
-  "CARD6_DESCRIPTION": "Description of sixth insight specific to this type",
+  "CARD6_DESCRIPTION": "Description of sixth insight specific to their personality",
   "CARD7_TITLE": "Seventh discovery card title about their blocks",
   "CARD7_DESCRIPTION": "Description of seventh breakthrough they need",
   "CARD8_TITLE": "Eighth discovery card title about their potential",
   "CARD8_DESCRIPTION": "Description of eighth transformation possibility",
   
-  "TESTIMONIAL1_QUOTE": "Authentic first-person quote about realizing heart-brain disconnect as this personality type",
-  "TESTIMONIAL1_AUTHOR": "Realistic name, profession & personality type graduate",
-  "TESTIMONIAL2_QUOTE": "Authentic quote about breakthrough in transformation process for this type", 
-  "TESTIMONIAL2_AUTHOR": "Realistic name, profession & personality type graduate",
-  "TESTIMONIAL3_QUOTE": "Authentic quote about leading from presence not pressure as this type",
-  "TESTIMONIAL3_AUTHOR": "Realistic name, profession & personality type graduate",
+  "TESTIMONIAL1_QUOTE": "Authentic first-person quote about realizing heart-brain disconnect as this personality",
+  "TESTIMONIAL1_AUTHOR": "Realistic name, profession & personality graduate",
+  "TESTIMONIAL2_QUOTE": "Authentic quote about breakthrough in transformation process for their personality", 
+  "TESTIMONIAL2_AUTHOR": "Realistic name, profession & personality graduate",
+  "TESTIMONIAL3_QUOTE": "Authentic quote about leading from presence not pressure as this personality",
+  "TESTIMONIAL3_AUTHOR": "Realistic name, profession & personality graduate",
   
-  "WHEEL_CAREER_BEFORE": "Current career reality for this personality type in their ordinary world",
-  "WHEEL_CAREER_AFTER": "Transformed career state after heart-brain coherence for this type",
-  "WHEEL_FINANCES_BEFORE": "Current financial patterns and struggles typical of this type", 
+  "WHEEL_CAREER_BEFORE": "Current career reality for this personality in their ordinary world",
+  "WHEEL_CAREER_AFTER": "Transformed career state after heart-brain coherence for their personality",
+  "WHEEL_FINANCES_BEFORE": "Current financial patterns and struggles typical of their personality", 
   "WHEEL_FINANCES_AFTER": "Transformed financial clarity and confidence for this personality",
-  "WHEEL_RELATIONSHIPS_BEFORE": "Current relationship patterns and challenges for this type",
+  "WHEEL_RELATIONSHIPS_BEFORE": "Current relationship patterns and challenges for their personality",
   "WHEEL_RELATIONSHIPS_AFTER": "Transformed relationship capacity and safety for this personality",
-  "WHEEL_MENTAL_BEFORE": "Current mental state and thought patterns of this type",
+  "WHEEL_MENTAL_BEFORE": "Current mental state and thought patterns of their personality",
   "WHEEL_MENTAL_AFTER": "Transformed mental clarity and peace for this personality",
-  "WHEEL_PHYSICAL_BEFORE": "Current physical symptoms and tension patterns of this type",
+  "WHEEL_PHYSICAL_BEFORE": "Current physical symptoms and tension patterns of their personality",
   "WHEEL_PHYSICAL_AFTER": "Transformed physical health and energy for this personality",
-  "WHEEL_SOCIAL_BEFORE": "Current social patterns and challenges for this type", 
+  "WHEEL_SOCIAL_BEFORE": "Current social patterns and challenges for their personality", 
   "WHEEL_SOCIAL_AFTER": "Transformed social presence and connections for this personality",
   
   "WARNING_TEXT": "Motivating warning about what happens if they don't transform",
@@ -109,42 +108,42 @@ Generate authentic, personalized content for these 45 fields in valid JSON forma
 
 // CALL 2: Additional Challenge Cards & Metrics (25 placeholders)
 async function generateAdditionalCardsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate additional challenge cards and transformation metrics for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+  const prompt = `You are an expert personality transformation coach. Generate additional challenge cards and transformation metrics for a ${userData.personalityName} ${userData.wingInfluence} transformation report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 25 additional card and metric fields:
 
 {
-  "CARD9_TITLE": "Ninth challenge card title for this personality type",
+  "CARD9_TITLE": "Ninth challenge card title for this personality",
   "CARD9_DESCRIPTION": "Description of ninth struggle pattern they face",
-  "CARD10_TITLE": "Tenth challenge card title specific to this type",
+  "CARD10_TITLE": "Tenth challenge card title specific to their patterns",
   "CARD10_DESCRIPTION": "Description of tenth core challenge they experience",
   "CARD11_TITLE": "Eleventh challenge card title for this personality",
   "CARD11_DESCRIPTION": "Description of eleventh pattern causing them difficulty",
-  "CARD12_TITLE": "Twelfth challenge card title relevant to this type",
+  "CARD12_TITLE": "Twelfth challenge card title relevant to their patterns",
   "CARD12_DESCRIPTION": "Description of twelfth transformation opportunity",
   "CARD13_TITLE": "Thirteenth challenge card title for this personality",
   "CARD13_DESCRIPTION": "Description of thirteenth growth edge they need",
-  "CARD14_TITLE": "Fourteenth challenge card title specific to this type",
+  "CARD14_TITLE": "Fourteenth challenge card title specific to their patterns",
   "CARD14_DESCRIPTION": "Description of fourteenth breakthrough potential",
   "CARD15_TITLE": "Fifteenth challenge card title for this personality",
   "CARD15_DESCRIPTION": "Description of fifteenth transformation possibility",
   
-  "BEFORE1": "First before state description for this personality type",
-  "AFTER1": "First after state transformation for this type",
+  "BEFORE1": "First before state description for this personality",
+  "AFTER1": "First after state transformation for their personality",
   "BEFORE2": "Second before state description specific to this personality",
-  "AFTER2": "Second after state transformation for this type",
+  "AFTER2": "Second after state transformation for their personality",
   "BEFORE3": "Third before state description for this personality",
-  "AFTER3": "Third after state transformation for this type",
-  "BEFORE4": "Fourth before state description specific to this type",
+  "AFTER3": "Third after state transformation for their personality",
+  "BEFORE4": "Fourth before state description specific to their personality",
   "AFTER4": "Fourth after state transformation for this personality",
   
-  "STAT1_DESCRIPTION": "First statistical outcome description for this personality type",
-  "STAT2_DESCRIPTION": "Second statistical outcome description for this type",
-  "BRAIN_HEART_DISCONNECT": "Brain-heart disconnect message specific to this personality type"
+  "STAT1_DESCRIPTION": "First statistical outcome description for this personality",
+  "STAT2_DESCRIPTION": "Second statistical outcome description for their personality",
+  "BRAIN_HEART_DISCONNECT": "Brain-heart disconnect message specific to this personality"
 }`;
 
   return await callChatGPTAPI(prompt, "Additional Cards & Metrics");
@@ -152,36 +151,36 @@ Generate 25 additional card and metric fields:
 
 // CALL 3: Extended Testimonials & Wheel Content (20 placeholders)
 async function generateTestimonialsChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate extended testimonials and wheel of life content for a ${userData.personalityType} - ${userData.personalityName} transformation report.
+  const prompt = `You are an expert personality transformation coach. Generate extended testimonials and wheel of life content for a ${userData.personalityName} ${userData.wingInfluence} transformation report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 20 testimonial and wheel fields:
 
 {
-  "TESTIMONIAL4_QUOTE": "Authentic quote about week 6 breakthrough moment for this personality type",
+  "TESTIMONIAL4_QUOTE": "Authentic quote about week 6 breakthrough moment for this personality",
   "TESTIMONIAL4_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
-  "TESTIMONIAL5_QUOTE": "Authentic quote about relationship transformation specific to this type", 
+  "TESTIMONIAL5_QUOTE": "Authentic quote about relationship transformation specific to their personality", 
   "TESTIMONIAL5_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
   "TESTIMONIAL6_QUOTE": "Authentic quote about career leadership change for this personality",
   "TESTIMONIAL6_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
-  "TESTIMONIAL7_QUOTE": "Authentic quote about financial mindset shift for this type",
+  "TESTIMONIAL7_QUOTE": "Authentic quote about financial mindset shift for their personality",
   "TESTIMONIAL7_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
   "TESTIMONIAL8_QUOTE": "Authentic quote about family impact of transformation",
   "TESTIMONIAL8_AUTHOR": "Realistic name, profession & ${userData.personalityName} Graduate",
   
-  "WHEEL_ENVIRONMENT_BEFORE": "Current environment and living situation challenges for this type",
+  "WHEEL_ENVIRONMENT_BEFORE": "Current environment and living situation challenges for their personality",
   "WHEEL_ENVIRONMENT_AFTER": "Transformed environment and space creation for this personality",
-  "WHEEL_GROWTH_BEFORE": "Current personal growth and learning patterns for this type",
+  "WHEEL_GROWTH_BEFORE": "Current personal growth and learning patterns for their personality",
   "WHEEL_GROWTH_AFTER": "Transformed growth mindset and learning capacity for this personality",
-  "WHEEL_SPIRITUALITY_BEFORE": "Current spiritual/meaning state for this type",
+  "WHEEL_SPIRITUALITY_BEFORE": "Current spiritual/meaning state for their personality",
   "WHEEL_SPIRITUALITY_AFTER": "Transformed spiritual connection and purpose",
   "WHEEL_RECREATION_BEFORE": "Current relationship with joy and play",
   "WHEEL_RECREATION_AFTER": "Transformed capacity for enjoyment and renewal",
   
-  "SUCCESS_STORY_1": "Brief success story about rapid transformation for this personality type",
+  "SUCCESS_STORY_1": "Brief success story about rapid transformation for this personality",
   "SUCCESS_STORY_2": "Brief success story about overcoming specific resistance pattern"
 }`;
 
@@ -190,11 +189,11 @@ Generate 20 testimonial and wheel fields:
 
 // CALL 4: Complete Missing Placeholders (30 placeholders)
 async function generateMissingPlaceholdersChatGPTContent(userData: UserData): Promise<Record<string, string> | null> {
-  const prompt = `You are an expert personality transformation coach. Generate the remaining transformation content for a ${userData.personalityType} - ${userData.personalityName} report.
+  const prompt = `You are an expert personality transformation coach. Generate the remaining transformation content for a ${userData.personalityName} ${userData.wingInfluence} report.
 
 CRITICAL: Respond ONLY with valid JSON. No markdown formatting.
 
-User Profile: ${userData.personalityType} - ${userData.personalityName}, ${userData.subtype} subtype
+User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.subtype} subtype
 
 Generate 30 remaining placeholder fields:
 
