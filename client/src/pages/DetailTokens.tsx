@@ -232,11 +232,13 @@ const DetailPhase: React.FC = () => {
             <h2 className="text-xl font-semibold text-white mb-6">Your Tower</h2>
             <TowerVisualization 
               title=""
-              blocks={assessmentData.buildingBlocks?.map(block => ({
-                gradient: block.gradient || 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                width: '100%',
-                height: '60px'
-              }))}
+              blocks={[
+                { gradient: 'linear-gradient(135deg, #ff4444, #ff6666)', width: '100%', height: '60px' },
+                { gradient: 'linear-gradient(135deg, #8b5cf6, #a855f7)', width: '100%', height: '60px' },
+                { gradient: 'linear-gradient(135deg, #f97316, #fb923c)', width: '100%', height: '60px' },
+                { gradient: 'linear-gradient(135deg, #10b981, #34d399)', width: '100%', height: '60px' },
+                { gradient: 'linear-gradient(135deg, #3b82f6, #60a5fa)', width: '100%', height: '60px' }
+              ]}
             />
           </div>
         </div>
