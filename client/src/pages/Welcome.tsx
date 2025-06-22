@@ -364,7 +364,7 @@ export default function Welcome() {
             variants={itemVariants}
           >
             Build your personality tower through intuitive choices
-            and discover your unique Inner DNA profile
+            and discover your unique Inner DNA profile with the world most intelligent Ai system
           </motion.div>
         </motion.section>
         
