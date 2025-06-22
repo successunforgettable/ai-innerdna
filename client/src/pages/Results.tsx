@@ -176,7 +176,7 @@ const Results = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Generate your personal AI report
+                  Generate your personal Ai report
                 </motion.button>
               </div>
 
