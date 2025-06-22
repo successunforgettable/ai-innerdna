@@ -377,6 +377,28 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
+  // Contact Form Routes
+  app.post("/api/contact-requests", async (req, res) => {
+    try {
+      const contactData = insertContactRequestSchema.parse(req.body);
+      const contactRequest = await storage.createContactRequest(contactData);
+      res.json(contactRequest);
+    } catch (error) {
+      console.error('Contact request error:', error);
+      res.status(400).json({ error: "Failed to submit contact request" });
+    }
+  });
+
+  app.get("/api/contact-requests", async (req, res) => {
+    try {
+      const contactRequests = await storage.getAllContactRequests();
+      res.json(contactRequests);
+    } catch (error) {
+      console.error('Failed to fetch contact requests:', error);
+      res.status(500).json({ error: "Failed to fetch contact requests" });
+    }
+  });
+
   // AI Report Generation Routes
   app.post("/api/generate-ai-report", async (req, res) => {
     try {

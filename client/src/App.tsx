@@ -20,6 +20,7 @@ import Login from "@/pages/Login";
 import Reports from "@/pages/Reports";
 import ReportsBrowser from "@/pages/ReportsBrowser";
 import ResetPassword from "@/pages/ResetPassword";
+import Contact from "@/pages/Contact";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import NotFound from "@/pages/not-found";
 import { NotificationProvider } from './context/NotificationContext';
