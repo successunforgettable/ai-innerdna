@@ -50,9 +50,25 @@ export async function generateCompleteStyledReport(typeId) {
   htmlContent = htmlContent.replace(/The Type \d+ [^:]+:/g, `The ${personalityName}:`);
   htmlContent = htmlContent.replace(/TYPE \d+ [^:]+:/g, `${personalityName.toUpperCase()}:`);
   
-  // Fix the specific "TYPE 8 CHALLENGER:" pattern in the hero section
+  // Fix the specific "TYPE X CHALLENGER:" pattern in the hero section for ALL types
   htmlContent = htmlContent.replace(/THE TYPE 8 CHALLENGER:/g, `THE ${personalityName.toUpperCase()}:`);
   htmlContent = htmlContent.replace(/TYPE 8 CHALLENGER:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 7 ENTHUSIAST:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 7 ENTHUSIAST:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 6 SENTINEL:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 6 SENTINEL:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 5 INVESTIGATOR:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 5 INVESTIGATOR:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 4 INDIVIDUALIST:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 4 INDIVIDUALIST:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 3 ACHIEVER:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 3 ACHIEVER:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 2 HELPER:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 2 HELPER:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 1 REFORMER:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 1 REFORMER:/g, `${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/THE TYPE 9 PEACEMAKER:/g, `THE ${personalityName.toUpperCase()}:`);
+  htmlContent = htmlContent.replace(/TYPE 9 PEACEMAKER:/g, `${personalityName.toUpperCase()}:`);
   
   // Pass 4: Remaining percentage and HRV references
   htmlContent = htmlContent.replace(/78%/g, `${heartPercentage}%`);
