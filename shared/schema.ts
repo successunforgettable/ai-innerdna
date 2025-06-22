@@ -36,6 +36,19 @@ export const reports = pgTable("reports", {
   generatedAt: timestamp("generated_at").notNull().defaultNow(),
 });
 
+export const contactRequests = pgTable("contact_requests", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").references(() => users.id),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  phoneNumber: text("phone_number").notNull(),
+  personalityType: text("personality_type"),
+  heartPercentage: text("heart_percentage"),
+  submittedAt: timestamp("submitted_at").notNull().defaultNow(),
+  contacted: timestamp("contacted"),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
 });
