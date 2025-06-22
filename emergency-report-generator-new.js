@@ -26,10 +26,24 @@ export async function generateCompleteStyledReport(typeId) {
   htmlContent = htmlContent.replace(/<span id="heartPercentage">78<\/span>/g, `<span id="heartPercentage">${heartPercentage}</span>`);
   htmlContent = htmlContent.replace(/<span id="heartPercentage2">78<\/span>/g, `<span id="heartPercentage2">${heartPercentage}</span>`);
   
-  // Pass 3: Personality type references
+  // Pass 3: Personality type references - Remove all "Type X" terminology
   htmlContent = htmlContent.replace(/The Type 8 Challenger/g, `The ${personalityName}`);
   htmlContent = htmlContent.replace(/TYPE 8 CHALLENGER/g, personalityName.toUpperCase());
   htmlContent = htmlContent.replace(/THE Challenger/g, `THE ${personalityName}`);
+  
+  // Remove all "Type X" references completely
+  htmlContent = htmlContent.replace(/Type 8/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 7/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 6/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 5/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 4/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 3/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 2/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 1/g, personalityName);
+  htmlContent = htmlContent.replace(/Type 9/g, personalityName);
+  
+  // Remove remaining "THE TYPE X" patterns
+  htmlContent = htmlContent.replace(/THE TYPE \d+/g, `THE ${personalityName.toUpperCase()}`);
   
   // Pass 4: Remaining percentage and HRV references
   htmlContent = htmlContent.replace(/78%/g, `${heartPercentage}%`);
