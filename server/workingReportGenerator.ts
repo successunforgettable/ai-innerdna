@@ -404,22 +404,22 @@ User Profile: ${userData.personalityName} ${userData.wingInfluence}, ${userData.
 Generate 20 final completion fields:
 
 {
-  "CLOSING_MESSAGE": "Powerful closing message for this personality type's transformation",
+  "CLOSING_MESSAGE": "Powerful closing message for this personality's transformation",
   "NEXT_STEPS": "Clear next steps for this personality to begin transformation",
   "SUPPORT_AVAILABLE": "Description of support available during transformation journey",
   "COMMUNITY_MESSAGE": "Message about joining the transformation community",
   "MENTORSHIP_PROMISE": "Promise about mentorship and guidance provided",
-  "RESULTS_GUARANTEE": "Guarantee about transformation results for this personality type",
+  "RESULTS_GUARANTEE": "Guarantee about transformation results for this personality",
   "INVESTMENT_VALUE": "Value proposition of investing in transformation",
   "TIME_COMMITMENT": "Time commitment required for transformation success",
-  "DIFFICULTY_ACKNOWLEDGMENT": "Acknowledgment of transformation difficulty for this type",
+  "DIFFICULTY_ACKNOWLEDGMENT": "Acknowledgment of transformation difficulty for their personality",
   "COURAGE_REQUIRED": "Message about courage required for this personality's transformation",
-  "BREAKTHROUGH_PROMISE": "Promise about breakthrough moments this type will experience",
+  "BREAKTHROUGH_PROMISE": "Promise about breakthrough moments their personality will experience",
   "LIFE_CHANGE_SCOPE": "Scope of life changes this personality can expect",
-  "RELATIONSHIP_IMPACT": "Impact transformation will have on this type's relationships",
-  "CAREER_TRANSFORMATION": "Career transformation this personality type can achieve",
+  "RELATIONSHIP_IMPACT": "Impact transformation will have on their personality's relationships",
+  "CAREER_TRANSFORMATION": "Career transformation this personality can achieve",
   "INNER_PEACE_PROMISE": "Promise of inner peace through heart-brain coherence",
-  "AUTHENTIC_POWER": "Description of authentic power this type will develop",
+  "AUTHENTIC_POWER": "Description of authentic power their personality will develop",
   "LEADERSHIP_EVOLUTION": "Evolution in leadership capacity for this personality",
   "FINAL_INVITATION": "Final compelling invitation to begin transformation journey",
   "CONTACT_INFORMATION": "Contact information for transformation program enrollment",
@@ -669,7 +669,7 @@ async function generateFinal24PlaceholdersChatGPTContent(userData: UserData): Pr
   try {
     console.log("🤖 Calling ChatGPT API for FINAL 24 PLACEHOLDERS...");
     
-    const prompt = `ROLE: You are an expert transformation coach creating the FINAL 24 missing placeholders for ${userData.personalityType} - ${userData.personalityName} transformation report.
+    const prompt = `ROLE: You are an expert transformation coach creating the FINAL 24 missing placeholders for ${userData.personalityName} ${userData.wingInfluence} transformation report.
 
 CRITICAL: Generate EXACTLY these 24 remaining placeholders for 100% template coverage:
 
@@ -703,7 +703,7 @@ REQUIRED JSON STRUCTURE:
 
 USER CONTEXT: ${userData.personalityName} with ${userData.moodStates.primary.name} (${userData.moodStates.primary.percentage}%) and ${userData.moodStates.secondary.name} (${userData.moodStates.secondary.percentage}%), ${userData.subtype} subtype.
 
-Generate profound, transformational content for Type 6 anxiety-to-security journey completion.`;
+Generate profound, transformational content for their personality's anxiety-to-security journey completion.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
