@@ -10,11 +10,13 @@ const openai = new OpenAI({
 interface AssessmentData {
   personalityType: number;
   personalityName?: string;
+  wing?: number;
   colorStates: Array<{name: string; percentage: number}>;
   detailTokens: {selfPreservation: number; sexual: number; social: number};
   dominantState?: {name: string; percentage: number};
   secondaryState?: {name: string; percentage: number};
   dominantSubtype?: string;
+  confidence?: number;
 }
 
 interface UserData {
@@ -514,21 +516,26 @@ function getPersonalityName(type: number): string {
   return names[type] || "Challenger";
 }
 
+function validateWing(type: number, wing: number): number {
+  const validWings: { [key: number]: number[] } = {
+    1: [9, 2], 2: [1, 3], 3: [2, 4], 4: [3, 5], 
+    5: [4, 6], 6: [5, 7], 7: [6, 8], 8: [7, 9], 9: [8, 1]
+  };
+  const valid = validWings[type] || [5, 7];
+  return valid.includes(wing) ? wing : valid[0];
+}
+
 // Main multi-call generation function
 export async function generateWorkingReport(assessmentData?: Partial<AssessmentData>): Promise<string> {
   try {
     console.log("🚀 Starting MULTI-CALL ChatGPT content generation...");
     
-    // MICRO-PROMPT 1: Investigation - Log actual assessment data structure
-    console.log("=== 🔍 ASSESSMENT DATA INVESTIGATION ===");
-    console.log("🔍 Raw assessmentData:", JSON.stringify(assessmentData, null, 2));
-    console.log("🔍 Wing influence value:", assessmentData?.results?.wingInfluence);
-    console.log("🔍 Personality type:", assessmentData?.results?.personalityType);
-    console.log("🔍 Assessment data keys:", assessmentData ? Object.keys(assessmentData) : "No data");
-    console.log("🔍 Has results object:", !!assessmentData?.results);
-    console.log("🔍 Direct personalityType:", assessmentData?.personalityType);
-    console.log("🔍 Direct wing:", assessmentData?.wing);
-    console.log("=== END INVESTIGATION ===");
+    // Data structure validated: direct properties (personalityType, wing, colorStates, detailTokens, confidence)
+    console.log("🔍 Processing assessment data:", {
+      type: assessmentData?.personalityType,
+      wing: assessmentData?.wing,
+      confidence: assessmentData?.confidence
+    });
     
     // Assessment data processing (technical only)
     const testData: AssessmentData = {
@@ -545,7 +552,7 @@ export async function generateWorkingReport(assessmentData?: Partial<AssessmentD
     const userData: UserData = {
       personalityType: `Type ${testData.personalityType}`,
       personalityName: testData.personalityName || "Sentinel 6",
-      wingInfluence: 7,
+      wingInfluence: validateWing(assessmentData?.personalityType || 6, assessmentData?.wing || 7),
       moodStates: {
         primary: { name: testData.dominantState?.name || "Anxious", percentage: testData.dominantState?.percentage || 65 },
         secondary: { name: testData.secondaryState?.name || "Secure", percentage: testData.secondaryState?.percentage || 35 }
@@ -736,14 +743,14 @@ export async function generateTransformationReport(assessmentData: any): Promise
   console.log("🔄 Using single-call backup generation...");
   
   const userData: UserData = {
-    personalityType: `Type ${assessmentData.results?.personalityType || 6}`,
-    personalityName: getPersonalityName(assessmentData.results?.personalityType || 6),
-    wingInfluence: assessmentData.results?.wingInfluence || 7,
+    personalityType: `Type ${assessmentData?.personalityType || 6}`,
+    personalityName: getPersonalityName(assessmentData?.personalityType || 6),
+    wingInfluence: validateWing(assessmentData?.personalityType || 6, assessmentData?.wing || 7),
     moodStates: {
       primary: { name: "Anxious & Worried", percentage: 65 },
       secondary: { name: "Focused & Determined", percentage: 35 }
     },
-    subtype: assessmentData.results?.subtype || "Self-Preservation"
+    subtype: assessmentData?.dominantSubtype || "Self-Preservation"
   };
   
   const coreContent = await generateCoreChatGPTContent(userData);
