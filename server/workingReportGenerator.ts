@@ -511,7 +511,7 @@ function calculateDynamicProgressPercentages(moodStates: any): Record<string, st
 function getPersonalityName(type: number): string {
   const names: Record<number, string> = {
     1: "Perfectionist", 2: "Helper", 3: "Achiever", 4: "Individualist",
-    5: "Investigator", 6: "Loyalist", 7: "Enthusiast", 8: "Challenger", 9: "Peacemaker"
+    5: "Investigator", 6: "Sentinel", 7: "Enthusiast", 8: "Challenger", 9: "Peacemaker"
   };
   return names[type] || "Challenger";
 }
