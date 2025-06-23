@@ -16,6 +16,7 @@ import { z } from "zod";
 import { generateCompleteStyledReport } from '../emergency-report-generator-new.js';
 import puppeteer from 'puppeteer';
 import htmlPdf from 'html-pdf-node';
+import jsPDF from 'jspdf';
 
 // Global browser instance (more efficient)
 let browser = null;
@@ -1677,6 +1678,84 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       await browser.close();
     }
     process.exit(0);
+  });
+
+  // New PDF generation endpoint using jsPDF
+  app.get('/api/generate-pdf/:typeId', async (req, res) => {
+    try {
+      const typeId = parseInt(req.params.typeId);
+      
+      if (typeId < 1 || typeId > 9) {
+        return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
+      }
+
+      console.log(`Generating PDF report for Type ${typeId}`);
+
+      // Generate content using emergency template
+      const htmlContent = await generateCompleteStyledReport(typeId);
+      
+      // Create PDF using jsPDF
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      // Extract text content from HTML (simplified approach)
+      const textContent = htmlContent
+        .replace(/<[^>]*>/g, '\n') // Remove HTML tags
+        .replace(/\n\s*\n/g, '\n') // Remove extra newlines
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .trim();
+      
+      // Add title
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.text(`Inner DNA Type ${typeId} Report`, 20, 30);
+      
+      // Add content with proper line breaks
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'normal');
+      
+      const lines = doc.splitTextToSize(textContent.substring(0, 5000), 170); // First 5000 chars
+      let yPosition = 50;
+      const pageHeight = 280;
+      
+      for (let i = 0; i < lines.length; i++) {
+        if (yPosition > pageHeight) {
+          doc.addPage();
+          yPosition = 20;
+        }
+        doc.text(lines[i], 20, yPosition);
+        yPosition += 7;
+      }
+      
+      // Generate PDF and return directly
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filename = `Inner-DNA-Type${typeId}-Report-${timestamp}.pdf`;
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Cache-Control', 'no-cache');
+      
+      // Send PDF directly
+      const pdfOutput = doc.output();
+      res.end(Buffer.from(pdfOutput, 'binary'));
+      
+      console.log(`PDF report delivered for Type ${typeId} (${pdfBuffer.length} bytes)`);
+      
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      
+      res.status(500).json({ 
+        error: 'Failed to generate PDF report',
+        message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
+        timestamp: new Date().toISOString()
+      });
+    }
   });
 
   const httpServer = createServer(app);
