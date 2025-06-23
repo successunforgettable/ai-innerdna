@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AssessmentProvider, useAssessment } from "@/context/AssessmentContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { useEffect } from "react";
-import Welcome from "@/pages/WelcomeSimple";
+import Welcome from "@/pages/Welcome";
 import FoundationStones from "@/pages/FoundationStones";
 import BuildingBlocks from "@/pages/BuildingBlocks";
 import ColorPhase from "@/pages/ColorPhase";
