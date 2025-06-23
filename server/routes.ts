@@ -1477,7 +1477,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
       // Generate HTML content with enhanced styling for offline viewing
       let htmlContent = await generateCompleteStyledReport(typeId);
       
-      // Add print-specific CSS for better printing
+      // Add mobile-optimized CSS for standalone viewing
       const printCSS = `
         <style>
           @media print {
@@ -1494,7 +1494,8 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
+            min-height: 100vh;
           }
           
           .container {
@@ -1504,6 +1505,7 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
+            min-height: calc(100vh - 20px);
           }
           
           .header-note {
@@ -1513,6 +1515,73 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
             text-align: center;
             font-weight: bold;
             font-size: 16px;
+          }
+          
+          /* Mobile responsive fixes */
+          @media (max-width: 768px) {
+            body {
+              padding: 5px;
+              background: white !important;
+            }
+            
+            .container {
+              border-radius: 0;
+              box-shadow: none;
+              margin: 0;
+              min-height: 100vh;
+              background: white !important;
+            }
+            
+            .header-note {
+              border-radius: 0;
+              padding: 10px 15px;
+              font-size: 14px;
+            }
+            
+            /* Force white background for all elements on mobile */
+            * {
+              background-attachment: scroll !important;
+            }
+            
+            .glass-card, .glass-morphism {
+              background: rgba(255, 255, 255, 0.98) !important;
+              border: 1px solid #e2e8f0 !important;
+              border-radius: 8px !important;
+              margin: 10px 0 !important;
+              padding: 15px !important;
+            }
+            
+            /* Ensure text is readable on mobile */
+            h1, h2, h3, h4, h5, h6 {
+              color: #2d3748 !important;
+              background: transparent !important;
+            }
+            
+            p, div, span {
+              color: #4a5568 !important;
+              background: transparent !important;
+            }
+            
+            /* Fix gradient text on mobile */
+            .text-gradient {
+              background: #667eea !important;
+              -webkit-background-clip: initial !important;
+              -webkit-text-fill-color: initial !important;
+              background-clip: initial !important;
+              color: #667eea !important;
+            }
+          }
+          
+          /* Tablet fixes */
+          @media (max-width: 1024px) and (min-width: 769px) {
+            body {
+              padding: 15px;
+            }
+            
+            .container {
+              border-radius: 15px;
+              margin: 0 auto;
+            }
           }
         </style>
       `;
