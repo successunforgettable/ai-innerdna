@@ -15,6 +15,7 @@ import { generateWorkingReport } from "./workingReportGenerator";
 import { z } from "zod";
 import { generateCompleteStyledReport } from '../emergency-report-generator-new.js';
 import puppeteer from 'puppeteer';
+import htmlPdf from 'html-pdf-node';
 
 // Global browser instance (more efficient)
 let browser = null;
@@ -1288,6 +1289,177 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     } catch (error) {
       console.error('Error generating and saving report:', error);
       res.status(500).json({ error: 'Failed to generate and save report' });
+    }
+  });
+
+  // Direct PDF download route (generates actual PDF)
+  app.get('/api/download-pdf/:typeId', async (req, res) => {
+    try {
+      const typeId = parseInt(req.params.typeId);
+      
+      if (typeId < 1 || typeId > 9) {
+        return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
+      }
+
+      console.log(`Generating PDF report for Type ${typeId}`);
+
+      // Generate HTML content with PDF-optimized styling
+      let htmlContent = await generateCompleteStyledReport(typeId);
+      
+      // Add PDF-specific CSS for high-quality rendering
+      const pdfCSS = `
+        <style>
+          * {
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          
+          body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-size: 14px;
+          }
+          
+          .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+          }
+          
+          .glass-card, .glass-morphism {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid rgba(102, 126, 234, 0.2) !important;
+            border-radius: 15px !important;
+            padding: 20px !important;
+            margin: 15px 0 !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+          }
+          
+          .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            padding: 30px !important;
+            border-radius: 15px !important;
+          }
+          
+          .text-gradient {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+          }
+          
+          h1, h2, h3 {
+            color: #2d3748 !important;
+            margin: 20px 0 15px 0 !important;
+          }
+          
+          .heart-animation, .floating-element {
+            display: inline-block !important;
+            animation: none !important;
+          }
+          
+          .progress-bar {
+            background: #e2e8f0 !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+          }
+          
+          .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2) !important;
+            height: 20px !important;
+            border-radius: 10px !important;
+          }
+          
+          .testimonial-card {
+            background: rgba(102, 126, 234, 0.1) !important;
+            border-left: 4px solid #667eea !important;
+            padding: 20px !important;
+            margin: 15px 0 !important;
+            border-radius: 8px !important;
+          }
+          
+          .cta-button {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white !important;
+            padding: 15px 30px !important;
+            border-radius: 25px !important;
+            text-decoration: none !important;
+            display: inline-block !important;
+            font-weight: bold !important;
+          }
+          
+          .page-break {
+            page-break-before: always !important;
+          }
+          
+          @page {
+            margin: 0.5in;
+            size: letter;
+          }
+        </style>
+      `;
+      
+      // Insert PDF CSS
+      htmlContent = htmlContent.replace('</head>', pdfCSS + '</head>');
+      htmlContent = htmlContent.replace('<body>', '<body><div class="container">');
+      htmlContent = htmlContent.replace('</body>', '</div></body>');
+      
+      // Configure html-pdf-node options for high quality
+      const options = {
+        format: 'Letter',
+        width: '8.5in',
+        height: '11in',
+        border: {
+          top: '0.5in',
+          right: '0.5in',
+          bottom: '0.5in',
+          left: '0.5in'
+        },
+        quality: '100',
+        type: 'pdf',
+        timeout: 30000,
+        renderDelay: 2000,
+        dpi: 300,
+        zoomFactor: 1,
+        displayHeaderFooter: false,
+        printBackground: true,
+        preferCSSPageSize: true
+      };
+      
+      const file = { content: htmlContent };
+      
+      // Generate PDF
+      console.log('Starting PDF generation...');
+      const pdfBuffer = await htmlPdf.generatePdf(file, options);
+      
+      // Set response headers for PDF download
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filename = `Inner-DNA-Type${typeId}-Report-${timestamp}.pdf`;
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Content-Length', pdfBuffer.length);
+      res.setHeader('Cache-Control', 'no-cache');
+      
+      // Send PDF
+      res.send(pdfBuffer);
+      
+      console.log(`PDF report delivered for Type ${typeId} (${pdfBuffer.length} bytes)`);
+      
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      
+      res.status(500).json({ 
+        error: 'Failed to generate PDF report',
+        message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
+        timestamp: new Date().toISOString()
+      });
     }
   });
 
