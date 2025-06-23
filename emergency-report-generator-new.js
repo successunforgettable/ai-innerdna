@@ -18,6 +18,59 @@ export async function generateCompleteStyledReport(typeId, userData = null, cale
   const hrvBaseline = getHRVBaseline(typeId);
   const personalityName = getPersonalityName(typeId);
   
+  // Add PDF download buttons before closing body tag
+  const pdfDownloadSection = `
+<div class="text-center mt-12 mb-8">
+  <div class="glass-card rounded-2xl p-8 max-w-2xl mx-auto" style="background: rgba(139, 69, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(139, 69, 255, 0.2);">
+    <h3 class="text-2xl font-bold mb-4" style="color: #fbbf24;">Save Your Report</h3>
+    <p class="text-lg mb-6" style="color: #e5e7eb;">Download your complete assessment report as a professional PDF</p>
+    
+    <div class="space-y-4">
+      <button onclick="downloadPDF(${typeId})" 
+              class="w-full py-4 px-8 rounded-full text-xl font-bold transition-all duration-300 hover:scale-105"
+              style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000;">
+        <i class="fas fa-download mr-2"></i>
+        Download PDF Report
+        <i class="fas fa-file-pdf ml-2"></i>
+      </button>
+      
+      <button onclick="previewPDF(${typeId})" 
+              class="w-full py-3 px-6 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105"
+              style="background: rgba(139, 69, 255, 0.2); color: #fff; border: 1px solid rgba(139, 69, 255, 0.4);">
+        <i class="fas fa-eye mr-2"></i>
+        Preview PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function downloadPDF(typeId) {
+  const button = event.target;
+  const originalHTML = button.innerHTML;
+  
+  button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating PDF...';
+  button.disabled = true;
+  
+  // Open download in new window
+  const downloadWindow = window.open('/api/download-report/' + typeId, '_blank');
+  
+  // Reset button after delay
+  setTimeout(() => {
+    button.innerHTML = originalHTML;
+    button.disabled = false;
+  }, 3000);
+}
+
+function previewPDF(typeId) {
+  window.open('/api/preview-report/' + typeId, '_blank');
+}
+</script>
+`;
+
+  // Insert PDF section before closing body tag
+  htmlContent = htmlContent.replace(/<\/body>/g, pdfDownloadSection + '</body>');
+
   // Replace dynamic content placeholders - Multiple replacement passes
   // Pass 1: JavaScript animation target (with exact whitespace)
   htmlContent = htmlContent.replace(/const target = 78;/g, `const target = ${heartPercentage};`);
