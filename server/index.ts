@@ -14,6 +14,202 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json()); // Enable JSON parsing for POST requests
 
+// Import report generation
+import { generateCompleteStyledReport } from '../emergency-report-generator-new.js';
+
+// High-quality HTML download with PDF conversion instructions
+app.get('/api/download-pdf/:typeId', async (req, res) => {
+  try {
+    const typeId = parseInt(req.params.typeId);
+    
+    if (typeId < 1 || typeId > 9) {
+      return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
+    }
+
+    console.log(`Generating high-quality HTML report for Type ${typeId}`);
+
+    // Generate HTML content with optimized styling
+    let htmlContent = await generateCompleteStyledReport(typeId);
+    
+    // Add comprehensive CSS for high-quality display and printing
+    const enhancedCSS = `
+      <style>
+        * {
+          -webkit-print-color-adjust: exact !important;
+          color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        
+        body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          margin: 0;
+          padding: 0;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+          min-height: 100vh;
+        }
+        
+        .pdf-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+          margin-top: 20px;
+          margin-bottom: 20px;
+        }
+        
+        .pdf-header {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          padding: 20px 30px;
+          margin: -20px -20px 30px -20px;
+          border-radius: 20px 20px 0 0;
+          text-align: center;
+        }
+        
+        .pdf-instructions {
+          background: linear-gradient(135deg, #fbbf24, #f59e0b);
+          color: #000;
+          padding: 15px 25px;
+          margin: 20px -20px;
+          border-radius: 10px;
+          font-weight: bold;
+          text-align: center;
+        }
+        
+        /* Mobile responsive design */
+        @media (max-width: 768px) {
+          body {
+            background: white !important;
+            padding: 5px;
+          }
+          
+          .pdf-container {
+            border-radius: 0;
+            box-shadow: none;
+            margin: 0;
+            padding: 10px;
+          }
+          
+          .pdf-header {
+            margin: -10px -10px 20px -10px;
+            border-radius: 0;
+            padding: 15px 20px;
+          }
+          
+          .pdf-instructions {
+            margin: 15px -10px;
+            padding: 10px 15px;
+            font-size: 14px;
+          }
+          
+          /* Force white backgrounds on mobile */
+          .glass-card, .glass-morphism {
+            background: rgba(255, 255, 255, 0.98) !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            margin: 10px 0 !important;
+            padding: 15px !important;
+          }
+          
+          h1, h2, h3, h4, h5, h6 {
+            color: #2d3748 !important;
+          }
+          
+          p, div, span {
+            color: #4a5568 !important;
+          }
+          
+          .text-gradient {
+            color: #667eea !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+          }
+        }
+        
+        /* Print optimization */
+        @media print {
+          body {
+            background: white !important;
+            margin: 0;
+            padding: 0;
+          }
+          
+          .pdf-container {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 20px !important;
+          }
+          
+          .pdf-instructions {
+            display: none !important;
+          }
+          
+          .no-print {
+            display: none !important;
+          }
+          
+          .page-break {
+            page-break-before: always !important;
+          }
+          
+          @page {
+            margin: 0.5in;
+            size: letter;
+          }
+        }
+      </style>
+    `;
+    
+    // Create PDF-ready content with instructions
+    const pdfHeader = `
+      <div class="pdf-header">
+        <h1 style="margin: 0; font-size: 24px;">Inner DNA Assessment Report - Type ${typeId}</h1>
+        <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Generated: ${new Date().toLocaleDateString()}</p>
+      </div>
+    `;
+    
+    const pdfInstructions = `
+      <div class="pdf-instructions no-print">
+        📄 To save as PDF: Press Ctrl+P (Cmd+P on Mac) → Choose "Save as PDF" → Click Save<br>
+        📱 Mobile users: Use desktop browser for best PDF quality
+      </div>
+    `;
+    
+    // Insert enhanced CSS and structure
+    htmlContent = htmlContent.replace('</head>', enhancedCSS + '</head>');
+    htmlContent = htmlContent.replace('<body>', '<body><div class="pdf-container">' + pdfHeader + pdfInstructions);
+    htmlContent = htmlContent.replace('</body>', '</div></body>');
+    
+    // Set response headers for HTML download
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `Inner-DNA-Type${typeId}-Report-${timestamp}.html`;
+    
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Cache-Control', 'no-cache');
+    
+    // Send optimized HTML file
+    res.send(htmlContent);
+    
+    console.log(`High-quality HTML report delivered for Type ${typeId} (${htmlContent.length} bytes)`);
+    
+  } catch (error) {
+    console.error('HTML report generation error:', error);
+    
+    res.status(500).json({ 
+      error: 'Failed to generate report',
+      message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // CRITICAL: Register API routes FIRST before any middleware
 // 5-Prompt System Report Generation - NO CONTENT CREATION
 // ALL CONTENT CREATED BY CHATGPT VIA API KEY - NOT THIS ENDPOINT
