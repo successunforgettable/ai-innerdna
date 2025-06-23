@@ -21,6 +21,42 @@ import jsPDF from 'jspdf';
 // Global browser instance (more efficient)
 let browser = null;
 
+// Automatic cleanup function for temporary report files
+function cleanupTempReportFiles() {
+  try {
+    const currentDir = process.cwd();
+    const files = fs.readdirSync(currentDir);
+    
+    // Find all temporary report files
+    const tempReportFiles = files.filter(file => 
+      file.match(/^(emergency-report-|helper-|challenger-|reformer-|sentinel-|achiever-).+\.html$/) &&
+      file.includes('-175') // Files with timestamp patterns
+    );
+    
+    console.log(`Found ${tempReportFiles.length} temporary report files to clean up`);
+    
+    tempReportFiles.forEach(file => {
+      const filePath = path.join(currentDir, file);
+      try {
+        fs.unlinkSync(filePath);
+        console.log(`Cleaned up: ${file}`);
+      } catch (error) {
+        console.log(`Failed to delete ${file}:`, error.message);
+      }
+    });
+    
+    console.log('Temporary report cleanup completed');
+  } catch (error) {
+    console.log('Cleanup error:', error.message);
+  }
+}
+
+// Run cleanup every 30 minutes
+setInterval(cleanupTempReportFiles, 30 * 60 * 1000);
+
+// Run initial cleanup on server start
+setTimeout(cleanupTempReportFiles, 5000);
+
 async function getBrowser() {
   if (!browser) {
     try {
