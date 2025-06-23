@@ -21,26 +21,45 @@ let browser = null;
 
 async function getBrowser() {
   if (!browser) {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process',
-        '--disable-gpu',
-        '--disable-web-security',
-        '--disable-features=VizDisplayCompositor',
-        '--disable-background-networking',
-        '--disable-background-timer-throttling',
-        '--disable-renderer-backgrounding',
-        '--disable-backgrounding-occluded-windows'
-      ],
-      timeout: 30000
-    });
+    try {
+      browser = await puppeteer.launch({
+        headless: 'new',
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process',
+          '--disable-gpu',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor',
+          '--disable-background-networking',
+          '--disable-background-timer-throttling',
+          '--disable-renderer-backgrounding',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-extensions',
+          '--disable-default-apps',
+          '--disable-sync',
+          '--metrics-recording-only',
+          '--no-default-browser-check',
+          '--safebrowsing-disable-auto-update',
+          '--user-data-dir=/tmp/chrome-user-data',
+          '--data-path=/tmp/chrome-data',
+          '--disk-cache-dir=/tmp/chrome-cache'
+        ],
+        timeout: 60000,
+        ignoreHTTPSErrors: true,
+        executablePath: puppeteer.executablePath()
+      });
+      console.log('Puppeteer browser launched successfully');
+    } catch (error) {
+      console.error('Failed to launch Puppeteer browser:', error);
+      // Create a fallback for environments where Puppeteer cannot run
+      browser = null;
+      throw new Error(`Browser launch failed: ${error.message}`);
+    }
   }
   return browser;
 }
@@ -1272,10 +1291,8 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
     }
   });
 
-  // Production-ready PDF generation route
+  // HTML report download route (fallback for Replit environment)
   app.get('/api/download-report/:typeId', async (req, res) => {
-    const startTime = Date.now();
-    
     try {
       const typeId = parseInt(req.params.typeId);
       
@@ -1283,120 +1300,89 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         return res.status(400).json({ error: 'Invalid type ID. Must be 1-9.' });
       }
 
-      console.log(`Starting PDF generation for Type ${typeId}`);
+      console.log(`Generating HTML report for Type ${typeId}`);
 
-      // Generate HTML content
-      const htmlContent = await generateCompleteStyledReport(typeId);
+      // Generate HTML content with enhanced styling for offline viewing
+      let htmlContent = await generateCompleteStyledReport(typeId);
       
-      // Get browser instance
-      const browser = await getBrowser();
-      const page = await browser.newPage();
-      
-      try {
-        // Optimize page settings
-        await page.setViewport({ 
-          width: 1200, 
-          height: 800,
-          deviceScaleFactor: 2
-        });
-        
-        // Block unnecessary resources for faster loading
-        await page.setRequestInterception(true);
-        page.on('request', (req) => {
-          const resourceType = req.resourceType();
-          if (resourceType === 'image' && !req.url().includes('unsplash')) {
-            // Block non-essential images but allow profile photos
-            req.abort();
-          } else {
-            req.continue();
+      // Add print-specific CSS for better printing
+      const printCSS = `
+        <style>
+          @media print {
+            body { margin: 0; font-size: 12px; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .glass-card { background: white !important; border: 1px solid #ccc !important; }
           }
-        });
-        
-        // Load content with timeout
-        await page.setContent(htmlContent, { 
-          waitUntil: 'networkidle0',
-          timeout: 30000 
-        });
-        
-        // Wait for critical elements to load
-        await page.waitForSelector('canvas', { timeout: 10000 }).catch(() => {
-          console.log('Charts may not have loaded completely');
-        });
-        
-        // Wait for animations and charts to settle
-        await page.waitForTimeout(5000);
-        
-        // Execute any pending JavaScript
-        await page.evaluate(() => {
-          return new Promise((resolve) => {
-            if (window.Chart) {
-              // Wait for Chart.js if present
-              setTimeout(resolve, 2000);
-            } else {
-              resolve();
-            }
-          });
-        });
-        
-        console.log(`Page loaded in ${Date.now() - startTime}ms`);
-        
-        // Generate PDF with optimal settings
-        const pdf = await page.pdf({
-          format: 'A4',
-          printBackground: true,
-          preferCSSPageSize: false,
-          displayHeaderFooter: true,
-          headerTemplate: '<div></div>', // Empty header
-          footerTemplate: `
-            <div style="font-size: 10px; text-align: center; width: 100%; color: #666; margin-top: 10px;">
-              <span style="margin-right: 20px;">Inner DNA Assessment Report</span>
-              <span style="margin-right: 20px;">Type ${typeId}</span>
-              <span style="margin-right: 20px;">Generated: ${new Date().toLocaleDateString()}</span>
-              <span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span>
-            </div>
-          `,
-          margin: {
-            top: '0.75in',
-            right: '0.5in',
-            bottom: '0.75in',
-            left: '0.5in'
-          },
-          timeout: 30000
-        });
-        
-        console.log(`PDF generated in ${Date.now() - startTime}ms`);
-        
-        // Set response headers
-        const timestamp = new Date().toISOString().split('T')[0];
-        const filename = `Inner-DNA-Type${typeId}-Report-${timestamp}.pdf`;
-        
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-        res.setHeader('Content-Length', pdf.length);
-        res.setHeader('Cache-Control', 'no-cache');
-        
-        // Send PDF
-        res.send(pdf);
-        
-        console.log(`PDF delivered in ${Date.now() - startTime}ms`);
-        
-      } finally {
-        // Always close the page
-        await page.close();
-      }
+          
+          /* Enhanced standalone styling */
+          body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+          }
+          
+          .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+          }
+          
+          .header-note {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            padding: 15px 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+          }
+        </style>
+      `;
+      
+      // Add header note and wrap content
+      const headerNote = `
+        <div class="header-note">
+          ✨ Inner DNA Assessment Report - Type ${typeId} | Generated: ${new Date().toLocaleDateString()} | 
+          💡 Tip: Use Ctrl+P to print or save as PDF
+        </div>
+      `;
+      
+      // Insert CSS and header
+      htmlContent = htmlContent.replace('</head>', printCSS + '</head>');
+      htmlContent = htmlContent.replace('<body>', '<body><div class="container">' + headerNote);
+      htmlContent = htmlContent.replace('</body>', '</div></body>');
+      
+      // Set response headers for download
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filename = `Inner-DNA-Type${typeId}-Report-${timestamp}.html`;
+      
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Cache-Control', 'no-cache');
+      
+      // Send HTML file
+      res.send(htmlContent);
+      
+      console.log(`HTML report delivered for Type ${typeId}`);
       
     } catch (error) {
-      console.error('PDF generation error:', error);
+      console.error('HTML report generation error:', error);
       
       res.status(500).json({ 
-        error: 'Failed to generate PDF report',
+        error: 'Failed to generate HTML report',
         message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
         timestamp: new Date().toISOString()
       });
     }
   });
 
-  // PDF preview route (view in browser)
+  // HTML preview route (view in browser)
   app.get('/api/preview-report/:typeId', async (req, res) => {
     try {
       const typeId = parseInt(req.params.typeId);
@@ -1405,32 +1391,23 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
         return res.status(400).json({ error: 'Invalid type ID' });
       }
 
+      console.log(`Generating HTML preview for Type ${typeId}`);
+
+      // Generate HTML content
       const htmlContent = await generateCompleteStyledReport(typeId);
-      const browser = await getBrowser();
-      const page = await browser.newPage();
       
-      try {
-        await page.setViewport({ width: 1200, height: 800 });
-        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-        await page.waitForTimeout(3000);
-        
-        const pdf = await page.pdf({
-          format: 'A4',
-          printBackground: true,
-          margin: { top: '0.5in', right: '0.5in', bottom: '0.5in', left: '0.5in' }
-        });
-        
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'inline'); // View in browser
-        res.send(pdf);
-        
-      } finally {
-        await page.close();
-      }
+      // Set response headers for inline viewing
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache');
+      
+      // Send HTML for direct viewing
+      res.send(htmlContent);
+      
+      console.log(`HTML preview delivered for Type ${typeId}`);
       
     } catch (error) {
-      console.error('PDF preview error:', error);
-      res.status(500).json({ error: 'Failed to generate PDF preview' });
+      console.error('HTML preview error:', error);
+      res.status(500).json({ error: 'Failed to generate HTML preview' });
     }
   });
 

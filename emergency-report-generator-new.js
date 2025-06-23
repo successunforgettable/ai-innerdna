@@ -23,33 +23,40 @@ export async function generateCompleteStyledReport(typeId, userData = null, cale
 <div class="text-center mt-12 mb-8">
   <div class="glass-card rounded-2xl p-8 max-w-2xl mx-auto" style="background: rgba(139, 69, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(139, 69, 255, 0.2);">
     <h3 class="text-2xl font-bold mb-4" style="color: #fbbf24;">Save Your Report</h3>
-    <p class="text-lg mb-6" style="color: #e5e7eb;">Download your complete assessment report as a professional PDF</p>
+    <p class="text-lg mb-6" style="color: #e5e7eb;">Download your complete assessment report as a professional file (use Ctrl+P to print or save as PDF)</p>
     
     <div class="space-y-4">
-      <button onclick="downloadPDF(${typeId})" 
+      <button onclick="downloadReport(${typeId})" 
               class="w-full py-4 px-8 rounded-full text-xl font-bold transition-all duration-300 hover:scale-105"
               style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000;">
         <i class="fas fa-download mr-2"></i>
-        Download PDF Report
-        <i class="fas fa-file-pdf ml-2"></i>
+        Download Report File
+        <i class="fas fa-file-code ml-2"></i>
       </button>
       
-      <button onclick="previewPDF(${typeId})" 
+      <button onclick="previewReport(${typeId})" 
               class="w-full py-3 px-6 rounded-full text-lg font-bold transition-all duration-300 hover:scale-105"
               style="background: rgba(139, 69, 255, 0.2); color: #fff; border: 1px solid rgba(139, 69, 255, 0.4);">
         <i class="fas fa-eye mr-2"></i>
-        Preview PDF
+        Preview Report
       </button>
+    </div>
+    
+    <div class="mt-6 p-4 rounded-lg" style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3);">
+      <p class="text-sm" style="color: #fbbf24;">
+        <i class="fas fa-lightbulb mr-2"></i>
+        <strong>Tip:</strong> After downloading, open the file and use Ctrl+P (Windows) or Cmd+P (Mac) to save as PDF
+      </p>
     </div>
   </div>
 </div>
 
 <script>
-function downloadPDF(typeId) {
+function downloadReport(typeId) {
   const button = event.target;
   const originalHTML = button.innerHTML;
   
-  button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating PDF...';
+  button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating Report...';
   button.disabled = true;
   
   // Open download in new window
@@ -59,10 +66,10 @@ function downloadPDF(typeId) {
   setTimeout(() => {
     button.innerHTML = originalHTML;
     button.disabled = false;
-  }, 3000);
+  }, 2000);
 }
 
-function previewPDF(typeId) {
+function previewReport(typeId) {
   window.open('/api/preview-report/' + typeId, '_blank');
 }
 </script>
