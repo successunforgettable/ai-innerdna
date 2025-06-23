@@ -1518,70 +1518,198 @@ If you didn't request this reset, contact support@innerdna.com immediately.`;
             font-size: 16px;
           }
           
-          /* Mobile responsive fixes */
+          /* Mobile responsive fixes (Phones) */
           @media (max-width: 768px) {
             body {
-              padding: 5px;
+              padding: 0 !important;
               background: white !important;
-            }
-            
-            .container {
-              border-radius: 0;
-              box-shadow: none;
-              margin: 0;
-              min-height: 100vh;
-              background: white !important;
-            }
-            
-            .header-note {
-              border-radius: 0;
-              padding: 10px 15px;
               font-size: 14px;
             }
             
-            /* Force white background for all elements on mobile */
+            .container {
+              border-radius: 0 !important;
+              box-shadow: none !important;
+              margin: 0 !important;
+              min-height: 100vh;
+              background: white !important;
+              padding: 0 !important;
+            }
+            
+            .header-note {
+              border-radius: 0 !important;
+              padding: 15px !important;
+              font-size: 14px;
+              text-align: center;
+            }
+            
+            /* Force readable design on mobile */
             * {
               background-attachment: scroll !important;
+              max-width: 100% !important;
+              overflow-wrap: break-word !important;
             }
             
-            .glass-card, .glass-morphism {
+            /* Card styling for mobile */
+            .glass-card, .glass-morphism, .challenge-card, .stage-card {
               background: rgba(255, 255, 255, 0.98) !important;
               border: 1px solid #e2e8f0 !important;
-              border-radius: 8px !important;
-              margin: 10px 0 !important;
-              padding: 15px !important;
+              border-radius: 12px !important;
+              margin: 15px 10px !important;
+              padding: 20px 15px !important;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
             }
             
-            /* Ensure text is readable on mobile */
-            h1, h2, h3, h4, h5, h6 {
+            /* Typography fixes for mobile */
+            h1 {
+              font-size: 24px !important;
+              line-height: 1.3 !important;
+              margin: 20px 0 !important;
+              color: #2d3748 !important;
+              background: transparent !important;
+              padding: 0 15px !important;
+            }
+            
+            h2 {
+              font-size: 20px !important;
+              line-height: 1.4 !important;
+              margin: 15px 0 !important;
               color: #2d3748 !important;
               background: transparent !important;
             }
             
-            p, div, span {
-              color: #4a5568 !important;
+            h3, h4, h5, h6 {
+              font-size: 18px !important;
+              line-height: 1.4 !important;
+              margin: 12px 0 !important;
+              color: #2d3748 !important;
               background: transparent !important;
             }
             
+            p, div, span, li {
+              color: #4a5568 !important;
+              background: transparent !important;
+              font-size: 14px !important;
+              line-height: 1.6 !important;
+              margin: 8px 0 !important;
+            }
+            
             /* Fix gradient text on mobile */
-            .text-gradient {
-              background: #667eea !important;
+            .text-gradient, .gradient-text {
+              background: transparent !important;
               -webkit-background-clip: initial !important;
               -webkit-text-fill-color: initial !important;
               background-clip: initial !important;
               color: #667eea !important;
             }
+            
+            /* Button fixes for mobile */
+            .btn, button, .cta-button {
+              padding: 12px 20px !important;
+              font-size: 16px !important;
+              border-radius: 8px !important;
+              margin: 10px auto !important;
+              display: block !important;
+              width: fit-content !important;
+              max-width: 280px !important;
+            }
+            
+            /* Image responsiveness */
+            img {
+              max-width: 100% !important;
+              height: auto !important;
+              border-radius: 8px !important;
+              margin: 10px 0 !important;
+            }
+            
+            /* Grid and layout fixes */
+            .grid, .flex {
+              display: block !important;
+              grid-template-columns: 1fr !important;
+              gap: 15px !important;
+            }
+            
+            /* Progress bars and charts */
+            .progress-bar, .chart-container {
+              width: 100% !important;
+              margin: 15px 0 !important;
+            }
+            
+            /* Testimonial styling */
+            .testimonial {
+              margin: 20px 10px !important;
+              padding: 20px 15px !important;
+            }
           }
           
-          /* Tablet fixes */
+          /* Tablet fixes (iPad, etc.) */
           @media (max-width: 1024px) and (min-width: 769px) {
             body {
-              padding: 15px;
+              padding: 20px;
+              font-size: 15px;
             }
             
             .container {
               border-radius: 15px;
               margin: 0 auto;
+              max-width: 900px;
+            }
+            
+            .header-note {
+              padding: 20px;
+              font-size: 16px;
+            }
+            
+            /* Tablet typography */
+            h1 {
+              font-size: 28px !important;
+              line-height: 1.3 !important;
+            }
+            
+            h2 {
+              font-size: 24px !important;
+              line-height: 1.4 !important;
+            }
+            
+            h3, h4, h5, h6 {
+              font-size: 20px !important;
+              line-height: 1.4 !important;
+            }
+            
+            p, div, span, li {
+              font-size: 15px !important;
+              line-height: 1.6 !important;
+            }
+            
+            /* Card styling for tablet */
+            .glass-card, .glass-morphism, .challenge-card, .stage-card {
+              margin: 20px 15px !important;
+              padding: 25px 20px !important;
+              border-radius: 15px !important;
+            }
+            
+            /* Button styling for tablet */
+            .btn, button, .cta-button {
+              padding: 14px 24px !important;
+              font-size: 16px !important;
+              border-radius: 10px !important;
+            }
+            
+            /* Grid adjustments for tablet */
+            .grid {
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+              gap: 20px !important;
+            }
+          }
+          
+          /* Small tablet / large phone (landscape) */
+          @media (max-width: 900px) and (min-width: 769px) {
+            .container {
+              max-width: 100%;
+              margin: 0 15px;
+            }
+            
+            .grid {
+              grid-template-columns: 1fr !important;
             }
           }
         </style>
